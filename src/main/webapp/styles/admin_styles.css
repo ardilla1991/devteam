@@ -1,0 +1,2 @@
+@CHARSET "UTF-8";
+.categories-list .active:after{content: "--->"; position: absolute;}
