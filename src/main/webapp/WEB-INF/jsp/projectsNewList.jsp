@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="pagetags" prefix="ctg"%>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -55,6 +56,10 @@
 	              </tbody>
 	            </table>
 	          </div>
+
+	          <!-- ctg:paginator countPages="${ user }"/ -->
+	          <ctg:paginator  uri="Admin?action=projects_new_list" currPage="${ currPage }" countPages="3"/>
+	          
 	        </div>
 	      </div>
 	    </div>

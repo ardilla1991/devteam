@@ -6,5 +6,5 @@ import by.htp.devteam.bean.Project;
 
 public interface ProjectDao {
 
-	List<Project> getNewProjects();
+	List<Project> getNewProjects(int currPage);
 }

@@ -1,7 +1,7 @@
 package by.htp.devteam.command;
 
 public enum CommandEnum {
-	LOGIN("login");
+	LOGIN("login"), PROJECTS_NEW_LIST("projects_new_list");
 	
 	private final String value;
 	

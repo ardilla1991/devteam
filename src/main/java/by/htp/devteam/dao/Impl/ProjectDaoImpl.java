@@ -19,14 +19,16 @@ import by.htp.devteam.dao.SqlStatementConstantValue;
 
 public class ProjectDaoImpl implements ProjectDao{
 
-	public List<Project> getNewProjects() {
+	public List<Project> getNewProjects(int currPage) {
 		List<Project> projects = new ArrayList<Project>();
 		
 		try {
 			Connection dbConnector = Loader.LoaderDb();
 			
-			Statement st = dbConnector.createStatement();
-			ResultSet rs = st.executeQuery(SqlStatementConstantValue.PROJECT_NEW_LIST);
+			PreparedStatement ps = dbConnector.prepareStatement(SqlStatementConstantValue.PROJECT_NEW_LIST);
+			ps.setInt(1, (currPage - 1) * 1);
+			ps.setInt(2, 1);
+			ResultSet rs = ps.executeQuery();
 			
 			while ( rs.next() ) {
 				Long id = rs.getLong(1);

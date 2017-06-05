@@ -6,5 +6,5 @@ import by.htp.devteam.bean.Project;
 
 public interface ProjectService {
 
-	List<Project> getNewProjects();
+	List<Project> getNewProjects(String currPage);
 }

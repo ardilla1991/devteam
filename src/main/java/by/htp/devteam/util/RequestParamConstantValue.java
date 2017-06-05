@@ -10,4 +10,7 @@ public final class RequestParamConstantValue {
 	public static final String PASSWORD = "pass";
 	public static final String PROJECT_LIST = "project_list";
 	public static final String ERROR_MSG = "error_message";
+	
+	public static final String PAGE = "page";
+	public static final String CURR_PAGE = "currPage";
 }

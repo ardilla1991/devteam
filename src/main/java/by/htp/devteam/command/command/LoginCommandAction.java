@@ -36,7 +36,7 @@ public class LoginCommandAction implements CommandAction{
 				//display list of projects
 				
 				ProjectService projectService = serviceFactory.getProjectService();
-				List<Project> projects = projectService.getNewProjects();
+				List<Project> projects = projectService.getNewProjects("1");
 				request.setAttribute(RequestParamConstantValue.PROJECT_LIST, projects);
 				System.out.println("djdjdj");
 				page = PROJECT_NEW_LIST;
@@ -44,9 +44,10 @@ public class LoginCommandAction implements CommandAction{
 				//display list of projects for curr employee
 				
 				ProjectService projectService = serviceFactory.getProjectService();
-				List<Project> projects = projectService.getNewProjects();
+				List<Project> projects = projectService.getNewProjects("1");
 				//System.out.println(equipment);
 
+				request.setAttribute(RequestParamConstantValue.CURR_PAGE, "1");
 				request.setAttribute(RequestParamConstantValue.PROJECT_LIST, projects);
 
 				page = PROJECT_NEW_LIST;

@@ -18,9 +18,9 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 	@Override
 	
-	public List<Project> getNewProjects() {
+	public List<Project> getNewProjects(String currPage) {
 		
-		return projectDao.getNewProjects();
+		return projectDao.getNewProjects(Integer.valueOf(currPage));
 	}
 
 }

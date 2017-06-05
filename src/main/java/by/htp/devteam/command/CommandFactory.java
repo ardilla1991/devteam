@@ -1,6 +1,7 @@
 package by.htp.devteam.command;
 
 import by.htp.devteam.command.command.LoginCommandAction;
+import by.htp.devteam.command.command.ProjectNewListAction;
 
 public class CommandFactory {
 	
@@ -22,6 +23,8 @@ public class CommandFactory {
 				switch (CommandEnum.getNameByValue(action)) {
 					case LOGIN:
 						return new LoginCommandAction();
+					case PROJECTS_NEW_LIST:
+						return new ProjectNewListAction();
 				}
 			} catch (NullPointerException e) {
 				throw new CommandExeption("invalid action");
