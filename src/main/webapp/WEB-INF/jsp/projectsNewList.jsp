@@ -58,7 +58,7 @@
 	          </div>
 
 	          <!-- ctg:paginator countPages="${ user }"/ -->
-	          <ctg:paginator  uri="Admin?action=projects_new_list" currPage="${ currPage }" countPages="3"/>
+	          <ctg:paginator  uri="Admin?action=projects_new_list" currPage="${ currPage }" countPages="${ countPages }"/>
 	          
 	        </div>
 	      </div>

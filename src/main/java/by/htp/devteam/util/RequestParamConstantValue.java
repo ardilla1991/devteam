@@ -13,4 +13,7 @@ public final class RequestParamConstantValue {
 	
 	public static final String PAGE = "page";
 	public static final String CURR_PAGE = "currPage";
+	public static final String COUNT_PAGES = "countPages";
+	
+	
 }

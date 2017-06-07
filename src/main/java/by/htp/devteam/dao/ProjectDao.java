@@ -1,10 +1,8 @@
 package by.htp.devteam.dao;
 
-import java.util.List;
-
-import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.dto.ProjectDto;
 
 public interface ProjectDao {
 
-	List<Project> getNewProjects(int currPage);
+	ProjectDto getNewProjects(int offset, int countPerPage);
 }

@@ -40,7 +40,6 @@ public class Admin extends HttpServlet{
 			commandAction = commandFactory.chooseAction(action);
 			page = commandAction.execute(request, response);
 		} catch (CommandExeption e) {
-			//e.printStackTrace();
 			page = PAGE_ERROR;
 		}
 		System.out.println(page);

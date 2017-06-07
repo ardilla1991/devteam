@@ -6,6 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.controller.Loader;
@@ -19,11 +24,15 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	public Employee fetchByCredentials(String login, String password) {
 		
 		Employee employee = null;
+		Connection dbConnection = null;
 		
 		try {
-			Connection dbConnector = Loader.LoaderDb();
-			
-			PreparedStatement ps = dbConnector.prepareStatement(SqlStatementConstantValue.EMPLOYEE_SELECT);
+			Context initContext = new InitialContext();
+	        Context envContext  = (Context)initContext.lookup("java:comp/env");
+	        DataSource ds = (DataSource)envContext.lookup("jdbc/devteam");
+	        dbConnection = ds.getConnection();
+		
+			PreparedStatement ps = dbConnection.prepareStatement(SqlStatementConstantValue.EMPLOYEE_SELECT);
 			ps.setString(1, login);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
@@ -53,7 +62,9 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		}/* catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} */catch ( NamingException e ) {
 			e.printStackTrace();
 		}
 		return employee;

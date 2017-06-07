@@ -1,6 +1,5 @@
 package by.htp.devteam.command.command;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ProjectService;
@@ -21,7 +21,6 @@ public class LoginCommandAction implements CommandAction{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
 		String login = request.getParameter(RequestParamConstantValue.LOGIN);
 		String password = request.getParameter(RequestParamConstantValue.PASSWORD);
 		String page = PAGE_DEFAULT;
@@ -32,23 +31,29 @@ public class LoginCommandAction implements CommandAction{
 		try {
 			employee = employeeService.authorise(login, password);
 			//orderService.prepareBase(equipService);
+			String currPage = request.getParameter(RequestParamConstantValue.PAGE);
 			if ( employee.getRole() == 2 ) { // manager
 				//display list of projects
 				
 				ProjectService projectService = serviceFactory.getProjectService();
-				List<Project> projects = projectService.getNewProjects("1");
+				ProjectDto projectDto = projectService.getNewProjects(currPage);
+				List<Project> projects = projectDto.getProjects();
+				
 				request.setAttribute(RequestParamConstantValue.PROJECT_LIST, projects);
-				System.out.println("djdjdj");
+				request.setAttribute(RequestParamConstantValue.CURR_PAGE, projectDto.getCurrPage());
+				request.setAttribute(RequestParamConstantValue.COUNT_PAGES, projectDto.getCountPages());
+
 				page = PROJECT_NEW_LIST;
 			} else if ( employee.getRole() == 3 ){  // developer
 				//display list of projects for curr employee
 				
 				ProjectService projectService = serviceFactory.getProjectService();
-				List<Project> projects = projectService.getNewProjects("1");
-				//System.out.println(equipment);
+				ProjectDto projectDto = projectService.getNewProjects(currPage);
+				List<Project> projects = projectDto.getProjects();
 
-				request.setAttribute(RequestParamConstantValue.CURR_PAGE, "1");
 				request.setAttribute(RequestParamConstantValue.PROJECT_LIST, projects);
+				request.setAttribute(RequestParamConstantValue.CURR_PAGE, projectDto.getCurrPage());
+				request.setAttribute(RequestParamConstantValue.COUNT_PAGES, projectDto.getCountPages());
 
 				page = PROJECT_NEW_LIST;
 			}
