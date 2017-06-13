@@ -1,35 +1,23 @@
 package by.htp.devteam.bean;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Employee {
+public class Employee extends User implements Serializable{
 	
-	private Long id;
-	private String name;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2004920625723770723L;
+
 	private String login;
 	private String password;
 	private Date startWork;
 	private Qualification qualification;
-	private int role;
+	private RoleEnum role;
 	
 	public Employee() {
 		
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	public Date getStartWork() {
@@ -64,11 +52,11 @@ public class Employee {
 		this.password = password;
 	}
 
-	public int getRole() {
+	public RoleEnum getRole() {
 		return role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(RoleEnum role) {
 		this.role = role;
 	}
 }

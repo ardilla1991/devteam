@@ -1,7 +1,11 @@
 package by.htp.devteam.command;
 
-import by.htp.devteam.command.command.LoginCommandAction;
-import by.htp.devteam.command.command.ProjectNewListAction;
+import by.htp.devteam.command.action.ShowAuthorizationFormAction;
+import by.htp.devteam.command.action.admin.AdminProjectNewListAction;
+import by.htp.devteam.command.action.admin.AdminShowAuthorizationFormAction;
+import by.htp.devteam.command.action.admin.AdminLoginAction;
+import by.htp.devteam.command.action.admin.AdminLogoutAction;
+import by.htp.devteam.command.action.admin.AdminPermissionDeniedAction;
 
 public class CommandFactory {
 	
@@ -21,10 +25,21 @@ public class CommandFactory {
 			System.out.println("action=" + (CommandEnum.getNameByValue(action)));
 			try {
 				switch (CommandEnum.getNameByValue(action)) {
-					case LOGIN:
-						return new LoginCommandAction();
-					case PROJECTS_NEW_LIST:
-						return new ProjectNewListAction();
+					case SHOW_FORM:
+						return new ShowAuthorizationFormAction();
+						
+						
+					case ADMIN_LOGIN:
+						return new AdminLoginAction();
+					case ADMIM_PROJECTS_NEW_LIST:
+						return new AdminProjectNewListAction();
+					case ADMIN_SHOW_FORM:
+						return new AdminShowAuthorizationFormAction();
+					case ADMIN_LOGOUT:
+						return new AdminLogoutAction();
+					case ADMIN_PERMISSION_DENIED:
+						return new AdminPermissionDeniedAction();
+					
 				}
 			} catch (NullPointerException e) {
 				throw new CommandExeption("invalid action");

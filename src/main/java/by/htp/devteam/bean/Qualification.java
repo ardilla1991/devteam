@@ -1,7 +1,13 @@
 package by.htp.devteam.bean;
 
-public class Qualification {
+import java.io.Serializable;
+
+public class Qualification implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3700326780172626583L;
 	private Long id;
 	private String title;
 	

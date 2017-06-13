@@ -2,7 +2,7 @@ package by.htp.devteam.controller;
 
 import java.io.IOException;
 
-import static by.htp.devteam.util.PageConctantValue.*;
+import static by.htp.devteam.util.PageConstantValue.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,11 +14,11 @@ import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.command.CommandExeption;
 import by.htp.devteam.command.CommandFactory;
 
-public class Admin extends HttpServlet{
+public class MainServlet extends HttpServlet{
 
 	private static final long serialVersionUID = -6529178696057273184L;
 
-	public Admin() {
+	public MainServlet() {
         super();
     }
 	
@@ -32,6 +32,7 @@ public class Admin extends HttpServlet{
 	
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+		System.out.println("action="+action);
 		String page = null;
 		
 		CommandFactory commandFactory = CommandFactory.getInstance();

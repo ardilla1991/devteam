@@ -1,6 +1,4 @@
-package by.htp.devteam.command.command;
-
-import static by.htp.devteam.util.PageConctantValue.PAGE_ERROR;
+package by.htp.devteam.command.action.admin;
 
 import java.util.List;
 
@@ -13,18 +11,16 @@ import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
+import static by.htp.devteam.util.admin.AdminPageConstantValue.*;
+import by.htp.devteam.util.admin.AdminRequestParamConstantValue;
 
-import by.htp.devteam.util.PageConctantValue;
-import by.htp.devteam.util.RequestParamConstantValue;
-import by.htp.devteam.util.SettingConstantValue;
-
-public class ProjectNewListAction implements CommandAction{
+public class AdminProjectNewListAction implements CommandAction{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		String page = PageConctantValue.PAGE_DEFAULT;
+		String page = PAGE_DEFAULT;
 		
-		String currPage = request.getParameter(RequestParamConstantValue.PAGE);
+		String currPage = request.getParameter(AdminRequestParamConstantValue.PAGE);
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
@@ -34,14 +30,14 @@ public class ProjectNewListAction implements CommandAction{
 			ProjectDto projectDto = projectService.getNewProjects(currPage);
 			projects = projectDto.getProjects();
 
-			request.setAttribute(RequestParamConstantValue.PROJECT_LIST, projects);
-			request.setAttribute(RequestParamConstantValue.CURR_PAGE, projectDto.getCurrPage());
-			request.setAttribute(RequestParamConstantValue.COUNT_PAGES, projectDto.getCountPages());
+			request.setAttribute(AdminRequestParamConstantValue.PROJECT_LIST, projects);
+			request.setAttribute(AdminRequestParamConstantValue.CURR_PAGE, projectDto.getCurrPage());
+			request.setAttribute(AdminRequestParamConstantValue.COUNT_PAGES, projectDto.getCountPages());
 	
-			page = PageConctantValue.PROJECT_NEW_LIST;
+			page = PROJECT_NEW_LIST;
 		} catch (ServiceException e) {
 			page = PAGE_ERROR;
-			request.setAttribute(RequestParamConstantValue.ERROR_MSG, e.getMessage());
+			request.setAttribute(AdminRequestParamConstantValue.ERROR_MSG, e.getMessage());
 		}
 		
 		return page;

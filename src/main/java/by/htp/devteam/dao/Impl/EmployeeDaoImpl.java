@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
+import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.controller.Loader;
 import by.htp.devteam.dao.EmployeeDao;
 
@@ -44,7 +45,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 				String pass = rs.getString(4);
 				Date startWork = rs.getDate(5);
 				Long qualification_id = rs.getLong(6);
-				int role = rs.getInt(7);
+				RoleEnum role = RoleEnum.valueOf(rs.getString(7));
 				String qualificationTitle = rs.getString(8);
 				Qualification qualification = new Qualification();
 				qualification.setId(qualification_id);

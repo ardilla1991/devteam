@@ -1,7 +1,15 @@
 package by.htp.devteam.command;
 
 public enum CommandEnum {
-	LOGIN("login"), PROJECTS_NEW_LIST("projects_new_list");
+	LOGIN("login"),  
+	SHOW_FORM("show_form"),
+	PERMISSION_DENIED("permission_denied"),
+	
+	ADMIN_LOGIN("admin_login"),
+	ADMIN_SHOW_FORM("admin_show_form"),
+	ADMIN_LOGOUT("admin_logout"),
+	ADMIN_PERMISSION_DENIED("admin_permission_denied"),
+	ADMIM_PROJECTS_NEW_LIST("admin_projects_new_list");
 	
 	private final String value;
 	
