@@ -23,14 +23,14 @@ public class MainServlet extends HttpServlet{
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		processRequest(request, response, ActionEnum.GET);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		processRequest(request, response, ActionEnum.POST);
 	}
 	
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		System.out.println("action="+action);
 		String page = null;
@@ -43,8 +43,14 @@ public class MainServlet extends HttpServlet{
 		} catch (CommandExeption e) {
 			page = PAGE_ERROR;
 		}
-		System.out.println(page);
-		RequestDispatcher disp = request.getRequestDispatcher(page);
-		disp.forward(request, response);
+		switch ( actionData ) {
+			case POST:
+				response.sendRedirect(page);
+				break;
+			default:
+				System.out.println(page);
+				RequestDispatcher disp = request.getRequestDispatcher(page);
+				disp.forward(request, response);
+		}
 	}
 }

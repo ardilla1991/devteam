@@ -1,13 +1,13 @@
 
-<%@include file="additional/header.jsp"%>
+<%@include file="fragment/header.jsp"%>
 
 <div class="container-fluid">
 	<div class="row">
 
-		<%@include file="additional/leftCol.jsp"%>
+		<%@include file="fragment/leftCol.jsp"%>
 
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h1 class="page-header">New Projects</h1>
+			<h1 class="page-header">New Orders</h1>
 
 			<!-- h2 class="sub-header">Rented Equipment</h2 -->
 			<div class="table-responsive">
@@ -25,7 +25,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${project_list}" var="i">
+						<c:forEach items="${order_list}" var="i">
 							<tr>
 								<td><a
 									href="Admin?action=project_edit&project_id=${i.getId()}">Edit</a></td>
@@ -45,11 +45,11 @@
 			</div>
 
 			<!-- ctg:paginator countPages="${ user }"/ -->
-			<ctg:paginator uri="Main?action=admin_projects_new_list"
+			<ctg:paginator uri="Main?action=admin_orders_new_list"
 				currPage="${ currPage }" countPages="${ countPages }" />
 
 		</div>
 	</div>
 </div>
 
-<%@include file="additional/footer.jsp"%>
+<%@include file="fragment/footer.jsp"%>

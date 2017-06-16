@@ -2,8 +2,11 @@ package by.htp.devteam.dao;
 
 import by.htp.devteam.dao.Impl.CustomerDaoImpl;
 import by.htp.devteam.dao.Impl.EmployeeDaoImpl;
+import by.htp.devteam.dao.Impl.EmployeeProjectDaoImpl;
+import by.htp.devteam.dao.Impl.OrderDaoImpl;
+import by.htp.devteam.dao.Impl.OrderQualificationDaoImpl;
 import by.htp.devteam.dao.Impl.ProjectDaoImpl;
-import by.htp.devteam.dao.Impl.ProjectWorkDaoImpl;
+import by.htp.devteam.dao.Impl.OrderWorkDaoImpl;
 import by.htp.devteam.dao.Impl.QualificationDaoImpl;
 import by.htp.devteam.dao.Impl.WorkDaoImpl;
 
@@ -13,8 +16,11 @@ public class DaoFactory {
 	
 	private static CustomerDao customerDao = new CustomerDaoImpl();
 	private static EmployeeDao employeeDao = new EmployeeDaoImpl();
+	private static EmployeeProjectDao employeeProjectDao = new EmployeeProjectDaoImpl();
+	private static OrderDao orderDao = new OrderDaoImpl();
+	private static OrderQualificationDao orderQualificationsDao = new OrderQualificationDaoImpl();
+	private static OrderWorkDao orderWorkDao = new OrderWorkDaoImpl();
 	private static ProjectDao projectDao = new ProjectDaoImpl();
-	private static ProjectWorkDao projectWorkDao = new ProjectWorkDaoImpl();
 	private static QualificationDao qualificationDao = new QualificationDaoImpl();
 	private static WorkDao workDao = new WorkDaoImpl();
 	
@@ -34,8 +40,8 @@ public class DaoFactory {
 		return projectDao;
 	}
 
-	public ProjectWorkDao getProjectWorkDao() {
-		return projectWorkDao;
+	public OrderWorkDao getOrderWorkDao() {
+		return orderWorkDao;
 	}
 
 	public QualificationDao getQualificationDao() {
@@ -45,6 +51,17 @@ public class DaoFactory {
 	public WorkDao getWorkDao() {
 		return workDao;
 	}
-	
+
+	public static EmployeeProjectDao getEmployeeProjectDao() {
+		return employeeProjectDao;
+	}
+
+	public static OrderQualificationDao getOrderQualificationsDao() {
+		return orderQualificationsDao;
+	}
+
+	public static OrderDao getOrderDao() {
+		return orderDao;
+	}
 	
 }

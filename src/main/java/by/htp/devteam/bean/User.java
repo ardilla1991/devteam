@@ -11,6 +11,8 @@ public class User implements Serializable{
 	
 	private Long id;
 	private String name;
+	private String login;
+	private String password;
 	
 	public User() {
 		
@@ -34,6 +36,22 @@ public class User implements Serializable{
 
 	public RoleEnum getRole() {
 		return this.getRole();
+	}
+	
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 }

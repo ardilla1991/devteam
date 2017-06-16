@@ -15,5 +15,5 @@ public final class AdminPageConstantValue {
 	public static final String PAGE_LOGIN = JSP_FOLDER_PATH + "index.jsp";
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	
-	public static final String PROJECT_NEW_LIST = JSP_FOLDER_PATH + "projectsNewList.jsp";
+	public static final String ORDER_NEW_LIST = JSP_FOLDER_PATH + "ordersNewList.jsp";
 }

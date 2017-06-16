@@ -1,7 +1,6 @@
 package by.htp.devteam.dao.Impl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,20 +8,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import by.htp.devteam.bean.Customer;
+import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.dto.ProjectDto;
-import by.htp.devteam.controller.Loader;
-//import by.htp.devteam.controller.Loader;
+import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.ProjectDao;
 import by.htp.devteam.dao.SqlStatementConstantValue;
 
-public class ProjectDaoImpl implements ProjectDao{
+public class ProjectDaoImpl implements ProjectDao {
+	
+	private final int ID = 1;
+	private final int TITLE = 2;
+	private final int DESCRIPTION = 3;
+	private final int ORDER_ID = 4;
+	private final int ORDER_TITLE = 10;
+	private final int ORDER_DESCRIPTION = 11;
+	private final int ORDER_SPECIFICATION = 12;
 
 	public ProjectDto getNewProjects(int offset, int countPerPage) {
 		ProjectDto projectDto = new ProjectDto();
@@ -30,47 +32,29 @@ public class ProjectDaoImpl implements ProjectDao{
 		int numberOfRecords = 0;
 		
 		Connection dbConnection = null;
+		PreparedStatement ps = null;
 		try {
-			//Connection dbConnector = Loader.LoaderDb();
-			InitialContext initContext= new InitialContext();
-            Context envContext  = (Context)initContext.lookup("java:comp/env");
-            DataSource ds = (DataSource)envContext.lookup("jdbc/devteam");
-            dbConnection = ds.getConnection();
+			dbConnection = ConnectionPool.getConnection();
 			
-			PreparedStatement ps = dbConnection.prepareStatement(SqlStatementConstantValue.PROJECT_NEW_LIST);
+			ps = dbConnection.prepareStatement(SqlStatementConstantValue.PROJECT_LIST);
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
 			ResultSet rs = ps.executeQuery();
 			
 			while ( rs.next() ) {
-				Long id = rs.getLong(1);
-				String title = rs.getString(2);
-				String description = rs.getString(3);
-				Date dateCreated = rs.getDate(5);
-				Date dateStart = rs.getDate(6);
-				Date dateFinish = rs.getDate(7);
-				boolean status = rs.getBoolean(8);
-				Long customerId = rs.getLong(4);
-				String customerName = rs.getString(10);
-				String customerEmail = rs.getString(11);
-				String customerPhone = rs.getString(12);
-				Customer customer = new Customer();
-				customer.setId(customerId);
-				customer.setName(customerName);
-				customer.setEmail(customerEmail);
-				customer.setPhone(customerPhone);
+				Order order = new Order();
+				order.setId(rs.getLong(ORDER_ID));
+				order.setTitle(rs.getString(ORDER_TITLE));
+				order.setDescription(rs.getString(ORDER_DESCRIPTION));
+				order.setSpecification(rs.getString(ORDER_SPECIFICATION));
 				
-				Project progect = new Project();
-				progect.setId(id);
-				progect.setTitle(title);
-				progect.setDescription(description);
-				progect.setCustomer(customer);
-				progect.setDateCreated(dateCreated);
-				progect.setDateStart(dateStart);
-				progect.setDateFinish(dateFinish);
-				progect.setStatus(status);
+				Project project = new Project();
+				project.setId(rs.getLong(ID));
+				project.setTitle(rs.getString(TITLE));
+				project.setDescription(rs.getString(DESCRIPTION));
+				project.setOrder(order);
 				
-				projects.add(progect);
+				projects.add(project);
 			}
 			rs.close();
 			
@@ -85,12 +69,20 @@ public class ProjectDaoImpl implements ProjectDao{
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} /*catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}*/
-		catch (  NamingException e ) {
-			e.printStackTrace();
+		} finally {
+			close(ps);
+			ConnectionPool.close(dbConnection);
 		}
 		return projectDto;
+	}
+	
+	private void close(PreparedStatement ps) {
+		if ( ps != null ) {
+			try {
+				ps.close();
+			} catch ( SQLException e ) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

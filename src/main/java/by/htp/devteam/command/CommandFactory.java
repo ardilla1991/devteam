@@ -5,6 +5,7 @@ import by.htp.devteam.command.action.admin.AdminProjectNewListAction;
 import by.htp.devteam.command.action.admin.AdminShowAuthorizationFormAction;
 import by.htp.devteam.command.action.admin.AdminLoginAction;
 import by.htp.devteam.command.action.admin.AdminLogoutAction;
+import by.htp.devteam.command.action.admin.AdminOrderNewListAction;
 import by.htp.devteam.command.action.admin.AdminPermissionDeniedAction;
 
 public class CommandFactory {
@@ -31,14 +32,17 @@ public class CommandFactory {
 						
 					case ADMIN_LOGIN:
 						return new AdminLoginAction();
-					case ADMIM_PROJECTS_NEW_LIST:
-						return new AdminProjectNewListAction();
+					case ADMIM_ORDERS_NEW_LIST:
+						return new AdminOrderNewListAction();
 					case ADMIN_SHOW_FORM:
+						System.out.println("ssssss");
 						return new AdminShowAuthorizationFormAction();
 					case ADMIN_LOGOUT:
 						return new AdminLogoutAction();
 					case ADMIN_PERMISSION_DENIED:
 						return new AdminPermissionDeniedAction();
+					default:
+						System.out.println("not fund");
 					
 				}
 			} catch (NullPointerException e) {

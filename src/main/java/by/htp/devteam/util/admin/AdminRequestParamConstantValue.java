@@ -9,6 +9,7 @@ public final class AdminRequestParamConstantValue {
 	public static final String LOGIN = "login";
 	public static final String PASSWORD = "pass";
 	public static final String PROJECT_LIST = "project_list";
+	public static final String ORDER_LIST = "order_list";
 	public static final String ERROR_MSG = "error_message";
 	
 	public static final String PAGE = "page";

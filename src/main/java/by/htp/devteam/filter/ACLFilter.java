@@ -51,7 +51,7 @@ public class ACLFilter implements Filter{
 	static {
 		managerACL.add("admin_show_form");
 		managerACL.add("admin_login");
-		managerACL.add("admin_projects_new_list");
+		managerACL.add("admin_orders_new_list");
 		managerACL.add("admin_permission_denied");
 		managerACL.add("admin_logout");
 		

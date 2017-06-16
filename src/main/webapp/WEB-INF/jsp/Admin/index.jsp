@@ -12,15 +12,6 @@
 		<link rel="stylesheet" type="text/css" href="styles/styles.css">
 	</head>
 	<body>
-		<!-- form action="MainServlet" method="POST">
-			<input type="hidden" name="action" value="login" />
-			<label for="login">Login</label>
-			<input id="login" class="inputEl" type="text" name="login"/> <br/>
-			<label for="pass">Password</label>
-			<input id="pass" class="inputEl" type="password" name="pass" /> <br/>
-			<input class="submit" type="submit" value="login"/> 
-			<div class="clear"></div>
-		</form> -->
 		
 	    <div class="container">
 	    	<c:if test ="${not empty  error_message}">${error_message}</c:if>

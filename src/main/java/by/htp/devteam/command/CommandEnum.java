@@ -9,7 +9,8 @@ public enum CommandEnum {
 	ADMIN_SHOW_FORM("admin_show_form"),
 	ADMIN_LOGOUT("admin_logout"),
 	ADMIN_PERMISSION_DENIED("admin_permission_denied"),
-	ADMIM_PROJECTS_NEW_LIST("admin_projects_new_list");
+	//ADMIM_PROJECTS_NEW_LIST("admin_projects_new_list");
+	ADMIM_ORDERS_NEW_LIST("admin_orders_new_list");
 	
 	private final String value;
 	

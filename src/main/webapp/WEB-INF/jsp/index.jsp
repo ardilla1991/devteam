@@ -18,20 +18,20 @@
 
 
 <fmt:setLocale value="${clientLanguage}_${clientCountry}"/>
-<fmt:setBundle basename="text" />
-<fmt:message key = "hello" />
+<fmt:setBundle basename="text"/>
+
 
 		
 	    <div class="container">
 	    	<form class="form-signin" role="form" action="Admin" method="POST">
-		        <h2 class="form-signin-heading">Please sign in</h2>
-		        <input type="text" class="form-control" placeholder="Login" required autofocus  name="login" />
-		        <input type="password" class="form-control" placeholder="Password" required name="pass" />
-		        <label class="checkbox">
+		        <h2 class="form-signin-heading"><fmt:message key = "login.formTitle" /></h2>
+		        <input type="text" class="form-control" placeholder="<fmt:message key = "login.login" />" required autofocus  name="login" />
+		        <input type="password" class="form-control" placeholder="<fmt:message key = "login.password" />" required name="pass" />
+		        <!-- label class="checkbox">
 		          <input type="checkbox" value="remember-me" /> Remember me
-		        </label>
+		        </label-->
 		        <input type="hidden" name="action" value="login" />
-		        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		        <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key = "login.signin" /></button>
 		    </form>
     	</div> <!-- /container -->
 	
