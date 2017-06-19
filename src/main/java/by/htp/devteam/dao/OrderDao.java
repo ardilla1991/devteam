@@ -4,4 +4,6 @@ import by.htp.devteam.bean.dto.OrderDto;
 
 public interface OrderDao {
 	OrderDto getNewOrders(int offset, int countPerPage);
+	
+	Order getById(long id);
 }

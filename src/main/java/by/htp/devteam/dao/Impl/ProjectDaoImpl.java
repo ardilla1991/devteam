@@ -14,7 +14,6 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.ProjectDao;
-import by.htp.devteam.dao.SqlStatementConstantValue;
 
 public class ProjectDaoImpl implements ProjectDao {
 	
@@ -25,6 +24,8 @@ public class ProjectDaoImpl implements ProjectDao {
 	private final int ORDER_TITLE = 10;
 	private final int ORDER_DESCRIPTION = 11;
 	private final int ORDER_SPECIFICATION = 12;
+	
+	private final String PROJECT_LIST = "";
 
 	public ProjectDto getNewProjects(int offset, int countPerPage) {
 		ProjectDto projectDto = new ProjectDto();
@@ -36,7 +37,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		try {
 			dbConnection = ConnectionPool.getConnection();
 			
-			ps = dbConnection.prepareStatement(SqlStatementConstantValue.PROJECT_LIST);
+			ps = dbConnection.prepareStatement(PROJECT_LIST);
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
 			ResultSet rs = ps.executeQuery();
