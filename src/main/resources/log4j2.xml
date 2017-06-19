@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
     <Properties>
-        <Property name="basePath">C:\\logs</Property>
+        <Property name="basePath">D:\\logs</Property>
     </Properties>
  
     <Appenders>
-        <RollingFile name="fileLogger" fileName="${basePath}/HelloWorld.log" filePattern="${basePath}/HelloWorld-%d{yyyy-MM-dd}.log">
+        <RollingFile name="fileLogger" fileName="${basePath}/devteam.log" filePattern="${basePath}/devteam-%d{yyyy-MM-dd}.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
             </PatternLayout>
@@ -19,7 +19,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.company" level="debug" additivity="true">
+        <Logger name="by.htp.devteam" level="debug" additivity="true">
             <appender-ref ref="fileLogger" level="debug" />
         </Logger>
         <Root level="debug" additivity="false">

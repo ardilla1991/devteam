@@ -32,12 +32,12 @@ import by.htp.devteam.util.admin.AdminRequestParamConstantValue;
 
 public class AdminLoginAction implements CommandAction{
 
-	//private static final Logger logger = LogManager.getLogger(AdminLoginAction.class.getName());
+	private static final Logger logger = LogManager.getLogger(AdminLoginAction.class.getName());
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		
-		//logger.info("Hello, World!");
+		logger.info("Hello, World!");
 		HttpSession session = request.getSession();
 		String login = request.getParameter(AdminRequestParamConstantValue.LOGIN);
 		String password = request.getParameter(AdminRequestParamConstantValue.PASSWORD);
