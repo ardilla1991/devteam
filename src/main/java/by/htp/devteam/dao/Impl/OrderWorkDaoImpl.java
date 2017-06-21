@@ -8,4 +8,8 @@ public class OrderWorkDaoImpl implements OrderWorkDao{
 	private final int WORK_ID = 2;
 	private final int DESCRIPTION = 5;
 	
+	public void add(long orderId, List<Work> works) {
+		
+	}
+	
 }

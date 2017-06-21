@@ -109,7 +109,7 @@ public class OrderDaoImpl implements OrderDao{
 			dbConnection = ConnectionPool.getConnection();
 			
 			ps = dbConnection.prepareStatement(GET_BY_ID);
-			ps.setLong(1, id);
+			ps.setLong(ID, id);
 			ResultSet rs = ps.executeQuery();
 			
 			if ( rs.next() ) {
@@ -166,7 +166,7 @@ public class OrderDaoImpl implements OrderDao{
 			dbConnection = ConnectionPool.getConnection();
 			
 			ps = dbConnection.prepareStatement(GET_ORDERS_BY_CUSTOMER_ID);
-			ps.setLong(1, customer.getId());
+			ps.setLong(ID, customer.getId());
 			ResultSet rs = ps.executeQuery();
 			
 			while ( rs.next() ) {
@@ -207,12 +207,12 @@ public class OrderDaoImpl implements OrderDao{
 			dbConnection = ConnectionPool.getConnection();
 			
 			ps = dbConnection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS);
-			ps.setString(1, order.getTitle());
-			ps.setString(2, order.getDescription());
-			ps.setString(3, order.getSpecification());
-			ps.setLong(4, order.getCustomer().getId());
-			ps.setDate(8, order.getDateStart());
-			ps.setDate(9, order.getDateFinish());
+			ps.setString(TITLE, order.getTitle());
+			ps.setString(DESCRIPTION, order.getDescription());
+			ps.setString(SPECIFICATION, order.getSpecification());
+			ps.setLong(CUSTOMER_ID, order.getCustomer().getId());
+			ps.setDate(DATE_START, order.getDateStart());
+			ps.setDate(DATE_FINISH, order.getDateFinish());
 			
 			ps.executeUpdate();
 			

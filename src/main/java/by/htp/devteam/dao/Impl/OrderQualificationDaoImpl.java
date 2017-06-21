@@ -8,4 +8,7 @@ public class OrderQualificationDaoImpl implements OrderQualificationDao{
 	private final int QUALIFICATION_ID = 2;
 	private final int COUNT = 3;
 	
+	public void add(long orderId, HashMap<Qualification, Integer>) {
+		
+	}
 }

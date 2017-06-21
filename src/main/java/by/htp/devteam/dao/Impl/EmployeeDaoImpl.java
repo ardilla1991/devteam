@@ -39,8 +39,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			dbConnection = ConnectionPool.getConnection();
 		
 			ps = dbConnection.prepareStatement(FETCH_BY_CREDENTIALS);
-			ps.setString(1, login);
-			ps.setString(2, password);
+			ps.setString(LOGIN, login);
+			ps.setString(PASSWORD, password);
 			ResultSet rs = ps.executeQuery();
 
 			if ( rs.next() ) {
