@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
@@ -67,7 +70,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public List<Employee> fetchAll() {
 		Connection dbConnection = null;
 		Statement st = null;
-		List<employee> employees = null;
+		List<Employee> employees = new ArrayList<Employee>();
 		
 		try {
 			dbConnection = ConnectionPool.getConnection();
@@ -80,7 +83,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 				qualification.setId(rs.getLong(QUALIFICATION_ID));
 				qualification.setTitle(rs.getString(QUALIFICATION_TITLE));
 				
-				employee = new Employee();
+				Employee employee = new Employee();
 				employee.setId(rs.getLong(ID));
 				employee.setName(rs.getString(NAME));
 				employee.setLogin(rs.getString(LOGIN));

@@ -1,12 +1,11 @@
 package by.htp.devteam.command;
 
-import by.htp.devteam.command.action.ShowAuthorizationFormAction;
-import by.htp.devteam.command.action.admin.AdminProjectNewListAction;
-import by.htp.devteam.command.action.admin.AdminShowAuthorizationFormAction;
-import by.htp.devteam.command.action.admin.AdminLoginAction;
-import by.htp.devteam.command.action.admin.AdminLogoutAction;
-import by.htp.devteam.command.action.admin.AdminOrderNewListAction;
-import by.htp.devteam.command.action.admin.AdminPermissionDeniedAction;
+import by.htp.devteam.command.admin.AdminProjectNewListAction;
+import by.htp.devteam.command.admin.AdminShowAuthorizationFormAction;
+import by.htp.devteam.command.admin.AdminLoginAction;
+import by.htp.devteam.command.admin.AdminLogoutAction;
+import by.htp.devteam.command.admin.AdminOrderNewListAction;
+import by.htp.devteam.command.admin.AdminPermissionDeniedAction;
 
 public class CommandFactory {
 	
@@ -28,14 +27,22 @@ public class CommandFactory {
 				switch (CommandEnum.getNameByValue(action)) {
 					case SHOW_FORM:
 						return new ShowAuthorizationFormAction();
-						
+					case LOGIN:
+						return new LoginAction();
+					case ORDER_LIST:
+						return new OrderListAction();
+					case ORDER_SHOW_ADD_FORM:
+						return new OrderShowAddFormAction();
+					case ORDER_ADD:
+						return new OrderAddAction();
+					case LOGOUT:
+						return new LogoutAction();
 						
 					case ADMIN_LOGIN:
 						return new AdminLoginAction();
 					case ADMIM_ORDERS_NEW_LIST:
 						return new AdminOrderNewListAction();
 					case ADMIN_SHOW_FORM:
-						System.out.println("ssssss");
 						return new AdminShowAuthorizationFormAction();
 					case ADMIN_LOGOUT:
 						return new AdminLogoutAction();

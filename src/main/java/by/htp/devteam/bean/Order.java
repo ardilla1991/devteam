@@ -1,8 +1,11 @@
 package by.htp.devteam.bean;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class Order {
+
+
 
 	private Long id;
 	private String title;
@@ -13,6 +16,7 @@ public class Order {
 	private Date dateCreated;
 	private Date dateStart;
 	private Date dateFinish;
+	private BigDecimal price;
 	
 	public Order() {
 		super();
@@ -90,4 +94,21 @@ public class Order {
 	public void setDateFinish(Date dateFinish) {
 		this.dateFinish = dateFinish;
 	}
+	
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", title=" + title + ", description=" + description + ", specification="
+				+ specification + ", customer=" + customer + ", status=" + status + ", dateCreated=" + dateCreated
+				+ ", dateStart=" + dateStart + ", dateFinish=" + dateFinish + "]";
+	}
+
+
 }

@@ -1,17 +1,17 @@
-package by.htp.devteam.command.action.admin;
+package by.htp.devteam.command.admin;
+
+import static by.htp.devteam.util.admin.AdminPageConstantValue.PAGE_PERMISSION_DENIED;
 
 import javax.servlet.http.HttpServletRequest;
-import static by.htp.devteam.util.admin.AdminPageConstantValue.*;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.command.CommandAction;
 
-public class AdminShowAuthorizationFormAction implements CommandAction{
+public class AdminPermissionDeniedAction implements CommandAction{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		
-		return PAGE_LOGIN;
+		return PAGE_PERMISSION_DENIED;
 	}
-	
+
 }

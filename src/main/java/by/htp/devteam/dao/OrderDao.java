@@ -1,9 +1,17 @@
 package by.htp.devteam.dao;
 
-import by.htp.devteam.bean.dto.OrderDto;
+import java.util.List;
+
+import by.htp.devteam.bean.Customer;
+import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.dto.OrderListDto;
 
 public interface OrderDao {
-	OrderDto getNewOrders(int offset, int countPerPage);
+	OrderListDto getNewOrders(int offset, int countPerPage);
 	
 	Order getById(long id);
+	
+	List<Order> geOrdersByCustomer(Customer customer);
+	
+	Order add(Order order);
 }

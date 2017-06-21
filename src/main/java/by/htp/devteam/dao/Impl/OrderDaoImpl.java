@@ -11,7 +11,7 @@ import java.util.List;
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.dto.OrderDto;
+import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.OrderDao;
@@ -27,9 +27,10 @@ public class OrderDaoImpl implements OrderDao{
 	private final int DATE_CREATED = 7;
 	private final int DATE_START = 8;
 	private final int DATE_FINISH = 9;
-	private final int CUSTOMER_NAME = 11;
-	private final int CUSTOMER_EMAIL = 12;
-	private final int CUSTOMER_PHONE = 13;
+	private final int PRICE = 10;
+	private final int CUSTOMER_NAME = 12;
+	private final int CUSTOMER_EMAIL = 15;
+	private final int CUSTOMER_PHONE = 16;
 	
 	private final String NEW_RECORDS_LIST = "SELECT SQL_CALC_FOUND_ROWS o.*, c.* "
 			+ "FROM `order` as o "
@@ -38,8 +39,13 @@ public class OrderDaoImpl implements OrderDao{
 			+ "WHERE o.status=0 ORDER BY o.dateCreated LIMIT ?,?";
 	private final String GET_BY_ID = "SELECT * FROM `order` as o WHERE id=?";
 	
-	public OrderDto getNewOrders(int offset, int countPerPage) {
-		OrderDto orderDto = new OrderDto();
+	private final String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM `order` WHERE id=?";
+	
+	private final String ADD = "INSERT INTO `order` (title, description, specification, dateStart, dateFinish) "
+			+ "VALUES (?, ?, ?, ?, ?)";
+	
+	public OrderListDto getNewOrders(int offset, int countPerPage) {
+		OrderListDto orderDto = new OrderListDto();
 		List<Order> projects = new ArrayList<Order>();
 		int numberOfRecords = 0;
 		
@@ -54,6 +60,7 @@ public class OrderDaoImpl implements OrderDao{
 			ResultSet rs = ps.executeQuery();
 			
 			while ( rs.next() ) {
+				System.out.println(rs);
 				Order order = new Order();
 				order.setId(rs.getLong(ID));
 				order.setTitle(rs.getString(TITLE));
@@ -134,9 +141,9 @@ public class OrderDaoImpl implements OrderDao{
 		return order;
 	}
 	
-	public long add(Order order) {
+	/*public long add(Order order) {
 		
-	}
+	}*/
 	
 	private void close(PreparedStatement ps) {
 		if ( ps != null ) {
@@ -146,5 +153,81 @@ public class OrderDaoImpl implements OrderDao{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public List<Order> geOrdersByCustomer(Customer customer) {
+
+		List<Order> orders = new ArrayList<Order>();
+
+		Connection dbConnection = null;
+		PreparedStatement ps = null;
+		try {
+			dbConnection = ConnectionPool.getConnection();
+			
+			ps = dbConnection.prepareStatement(GET_ORDERS_BY_CUSTOMER_ID);
+			ps.setLong(1, customer.getId());
+			ResultSet rs = ps.executeQuery();
+			
+			while ( rs.next() ) {
+				System.out.println(rs);
+				Order order = new Order();
+				order.setId(rs.getLong(ID));
+				order.setTitle(rs.getString(TITLE));
+				order.setDescription(rs.getString(DESCRIPTION));
+				order.setSpecification(rs.getString(SPECIFICATION));
+				order.setStatus(rs.getBoolean(STATUS));
+				order.setDateCreated(rs.getDate(DATE_CREATED));
+				order.setDateStart(rs.getDate(DATE_START));
+				order.setDateFinish(rs.getDate(DATE_FINISH));
+				order.setPrice(rs.getBigDecimal(PRICE));
+
+				order.setCustomer(customer);
+				
+				orders.add(order);
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(ps);
+			ConnectionPool.close(dbConnection);
+		}
+		return orders;
+	}
+
+	@Override
+	public Order add(Order order) {
+		Connection dbConnection = null;
+		PreparedStatement ps = null;
+		
+		Long id = (long) 0;
+		try {
+			dbConnection = ConnectionPool.getConnection();
+			
+			ps = dbConnection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS);
+			ps.setString(1, order.getTitle());
+			ps.setString(2, order.getDescription());
+			ps.setString(3, order.getSpecification());
+			ps.setLong(4, order.getCustomer().getId());
+			ps.setDate(8, order.getDateStart());
+			ps.setDate(9, order.getDateFinish());
+			
+			ps.executeUpdate();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+			    id = rs.getLong(1);			
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(ps);
+			ConnectionPool.close(dbConnection);
+		}
+		return order;
 	}
 }

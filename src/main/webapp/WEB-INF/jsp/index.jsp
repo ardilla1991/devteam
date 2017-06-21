@@ -23,7 +23,7 @@
 
 		
 	    <div class="container">
-	    	<form class="form-signin" role="form" action="Admin" method="POST">
+	    	<form class="form-signin" role="form" action="Main" method="POST">
 		        <h2 class="form-signin-heading"><fmt:message key = "login.formTitle" /></h2>
 		        <input type="text" class="form-control" placeholder="<fmt:message key = "login.login" />" required autofocus  name="login" />
 		        <input type="password" class="form-control" placeholder="<fmt:message key = "login.password" />" required name="pass" />

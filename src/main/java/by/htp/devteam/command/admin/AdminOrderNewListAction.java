@@ -1,4 +1,4 @@
-package by.htp.devteam.command.action.admin;
+package by.htp.devteam.command.admin;
 
 import static by.htp.devteam.util.admin.AdminPageConstantValue.PAGE_DEFAULT;
 import static by.htp.devteam.util.admin.AdminPageConstantValue.PAGE_ERROR;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.dto.OrderDto;
+import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.service.OrderService;
@@ -33,9 +33,11 @@ public class AdminOrderNewListAction implements CommandAction{
 		
 		List<Order> orders = null;
 		try {
-			OrderDto orderDto = orderService.getNewOrders(currPage);
+			OrderListDto orderDto = orderService.getNewOrders(currPage);
 			orders = orderDto.getOrders();
-
+			
+			System.out.println("orders=");
+			System.out.println(orders);
 			request.setAttribute(AdminRequestParamConstantValue.ORDER_LIST, orders);
 			request.setAttribute(AdminRequestParamConstantValue.CURR_PAGE, orderDto.getCurrPage());
 			request.setAttribute(AdminRequestParamConstantValue.COUNT_PAGES, orderDto.getCountPages());

@@ -1,4 +1,4 @@
-package by.htp.devteam.command.action.admin;
+package by.htp.devteam.command.admin;
 
 import static by.htp.devteam.util.admin.AdminPageConstantValue.*;
 
@@ -19,7 +19,7 @@ import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.dto.OrderDto;
+import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.service.EmployeeService;
@@ -36,7 +36,6 @@ public class AdminLoginAction implements CommandAction{
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		
 		logger.info("Hello, World!");
 		HttpSession session = request.getSession();
 		String login = request.getParameter(AdminRequestParamConstantValue.LOGIN);
@@ -56,13 +55,11 @@ public class AdminLoginAction implements CommandAction{
 				//display list of projects
 				
 				OrderService orderService = serviceFactory.getOrderService();
-				OrderDto orderDto = orderService.getNewOrders(currPage);
+				OrderListDto orderDto = orderService.getNewOrders(currPage);
 				List<Order> orders = orderDto.getOrders();
-				
 				request.setAttribute(AdminRequestParamConstantValue.PROJECT_LIST, orders);
 				request.setAttribute(AdminRequestParamConstantValue.CURR_PAGE, orderDto.getCurrPage());
 				request.setAttribute(AdminRequestParamConstantValue.COUNT_PAGES, orderDto.getCountPages());
-				System.out.println("aaaaaaaaaaaaaaaa");
 				page = "Main?action=admin_orders_new_list";
 			} else if ( employee.getRole() == RoleEnum.DEVELOPER ){  // developer
 				//display list of projects for curr employee

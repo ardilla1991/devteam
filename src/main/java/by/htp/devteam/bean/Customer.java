@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Customer extends User implements Serializable{
 	
+
+
 	/**
 	 * 
 	 */
@@ -66,6 +68,9 @@ public class Customer extends User implements Serializable{
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Customer [email=" + email + ", phone=" + phone + "]";
+	}
 	
 }

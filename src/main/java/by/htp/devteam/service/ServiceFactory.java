@@ -25,15 +25,15 @@ public class ServiceFactory {
 	private static QualificationService qualificationService = new QualificationServiceImpl();
 	private static WorkService workService = new WorkServiceImpl();
 	
-	public static CustomerService getCustomerService() {
+	public CustomerService getCustomerService() {
 		return customerService;
 	}
 
-	public static WorkService getWorkService() {
+	public WorkService getWorkService() {
 		return workService;
 	}
 
-	public static OrderWorkService getOrderWorkService() {
+	public OrderWorkService getOrderWorkService() {
 		return orderwWorkService;
 	}
 
@@ -53,19 +53,19 @@ public class ServiceFactory {
 		return projectService;
 	}
 	
-	public static EmployeeProjectService getEmployeeProjectService() {
+	public EmployeeProjectService getEmployeeProjectService() {
 		return employeeProjectService;
 	}
 
-	public static OrderQualificationService getOrderQualification() {
+	public OrderQualificationService getOrderQualification() {
 		return orderQualification;
 	}
 
-	public static OrderService getOrderService() {
+	public OrderService getOrderService() {
 		return orderService;
 	}
 
-	public static OrderWorkService getOrderwWorkService() {
+	public OrderWorkService getOrderwWorkService() {
 		return orderwWorkService;
 	}
 	

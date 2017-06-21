@@ -42,4 +42,9 @@ public class Employee extends User implements Serializable{
 	public void setRole(RoleEnum role) {
 		this.role = role;
 	}
+
+	@Override
+	public String toString() {
+		return "Employee [startWork=" + startWork + ", qualification=" + qualification + ", role=" + role + "]";
+	}
 }

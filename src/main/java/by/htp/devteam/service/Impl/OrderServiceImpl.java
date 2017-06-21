@@ -1,6 +1,11 @@
 package by.htp.devteam.service.Impl;
 
-import by.htp.devteam.bean.dto.OrderDto;
+import java.sql.Date;
+import java.util.List;
+
+import by.htp.devteam.bean.Customer;
+import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
@@ -20,7 +25,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public OrderDto getNewOrders(String currPage) throws ServiceException{
+	public OrderListDto getNewOrders(String currPage) throws ServiceException{
 		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
 		int currPageValue = 0;
 		
@@ -33,7 +38,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
-		OrderDto orderDto = orderDao.getNewOrders(offset, countPerPage);
+		OrderListDto orderDto = orderDao.getNewOrders(offset, countPerPage);
 
 		int countPages = (int) Math.ceil(orderDto.getCountRecords() * 1.0 / countPerPage);
 		orderDto.setCountPages(countPages);
@@ -41,4 +46,27 @@ public class OrderServiceImpl implements OrderService{
 		
 		return orderDto;
 	}
+	
+	@Override
+	public List<Order> geOrdersByCustomer(Customer customer) {
+
+		return orderDao.geOrdersByCustomer(customer);
+	}
+
+	@Override
+	public Order add(Customer customer, String title, String description, String specification, String dateStart, String dateFinish,
+			String[] workIds, String[] qualification) {
+		Order order = new Order();
+		order.setTitle(title);
+		order.setDescription(description);
+		order.setSpecification(specification);
+		order.setDateStart(Date.valueOf(dateStart));
+		order.setDateFinish(Date.valueOf(dateFinish));
+		order.setCustomer(customer);
+		System.out.println("OKKKKK");
+		Order orderCreated = orderDao.add(order);
+		return null;
+	}
+	
+	
 }

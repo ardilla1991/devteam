@@ -4,6 +4,10 @@ public enum CommandEnum {
 	LOGIN("login"),  
 	SHOW_FORM("show_form"),
 	PERMISSION_DENIED("permission_denied"),
+	ORDER_LIST("order_list"),
+	ORDER_SHOW_ADD_FORM("order_show_add_form"),
+	ORDER_ADD("order_add"),
+	LOGOUT("logout"),
 	
 	ADMIN_LOGIN("admin_login"),
 	ADMIN_SHOW_FORM("admin_show_form"),

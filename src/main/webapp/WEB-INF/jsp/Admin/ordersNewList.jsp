@@ -18,6 +18,7 @@
 							<th>#</th>
 							<th>Title</th>
 							<th>Description</th>
+							<th>Specification</th>
 							<th>Date Created</th>
 							<th>Project start date</th>
 							<th>Project finish date</th>
@@ -32,6 +33,7 @@
 								<td><c:out value="${i.getId()}" /></td>
 								<td><c:out value="${i.getTitle()}" /></td>
 								<td><c:out value="${i.getDescription()}" /></td>
+								<td><c:out value="${i.getSpecification()}" /></td>
 								<td><c:out value="${i.getDateCreated()}" /></td>
 								<td><c:out value="${i.getDateStart()}" /></td>
 								<td><c:out value="${i.getDateFinish()}" /></td>

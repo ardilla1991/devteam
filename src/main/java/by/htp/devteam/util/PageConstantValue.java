@@ -12,7 +12,12 @@ public final class PageConstantValue {
 	public static final String PAGE_ERROR = JSP_FOLDER_PATH + "error.jsp";
 	
 	public static final String PAGE_LOGIN = JSP_FOLDER_PATH + "index.jsp";
+	public static final String ORDER_LIST = JSP_FOLDER_PATH + "orderList.jsp";
+	public static final String ORDER_EDIT_PAGE = JSP_FOLDER_PATH + "orderEditPage.jsp";
+	
 	
 	public static final String JSP_FOLDER_AJAX = "AJAX/";
+	
+	
 	
 }

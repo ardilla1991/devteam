@@ -1,4 +1,4 @@
-package by.htp.devteam.command.action.admin;
+package by.htp.devteam.command.admin;
 
 import java.util.List;
 

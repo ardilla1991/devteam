@@ -1,13 +1,10 @@
-package by.htp.devteam.command.action;
+package by.htp.devteam.command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-
-import by.htp.devteam.command.CommandAction;
 
 import static by.htp.devteam.util.PageConstantValue.*;
 

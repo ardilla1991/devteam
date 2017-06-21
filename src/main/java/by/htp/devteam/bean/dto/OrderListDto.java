@@ -4,7 +4,7 @@ import java.util.List;
 
 import by.htp.devteam.bean.Order;
 
-public class OrderDto {
+public class OrderListDto {
 	private List<Order> orders;
 	private int countRecords;
 	private int countPages;

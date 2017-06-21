@@ -28,7 +28,7 @@ public class ACLFilter implements Filter{
 	private final static List<String> guestACL = new ArrayList<String>();
 	private final static List<String> customerACL = new ArrayList<String>();
 	
-	static {
+	{
 		
 		guestACL.add("login");
 		guestACL.add("show_form");
@@ -39,7 +39,7 @@ public class ACLFilter implements Filter{
 		acl.put(RoleEnum.GUEST, guestACL);
 	}
 	
-	static {
+	{
 		adminACL.add("admin_show_form");
 		adminACL.add("admin_login");
 		adminACL.add("admin_permission_denied");
@@ -48,7 +48,7 @@ public class ACLFilter implements Filter{
 		acl.put(RoleEnum.ADMINISTRATOR, adminACL);	
 	}
 	
-	static {
+	{
 		managerACL.add("admin_show_form");
 		managerACL.add("admin_login");
 		managerACL.add("admin_orders_new_list");
@@ -58,7 +58,7 @@ public class ACLFilter implements Filter{
 		acl.put(RoleEnum.MANAGER, managerACL);
 	}
 	
-	static {
+	{
 		developerACL.add("admin_show_form");
 		developerACL.add("admin_login");
 		developerACL.add("admin_permission_denied");
@@ -67,11 +67,14 @@ public class ACLFilter implements Filter{
 		acl.put(RoleEnum.DEVELOPER, developerACL);
 	}
 	
-	static {
+	{
 		customerACL.add("show_form");
 		customerACL.add("login");
 		customerACL.add("permission_denied");
 		customerACL.add("logout");
+		customerACL.add("order_list");
+		customerACL.add("order_show_add_form");
+		customerACL.add("order_add");
 		
 		acl.put(RoleEnum.CUSTOMER, customerACL);
 	}
@@ -97,8 +100,8 @@ public class ACLFilter implements Filter{
         boolean isAuthorised = session != null && session.getAttribute("user") != null;
 		  
         System.out.println("FILTER END");
-        System.out.println("dddddd=");
-System.out.println(guestACL.indexOf(action));
+        //System.out.println("dddddd=");
+        //System.out.println(guestACL.indexOf(action));
         if ( isAuthorised ) {
         	System.out.println("SESSION USER");
         	Object userObject = session.getAttribute("user");
