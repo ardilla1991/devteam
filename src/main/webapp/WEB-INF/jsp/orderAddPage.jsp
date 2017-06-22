@@ -59,11 +59,13 @@
 									</tr>
 									<tr>
 										<td>Works</td>
-										<td id="work"><c:forEach items="${work_list}" var="i">
-												<input type="checkbox" name="work[${i.getId()}]" />
+										<td id="work">
+											<c:forEach items="${work_list}" var="i">
+												<input type="checkbox" name="work" value="${i.getId()}" />
 												<c:out value="${i.getTitle()}" />
 												<br />
-											</c:forEach> <script type="text/javascript">
+											</c:forEach> 
+											<script type="text/javascript">
 												formElements["work"] = "checkbox";
 											</script></td>
 									</tr>
@@ -71,7 +73,7 @@
 										<td>Qualifications</td>
 										<td id="qualification"><c:forEach
 												items="${qualification_list}" var="i">
-												<input type="checkbox" name="work[${i.getId()}]" />
+												<input type="text" name="qualification[${i.getId()}]" value="" />
 												<c:out value="${i.getTitle()}" />
 												<br />
 											</c:forEach> <script type="text/javascript">
@@ -98,11 +100,11 @@
 			integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
 			crossorigin="anonymous"></script>
 		<script src="/js/scripts.js"></script>
-		<script>
+		<!-- script>
 			$('input[type="checkbox"]').change(function(){
 			    this.value ^= 1;
 			});
-		</script>
+		</script -->
 	
 	</body>
 </html>

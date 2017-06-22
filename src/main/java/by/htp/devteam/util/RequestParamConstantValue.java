@@ -25,5 +25,8 @@ public final class RequestParamConstantValue {
 	public static final String ORDER_WORK = "work";
 	public static final String ORDER_QUALIFICATION = "qualification";
 	
+	public static final String ORDER_ID = "id";
+	public static final String ORDER = "order";
+	
 	
 }

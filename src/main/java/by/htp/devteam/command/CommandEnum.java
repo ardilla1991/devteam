@@ -7,6 +7,7 @@ public enum CommandEnum {
 	ORDER_LIST("order_list"),
 	ORDER_SHOW_ADD_FORM("order_show_add_form"),
 	ORDER_ADD("order_add"),
+	ORDER_VIEW("order_view"),
 	LOGOUT("logout"),
 	
 	ADMIN_LOGIN("admin_login"),

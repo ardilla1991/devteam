@@ -4,6 +4,7 @@ import java.util.List;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.bean.dto.OrderListDto;
 
 public interface OrderService {
@@ -11,4 +12,5 @@ public interface OrderService {
 	List<Order> geOrdersByCustomer(Customer customer);
 	Order add(Customer customer, String title, String description, String specification, String dateStart, 
 			String dateFinish, String[] workIds, String[] qualification);
+	OrderDto getOrderById(String orderId);
 }

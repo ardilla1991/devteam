@@ -4,6 +4,7 @@ import java.util.List;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.bean.dto.OrderListDto;
 
 public interface OrderDao {
@@ -14,4 +15,5 @@ public interface OrderDao {
 	List<Order> geOrdersByCustomer(Customer customer);
 	
 	Order add(Order order);
+	
 }

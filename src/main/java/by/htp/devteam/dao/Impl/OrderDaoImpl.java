@@ -11,6 +11,7 @@ import java.util.List;
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.controller.ConnectionPool;
@@ -37,12 +38,13 @@ public class OrderDaoImpl implements OrderDao{
 			+ "JOIN customer as c "
 			+ "ON o.customer_id=c.id "
 			+ "WHERE o.status=0 ORDER BY o.dateCreated LIMIT ?,?";
-	private final String GET_BY_ID = "SELECT * FROM `order` as o WHERE id=?";
+	private final String GET_BY_ID = "SELECT o.*, c.* FROM `order` as o JOIN customer as c ON o.customer_id=c.id "
+			+ " WHERE o.id=?";
 	
-	private final String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM `order` WHERE id=?";
+	private final String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM `order` WHERE customer_id=?";
 	
-	private final String ADD = "INSERT INTO `order` (title, description, specification, dateStart, dateFinish) "
-			+ "VALUES (?, ?, ?, ?, ?)";
+	private final String ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, status, dateCreated, dateStart, dateFinish) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	public OrderListDto getNewOrders(int offset, int countPerPage) {
 		OrderListDto orderDto = new OrderListDto();
@@ -109,6 +111,7 @@ public class OrderDaoImpl implements OrderDao{
 			dbConnection = ConnectionPool.getConnection();
 			
 			ps = dbConnection.prepareStatement(GET_BY_ID);
+			System.out.println(id);
 			ps.setLong(ID, id);
 			ResultSet rs = ps.executeQuery();
 			
@@ -129,7 +132,11 @@ public class OrderDaoImpl implements OrderDao{
 				customer.setEmail(rs.getString(CUSTOMER_EMAIL));
 				customer.setPhone(rs.getString(CUSTOMER_PHONE));
 				order.setCustomer(customer);
+				System.out.println("ORDER ORDER ORDER=");
+				System.out.println(order);
 			}
+			System.out.println("ORDER2 ORDER ORDER=");
+			System.out.println(order);
 			rs.close();			
 
 		} catch (SQLException e) {
@@ -194,6 +201,7 @@ public class OrderDaoImpl implements OrderDao{
 			close(ps);
 			ConnectionPool.close(dbConnection);
 		}
+
 		return orders;
 	}
 
@@ -207,10 +215,13 @@ public class OrderDaoImpl implements OrderDao{
 			dbConnection = ConnectionPool.getConnection();
 			
 			ps = dbConnection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS);
+			ps.setString(ID, null);
 			ps.setString(TITLE, order.getTitle());
 			ps.setString(DESCRIPTION, order.getDescription());
 			ps.setString(SPECIFICATION, order.getSpecification());
 			ps.setLong(CUSTOMER_ID, order.getCustomer().getId());
+			ps.setBoolean(STATUS, order.isStatus());
+			ps.setDate(DATE_CREATED, order.getDateCreated());
 			ps.setDate(DATE_START, order.getDateStart());
 			ps.setDate(DATE_FINISH, order.getDateFinish());
 			
@@ -218,7 +229,8 @@ public class OrderDaoImpl implements OrderDao{
 			
 			ResultSet rs = ps.getGeneratedKeys();
 			if (rs.next()) {
-			    id = rs.getLong(1);			
+			    id = rs.getLong(ID);
+			    order.setId(id);
 			}
 			rs.close();
 
@@ -230,4 +242,5 @@ public class OrderDaoImpl implements OrderDao{
 		}
 		return order;
 	}
+
 }

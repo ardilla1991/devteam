@@ -75,6 +75,7 @@ public class ACLFilter implements Filter{
 		customerACL.add("order_list");
 		customerACL.add("order_show_add_form");
 		customerACL.add("order_add");
+		customerACL.add("order_view");
 		
 		acl.put(RoleEnum.CUSTOMER, customerACL);
 	}

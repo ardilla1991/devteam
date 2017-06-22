@@ -18,7 +18,7 @@ public class DaoFactory {
 	private static EmployeeDao employeeDao = new EmployeeDaoImpl();
 	private static EmployeeProjectDao employeeProjectDao = new EmployeeProjectDaoImpl();
 	private static OrderDao orderDao = new OrderDaoImpl();
-	private static OrderQualificationDao orderQualificationsDao = new OrderQualificationDaoImpl();
+	private static OrderQualificationDao orderQualificationDao = new OrderQualificationDaoImpl();
 	private static OrderWorkDao orderWorkDao = new OrderWorkDaoImpl();
 	private static ProjectDao projectDao = new ProjectDaoImpl();
 	private static QualificationDao qualificationDao = new QualificationDaoImpl();
@@ -52,15 +52,15 @@ public class DaoFactory {
 		return workDao;
 	}
 
-	public static EmployeeProjectDao getEmployeeProjectDao() {
+	public EmployeeProjectDao getEmployeeProjectDao() {
 		return employeeProjectDao;
 	}
 
-	public static OrderQualificationDao getOrderQualificationsDao() {
-		return orderQualificationsDao;
+	public OrderQualificationDao getOrderQualificationDao() {
+		return orderQualificationDao;
 	}
 
-	public static OrderDao getOrderDao() {
+	public OrderDao getOrderDao() {
 		return orderDao;
 	}
 	

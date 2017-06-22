@@ -32,7 +32,7 @@
 				<c:forEach items="${order_list}" var="i">
 					<tr>
 						<td><a
-							href="Main?action=order_look&order_id=${i.getId()}">Look</a></td>
+							href="Main?action=order_view&id=${i.getId()}">Look</a></td>
 						<td><c:out value="${i.getId()}" /></td>
 						<td><c:out value="${i.getTitle()}" /></td>
 						<td><c:out value="${i.getDescription()}" /></td>

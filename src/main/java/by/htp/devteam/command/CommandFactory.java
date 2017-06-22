@@ -35,6 +35,8 @@ public class CommandFactory {
 						return new OrderShowAddFormAction();
 					case ORDER_ADD:
 						return new OrderAddAction();
+					case ORDER_VIEW:
+						return new OrderViewAction();
 					case LOGOUT:
 						return new LogoutAction();
 						
