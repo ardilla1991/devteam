@@ -1,4 +1,4 @@
-package by.htp.devteam.command;
+package by.htp.devteam.command.user;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
+import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.WorkService;

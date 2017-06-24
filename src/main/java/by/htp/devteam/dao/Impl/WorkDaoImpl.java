@@ -11,7 +11,7 @@ import by.htp.devteam.bean.Work;
 import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.WorkDao;
 
-public class WorkDaoImpl implements WorkDao{
+public class WorkDaoImpl extends CommonDao implements WorkDao{
 
 	private final int ID = 1;
 	private final int TITLE = 2;
@@ -22,42 +22,28 @@ public class WorkDaoImpl implements WorkDao{
 	
 	public List<Work> fetchAll() {
 		List<Work> works = new ArrayList<Work>();
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				Statement st = dbConnection.createStatement();
+				ResultSet rs = st.executeQuery(FETCH_ALL) ) {
 		
-		Connection dbConnection = null;
-		Statement st = null;
-		try {
-			dbConnection = ConnectionPool.getConnection();
-			
-			st = dbConnection.createStatement();
-			ResultSet rs = st.executeQuery(FETCH_ALL);
-			
-			while ( rs.next() ) {
-				Work work = new Work();
-				work.setId(rs.getLong(ID));
-				work.setTitle(rs.getString(TITLE));
-				work.setDescription(rs.getString(DESCRIPTION));
-				work.setPrice(rs.getInt(PRICE));
-				
-				works.add(work);
-			}
-			rs.close();
-
+			works = getWorkListFromResultSet(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			close(st);
-			ConnectionPool.close(dbConnection);
 		}
 		return works;
 	}
 	
-	private void close(Statement st) {
-		if ( st != null ) {
-			try {
-				st.close();
-			} catch ( SQLException e ) {
-				e.printStackTrace();
-			}
+	private List<Work> getWorkListFromResultSet(ResultSet rs) throws SQLException{
+		List<Work> works = new ArrayList<Work>();
+		while ( rs.next() ) {
+			Work work = new Work();
+			work.setId(rs.getLong(ID));
+			work.setTitle(rs.getString(TITLE));
+			work.setDescription(rs.getString(DESCRIPTION));
+			work.setPrice(rs.getInt(PRICE));
+			
+			works.add(work);
 		}
+		return works;
 	}
 }

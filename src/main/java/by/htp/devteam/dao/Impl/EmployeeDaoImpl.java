@@ -14,7 +14,7 @@ import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.EmployeeDao;
 
-public class EmployeeDaoImpl implements EmployeeDao {
+public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	
 	private final int ID = 1;
 	private final int NAME = 2;
@@ -26,101 +26,71 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	private final int QUALIFICATION_TITLE = 8;
 	
 	private final String FETCH_BY_CREDENTIALS = "SELECT e.*, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id WHERE e.login=? AND e.password=?";
-
 	
 	@Override
 	public Employee fetchByCredentials(String login, String password) {
-		
-		Employee employee = null;
-		Connection dbConnection = null;
-		PreparedStatement ps = null;
-		
-		try {
-			dbConnection = ConnectionPool.getConnection();
-		
-			ps = dbConnection.prepareStatement(FETCH_BY_CREDENTIALS);
-			ps.setString(LOGIN, login);
-			ps.setString(PASSWORD, password);
-			ResultSet rs = ps.executeQuery();
+		Employee employee = null;	
+		try ( Connection dbConnection = ConnectionPool.getConnection(); 
+				PreparedStatement ps = dbConnection.prepareStatement(FETCH_BY_CREDENTIALS); ) {
 
-			if ( rs.next() ) {
-				Qualification qualification = new Qualification();
-				qualification.setId(rs.getLong(QUALIFICATION_ID));
-				qualification.setTitle(rs.getString(QUALIFICATION_TITLE));
-				
-				employee = new Employee();
-				employee.setId(rs.getLong(ID));
-				employee.setName(rs.getString(NAME));
-				employee.setLogin(rs.getString(LOGIN));
-				employee.setPassword(rs.getString(PASSWORD));
-				employee.setStartWork(rs.getDate(START_WORK));
-				employee.setQualification(qualification);
-				employee.setRole(RoleEnum.valueOf(rs.getString(ROLE)));
+			ps.setString(1, login);
+			ps.setString(2, password);
+			try ( ResultSet rs = ps.executeQuery() ) {
+				employee = getEmployeeFromResultSet(rs);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			close(ps);
-			ConnectionPool.close(dbConnection);
 		}
 		return employee;
 	}
 	
 	public List<Employee> fetchAll() {
-		Connection dbConnection = null;
-		Statement st = null;
 		List<Employee> employees = new ArrayList<Employee>();
 		
-		try {
-			dbConnection = ConnectionPool.getConnection();
-		
-			st = dbConnection.createStatement();
-			ResultSet rs = st.executeQuery(FETCH_BY_CREDENTIALS);
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				Statement st = dbConnection.createStatement(); 
+				ResultSet rs = st.executeQuery(FETCH_BY_CREDENTIALS);) {
 
-			while ( rs.next() ) {
-				Qualification qualification = new Qualification();
-				qualification.setId(rs.getLong(QUALIFICATION_ID));
-				qualification.setTitle(rs.getString(QUALIFICATION_TITLE));
-				
-				Employee employee = new Employee();
-				employee.setId(rs.getLong(ID));
-				employee.setName(rs.getString(NAME));
-				employee.setLogin(rs.getString(LOGIN));
-				employee.setPassword(rs.getString(PASSWORD));
-				employee.setStartWork(rs.getDate(START_WORK));
-				employee.setQualification(qualification);
-				employee.setRole(RoleEnum.valueOf(rs.getString(ROLE)));
-				
-				employees.add(employee);
-			}
-
+			employees = getEmployeeListFromResultSet(rs);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			close(st);
-			ConnectionPool.close(dbConnection);
 		}
 		return employees;
 	}
 	
-	private void close(PreparedStatement ps) {
-		if ( ps != null ) {
-			try {
-				ps.close();
-			} catch ( SQLException e ) {
-				e.printStackTrace();
-			}
+	private List<Employee> getEmployeeListFromResultSet(ResultSet rs) throws SQLException {
+		List<Employee> employees = new ArrayList<Employee>();
+		while ( rs.next() ) {
+			employees.add(createEmployeeFromResultSet(rs));
 		}
+		
+		return employees;
 	}
 	
-	private void close(Statement st) {
-		if ( st != null ) {
-			try {
-				st.close();
-			} catch ( SQLException e ) {
-				e.printStackTrace();
-			}
+	private Employee getEmployeeFromResultSet(ResultSet rs) throws SQLException {
+		Employee employee = null;
+		if ( rs.next() ) {
+			createEmployeeFromResultSet(rs);
 		}
+		
+		return employee;
 	}
+	
+	private Employee createEmployeeFromResultSet(ResultSet rs) throws SQLException {
+		Qualification qualification = new Qualification();
+		qualification.setId(rs.getLong(QUALIFICATION_ID));
+		qualification.setTitle(rs.getString(QUALIFICATION_TITLE));
+		
+		Employee employee = new Employee();
+		employee.setId(rs.getLong(ID));
+		employee.setName(rs.getString(NAME));
+		employee.setLogin(rs.getString(LOGIN));
+		employee.setPassword(rs.getString(PASSWORD));
+		employee.setStartWork(rs.getDate(START_WORK));
+		employee.setQualification(qualification);
+		employee.setRole(RoleEnum.valueOf(rs.getString(ROLE)));
+		
+		return employee;
+	}
+
 }

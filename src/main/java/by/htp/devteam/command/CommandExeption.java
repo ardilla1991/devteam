@@ -2,6 +2,7 @@ package by.htp.devteam.command;
 
 public class CommandExeption extends Exception{
 	
+	private static final long serialVersionUID = 2879996083995167679L;
 	private Exception _hidden;
 	
 	public CommandExeption(String s) {

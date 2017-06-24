@@ -1,6 +1,7 @@
 package by.htp.devteam.service.Impl;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,25 +13,18 @@ import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
-import by.htp.devteam.service.OrderQualificationService;
 import by.htp.devteam.service.OrderService;
-import by.htp.devteam.service.OrderWorkService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.util.SettingConstantValue;
 
 public class OrderServiceImpl implements OrderService{
 
 	private OrderDao orderDao;
-	//private OrderQualificationService orderQualificationService;
 	
 	public OrderServiceImpl() {
 		super();
 		DaoFactory daoFactory = DaoFactory.getInstance();
 		orderDao = daoFactory.getOrderDao();
-		
-
-		//orderQualificationService = serviceFactory.getOrderQualificationService();
 	}
 	
 	@Override
@@ -75,14 +69,11 @@ public class OrderServiceImpl implements OrderService{
 		order.setDateStart(Date.valueOf(dateStart));
 		order.setDateFinish(Date.valueOf(dateFinish));
 		order.setCustomer(customer);
-		Order orderCreated = orderDao.add(order);	
+		Order orderCreated = orderDao.addOrder(order);	
 		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderWorkService orderWorkService = serviceFactory.getOrderWorkService();
-		orderWorkService.add(orderCreated, workIds);
+		addWorks(orderCreated, workIds);
+		addQualifications(orderCreated, qualification);
 		
-		OrderQualificationService orderQualificationService = serviceFactory.getOrderQualificationService();
-		orderQualificationService.add(orderCreated, qualification);
 		return null;
 	}
 
@@ -90,24 +81,39 @@ public class OrderServiceImpl implements OrderService{
 	public OrderDto getOrderById(String orderId) {
 		OrderDto orderDto = new OrderDto();
 
-		Order order = orderDao.getById(Long.valueOf(orderId));
-		System.out.println("service order=");
-		System.out.println(order);
+		Order order = orderDao.getOrder(Long.valueOf(orderId));
 		orderDto.setOrder(order);
-		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderWorkService orderWorkService = serviceFactory.getOrderWorkService();
-		List<Work> works = orderWorkService.getByOrder(order);
-		System.out.println("WORKS=");
-		System.out.println(works);
-		orderDto.setWorks(works);
-		
-		OrderQualificationService orderQualificationService = serviceFactory.getOrderQualificationService();
-		Map<Qualification, Integer> qualifications = orderQualificationService.getByOrder(order);
-		orderDto.setQualifications(qualifications);
+		orderDto.setWorks(getWorks(order));
+		orderDto.setQualifications(getQualifications(order));
 		
 		return orderDto;
 	}
 	
+	@Override
+	public void addWorks(Order order, String[] ids) {
+		orderDao.addWorks(order, ids);
+	}
+	
+	@Override
+	public List<Work> getWorks(Order order) {
+		return orderDao.getWorks(order);
+	}
+	
+	@Override
+	public void addQualifications(Order order, String[] qualificationsIds) {
+		HashMap<Qualification, Integer> qualifications = new HashMap<Qualification, Integer>();
+		for ( String qualificationId : qualificationsIds ) {
+			Qualification qualification = new Qualification();
+			qualification.setId(Long.valueOf(qualificationId));
+			
+			qualifications.put(qualification, 1);
+		}
+		orderDao.addQualifications(order, qualifications);	
+	}
+	
+	@Override
+	public Map<Qualification, Integer> getQualifications(Order order) {
+		return orderDao.getQualifications(order);
+	}
 	
 }

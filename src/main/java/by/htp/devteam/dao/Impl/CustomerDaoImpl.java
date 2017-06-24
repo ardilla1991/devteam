@@ -4,13 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.CustomerDao;
 
-public class CustomerDaoImpl implements CustomerDao{
+public class CustomerDaoImpl extends CommonDao implements CustomerDao{
 
 	private final int ID = 1;
 	private final int NAME = 2;
@@ -25,55 +24,34 @@ public class CustomerDaoImpl implements CustomerDao{
 	
 	@Override
 	public Customer fetchByCredentials(String login, String password) {
-		
 		Customer customer = null;
-		Connection dbConnection = null;
-		PreparedStatement ps = null;
-		
-		try {
-			dbConnection = ConnectionPool.getConnection();
-		
-			ps = dbConnection.prepareStatement(FETCH_BY_CREDENTIALS);
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(FETCH_BY_CREDENTIALS) ) {
+
 			ps.setString(1, login);
 			ps.setString(2, password);
-			ResultSet rs = ps.executeQuery();
-
-			if ( rs.next() ) {
-				customer = new Customer();
-				customer.setId(rs.getLong(ID));
-				customer.setName(rs.getString(NAME));
-				customer.setLogin(rs.getString(LOGIN));
-				customer.setPassword(rs.getString(PASSWORD));
-				customer.setEmail(rs.getString(EMAIL));
-				customer.setPhone(rs.getString(PHONE));
+			try ( ResultSet rs = ps.executeQuery() ) {
+				customer = getCustomerFromResultSet(rs);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			close(ps);
-			ConnectionPool.close(dbConnection);
 		}
 		return customer;
 	}
 	
-	private void close(PreparedStatement ps) {
-		if ( ps != null ) {
-			try {
-				ps.close();
-			} catch ( SQLException e ) {
-				e.printStackTrace();
-			}
+	private Customer getCustomerFromResultSet(ResultSet rs) throws SQLException {
+		Customer customer = null;
+		if ( rs.next() ) {
+			customer = new Customer();
+			customer.setId(rs.getLong(ID));
+			customer.setName(rs.getString(NAME));
+			customer.setLogin(rs.getString(LOGIN));
+			customer.setPassword(rs.getString(PASSWORD));
+			customer.setEmail(rs.getString(EMAIL));
+			customer.setPhone(rs.getString(PHONE));
 		}
-	}
-	
-	private void close(Statement st) {
-		if ( st != null ) {
-			try {
-				st.close();
-			} catch ( SQLException e ) {
-				e.printStackTrace();
-			}
-		}
+		
+		return customer;
 	}
 }
