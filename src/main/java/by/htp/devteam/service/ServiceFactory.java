@@ -1,16 +1,18 @@
 package by.htp.devteam.service;
 
-import by.htp.devteam.service.Impl.CustomerServiceImpl;
-import by.htp.devteam.service.Impl.EmployeeServiceImpl;
-import by.htp.devteam.service.Impl.OrderServiceImpl;
-import by.htp.devteam.service.Impl.ProjectServiceImpl;
-import by.htp.devteam.service.Impl.QualificationServiceImpl;
-import by.htp.devteam.service.Impl.WorkServiceImpl;
+import by.htp.devteam.service.impl.CustomerServiceImpl;
+import by.htp.devteam.service.impl.EmployeeServiceImpl;
+import by.htp.devteam.service.impl.OrderServiceImpl;
+import by.htp.devteam.service.impl.ProjectServiceImpl;
+import by.htp.devteam.service.impl.QualificationServiceImpl;
+import by.htp.devteam.service.impl.UserServiceImpl;
+import by.htp.devteam.service.impl.WorkServiceImpl;
 
 public class ServiceFactory {
 	
 	private static final ServiceFactory serviceFactory = new ServiceFactory();
 	
+	private static final UserService userService = new UserServiceImpl();
 	private static final CustomerService customerService = new CustomerServiceImpl();
 	private static final EmployeeService employeeService = new EmployeeServiceImpl();
 	private static final OrderService orderService = new OrderServiceImpl();
@@ -46,6 +48,10 @@ public class ServiceFactory {
 
 	public OrderService getOrderService() {
 		return orderService;
+	}
+
+	public UserService getUserService() {
+		return userService;
 	}
 
 }

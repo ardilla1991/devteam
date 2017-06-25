@@ -1,4 +1,4 @@
-package by.htp.devteam.service.Impl;
+package by.htp.devteam.service.impl;
 
 import java.util.List;
 

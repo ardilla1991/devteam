@@ -1,4 +1,4 @@
-package by.htp.devteam.dao.Impl;
+package by.htp.devteam.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -109,7 +109,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 
 			ps.setLong(ID, customer.getId());
 			try ( ResultSet rs = ps.executeQuery() ) { 
-				orders = getOrderListFromResultSet(rs);
+				orders = getOrderListFromResultSet(rs, customer);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -152,7 +152,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		List<Work> works = new ArrayList<Work>();
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
 				PreparedStatement ps = dbConnection.prepareStatement(GET_WORKS_BY_ORDER_ID) ) {
-			
+			System.out.println(order);
 			ps.setLong(ORDER_ID, order.getId());
 			try ( ResultSet rs = ps.executeQuery() ) {
 				works = getWorkListFromResultSet(rs);
@@ -225,20 +225,30 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		return qualification;
 	}
 	
-	private Customer createCustomerFtomResultSet(ResultSet rs) throws SQLException {
+	private Customer createCustomerFromResultSet(ResultSet rs) throws SQLException {
 		Customer customer = new Customer();
 		customer.setId(rs.getLong(CUSTOMER_ID));
 		customer.setName(rs.getString(12));
-		customer.setEmail(rs.getString(15));
-		customer.setPhone(rs.getString(16));
-		
+		customer.setEmail(rs.getString(13));
+		customer.setPhone(rs.getString(14));
+		System.out.println(customer);
 		return customer;
 	}
 	
 	private List<Order> getOrderListFromResultSet(ResultSet rs) throws SQLException {
 		List<Order> orders = new ArrayList<Order>();
 		while ( rs.next() ) {
-			Customer customer = createCustomerFtomResultSet(rs);
+			Customer customer = createCustomerFromResultSet(rs);
+			Order order = createOrderFromResultSet(rs, customer);
+			orders.add(order);
+		}
+		
+		return orders;
+	}
+	
+	private List<Order> getOrderListFromResultSet(ResultSet rs, Customer customer) throws SQLException {
+		List<Order> orders = new ArrayList<Order>();
+		while ( rs.next() ) {
 			Order order = createOrderFromResultSet(rs, customer);
 			orders.add(order);
 		}
@@ -249,7 +259,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	private Order getOrderFromResultSet(ResultSet rs) throws SQLException {
 		Order order = new Order();
 		if ( rs.next() ) {
-			Customer customer = createCustomerFtomResultSet(rs);
+			Customer customer = createCustomerFromResultSet(rs);
 			order = createOrderFromResultSet(rs, customer);
 		}
 		

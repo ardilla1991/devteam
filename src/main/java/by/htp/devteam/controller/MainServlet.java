@@ -2,7 +2,7 @@ package by.htp.devteam.controller;
 
 import java.io.IOException;
 
-import static by.htp.devteam.util.PageConstantValue.*;
+import static by.htp.devteam.util.ConstantValue.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,14 +23,17 @@ public class MainServlet extends HttpServlet{
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response, ActionEnum.GET);
+		String page = processRequest(request, response, ActionEnum.GET);
+		RequestDispatcher disp = request.getRequestDispatcher(page);
+		disp.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response, ActionEnum.POST);
+		String page = processRequest(request, response, ActionEnum.POST);
+		response.sendRedirect(page);
 	}
 	
-	private void processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {
+	private String processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		System.out.println("action="+action);
 		String page = null;
@@ -43,14 +46,8 @@ public class MainServlet extends HttpServlet{
 		} catch (CommandExeption e) {
 			page = PAGE_ERROR;
 		}
-		switch ( actionData ) {
-			case POST:
-				response.sendRedirect(page);
-				break;
-			default:
-				System.out.println(page);
-				RequestDispatcher disp = request.getRequestDispatcher(page);
-				disp.forward(request, response);
-		}
+		
+		return page;
 	}
+
 }

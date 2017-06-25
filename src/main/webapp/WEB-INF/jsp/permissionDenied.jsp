@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Login page</title>
-		<!-- script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>   -->
-		<!-- script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>   -->
-		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="styles/styles.css">
-	</head>
-	<body>
-			Permission denied		
-	</body>
-</html>
+
+<%@include file="fragment/header.jsp"%>
+
+<div class="container-fluid">
+	<div class="row">
+
+		<%@include file="fragment/leftCol.jsp"%>
+
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<h1 class="page-header">permission denied</h1>
+			
+		</div>
+	</div>
+</div>
+
+<%@include file="fragment/footer.jsp"%>

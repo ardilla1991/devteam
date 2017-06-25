@@ -2,16 +2,14 @@ package by.htp.devteam.bean;
 
 import java.io.Serializable;
 
-public class Customer extends User implements Serializable{
+public class Customer implements Serializable{
 	
-
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -149891000531202368L;
+	private Long id;
+	private String name;
 	private String email;
 	private String phone;
+	private User user;
 	
 	public Customer() {
 		super();
@@ -71,6 +69,30 @@ public class Customer extends User implements Serializable{
 	@Override
 	public String toString() {
 		return "Customer [email=" + email + ", phone=" + phone + "]";
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

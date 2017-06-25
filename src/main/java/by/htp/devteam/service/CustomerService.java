@@ -1,8 +1,10 @@
 package by.htp.devteam.service;
 
 import by.htp.devteam.bean.Customer;
+import by.htp.devteam.bean.User;
 
 public interface CustomerService {
-	Customer authorise(String login, String password) throws ServiceException;
+
+	Customer getCustomerByUser(User user);
 	boolean logOut(Customer customer);
 }

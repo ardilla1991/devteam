@@ -4,7 +4,7 @@
    crossContext="true" reloadable="true" debug="1">
 
 	<Resource name="jdbc/devteam" auth="Container"
-          type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver"
+          type="javax.sql.DataSource" driverClassName="com.mysql.cj.jdbc.Driver"
           url="jdbc:mysql://localhost:3306/devteam?useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"
-          username="root" password="root" maxActive="20" maxIdle="10" maxWait="-1"/>
+          username="root" password="root" maxTotal="20" maxIdle="10" maxWaitMillis="-1"/>
 </Context>

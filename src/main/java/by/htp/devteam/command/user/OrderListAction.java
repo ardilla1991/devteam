@@ -8,11 +8,12 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.User;
+import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceFactory;
-import by.htp.devteam.util.PageConstantValue;
-import by.htp.devteam.util.RequestParamConstantValue;
+import static by.htp.devteam.util.ConstantValue.*;
 
 public class OrderListAction implements CommandAction{
 
@@ -23,11 +24,12 @@ public class OrderListAction implements CommandAction{
 		OrderService orderService = serviceFactory.getOrderService();
 		
 		HttpSession session = request.getSession(false);
-		Object userObject = session.getAttribute("user");
-    	Customer customer = (Customer) userObject;
-		List<Order> orders = orderService.geOrdersByCustomer(customer);
-		request.setAttribute(RequestParamConstantValue.ORDER_LIST, orders);
-		return PageConstantValue.ORDER_LIST;
+		UserVO userVO = (UserVO) session.getAttribute("user");
+System.out.println(userVO);
+System.out.println(userVO.getCustomer());
+		List<Order> orders = orderService.geOrdersByCustomer(userVO.getCustomer());
+		request.setAttribute(REQUEST_PARAM_ORDER_LIST, orders);
+		return PAGE_ORDER_LIST;
 	}
 
 }

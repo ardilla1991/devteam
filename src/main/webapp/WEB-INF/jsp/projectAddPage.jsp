@@ -3,18 +3,14 @@
 		<div class="row">
 		<%@include file="fragment/leftCol.jsp"%>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">New Order</h1>
+				<h1 class="page-header">New Project</h1>
 
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
-						formElements["dateStart"] = "text";
-						formElements["dateFinish"] = "text";
-						//formElements["specification"] = "file";
-						formElements["work"] = "checkbox";
-						formElements["qualification"] = "text_group";
+						formElements["description"] = "text";
 					</script>
 					<div class="table-responsive">
 						<table class="table table-striped tab-content tab-active">
@@ -27,24 +23,6 @@
 									<td>Description</td>
 									<td id="description">
 										<input type="text" name="description" value="${i.getDescription()}" />
-									</td>
-								</tr>
-								<tr>
-									<td>Specification</td>
-									<td id="specification">
-										<input type="text" name="specification" value="${i.getSpecification()}" />
-									</td>
-								</tr>
-								<tr>
-									<td>Date Start</td>
-									<td id="dateStart">
-										<input type="text" name="dateStart" value="${i.getDateStart()}" />
-									</td>
-								</tr>
-								<tr>
-									<td>Date Finish</td>
-									<td id="dateFinish">
-										<input type="text" name="dateFinish" value="${i.getDateFinish()}" />
 									</td>
 								</tr>
 								<tr>
@@ -76,8 +54,9 @@
 					<div class="el_obr_warn">
 						<sup>*</sup> - required
 					</div>
-					<input type="hidden" name="action" value="order_add" /> <input
-						type="submit" class="form_submit"
+					<input type="hidden" name="order_id" value="${order_id} }" />
+					<input type="hidden" name="action" value="project_add" /> 
+					<input type="submit" class="form_submit"
 						onclick="return checkFBForm(formElements);" name="submitted"
 						value="Send" />
 				</form>

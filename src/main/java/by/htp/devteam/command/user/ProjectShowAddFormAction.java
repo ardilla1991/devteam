@@ -1,5 +1,7 @@
 package by.htp.devteam.command.user;
 
+import static by.htp.devteam.util.ConstantValue.*;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,14 +13,13 @@ import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.WorkService;
-import static by.htp.devteam.util.ConstantValue.*;
 
-public class OrderShowAddFormAction implements CommandAction{
+public class ProjectShowAddFormAction implements CommandAction{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		
+		/*ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		
 		WorkService workService = serviceFactory.getWorkService();
 		List<Work> works = workService.fetchAll();
@@ -26,9 +27,15 @@ public class OrderShowAddFormAction implements CommandAction{
 		
 		QualificationService qualificationService = serviceFactory.getQualificationService();
 		List<Qualification> qualifications = qualificationService.fetchAll();
-		request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualifications);
+		request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualifications);*/
+		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
+		request.setAttribute(REQUEST_PARAM_ORDER_ID, Integer.valueOf(orderId));
 		
-		return PAGE_ORDER_EDIT;
+		String xhr = request.getParameter(REQUEST_PARAM_XHR);
+		System.out.println("xhr="+xhr);
+		String page = ( xhr != null ? PAGE_PROJECT_EDIT_AJAX : PAGE_PROJECT_EDIT );
+		System.out.println("page="+page);
+		return page;
 	}
 
 }

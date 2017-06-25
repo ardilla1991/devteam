@@ -1,20 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="pagetags" prefix="ctg"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>page</title>
-</head>
-<body>
-	<a href="Main?action=logout">Exit</a>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<%@include file="fragment/header.jsp"%>
+<div class="container-fluid">
+	<div class="row">
+		<%@include file="fragment/leftCol.jsp"%>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+			<!-- h2 class="sub-header">Rented Equipment</h2 -->
+			<div class="col-sm-5">
 				<h1 class="page-header">View Order</h1>
-				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<div class="table-responsive">
 					<table class="table table-striped tab-content tab-active">
 						<tbody>
@@ -40,27 +32,33 @@
 							</tr>
 							<tr>
 								<td>Works</td>
-								<td>
-									<c:forEach items="${order.getWorks()}" var="i">
+								<td><c:forEach items="${order.getWorks()}" var="i">
 										<c:out value="${i.getTitle()}" />
 										<br />
-									</c:forEach>
-								</td>
+									</c:forEach></td>
 							</tr>
 							<tr>
 								<td>Qualifications</td>
-								<td>
-									<c:forEach items="${order.getQualifications()}" var="i">
+								<td><c:forEach items="${order.getQualifications()}" var="i">
 										<c:out value="${i.key.getTitle()}" />
 										<br />
-									</c:forEach>
-								</td>
+									</c:forEach></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
+			<div class="col-sm-7">
+				<a class="btn btn-default" role="button" href="#" id="project_add">Add project</a>
+				<div id="project_edit"></div>
+			</div>
 		</div>
 	</div>
+</div>
+
 </body>
 </html>
+<%@include file="fragment/footer.jsp"%>
+<script>
+	ajaxActionListener("project_add", "project_edit", "Main?action=project_show_add_form&order_id=${order.getOrder().getId()}");
+</script>

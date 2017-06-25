@@ -14,11 +14,11 @@ public interface OrderService {
 	OrderListDto getNewOrders(String currPage) throws ServiceException;
 	List<Order> geOrdersByCustomer(Customer customer);
 	Order add(Customer customer, String title, String description, String specification, String dateStart, 
-			String dateFinish, String[] workIds, String[] qualification);
+			String dateFinish, String[] workIds, Map<String, String> qualifications);
 	OrderDto getOrderById(String orderId);
 	
 	List<Work> getWorks(Order order);
 	void addWorks(Order order, String[] ids);
-	void addQualifications(Order order, String[] qualificationsIds);
+	void addQualifications(Order order, Map<String, String> qualifications);
 	Map<Qualification, Integer> getQualifications(Order order);
 }

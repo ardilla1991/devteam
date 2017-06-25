@@ -9,6 +9,7 @@
 		<title>Admin page</title>
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="styles/dashboard.css">
+		<link rel="stylesheet" type="text/css" href="styles/style.css">
 	</head>
 	<body> 
 	  	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -26,9 +27,9 @@
 	          <ul class="nav navbar-nav navbar-right">
 	            <li class="active"><a href="#">New Orders</a></li>
 	            <li><a href="#">Settings</a></li>
-	            <li><a href="#">${user.getLogin()}</a></li>
+	            <li><a href="#">${user.getUser().getLogin()}</a></li>
 	            <li><a href="#">Help</a></li>
-	            <li><a href="Main?action=admin_logout">Exit</a></li>
+	            <li><a href="Main?action=logout">Exit</a></li>
 	          </ul>
 	          <form class="navbar-form navbar-right">
 	            <input type="text" class="form-control" placeholder="Search...">

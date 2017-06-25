@@ -4,18 +4,14 @@ import java.io.Serializable;
 
 public class User implements Serializable{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8145171260868930694L;
-	
+	private static final long serialVersionUID = 3501052917938154138L;
 	private Long id;
-	private String name;
 	private String login;
 	private String password;
+	private RoleEnum role;
 	
 	public User() {
-		
+		super();
 	}
 	
 	public Long getId() {
@@ -24,18 +20,6 @@ public class User implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public RoleEnum getRole() {
-		return this.getRole();
 	}
 	
 	public String getLogin() {
@@ -52,6 +36,19 @@ public class User implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public RoleEnum getRole() {
+		return this.role;
+	}
+	
+	public void setRole(RoleEnum role) {
+		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + "]";
 	}
 	
 }

@@ -49,15 +49,13 @@ function checkFBForm(els)
 {
   var res = 1;
   for (field in els){
-  	res &= checkInput(els[field]);
-	console.log(checkInput(els, field));
+  	res &= checkInput(els,field);
 	}
-	//foreach ()
-  /*if (!res){
+  if (!res){
   	return false;
   }else{
   	return true;
-	}*/
+	}
 	return false;
 }
 
@@ -68,17 +66,15 @@ function checkInput(els, field){
 	switch(els[field])
 	{
 		case "text":
-			result = ( el.value=="" ? 0 : 1 ) ;
-			console.log("el="+result);
-			console.log(el.value);		
+			var element = el.getElementsByTagName("input")[0];
+			result = ( element.value!=undefined && element.value!="" ? 1 : 0 ) ;	
 			break;
 		case "text_group":
 			var inputs = el.getElementsByTagName("input");
 			for (var i = 0; i < inputs.length; i++)
 			{
-				result |= inputs[i].value != "";
+				result |= ( inputs[i].value != "" && inputs[i].value != undefined ? 1 : 0 );
 			}
-			console.log(result);
 			break;
 		case "file":
 			break;
@@ -86,17 +82,13 @@ function checkInput(els, field){
 			var checkboxes = el.getElementsByTagName("input");
 			for (var i = 0; i < checkboxes.length; i++)
 			{
-				result |= checkboxes[i].checked;
+				result |= (checkboxes[i].checked ? 1 : 0);
 			}
-			console.log(result);
 			break;	
-		case "file":
+		case "date":
 			
 			break;	
 	}
-	console.log("fieldType=" + els[field]);
-	console.log("res=" + result);
-	
 	if ( result )
 	{
 		el.style.border = '1px';
@@ -127,3 +119,35 @@ function hasClass(o, c){
     return 0;
 }
 
+function ajaxActionListener(clickedId, blockId, url) {
+	$("#"+clickedId).click(function() {
+		console.log("jjjj");
+		console.log($(this));
+		$(".category").removeClass("active");
+		$(this).toggleClass("active");
+
+		
+		getContent(blockId, url);
+		//$(".tab-content").toggleClass("tab-active");
+		return false;
+	});
+}
+
+function getContent(res_id, url) {
+	if (!document.getElementById(res_id)) return;
+	
+	var msg = "";
+
+	var xhr = new XMLHttpRequest();
+	var end_url = 'xhr=html'+(msg=="" ? "": "&"+msg)+'&r=' + Math.random();
+	url += url.indexOf('?')==-1 ? "?"+end_url : "&"+end_url;
+	console.log(url);
+	xhr.open('GET', url, true);
+	 
+	xhr.onreadystatechange = function() {
+	    if (xhr.readyState != 4) return;
+			var responseObj = xhr.responseText;
+			document.getElementById(res_id).innerHTML = xhr.responseText;
+	}
+	xhr.send(null);
+}

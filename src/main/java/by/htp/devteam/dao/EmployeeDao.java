@@ -1,8 +1,9 @@
 package by.htp.devteam.dao;
 
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.User;
 
 public interface EmployeeDao {
 
-	Employee fetchByCredentials(String login, String password);
+	Employee getEmployeeByUser(User user);
 }

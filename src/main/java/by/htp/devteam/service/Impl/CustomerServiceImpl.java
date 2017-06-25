@@ -1,7 +1,8 @@
-package by.htp.devteam.service.Impl;
+package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.CustomerDao;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
@@ -16,20 +17,16 @@ public class CustomerServiceImpl implements CustomerService{
 		DaoFactory daoFactory = DaoFactory.getInstance();
 		customerDao = daoFactory.getCustomerDao();
 	}
-	
-	@Override
-	public Customer authorise(String login, String password) throws ServiceException{
-		Customer user = customerDao.fetchByCredentials(login, password);
-		System.out.println("user");
-		if ( user == null ) {
-			throw new ServiceException("Invalid credentials");
-		}
-		return user;
-	}
 
 	@Override
 	public boolean logOut(Customer customer) {
 		
 		return false;
+	}
+
+
+	@Override
+	public Customer getCustomerByUser(User user) {
+		return customerDao.getCustomerByUser(user);
 	}
 }

@@ -1,7 +1,8 @@
-package by.htp.devteam.service.Impl;
+package by.htp.devteam.service.impl;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Order add(Customer customer, String title, String description, String specification, String dateStart, String dateFinish,
-			String[] workIds, String[] qualification) {
+			String[] workIds, Map<String, String> qualifications) {
 		Order order = new Order();
 		order.setTitle(title);
 		order.setDescription(description);
@@ -72,7 +73,7 @@ public class OrderServiceImpl implements OrderService{
 		Order orderCreated = orderDao.addOrder(order);	
 		
 		addWorks(orderCreated, workIds);
-		addQualifications(orderCreated, qualification);
+		addQualifications(orderCreated, qualifications);
 		
 		return null;
 	}
@@ -80,7 +81,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public OrderDto getOrderById(String orderId) {
 		OrderDto orderDto = new OrderDto();
-
+System.out.println("orderId" + orderId);
 		Order order = orderDao.getOrder(Long.valueOf(orderId));
 		orderDto.setOrder(order);
 		orderDto.setWorks(getWorks(order));
@@ -100,15 +101,18 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public void addQualifications(Order order, String[] qualificationsIds) {
-		HashMap<Qualification, Integer> qualifications = new HashMap<Qualification, Integer>();
-		for ( String qualificationId : qualificationsIds ) {
+	public void addQualifications(Order order, Map<String, String> qualifications) {
+		HashMap<Qualification, Integer> qualificationsList = new HashMap<Qualification, Integer>();
+		Iterator it = qualifications.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
 			Qualification qualification = new Qualification();
-			qualification.setId(Long.valueOf(qualificationId));
+			System.out.println(pair.getKey() + " = " + pair.getValue());
+			qualification.setId(Long.valueOf((String) pair.getKey()));
 			
-			qualifications.put(qualification, 1);
+			qualificationsList.put(qualification, Integer.valueOf((String) pair.getValue()));
 		}
-		orderDao.addQualifications(order, qualifications);	
+		orderDao.addQualifications(order, qualificationsList);	
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package by.htp.devteam.dao.Impl;
+package by.htp.devteam.dao.impl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

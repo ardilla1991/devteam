@@ -1,6 +1,6 @@
 package by.htp.devteam.command.user;
 
-import static by.htp.devteam.util.PageConstantValue.PAGE_LOGIN;
+import static by.htp.devteam.util.ConstantValue.PAGE_LOGIN;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

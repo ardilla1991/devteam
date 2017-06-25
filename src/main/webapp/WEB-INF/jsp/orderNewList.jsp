@@ -29,7 +29,7 @@
 						<c:forEach items="${order_list}" var="i">
 							<tr>
 								<td><a
-									href="Admin?action=project_edit&project_id=${i.getId()}">Edit</a></td>
+									href="Main?action=order_view&order_id=${i.getId()}">Look</a></td>
 								<td><c:out value="${i.getId()}" /></td>
 								<td><c:out value="${i.getTitle()}" /></td>
 								<td><c:out value="${i.getDescription()}" /></td>
@@ -47,7 +47,7 @@
 			</div>
 
 			<!-- ctg:paginator countPages="${ user }"/ -->
-			<ctg:paginator uri="Main?action=admin_orders_new_list"
+			<ctg:paginator uri="Main?action=order_new_list"
 				currPage="${ currPage }" countPages="${ countPages }" />
 
 		</div>

@@ -9,7 +9,7 @@ import by.htp.devteam.command.CommandAction;
 
 import org.apache.logging.log4j.LogManager;
 
-import static by.htp.devteam.util.PageConstantValue.*;
+import static by.htp.devteam.util.ConstantValue.*;
 
 public class ShowAuthorizationFormAction implements CommandAction{
 	

@@ -1,4 +1,4 @@
-package by.htp.devteam.service.Impl;
+package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.dao.DaoFactory;
