@@ -7,15 +7,6 @@
 
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
-					<script type="text/javascript">
-						var formElements = {};
-						formElements["title"] = "text";
-						formElements["dateStart"] = "text";
-						formElements["dateFinish"] = "text";
-						//formElements["specification"] = "file";
-						formElements["work"] = "checkbox";
-						formElements["qualification"] = "text_group";
-					</script>
 					<div class="table-responsive">
 						<table class="table table-striped tab-content tab-active">
 							<tbody>
@@ -76,6 +67,15 @@
 					<div class="el_obr_warn">
 						<sup>*</sup> - required
 					</div>
+					<script type="text/javascript">
+						var formElements = {};
+						formElements["title"] = "text";
+						formElements["dateStart"] = "text";
+						formElements["dateFinish"] = "text";
+						//formElements["specification"] = "file";
+						formElements["work"] = "checkbox";
+						formElements["qualification"] = "text_group";
+					</script>
 					<input type="hidden" name="action" value="order_add" /> <input
 						type="submit" class="form_submit"
 						onclick="return checkFBForm(formElements);" name="submitted"

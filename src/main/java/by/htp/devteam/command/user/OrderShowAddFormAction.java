@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.WorkService;
@@ -16,7 +17,7 @@ import static by.htp.devteam.util.ConstantValue.*;
 public class OrderShowAddFormAction implements CommandAction{
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		
@@ -28,7 +29,7 @@ public class OrderShowAddFormAction implements CommandAction{
 		List<Qualification> qualifications = qualificationService.fetchAll();
 		request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualifications);
 		
-		return PAGE_ORDER_EDIT;
+		return new Page(PAGE_ORDER_EDIT);
 	}
 
 }

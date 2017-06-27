@@ -7,5 +7,5 @@ public final class SettingConstantValue {
 	}
 	
 	public static final int START_PAGE = 1;
-	public static final int COUNT_PER_PAGE = 1;
+	public static final int COUNT_PER_PAGE = 10;
 }

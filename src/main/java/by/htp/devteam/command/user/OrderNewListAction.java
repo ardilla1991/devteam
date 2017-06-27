@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
@@ -16,9 +17,8 @@ import static by.htp.devteam.util.ConstantValue.*;
 public class OrderNewListAction implements CommandAction{
 	
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = PAGE_DEFAULT;
-		System.out.println("kkkkkkkkkkk");
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -29,8 +29,6 @@ public class OrderNewListAction implements CommandAction{
 			OrderListDto orderDto = orderService.getNewOrders(currPage);
 			orders = orderDto.getOrders();
 			
-			System.out.println("orders=");
-			System.out.println(orders);
 			request.setAttribute(REQUEST_PARAM_ORDER_LIST, orders);
 			request.setAttribute(REQUEST_PARAM_CURR_PAGE, orderDto.getCurrPage());
 			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, orderDto.getCountPages());
@@ -41,7 +39,7 @@ public class OrderNewListAction implements CommandAction{
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e.getMessage());
 		}
 		
-		return page;
+		return new Page(page);
 	}
 
 }

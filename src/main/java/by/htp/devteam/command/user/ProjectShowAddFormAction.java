@@ -7,9 +7,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
+import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
+import by.htp.devteam.service.EmployeeService;
+import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.WorkService;
@@ -17,7 +22,7 @@ import by.htp.devteam.service.WorkService;
 public class ProjectShowAddFormAction implements CommandAction{
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		/*ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		
@@ -28,14 +33,24 @@ public class ProjectShowAddFormAction implements CommandAction{
 		QualificationService qualificationService = serviceFactory.getQualificationService();
 		List<Qualification> qualifications = qualificationService.fetchAll();
 		request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualifications);*/
+		
+		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		OrderService orderService = serviceFactory.getOrderService();
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
-		request.setAttribute(REQUEST_PARAM_ORDER_ID, Integer.valueOf(orderId));
+		OrderDto order = orderService.getOrderById(orderId);
+		request.setAttribute(REQUEST_PARAM_ORDER_DTO, order);
+		
+		EmployeeService employeeService = serviceFactory.getEmployeeService();
+		List<Employee> employees = employeeService.getFreeEmployeesForPeriod(order.getOrder().getDateStart(), 
+				order.getOrder().getDateFinish(), order.getQualifications().keySet());
+		request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employees);
+	
+		request.setAttribute(REQUEST_PARAM_ORDER_ID, orderId);
 		
 		String xhr = request.getParameter(REQUEST_PARAM_XHR);
-		System.out.println("xhr="+xhr);
 		String page = ( xhr != null ? PAGE_PROJECT_EDIT_AJAX : PAGE_PROJECT_EDIT );
-		System.out.println("page="+page);
-		return page;
+		return new Page(page);
 	}
 
 }

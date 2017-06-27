@@ -49,8 +49,9 @@ public class ACLFilterUser implements Filter{
 
 		HttpSession session = req.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute("user") != null;
-
-		RoleEnum role = RoleEnum.GUEST;
+		System.out.println("USER ! isAuth=" + isAuthorised);
+		
+		RoleEnum role;
 		if (isAuthorised && action != null) {
 			Object userObject = session.getAttribute("user");
 			UserVO userVO = (UserVO) userObject;

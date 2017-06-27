@@ -11,6 +11,7 @@ import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceFactory;
 import static by.htp.devteam.util.ConstantValue.*;
@@ -18,7 +19,7 @@ import static by.htp.devteam.util.ConstantValue.*;
 public class OrderListAction implements CommandAction{
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
@@ -29,7 +30,7 @@ System.out.println(userVO);
 System.out.println(userVO.getCustomer());
 		List<Order> orders = orderService.geOrdersByCustomer(userVO.getCustomer());
 		request.setAttribute(REQUEST_PARAM_ORDER_LIST, orders);
-		return PAGE_ORDER_LIST;
+		return new Page(PAGE_ORDER_LIST);
 	}
 
 }

@@ -3,6 +3,7 @@ package by.htp.devteam.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -152,7 +153,6 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		List<Work> works = new ArrayList<Work>();
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
 				PreparedStatement ps = dbConnection.prepareStatement(GET_WORKS_BY_ORDER_ID) ) {
-			System.out.println(order);
 			ps.setLong(ORDER_ID, order.getId());
 			try ( ResultSet rs = ps.executeQuery() ) {
 				works = getWorkListFromResultSet(rs);
@@ -208,11 +208,22 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	}
 	
 	private Work createWorkFromResultSet(ResultSet rs) throws SQLException {
+		
+		
+		/*ResultSetMetaData rsmd = rs.getMetaData();
+		int columnCount = rsmd.getColumnCount();
+
+		// The column count starts from 1
+		for (int i = 1; i <= columnCount; i++ ) {
+		  String name = rsmd.getColumnName(i);
+		  System.out.println(name);
+		}*/
+		
 		Work work = new Work();
 		work.setId(rs.getLong(WORK_ID));
-		work.setTitle(rs.getString(2));
-		work.setDescription(rs.getString(3));
-		work.setPrice(rs.getInt(4));
+		work.setTitle(rs.getString(3));
+		work.setDescription(rs.getString(4));
+		work.setPrice(rs.getInt(5));
 		
 		return work;
 	}
@@ -231,7 +242,6 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		customer.setName(rs.getString(12));
 		customer.setEmail(rs.getString(13));
 		customer.setPhone(rs.getString(14));
-		System.out.println(customer);
 		return customer;
 	}
 	

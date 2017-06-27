@@ -6,13 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
 
 public class LogoutAction implements CommandAction{
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		request.getSession().invalidate();
-		return PAGE_LOGIN;
+		return new Page(PAGE_LOGIN);
 	}
 
 }

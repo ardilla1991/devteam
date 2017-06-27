@@ -50,7 +50,14 @@ public final class ConstantValue {
 	
 	public static final String REQUEST_PARAM_ORDER_ID = "order_id";
 	public static final String REQUEST_PARAM_ORDER = "order";
+	public static final String REQUEST_PARAM_ORDER_DTO = "order_dto";
 	
+	public static final String REQUEST_PARAM_EMPLOYEE_LIST = "employee_list";
+	
+	public static final String JSPF_FOLDER = "fragment/";
 	public static final String REQUEST_PARAM_XHR = "xhr";
+	public static final String REQUEST_PARAM_JSPF = "jspf";
+	
+	public static final String PAGE_ORDER_VIEW_FRAGMENT = JSP_FOLDER_PATH + JSPF_FOLDER + "orderView.jsp";
 	
 }

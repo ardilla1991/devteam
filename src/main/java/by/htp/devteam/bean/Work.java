@@ -2,6 +2,11 @@ package by.htp.devteam.bean;
 
 public class Work {
 	
+	@Override
+	public String toString() {
+		return "Work [id=" + id + ", title=" + title + ", description=" + description + ", price=" + price + "]";
+	}
+
 	private Long id;
 	private String title;
 	private String description;

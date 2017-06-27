@@ -16,6 +16,7 @@ import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.CustomerService;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
@@ -26,7 +27,7 @@ import by.htp.devteam.service.UserService;
 public class LoginAction implements CommandAction{
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		String login = request.getParameter(REQUEST_PARAM_LOGIN);
 		String password = request.getParameter(REQUEST_PARAM_PASSWORD);
@@ -67,7 +68,7 @@ public class LoginAction implements CommandAction{
 			page = PAGE_LOGIN;
 		}
 		
-		return page;
+		return new Page(page);
 	}
 
 }

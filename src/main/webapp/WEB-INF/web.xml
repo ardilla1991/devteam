@@ -17,26 +17,6 @@
 		<url-pattern>/Main</url-pattern>
 	</servlet-mapping>
 	<filter>
-		<display-name>ACLFilterUser</display-name>
-		<filter-name>ACLFilterUser</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLFilterUser</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>ACLFilterUser</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	<filter>
-		<display-name>ACLFilterGuest</display-name>
-		<filter-name>ACLFilterGuest</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLFilterGuest</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>ACLFilterGuest</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	<filter>
 		<display-name>LocaleFilter</display-name>
 		<filter-name>LocaleFilter</filter-name>
 		<filter-class>by.htp.devteam.filter.LocaleFilter</filter-class>
@@ -61,6 +41,26 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter>
+		<display-name>ACLFilterUser</display-name>
+		<filter-name>ACLFilterUser</filter-name>
+		<filter-class>by.htp.devteam.filter.ACLFilterUser</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ACLFilterUser</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter>
+		<display-name>ACLFilterGuest</display-name>
+		<filter-name>ACLFilterGuest</filter-name>
+		<filter-class>by.htp.devteam.filter.ACLFilterGuest</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ACLFilterGuest</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
@@ -94,7 +94,7 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
-        <dispatcher>ASYNC</dispatcher>
+        <!-- dispatcher>ASYNC</dispatcher-->
     </filter-mapping>
 	<context-param>
 		<param-name>log4jContextName</param-name>

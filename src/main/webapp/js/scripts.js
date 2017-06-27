@@ -119,8 +119,8 @@ function hasClass(o, c){
     return 0;
 }
 
-function ajaxActionListener(clickedId, blockId, url) {
-	$("#"+clickedId).click(function() {
+function ajaxActionListener(blockId, url) {
+	
 		console.log("jjjj");
 		console.log($(this));
 		$(".category").removeClass("active");
@@ -130,7 +130,6 @@ function ajaxActionListener(clickedId, blockId, url) {
 		getContent(blockId, url);
 		//$(".tab-content").toggleClass("tab-active");
 		return false;
-	});
 }
 
 function getContent(res_id, url) {

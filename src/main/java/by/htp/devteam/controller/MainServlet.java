@@ -5,6 +5,7 @@ import java.io.IOException;
 import static by.htp.devteam.util.ConstantValue.*;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,20 +24,26 @@ public class MainServlet extends HttpServlet{
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = processRequest(request, response, ActionEnum.GET);
-		RequestDispatcher disp = request.getRequestDispatcher(page);
-		disp.forward(request, response);
+		Page page = processRequest(request, response, ActionEnum.GET);
+		
+		if ( page.isInclude() ) {
+			this.getServletContext().getRequestDispatcher(page.getPage()).
+	        include(request, response);
+		} else {
+			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
+			disp.forward(request, response);
+		}	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page = processRequest(request, response, ActionEnum.POST);
-		response.sendRedirect(page);
+		Page page = processRequest(request, response, ActionEnum.POST);
+		response.sendRedirect(page.getPage());
 	}
 	
-	private String processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {
+	private Page processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		System.out.println("action="+action);
-		String page = null;
+		Page page = null;
 		
 		CommandFactory commandFactory = CommandFactory.getInstance();
 		CommandAction commandAction = null;
@@ -44,7 +51,7 @@ public class MainServlet extends HttpServlet{
 			commandAction = commandFactory.chooseAction(action);
 			page = commandAction.execute(request, response);
 		} catch (CommandExeption e) {
-			page = PAGE_ERROR;
+			page = new Page(PAGE_ERROR);
 		}
 		
 		return page;

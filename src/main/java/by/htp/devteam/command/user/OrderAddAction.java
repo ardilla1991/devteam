@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceFactory;
 import static by.htp.devteam.util.ConstantValue.*;
@@ -27,7 +28,7 @@ public class OrderAddAction implements CommandAction{
 	}
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		/*List<String> parameterNames = new ArrayList<String>(request.getParameterMap().values());
 		for ( String st : parameterNames ) {
 			System.out.println(st);
@@ -46,7 +47,7 @@ public class OrderAddAction implements CommandAction{
 		
 		orderService.add(userVO.getCustomer(), title, password, specification, dateStart, dateFinish, workIds, qualifications);
 
-		return "Main?action=order_list";
+		return new Page("Main?action=order_list");
 	}
 	
 	private Map<String, String> getQualificationsFromRequest(HttpServletRequest request) {
