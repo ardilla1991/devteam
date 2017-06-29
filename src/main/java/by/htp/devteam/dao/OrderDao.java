@@ -1,5 +1,6 @@
 package by.htp.devteam.dao;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,5 +27,7 @@ public interface OrderDao {
 	void addQualifications(Order order, HashMap<Qualification, Integer> qualifications);
 	
 	Map<Qualification, Integer> getQualifications(Order order);
+	
+	void setPrice(Connection connection, Order order);
 	
 }

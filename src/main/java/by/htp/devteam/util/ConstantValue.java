@@ -48,6 +48,7 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_ORDER_DATE_FINISH = "dateFinish";
 	public static final String REQUEST_PARAM_ORDER_WORK = "work";
 	public static final String REQUEST_PARAM_ORDER_QUALIFICATION = "qualification";
+	public static final String REQUEST_PARAM_ORDER_PRICE = "price";
 	
 	public static final String REQUEST_PARAM_ORDER_ID = "order_id";
 	public static final String REQUEST_PARAM_ORDER = "order";

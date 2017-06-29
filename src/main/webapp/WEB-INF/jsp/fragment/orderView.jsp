@@ -30,9 +30,13 @@
 			</tr>
 			<tr>
 				<td>Qualifications</td>
-				<td><c:forEach items="${order_dto.getQualifications()}" var="i">
-						<c:out value="${i.key.getTitle()}" />
-										(<c:out value="${i.value}" />)<br />
+				<td id="qualification_list_count">
+					<c:forEach items="${order_dto.getQualifications()}" var="i">
+						<div data-id="${i.key.getId()}"
+							 data-count="${i.value}" >
+							<c:out value="${i.key.getTitle()}" />
+							(<c:out value="${i.value}" />)
+						</div>
 					</c:forEach></td>
 			</tr>
 		</tbody>

@@ -7,6 +7,6 @@ import by.htp.devteam.bean.dto.ProjectListDto;
 public interface ProjectService {
 
 	ProjectListDto fetchAll(String currPage) throws ServiceException;
-	Project add(OrderDto order, String title, String description, String[] qualification) throws ServiceException;
+	Project add(OrderDto orderDto, String title, String description, String[] qualification, String price) throws ServiceException;
 	
 }

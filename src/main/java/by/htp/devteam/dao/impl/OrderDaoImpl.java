@@ -38,33 +38,35 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	private final int QUALIFICATION_ID = 2;
 	private final int COUNT = 3;
 	
-	private final String NEW_RECORDS_LIST = "SELECT SQL_CALC_FOUND_ROWS o.*, c.* "
+	private final static String NEW_RECORDS_LIST = "SELECT SQL_CALC_FOUND_ROWS o.*, c.* "
 			+ "FROM `order` as o "
 			+ "JOIN customer as c "
 			+ "ON o.customer_id=c.id "
-			+ "WHERE o.status=0 ORDER BY o.dateCreated LIMIT ?,?";
-	private final String GET_BY_ID = "SELECT o.*, c.* FROM `order` as o "
+			+ "WHERE o.price=0 ORDER BY o.dateCreated, o.dateStart LIMIT ?,?";
+	private final static String GET_BY_ID = "SELECT o.*, c.* FROM `order` as o "
 			+ " JOIN customer as c ON o.customer_id=c.id "
 			+ " WHERE o.id=?";
 	
-	private final String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM `order` "
+	private final static String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM `order` "
 			+ "WHERE customer_id=?";
 	
-	private final String ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, status, dateCreated, dateStart, dateFinish) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final static String ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, status, dateCreated, dateStart, dateFinish, price) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
-	private final String ADD_WORK = "INSERT INTO order_work (order_id, work_id) VALUES(?, ?)";
+	private final static String ADD_WORK = "INSERT INTO order_work (order_id, work_id) VALUES(?, ?)";
 	
-	private final String GET_WORKS_BY_ORDER_ID = "SELECT ow.order_id, w.* "
+	private final static String GET_WORKS_BY_ORDER_ID = "SELECT ow.order_id, w.* "
 			+ "FROM order_work as ow JOIN work as w ON w.id = ow.work_id "
 			+ "WHERE ow.order_id=?";
 	
-	private final String ADD_QUALIFICATION = "INSERT INTO order_qualification (order_id, qualification_id, count) "
+	private final static String ADD_QUALIFICATION = "INSERT INTO order_qualification (order_id, qualification_id, count) "
 			+ "VALUES(?, ?, ?)";
 	
-	private final String GET_QUALIFICATIONS_BY_ORDER_ID = "SELECT q.*, oq.count "
+	private final static String GET_QUALIFICATIONS_BY_ORDER_ID = "SELECT q.*, oq.count "
 			+ "FROM qualification as q JOIN order_qualification as oq ON q.id = oq.qualification_id "
 			+ "WHERE oq.order_id=?";
+	
+	private final static String SET_PRICE = "UPDATE `order` SET price=? WHERE id=?";
 	
 	public OrderListDto getNewOrders(int offset, int countPerPage) {
 		OrderListDto orderDto = new OrderListDto();
@@ -306,6 +308,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		ps.setDate(DATE_CREATED, order.getDateCreated());
 		ps.setDate(DATE_START, order.getDateStart());
 		ps.setDate(DATE_FINISH, order.getDateFinish());
+		ps.setBigDecimal(PRICE, order.getPrice());
 	}
 	
 	private void prepareAndAddBatchesForWorks(PreparedStatement ps, Order order, String[] ids) throws SQLException {
@@ -325,5 +328,17 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 			
 			ps.addBatch();
 		}
+	}
+
+	@Override
+	public void setPrice(Connection connection, Order order) {
+		try ( PreparedStatement ps = connection.prepareStatement(SET_PRICE) ) {
+			ps.setBigDecimal(1, order.getPrice());
+			ps.setLong(2, order.getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

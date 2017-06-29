@@ -10,5 +10,9 @@ public class Validator {
 		return false;
 	}
 	
+	public static boolean checkBigDecimal(String string) {
+		return false;
+	}
+	
 	
 }

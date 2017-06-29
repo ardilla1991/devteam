@@ -1,10 +1,12 @@
 package by.htp.devteam.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.dto.OrderDto;
@@ -12,6 +14,7 @@ import by.htp.devteam.bean.dto.ProjectListDto;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
+import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.dao.ProjectDao;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
@@ -22,12 +25,14 @@ public class ProjectServiceImpl implements ProjectService{
 
 	private ProjectDao projectDao;
 	private EmployeeDao employeeDao;
+	private OrderDao orderDao;
 	
 	public ProjectServiceImpl() {
 		super();
 		DaoFactory daoFactory = DaoFactory.getInstance();
 		projectDao = daoFactory.getProjectDao();
 		employeeDao = daoFactory.getEmployeeDao();
+		orderDao = daoFactory.getOrderDao();
 	}
 	
 	@Override
@@ -54,16 +59,18 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public Project add(OrderDto order, String title, String description, String[] employees) throws ServiceException {
+	public Project add(OrderDto orderDto, String title, String description, String[] employees, String price) throws ServiceException {
 		Long[] employeesIds = comvertFromStringToLongArray(employees);
 		System.out.println("title=" +Validator.isEmpty(title));
 		System.out.println("dwescr=" + Validator.isEmpty(description));
 		Project project = null;
-		if ( Validator.isEmpty(title) == false && Validator.isEmpty(description) == false && isCheckedNeededQualifications(order.getQualifications(), employeesIds)) {
+		if ( Validator.isEmpty(title) == false && Validator.isEmpty(description) == false 
+				&& isCheckedNeededQualifications(orderDto.getQualifications(), employeesIds) 
+				&& Validator.isEmpty(price) == false && Validator.checkBigDecimal(price) ) {
 			project = new Project();
 			project.setTitle(title);
 			project.setDescription(description);
-			project.setOrder(order.getOrder());
+			project.setOrder(orderDto.getOrder());
 			Connection connection = null;
 			try {
 				connection = projectDao.startTransaction();
@@ -72,17 +79,16 @@ public class ProjectServiceImpl implements ProjectService{
 				if ( neededEmployeeeAreFree ) {
 					project = projectDao.add(connection, project);
 					projectDao.addEmployees(connection, project, employeesIds);
+					Order order = orderDto.getOrder();
+					order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
+					orderDao.setPrice(connection, order);
 					commitTransaction(connection);
 				} else {
 					rollbackTransaction(connection);
 				}
-				
-				System.out.println("READY FOR WRITING IN DB");
 			} catch (DaoException e) {
-				System.out.println("ROLLBACK TRANSACTION!!!!");
 				rollbackTransaction(connection);
 				e.printStackTrace();
-				System.out.println("enable to set transaction");
 			}
 		} else {
 			

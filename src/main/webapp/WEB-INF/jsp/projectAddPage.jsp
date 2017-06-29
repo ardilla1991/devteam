@@ -13,12 +13,13 @@
 				<h1 class="page-header">New Project</h1>
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
-				<div>error!!!!!!<c:out value="${error_message}" /></div>
+				<div><c:out value="${error_message}" /></div>
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
 						formElements["description"] = "text";
 						formElements["employee"] = "checkbox";
+						formElements["price"] = "bigdecimal";
 					</script>
 					<div class="table-responsive">
 						<table class="table table-striped tab-content tab-active">
@@ -36,11 +37,16 @@
 									<td id="employee">
 										<c:forEach
 											items="${employee_list}" var="i">
-											<input type="checkbox" name="employee" value="${i.getId()}" />
+											<input type="checkbox" name="employee" 
+												   value="${i.getId()}" data-id="${i.getQualification().getId() }"/>
 											<c:out value="${i.getName()}" />
 											<br />
 										</c:forEach>
 									</td>
+								</tr>
+								<tr>
+									<td>Price</td>
+									<td id="price"><input type="text" name="price" value="${price}" /></td>
 								</tr>
 							</tbody>
 						</table>
@@ -52,7 +58,7 @@
 					<input type="hidden" name="order_id" value="${order_id}" /> <input
 						type="hidden" name="action" value="project_add" /> <input
 						type="submit" class="form_submit"
-						onclick="return checkFBForm(formElements);" name="submitted"
+						onclick="return checkFBForm(formElements, 'qualification_list_count');" name="submitted"
 						value="Send" />
 				</form>
 			</div>

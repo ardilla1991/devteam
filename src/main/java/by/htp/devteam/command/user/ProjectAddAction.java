@@ -45,16 +45,17 @@ public class ProjectAddAction implements CommandAction{
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_PROJECT_DESCRIPTION);
 		String[] employees = request.getParameterValues(REQUEST_PARAM_PROJECT_EMPLOYEE);
+		String price = request.getParameter(REQUEST_PARAM_ORDER_PRICE);
 		
-		Project project = null;
 		try {
-			project = projectService.add(order, title, description, employees);
+			Project project = projectService.add(order, title, description, employees, price);
 		} catch (ServiceException e) {
 			logger.info("fill the title and description");
 			e.printStackTrace();
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e.getMessage());
 			request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);
 			request.setAttribute(REQUEST_PARAM_PROJECT_DESCRIPTION, description);
+			request.setAttribute(REQUEST_PARAM_ORDER_PRICE, price);
 			page = "Main?action=project_show_add_form&order_id=" + orderId;
 			isRedirect = false;			
 		}
