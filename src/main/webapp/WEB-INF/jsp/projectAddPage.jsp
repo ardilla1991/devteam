@@ -13,6 +13,7 @@
 				<h1 class="page-header">New Project</h1>
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
+				<div>error!!!!!!<c:out value="${error_message}" /></div>
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
@@ -24,11 +25,11 @@
 							<tbody>
 								<tr>
 									<td>Title</td>
-									<td id="title"><input type="text" name="title" /></td>
+									<td id="title"><input type="text" name="title" value="${title}" /></td>
 								</tr>
 								<tr>
 									<td>Description</td>
-									<td id="description"><input type="text" name="description" /></td>
+									<td id="description"><input type="text" name="description" value="${description}" /></td>
 								</tr>
 								<tr>
 									<td>Employee</td>
@@ -44,7 +45,7 @@
 							</tbody>
 						</table>
 					</div>
-					<input type="hidden" name="id" value="${order_id}" />
+					<input type="hidden" name="order_id" value="${order_id}" />
 					<div class="el_obr_warn">
 						<sup>*</sup> - required
 					</div>

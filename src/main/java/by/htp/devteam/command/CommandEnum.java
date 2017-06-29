@@ -2,6 +2,8 @@ package by.htp.devteam.command;
 
 import by.htp.devteam.command.user.OrderNewListAction;
 import by.htp.devteam.command.user.PermissionDeniedAction;
+import by.htp.devteam.command.user.ProjectAddAction;
+import by.htp.devteam.command.user.ProjectListAction;
 import by.htp.devteam.command.user.ProjectShowAddFormAction;
 import by.htp.devteam.command.user.LoginAction;
 import by.htp.devteam.command.user.LogoutAction;
@@ -21,6 +23,9 @@ public enum CommandEnum {
 	ORDER_VIEW { public CommandAction chooseAction() { return new OrderViewAction(); } },
 	ORDER_NEW_LIST { public CommandAction chooseAction() { return new OrderNewListAction(); } },
 	PROJECT_SHOW_ADD_FORM { public CommandAction chooseAction() { return new ProjectShowAddFormAction(); } },
+	PROJECT_ADD { public CommandAction chooseAction() { return new ProjectAddAction(); } },
+	PROJECT_LIST { public CommandAction chooseAction() { return new ProjectListAction(); } },
+	
 	LOGOUT { public CommandAction chooseAction() { return new LogoutAction(); } }
 	;
 	//ADMIM_PROJECTS_NEW_LIST("admin_projects_new_list");

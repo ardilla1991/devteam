@@ -17,6 +17,7 @@ public final class ConstantValue {
 	public static final String PAGE_ORDER_VIEW = JSP_FOLDER_PATH + "orderView.jsp";
 	public static final String PAGE_PROJECT_EDIT = JSP_FOLDER_PATH + "projectAddPage.jsp";
 	public static final String PAGE_PROJECT_VIEW = JSP_FOLDER_PATH + "projectView.jsp";
+	public static final String PAGE_PROJECT_LIST = JSP_FOLDER_PATH + "projectList.jsp";
 	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	
@@ -51,6 +52,10 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_ORDER_ID = "order_id";
 	public static final String REQUEST_PARAM_ORDER = "order";
 	public static final String REQUEST_PARAM_ORDER_DTO = "order_dto";
+	
+	public static final String REQUEST_PARAM_PROJECT_TITLE = "title";
+	public static final String REQUEST_PARAM_PROJECT_DESCRIPTION = "description";
+	public static final String REQUEST_PARAM_PROJECT_EMPLOYEE = "employee";
 	
 	public static final String REQUEST_PARAM_EMPLOYEE_LIST = "employee_list";
 	

@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
@@ -25,9 +29,14 @@ import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 
 public class LoginAction implements CommandAction{
+	
+	private static final Logger logger = LogManager.getLogger(LoginAction.class.getName());
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+		
+		logger.info("Hello, World!");
+		
 		HttpSession session = request.getSession();
 		String login = request.getParameter(REQUEST_PARAM_LOGIN);
 		String password = request.getParameter(REQUEST_PARAM_PASSWORD);
@@ -40,18 +49,12 @@ public class LoginAction implements CommandAction{
 		try {
 			user = userService.authorise(login, password);
 			userVO.setUser(user);
-			System.out.println("user=");
-			System.out.println(user);
 			CustomerService customerService = serviceFactory.getCustomerService();
 			Customer customer = customerService.getCustomerByUser(user);
-			System.out.println("customer=");
-			System.out.println(customer);
 			userVO.setCustomer(customer);
 			
 			EmployeeService employeeService = serviceFactory.getEmployeeService();
 			Employee employee = employeeService.getEmployeeByUser(user);
-			System.out.println("employee=");
-			System.out.println(employee);
 			userVO.setEmployee(employee);
 			
 			session.setAttribute("user", userVO);
@@ -63,7 +66,6 @@ public class LoginAction implements CommandAction{
 				page = PAGE_DEFAULT_CUSTOMER;
 			}
 		} catch (ServiceException e1) { 
-			System.out.println(e1.getMessage());
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e1.getMessage());
 			page = PAGE_LOGIN;
 		}

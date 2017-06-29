@@ -8,13 +8,16 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.controller.ConnectionPool;
+import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
 
 public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
@@ -35,11 +38,13 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	private final String GET_FREE_FOR_PERIOD = "SELECT e.*, q.id, q.title "
 			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
 			+ "WHERE q.id IN (##) AND e.id NOT IN "
-				+ "(SELECT distinct ep.employee_id FROM employee_project as ep JOIN project as p "
+				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
 				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
 				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
 				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
 				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
+	
+	private final String GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "SELECT qualification_id, COUNT(id) FROM employee WHERE id IN(##) GROUP BY qualification_id";
 	
 	@Override
 	public Employee getEmployeeByUser(User user) {
@@ -93,9 +98,11 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			st.setDate(4, dateFinish);
 			st.setDate(5, dateStart);
 			st.setDate(6, dateFinish);
+			System.out.println(st);
 			ResultSet rs = st.executeQuery();
 			employees = getEmployeeListFromResultSet(rs);
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		}
 
@@ -143,6 +150,51 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 		employee.setQualification(qualification);
 		
 		return employee;
+	}
+
+	@Override
+	public boolean isEmployeesFreeFroPeriod(Connection connection, Date dateStart, Date dateFinish)
+			throws DaoException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Map<Long, Integer> getQualificationsCountByEmployees(Long[] employeesIds) throws DaoException {
+		Map<Long, Integer> qualificationsCount = new HashMap<Long, Integer>();
+		
+		StringBuilder employeeIdsStr = new StringBuilder();
+		String delimiter = "";
+		for ( int i = 0; i < employeesIds.length; i++ ) {
+			employeeIdsStr.append(delimiter);
+			delimiter = ",";
+			employeeIdsStr.append("?");
+		}
+		
+		String query = GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS.replace("##", employeeIdsStr);
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement st = dbConnection.prepareStatement(query) ) {
+			
+			for ( int i = 0; i < employeesIds.length; i++ ) {
+				st.setLong(i+1, employeesIds[i]);
+			}
+
+			ResultSet rs = st.executeQuery();
+			qualificationsCount = getQualificationsCountFromResultSet(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return qualificationsCount;
+	}
+	
+	private Map<Long, Integer> getQualificationsCountFromResultSet(ResultSet rs) throws SQLException {
+		Map<Long, Integer> qualificationsCount = new HashMap<Long, Integer>();
+		while ( rs.next() ) {
+			System.out.println(rs.getLong(1) + "====" + rs.getInt(2));
+			qualificationsCount.put(rs.getLong(1), rs.getInt(2));
+		}
+		return qualificationsCount;
 	}
 	
 

@@ -37,7 +37,14 @@ public class MainServlet extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Page page = processRequest(request, response, ActionEnum.POST);
-		response.sendRedirect(page.getPage());
+		System.out.println("IS REDIRECT ====  ");
+		System.out.println(page.isRedirect());
+		if ( !page.isRedirect() ) {
+			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
+			disp.forward(request, response);
+		} else {
+			response.sendRedirect(page.getPage());
+		}
 	}
 	
 	private Page processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {

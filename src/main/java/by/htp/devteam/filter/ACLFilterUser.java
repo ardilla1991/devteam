@@ -61,9 +61,10 @@ public class ACLFilterUser implements Filter{
 				if (acl.get(role).contains(CommandEnum.getAction(action))) {
 					req.setAttribute("user", session.getAttribute("user"));
 				} else {
-					String redirectAction = (role == RoleEnum.CUSTOMER ? "permission_denied"
+					/*String redirectAction = (role == RoleEnum.CUSTOMER ? "permission_denied"
 							: "admin_permission_denied");
-					resp.sendRedirect("Main?action=" + redirectAction);
+					resp.sendRedirect("Main?action=" + redirectAction);*/
+					resp.sendRedirect("Main?action=permission_denied");
 					return;
 				}
 			} catch (CommandExeption e) {
@@ -79,17 +80,20 @@ public class ACLFilterUser implements Filter{
 	}
 	
 	private void setManagersACL() {
+		managerACL.add(CommandEnum.SHOW_FORM);
 		managerACL.add(CommandEnum.ORDER_NEW_LIST);
 		managerACL.add(CommandEnum.ORDER_VIEW);
 		managerACL.add(CommandEnum.PROJECT_SHOW_ADD_FORM);
+		managerACL.add(CommandEnum.PROJECT_ADD);
 		managerACL.add(CommandEnum.PERMISSION_DENIED);
 		managerACL.add(CommandEnum.LOGOUT);
+		managerACL.add(CommandEnum.PROJECT_LIST);
 		
 		acl.put(RoleEnum.MANAGER, managerACL);
 	}
 	
 	private void setDevelopersACL() {
-		
+		developerACL.add(CommandEnum.SHOW_FORM);
 		developerACL.add(CommandEnum.PERMISSION_DENIED);
 		developerACL.add(CommandEnum.LOGOUT);
 		
@@ -97,7 +101,6 @@ public class ACLFilterUser implements Filter{
 	}
 	
 	private void setCustomersACL() {
-		customerACL.add(CommandEnum.SHOW_FORM);
 		customerACL.add(CommandEnum.SHOW_FORM);
 		customerACL.add(CommandEnum.PERMISSION_DENIED);
 		customerACL.add(CommandEnum.LOGOUT);

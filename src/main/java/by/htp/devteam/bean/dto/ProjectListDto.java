@@ -4,7 +4,7 @@ import java.util.List;
 
 import by.htp.devteam.bean.Project;
 
-public class ProjectDto {
+public class ProjectListDto {
 	
 	private List<Project> projects;
 	private int countRecords;
