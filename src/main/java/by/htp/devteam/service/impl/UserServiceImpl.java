@@ -1,14 +1,9 @@
 package by.htp.devteam.service.impl;
 
-import by.htp.devteam.bean.Customer;
-import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
-import by.htp.devteam.service.CustomerService;
-import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 
 public class UserServiceImpl implements UserService{

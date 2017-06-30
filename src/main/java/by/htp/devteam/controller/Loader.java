@@ -22,8 +22,7 @@ public class Loader {
 			Properties properties = new Properties();
 			properties.setProperty("user", rb.getString("db.login"));
 			properties.setProperty("password", rb.getString("db.pass"));
-			
-					//properties.setProperty("encoding", "UTF-8");
+
 			properties.setProperty("useUnicode", "true");
 			properties.setProperty("characterEncoding", "UTF-8");
 			String driverName = rb.getString("db.driver.name");

@@ -1,13 +1,10 @@
 package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.Customer;
-import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.CustomerDao;
 import by.htp.devteam.dao.DaoFactory;
-import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.service.CustomerService;
-import by.htp.devteam.service.ServiceException;
 
 public class CustomerServiceImpl implements CustomerService{
 	CustomerDao customerDao;

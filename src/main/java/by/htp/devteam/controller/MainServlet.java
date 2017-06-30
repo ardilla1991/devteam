@@ -5,7 +5,6 @@ import java.io.IOException;
 import static by.htp.devteam.util.ConstantValue.*;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,8 +36,6 @@ public class MainServlet extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Page page = processRequest(request, response, ActionEnum.POST);
-		System.out.println("IS REDIRECT ====  ");
-		System.out.println(page.isRedirect());
 		if ( !page.isRedirect() ) {
 			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
 			disp.forward(request, response);

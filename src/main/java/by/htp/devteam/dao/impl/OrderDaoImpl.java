@@ -3,7 +3,6 @@ package by.htp.devteam.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -210,17 +209,6 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	}
 	
 	private Work createWorkFromResultSet(ResultSet rs) throws SQLException {
-		
-		
-		/*ResultSetMetaData rsmd = rs.getMetaData();
-		int columnCount = rsmd.getColumnCount();
-
-		// The column count starts from 1
-		for (int i = 1; i <= columnCount; i++ ) {
-		  String name = rsmd.getColumnName(i);
-		  System.out.println(name);
-		}*/
-		
 		Work work = new Work();
 		work.setId(rs.getLong(WORK_ID));
 		work.setTitle(rs.getString(3));

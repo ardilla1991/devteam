@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.RoleEnum;
-import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandEnum;
 import by.htp.devteam.command.CommandExeption;
@@ -98,6 +97,7 @@ public class ACLFilterUser implements Filter{
 		developerACL.add(CommandEnum.SHOW_FORM);
 		developerACL.add(CommandEnum.PERMISSION_DENIED);
 		developerACL.add(CommandEnum.LOGOUT);
+		developerACL.add(CommandEnum.PROJECT_LIST_BY_EMPLOYEE);
 		
 		acl.put(RoleEnum.DEVELOPER, developerACL);
 	}

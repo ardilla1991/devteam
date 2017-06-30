@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
@@ -50,6 +51,29 @@ public class ProjectServiceImpl implements ProjectService{
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
 		ProjectListDto projectDto = projectDao.fetchAll(offset, countPerPage);
+
+		int countPages = (int) Math.ceil(projectDto.getCountRecords() * 1.0 / countPerPage);
+		projectDto.setCountPages(countPages);
+		projectDto.setCurrPage(currPageValue);
+		
+		return projectDto;
+	}
+	
+	@Override
+	public ProjectListDto fetchAll(Employee employee, String currPage) throws ServiceException {
+		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int currPageValue = 0;
+		
+		currPageValue = ( currPage == null 
+					  ? SettingConstantValue.START_PAGE 
+					  : Integer.valueOf(currPage) );
+		
+		if ( currPageValue == 0 )
+			throw new ServiceException("page not found");
+		
+		int offset = (currPageValue - 1 ) * countPerPage;
+			
+		ProjectListDto projectDto = projectDao.fetchAll(employee, offset, countPerPage);
 
 		int countPages = (int) Math.ceil(projectDto.getCountRecords() * 1.0 / countPerPage);
 		projectDto.setCountPages(countPages);
@@ -142,6 +166,8 @@ public class ProjectServiceImpl implements ProjectService{
 			System.out.println("commit error");
 		}
 	}
+
+
 	
 
 }

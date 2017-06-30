@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.dto.ProjectListDto;
@@ -32,6 +33,11 @@ public class ProjectDaoImpl extends CommonDao implements ProjectDao {
 	
 	private final String PROJECT_LIST = "SELECT p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id LIMIT ?,?";
 	
+	private final String PROJECT_LIST_BY_EMPLOYEE = "SELECT p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id "
+			+ "JOIN  (SELECT project_id FROM project_employee WHERE employee_id=?) as pew ON p.id=pew.project_id "
+			+ "ORDER BY o.dateStart DESC "
+			+ "LIMIT ?,?";
+	
 	private final String ADD = "INSERT INTO `project` (id, title, description, order_id) VALUES (?, ?, ?, ?)";
 	
 	private final String ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id, hours) VALUES(?, ?, ?)";
@@ -43,6 +49,30 @@ public class ProjectDaoImpl extends CommonDao implements ProjectDao {
 
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
+			try ( ResultSet rs = ps.executeQuery() ) {
+				projectDto.setProjects(getProjectListFromResultSet(rs));
+			}
+			try ( Statement st = dbConnection.createStatement();
+					ResultSet rsNumebr  = st.executeQuery("SELECT FOUND_ROWS()");) {
+				if ( rsNumebr.next() ) {
+					projectDto.setCountRecords(rsNumebr.getInt(1));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return projectDto;
+	}
+	
+	@Override
+	public ProjectListDto fetchAll(Employee employee, int offset, int countPerPage) {
+		ProjectListDto projectDto = new ProjectListDto();
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(PROJECT_LIST_BY_EMPLOYEE); ) {
+
+			ps.setLong(1, employee.getId());
+			ps.setInt(2, offset);
+			ps.setInt(3, countPerPage);
 			try ( ResultSet rs = ps.executeQuery() ) {
 				projectDto.setProjects(getProjectListFromResultSet(rs));
 			}
@@ -163,6 +193,8 @@ public class ProjectDaoImpl extends CommonDao implements ProjectDao {
 			ps.addBatch();
 		}
 	}
+
+
 
 
 

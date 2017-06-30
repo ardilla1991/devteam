@@ -4,6 +4,7 @@ import by.htp.devteam.command.user.OrderNewListAction;
 import by.htp.devteam.command.user.PermissionDeniedAction;
 import by.htp.devteam.command.user.ProjectAddAction;
 import by.htp.devteam.command.user.ProjectListAction;
+import by.htp.devteam.command.user.ProjectListByEmployeeAction;
 import by.htp.devteam.command.user.ProjectShowAddFormAction;
 import by.htp.devteam.command.user.LoginAction;
 import by.htp.devteam.command.user.LogoutAction;
@@ -25,6 +26,7 @@ public enum CommandEnum {
 	PROJECT_SHOW_ADD_FORM { public CommandAction chooseAction() { return new ProjectShowAddFormAction(); } },
 	PROJECT_ADD { public CommandAction chooseAction() { return new ProjectAddAction(); } },
 	PROJECT_LIST { public CommandAction chooseAction() { return new ProjectListAction(); } },
+	PROJECT_LIST_BY_EMPLOYEE { public CommandAction chooseAction() { return new ProjectListByEmployeeAction(); } },
 	
 	LOGOUT { public CommandAction chooseAction() { return new LogoutAction(); } }
 	;

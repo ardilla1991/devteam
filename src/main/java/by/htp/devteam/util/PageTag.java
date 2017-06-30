@@ -7,6 +7,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 public class PageTag extends TagSupport{
 	
+	private static final long serialVersionUID = 7633809780473295006L;
 	private int countPages;
 	private int currPage;
 	private String uri;

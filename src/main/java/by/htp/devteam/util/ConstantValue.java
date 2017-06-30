@@ -26,6 +26,7 @@ public final class ConstantValue {
 	
 	
 	public static final String PAGE_DEFAULT_MANAGER = "Main?action=order_new_list";
+	public static final String PAGE_DEFAULT_DEVELOPER = "Main?action=project_list_by_employee";
 	public static final String PAGE_DEFAULT_CUSTOMER = "Main?action=order_list";
 	public static final String PAGE_ORDER_NEW_LIST = JSP_FOLDER_PATH + "orderNewList.jsp";
 

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -44,9 +43,9 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
 				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
 	
-	private final static String GET_COUNT_FREE_EMPLOYEE_FROM_LIST = "SELECT COUNT(e.*) "
+	private final static String GET_COUNT_FREE_EMPLOYEE_FROM_LIST = "SELECT COUNT(*) "
 			+ "FROM employee as e "
-			+ "WHERE q.id IN (##) AND e.id NOT IN "
+			+ "WHERE e.id IN (##) AND e.id NOT IN "
 				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
 				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
 				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
@@ -64,7 +63,6 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			ps.setLong(1, user.getId());
 			try ( ResultSet rs = ps.executeQuery() ) {
 				employee = getEmployeeFromResultSet(rs);
-				System.out.println(employee);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -107,7 +105,6 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			st.setDate(4, dateFinish);
 			st.setDate(5, dateStart);
 			st.setDate(6, dateFinish);
-			System.out.println(st);
 			ResultSet rs = st.executeQuery();
 			employees = getEmployeeListFromResultSet(rs);
 		} catch (SQLException e) {
@@ -176,7 +173,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 		
 		int countFreeEmployee = 0;
 		boolean isFree = false;
-		String query = GET_FREE_FOR_PERIOD.replace("##", qualificationIdsStr);
+		String query = GET_COUNT_FREE_EMPLOYEE_FROM_LIST.replace("##", qualificationIdsStr);
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
 			
@@ -237,7 +234,6 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	private Map<Long, Integer> getQualificationsCountFromResultSet(ResultSet rs) throws SQLException {
 		Map<Long, Integer> qualificationsCount = new HashMap<Long, Integer>();
 		while ( rs.next() ) {
-			System.out.println(rs.getLong(1) + "====" + rs.getInt(2));
 			qualificationsCount.put(rs.getLong(1), rs.getInt(2));
 		}
 		return qualificationsCount;

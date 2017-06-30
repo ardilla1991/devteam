@@ -6,9 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
-import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -26,8 +24,7 @@ public class OrderListAction implements CommandAction{
 		
 		HttpSession session = request.getSession(false);
 		UserVO userVO = (UserVO) session.getAttribute("user");
-System.out.println(userVO);
-System.out.println(userVO.getCustomer());
+
 		List<Order> orders = orderService.geOrdersByCustomer(userVO.getCustomer());
 		request.setAttribute(REQUEST_PARAM_ORDER_LIST, orders);
 		return new Page(PAGE_ORDER_LIST);

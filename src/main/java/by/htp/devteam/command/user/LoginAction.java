@@ -2,8 +2,6 @@ package by.htp.devteam.command.user;
 
 import static by.htp.devteam.util.ConstantValue.*;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,16 +12,13 @@ import org.apache.logging.log4j.LogManager;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.CustomerService;
 import by.htp.devteam.service.EmployeeService;
-import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
@@ -62,8 +57,9 @@ public class LoginAction implements CommandAction{
 			if ( userVO.getUser().getRole() == RoleEnum.MANAGER ) { // manager
 				page = PAGE_DEFAULT_MANAGER;
 			} else if ( userVO.getUser().getRole() == RoleEnum.CUSTOMER ){  // customer
-				System.out.println("customer");
 				page = PAGE_DEFAULT_CUSTOMER;
+			} else if ( userVO.getUser().getRole() == RoleEnum.DEVELOPER ){  // developer
+				page = PAGE_DEFAULT_DEVELOPER;
 			}
 		} catch (ServiceException e1) { 
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e1.getMessage());

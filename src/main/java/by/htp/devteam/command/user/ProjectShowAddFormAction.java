@@ -8,33 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
-import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceFactory;
-import by.htp.devteam.service.WorkService;
 
 public class ProjectShowAddFormAction implements CommandAction{
 
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		
-		/*ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		
-		WorkService workService = serviceFactory.getWorkService();
-		List<Work> works = workService.fetchAll();
-		request.setAttribute(REQUEST_PARAM_WORK_LIST, works);
-		
-		QualificationService qualificationService = serviceFactory.getQualificationService();
-		List<Qualification> qualifications = qualificationService.fetchAll();
-		request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualifications);*/
-		
-		
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);

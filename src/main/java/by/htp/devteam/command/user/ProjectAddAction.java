@@ -4,12 +4,10 @@ import static by.htp.devteam.util.ConstantValue.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -48,7 +46,7 @@ public class ProjectAddAction implements CommandAction{
 		String price = request.getParameter(REQUEST_PARAM_ORDER_PRICE);
 		
 		try {
-			Project project = projectService.add(order, title, description, employees, price);
+			projectService.add(order, title, description, employees, price);
 		} catch (ServiceException e) {
 			logger.info("fill the title and description");
 			e.printStackTrace();

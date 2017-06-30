@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-	private final static Pattern DECIMAL_PATTERN = Pattern.compile("(\\d*\\.)?\\d+");
+	private final static Pattern DECIMAL_PATTERN = Pattern.compile("^(\\d*\\.)?\\d+$");
 	
 	private Validator() {
 		super();

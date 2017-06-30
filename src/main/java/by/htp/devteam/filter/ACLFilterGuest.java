@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.RoleEnum;
-import by.htp.devteam.bean.User;
 import by.htp.devteam.command.CommandEnum;
 import by.htp.devteam.command.CommandExeption;
 
