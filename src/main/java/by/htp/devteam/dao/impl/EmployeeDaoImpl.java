@@ -44,6 +44,15 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
 				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
 	
+	private final static String GET_COUNT_FREE_EMPLOYEE_FROM_LIST = "SELECT COUNT(e.*) "
+			+ "FROM employee as e "
+			+ "WHERE q.id IN (##) AND e.id NOT IN "
+				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
+				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
+				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
+				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
+				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
+	
 	private final String GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "SELECT qualification_id, COUNT(id) FROM employee WHERE id IN(##) GROUP BY qualification_id";
 	
 	@Override
@@ -153,10 +162,47 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	}
 
 	@Override
-	public boolean isEmployeesFreeFroPeriod(Connection connection, Date dateStart, Date dateFinish)
+	public boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish)
 			throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+	
+		StringBuilder qualificationIdsStr = new StringBuilder();
+		String delimiter = "";
+		int countIds = ids.length;
+		for ( int i = 0; i < countIds; i++ ) {
+			qualificationIdsStr.append(delimiter);
+			delimiter = ",";
+			qualificationIdsStr.append("?");
+		}
+		
+		int countFreeEmployee = 0;
+		boolean isFree = false;
+		String query = GET_FREE_FOR_PERIOD.replace("##", qualificationIdsStr);
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement st = dbConnection.prepareStatement(query) ) {
+			
+			for ( int i = 1; i <= countIds; i++ ) {
+				st.setLong(i, ids[i - 1]);
+			}
+			st.setDate(countIds + 1, dateStart);
+			st.setDate(countIds + 2, dateFinish);
+			st.setDate(countIds + 3, dateStart);
+			st.setDate(countIds + 4, dateFinish);
+			st.setDate(countIds + 5, dateStart);
+			st.setDate(countIds + 6, dateFinish);
+
+			ResultSet rs = st.executeQuery();
+			
+			if ( rs.next() )
+				countFreeEmployee = rs.getInt(1);
+			
+			if ( countIds == countFreeEmployee )
+				isFree = true;
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+
+		return isFree;
 	}
 
 	@Override

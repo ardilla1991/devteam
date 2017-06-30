@@ -80,6 +80,7 @@ public class ACLFilterUser implements Filter{
 	}
 	
 	private void setManagersACL() {
+		managerACL.add(CommandEnum.LOGIN);
 		managerACL.add(CommandEnum.SHOW_FORM);
 		managerACL.add(CommandEnum.ORDER_NEW_LIST);
 		managerACL.add(CommandEnum.ORDER_VIEW);
@@ -93,6 +94,7 @@ public class ACLFilterUser implements Filter{
 	}
 	
 	private void setDevelopersACL() {
+		developerACL.add(CommandEnum.LOGIN);
 		developerACL.add(CommandEnum.SHOW_FORM);
 		developerACL.add(CommandEnum.PERMISSION_DENIED);
 		developerACL.add(CommandEnum.LOGOUT);
@@ -101,6 +103,7 @@ public class ACLFilterUser implements Filter{
 	}
 	
 	private void setCustomersACL() {
+		customerACL.add(CommandEnum.LOGIN);
 		customerACL.add(CommandEnum.SHOW_FORM);
 		customerACL.add(CommandEnum.PERMISSION_DENIED);
 		customerACL.add(CommandEnum.LOGOUT);

@@ -61,65 +61,51 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public Project add(OrderDto orderDto, String title, String description, String[] employees, String price) throws ServiceException {
 		Long[] employeesIds = comvertFromStringToLongArray(employees);
-		System.out.println("title=" +Validator.isEmpty(title));
-		System.out.println("dwescr=" + Validator.isEmpty(description));
 		Project project = null;
-		if ( Validator.isEmpty(title) == false && Validator.isEmpty(description) == false 
-				&& isCheckedNeededQualifications(orderDto.getQualifications(), employeesIds) 
-				&& Validator.isEmpty(price) == false && Validator.checkBigDecimal(price) ) {
-			project = new Project();
-			project.setTitle(title);
-			project.setDescription(description);
-			project.setOrder(orderDto.getOrder());
-			Connection connection = null;
-			try {
-				connection = projectDao.startTransaction();
-				boolean neededEmployeeeAreFree = true;
-				//boolean neededEmployeeeAreFree = employeeDao.isEmployeesFreeFroPeriod(connection, order.getOrder().getDateStart(), order.getOrder().getDateFinish());
-				if ( neededEmployeeeAreFree ) {
-					project = projectDao.add(connection, project);
-					projectDao.addEmployees(connection, project, employeesIds);
-					Order order = orderDto.getOrder();
-					order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
-					orderDao.setPrice(connection, order);
-					commitTransaction(connection);
-				} else {
-					rollbackTransaction(connection);
-				}
-			} catch (DaoException e) {
-				rollbackTransaction(connection);
-				e.printStackTrace();
-			}
-		} else {
-			
+		if ( Validator.isEmpty(title) == true || Validator.isEmpty(description) == true 
+				|| !isCheckedNeededQualifications(orderDto.getQualifications(), employeesIds) 
+				|| Validator.isEmpty(price) == true || !Validator.checkBigDecimal(price)  ) {
 			throw new ServiceException("Title or description is empty");
 		}
+
+		project = new Project();
+		project.setTitle(title);
+		project.setDescription(description);
+		project.setOrder(orderDto.getOrder());
+		Connection connection = null;
+		try {
+			connection = projectDao.startTransaction();
+			boolean neededEmployeeeAreFree = employeeDao.isEmployeesFreeFroPeriod(connection, employeesIds,
+					orderDto.getOrder().getDateStart(), orderDto.getOrder().getDateFinish());
+			if (neededEmployeeeAreFree) {
+				project = projectDao.add(connection, project);
+				projectDao.addEmployees(connection, project, employeesIds);
+				Order order = orderDto.getOrder();
+				order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
+				orderDao.setPrice(connection, order);
+				commitTransaction(connection);
+			} else {
+				rollbackTransaction(connection);
+			}
+		} catch (DaoException e) {
+			rollbackTransaction(connection);
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 	
 	private boolean isCheckedNeededQualifications(Map<Qualification, Integer> qualificationsInOrder, Long[] employeesIds) {
-		System.out.println("check checkboxes");
 		Map<Long, Integer> neededQualifications = new HashMap<Long, Integer>(qualificationsInOrder.size()); 
 		
 		for ( Entry<Qualification, Integer> qualification : qualificationsInOrder.entrySet() ) {
 		    Map.Entry<Qualification, Integer> entry = (Map.Entry<Qualification, Integer>) qualification;
-		    System.out.println(entry.getKey().getId() + "=");
-		    System.out.println(entry.getValue());
 		    neededQualifications.put(entry.getKey().getId(), entry.getValue());
 		}
 		
-		System.out.println("ccccc");
 		boolean isCheched = false;
 		try {
 			Map<Long, Integer> qualificationCountByEmployees = employeeDao.getQualificationsCountByEmployees(employeesIds);
-			
-			for ( Entry<Long, Integer> qualification : qualificationCountByEmployees.entrySet() ) {
-				Map.Entry<Long, Integer> entry = (Map.Entry<Long, Integer>) qualification;
-			    System.out.println(entry.getKey() + "=");
-			    System.out.print(entry.getValue());
-			}
-			
-			
 			isCheched = neededQualifications.equals(qualificationCountByEmployees);
 		} catch (DaoException e) {
 			e.printStackTrace();

@@ -1,4 +1,5 @@
 <%@include file="fragment/header.jsp"%>
+<%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 <div class="container-fluid">
 	<div class="row">
 		<%@include file="fragment/leftCol.jsp"%>
@@ -35,12 +36,14 @@
 								<tr>
 									<td>Employee</td>
 									<td id="employee">
-										<c:forEach
-											items="${employee_list}" var="i">
-											<input type="checkbox" name="employee" 
-												   value="${i.getId()}" data-id="${i.getQualification().getId() }"/>
-											<c:out value="${i.getName()}" />
-											<br />
+										<c:set var="contains" value="false" />
+										<c:forEach items="${employee_list}" var="i">
+											<div>
+											
+												<input type="checkbox" name="employee"  <c:if test="${jpl:inArray(i.getId(), employee)}">checked="checked"</c:if>
+													  value="${i.getId()}" data-id="${i.getQualification().getId() }"/>
+												 <c:out value="${i.getName()}" />
+											</div>
 										</c:forEach>
 									</td>
 								</tr>

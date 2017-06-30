@@ -52,7 +52,7 @@ public class ACLFilterGuest implements Filter{
 			System.out.println("role="+role);
 			try {
 				if ( !acl.get(role).contains(CommandEnum.getAction(action))) {
-					resp.sendRedirect("Main?action=permission_denied");
+					resp.sendRedirect("Main?action=show_form");
 					return;
 				}
 			} catch (CommandExeption e) {

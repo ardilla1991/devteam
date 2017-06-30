@@ -102,13 +102,14 @@ public class Order {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", title=" + title + ", description=" + description + ", specification="
 				+ specification + ", customer=" + customer + ", status=" + status + ", dateCreated=" + dateCreated
-				+ ", dateStart=" + dateStart + ", dateFinish=" + dateFinish + "]";
+				+ ", dateStart=" + dateStart + ", dateFinish=" + dateFinish + ", price=" + price + "]";
 	}
+	
 
 
 }

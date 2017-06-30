@@ -4,3 +4,4 @@
 .settings/
 /build/classes/*
 *.class
+bin/main/*

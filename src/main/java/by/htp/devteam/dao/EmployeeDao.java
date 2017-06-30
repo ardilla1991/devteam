@@ -14,6 +14,6 @@ public interface EmployeeDao {
 
 	Employee getEmployeeByUser(User user);
 	List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications);
-	boolean isEmployeesFreeFroPeriod(Connection connection, Date dateStart, Date dateFinish) throws DaoException;
+	boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) throws DaoException;
 	Map<Long, Integer> getQualificationsCountByEmployees(Long[] employeesIds) throws DaoException;
 }

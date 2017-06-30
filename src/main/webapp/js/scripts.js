@@ -93,7 +93,7 @@ function checkInput(els, field, blockId) {
 		break;
 	case "bigdecimal":
 		var element = el.getElementsByTagName("input")[0];
-		result = /\b\d+,\d{2}\b/.test(element.value);
+		result = /\b(\d+.)?\d{2}\b/.test(element.value);
 		break;
 	}
 
