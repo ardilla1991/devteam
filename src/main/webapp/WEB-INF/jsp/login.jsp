@@ -16,7 +16,6 @@
 <c:set var="clientLanguage" value="${pageContext.request.locale.language}" />
 <c:set var="clientCountry" value="${pageContext.request.locale.country}" />
 
-
 <fmt:setLocale value="${clientLanguage}_${clientCountry}"/>
 <fmt:setBundle basename="text"/>
 

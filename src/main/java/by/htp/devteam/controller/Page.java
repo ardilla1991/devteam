@@ -12,6 +12,7 @@ public class Page {
 	
 	public Page(String page) {
 		this.page = page;
+		this.isRedirect = false;
 	}
 	
 	public Page(String page, boolean isRedirect) {

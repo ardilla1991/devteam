@@ -46,7 +46,6 @@ public class MainServlet extends HttpServlet{
 	
 	private Page processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		System.out.println("action="+action);
 		Page page = null;
 		
 		CommandFactory commandFactory = CommandFactory.getInstance();

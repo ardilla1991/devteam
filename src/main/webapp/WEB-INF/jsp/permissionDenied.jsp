@@ -4,10 +4,10 @@
 <div class="container-fluid">
 	<div class="row">
 
-		<%@include file="fragment/leftCol.jsp"%>
+		<%@include file="fragment/leftBar.jsp"%>
 
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-		<h1 class="page-header">permission denied</h1>
+		<h1 class="page-header"><fmt:message key = "permissionDenied" /></h1>
 			
 		</div>
 	</div>

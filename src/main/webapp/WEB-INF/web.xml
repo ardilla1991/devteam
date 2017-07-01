@@ -66,8 +66,16 @@
 	</filter-mapping>
 	<jsp-config>
 		<taglib>
-			<taglib-uri>pagetags</taglib-uri>
+			<taglib-uri>pagetag</taglib-uri>
 			<taglib-location>/WEB-INF/tld/page.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>topmenutag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/topMenu.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>leftmenutag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/leftMenu.tld</taglib-location>
 		</taglib>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>

@@ -8,7 +8,7 @@ public enum ResourceManager {
 	INSTANCE;
 	
 	private ResourceBundle resourceBundle;
-	private final String resourceName = "property.text";
+	private final String resourceName = "text.properties";
 	
 	private ResourceManager() {
 		resourceBundle = ResourceBundle.getBundle(resourceName, Locale.getDefault());

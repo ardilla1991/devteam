@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 <div class="container-fluid">
 	<div class="row">
-		<%@include file="fragment/leftCol.jsp"%>
+		<%@include file="fragment/leftBar.jsp"%>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			
 			<div class="col-sm-5">
@@ -11,7 +11,7 @@
 				<div id="order_view"></div>
 			</div>
 			<div class="col-sm-7">
-				<h1 class="page-header">New Project</h1>
+				<h1 class="page-header"><fmt:message key = "project.pageTitle.new" /></h1>
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
 				<div><c:out value="${error_message}" /></div>
@@ -26,15 +26,15 @@
 						<table class="table table-striped tab-content tab-active">
 							<tbody>
 								<tr>
-									<td>Title</td>
+									<td><fmt:message key = "project.title" /></td>
 									<td id="title"><input type="text" name="title" value="${title}" /></td>
 								</tr>
 								<tr>
-									<td>Description</td>
+									<td><fmt:message key = "project.description" /></td>
 									<td id="description"><input type="text" name="description" value="${description}" /></td>
 								</tr>
 								<tr>
-									<td>Employee</td>
+									<td><fmt:message key = "employees" /></td>
 									<td id="employee">
 										<c:set var="contains" value="false" />
 										<c:forEach items="${employee_list}" var="i">
@@ -48,7 +48,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td>Price</td>
+									<td><fmt:message key = "order.price" /></td>
 									<td id="price"><input type="text" name="price" value="${price}" /></td>
 								</tr>
 							</tbody>
@@ -56,13 +56,13 @@
 					</div>
 					<input type="hidden" name="order_id" value="${order_id}" />
 					<div class="el_obr_warn">
-						<sup>*</sup> - required
+						<sup>*</sup> - <fmt:message key = "required" />
 					</div>
-					<input type="hidden" name="order_id" value="${order_id}" /> <input
-						type="hidden" name="action" value="project_add" /> <input
-						type="submit" class="form_submit"
+					<input type="hidden" name="order_id" value="${order_id}" /> 
+					<input type="hidden" name="action" value="project_add" /> 
+					<input type="submit" class="form_submit"
 						onclick="return checkFBForm(formElements, 'qualification_list_count');" name="submitted"
-						value="Send" />
+						value="<fmt:message key = "project.button.add" />" />
 				</form>
 			</div>
 		</div>

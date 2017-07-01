@@ -54,11 +54,11 @@ public class LoginAction implements CommandAction{
 			
 			session.setAttribute("user", userVO);
 			
-			if ( userVO.getUser().getRole() == RoleEnum.MANAGER ) { // manager
+			if ( userVO.getUser().getRole() == RoleEnum.MANAGER ) {
 				page = PAGE_DEFAULT_MANAGER;
-			} else if ( userVO.getUser().getRole() == RoleEnum.CUSTOMER ){  // customer
+			} else if ( userVO.getUser().getRole() == RoleEnum.CUSTOMER ){
 				page = PAGE_DEFAULT_CUSTOMER;
-			} else if ( userVO.getUser().getRole() == RoleEnum.DEVELOPER ){  // developer
+			} else if ( userVO.getUser().getRole() == RoleEnum.DEVELOPER ){ 
 				page = PAGE_DEFAULT_DEVELOPER;
 			}
 		} catch (ServiceException e1) { 
@@ -66,7 +66,7 @@ public class LoginAction implements CommandAction{
 			page = PAGE_LOGIN;
 		}
 		
-		return new Page(page);
+		return new Page(page, true);
 	}
 
 }

@@ -1,25 +1,23 @@
 <%@include file="fragment/header.jsp"%>
-
+<%@ taglib uri="pagetag" prefix="ctg"%>
 <div class="container-fluid">
 	<div class="row">
-
-		<%@include file="fragment/leftCol.jsp"%>
-
+		<%@include file="fragment/leftBar.jsp"%>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<a href="Main?action=order_show_add_form">Add new order</a>
+			<a href="Main?action=order_show_add_form"><fmt:message key = "order.addNew" /></a>
 			<div class="table-responsive">
 				<table class="table table-striped tab-content tab-active">
 					<thead>
 						<tr>
-							<th>Actions</th>
+							<th><fmt:message key = "action" /></th>
 							<th>#</th>
-							<th>Title</th>
-							<th>Description</th>
-							<th>Specification</th>
-							<th>Date Created</th>
-							<th>Project start date</th>
-							<th>Project finish date</th>
-							<th>Price</th>
+							<th><fmt:message key = "order.title" /></th>
+							<th><fmt:message key = "order.description" /></th>
+							<th><fmt:message key = "order.specification" /></th>
+							<th><fmt:message key = "order.dateCreated" /></th>
+							<th><fmt:message key = "order.dateStart" /></th>
+							<th><fmt:message key = "order.dateFinish" /></th>
+							<th><fmt:message key = "order.price" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -42,6 +40,4 @@
 		</div>
 	</div>
 </div>
-
-
 <%@include file="fragment/footer.jsp"%>

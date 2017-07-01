@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
 	<tlib-version>1.0</tlib-version>
 	<short-name>ctg</short-name>
-	<uri>pagetags</uri>
+	<uri>pagetag</uri>
 	<tag>
 		<name>paginator</name>
 		<tag-class>by.htp.devteam.util.PageTag</tag-class>

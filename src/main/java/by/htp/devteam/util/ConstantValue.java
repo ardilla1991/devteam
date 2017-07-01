@@ -11,7 +11,7 @@ public final class ConstantValue {
 	
 	public static final String PAGE_ERROR = JSP_FOLDER_PATH + "error.jsp";
 	
-	public static final String PAGE_LOGIN = JSP_FOLDER_PATH + "index.jsp";
+	public static final String PAGE_LOGIN = JSP_FOLDER_PATH + "login.jsp";
 	public static final String PAGE_ORDER_LIST = JSP_FOLDER_PATH + "orderList.jsp";
 	public static final String PAGE_ORDER_EDIT = JSP_FOLDER_PATH + "orderAddPage.jsp";
 	public static final String PAGE_ORDER_VIEW = JSP_FOLDER_PATH + "orderView.jsp";
