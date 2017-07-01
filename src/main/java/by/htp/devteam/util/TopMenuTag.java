@@ -68,7 +68,6 @@ public class TopMenuTag extends TagSupport{
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			switch (user.getRole()) {
 				case CUSTOMER:
-					String dbUrl = rb.getString("menu.orders");
 					active = currAction.equals("order_list") ? currActionClass : "";
 					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + "Main?action=order_list" + "'>" + rb.getString("menu.top.orders") + "</a></" + itemTag + ">");
 					break;

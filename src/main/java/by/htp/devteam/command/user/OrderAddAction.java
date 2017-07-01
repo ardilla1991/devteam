@@ -8,6 +8,7 @@ import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
+import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import static by.htp.devteam.util.ConstantValue.*;
 
@@ -26,8 +27,10 @@ public class OrderAddAction implements CommandAction{
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+		String page = "Main?action=order_list";
+		boolean isRedirect = true;
 		String title = request.getParameter(REQUEST_PARAM_ORDER_TITLE);
-		String password = request.getParameter(REQUEST_PARAM_ORDER_DESCRIPTION);
+		String description = request.getParameter(REQUEST_PARAM_ORDER_DESCRIPTION);
 		String specification = request.getParameter(REQUEST_PARAM_ORDER_SPECIFICATION);
 		String dateStart = request.getParameter(REQUEST_PARAM_ORDER_DATE_START);
 		String dateFinish = request.getParameter(REQUEST_PARAM_ORDER_DATE_FINISH);
@@ -37,9 +40,22 @@ public class OrderAddAction implements CommandAction{
 		HttpSession session = request.getSession(false);
 		UserVO userVO = (UserVO) session.getAttribute("user");
 		
-		orderService.add(userVO.getCustomer(), title, password, specification, dateStart, dateFinish, workIds, qualifications);
+		try {
+			orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e.getMessage());
+			System.out.println("title=" + title);
+			request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);
+			request.setAttribute(REQUEST_PARAM_ORDER_DESCRIPTION, description);
+			request.setAttribute(REQUEST_PARAM_ORDER_DATE_START, dateStart);
+			request.setAttribute(REQUEST_PARAM_ORDER_DATE_FINISH, dateFinish);
+			request.setAttribute(REQUEST_PARAM_ORDER_WORK, workIds);
+			page = "Main?action=order_show_add_form";
+			isRedirect = false;
+		}
 
-		return new Page("Main?action=order_list");
+		return new Page(page, isRedirect);
 	}
 	
 	private Map<String, String> getQualificationsFromRequest(HttpServletRequest request) {

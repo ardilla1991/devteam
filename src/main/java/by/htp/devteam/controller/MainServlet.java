@@ -28,6 +28,8 @@ public class MainServlet extends HttpServlet{
 		if ( page.isInclude() ) {
 			this.getServletContext().getRequestDispatcher(page.getPage()).
 	        include(request, response);
+		} else if ( page.isRedirect() ) {
+			response.sendRedirect(page.getPage());
 		} else {
 			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
 			disp.forward(request, response);

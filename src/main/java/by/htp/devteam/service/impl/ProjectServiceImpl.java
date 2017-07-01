@@ -86,9 +86,9 @@ public class ProjectServiceImpl implements ProjectService{
 	public Project add(OrderDto orderDto, String title, String description, String[] employees, String price) throws ServiceException {
 		Long[] employeesIds = comvertFromStringToLongArray(employees);
 		Project project = null;
-		if ( Validator.isEmpty(title) == true || Validator.isEmpty(description) == true 
+		if ( Validator.isEmpty(title) || Validator.isEmpty(description)
 				|| !isCheckedNeededQualifications(orderDto.getQualifications(), employeesIds) 
-				|| Validator.isEmpty(price) == true || !Validator.checkBigDecimal(price)  ) {
+				|| Validator.isEmpty(price) || !Validator.checkBigDecimal(price)  ) {
 			throw new ServiceException("Title or description is empty");
 		}
 
@@ -116,7 +116,7 @@ public class ProjectServiceImpl implements ProjectService{
 			e.printStackTrace();
 		}
 
-		return null;
+		return project;
 	}
 	
 	private boolean isCheckedNeededQualifications(Map<Qualification, Integer> qualificationsInOrder, Long[] employeesIds) {

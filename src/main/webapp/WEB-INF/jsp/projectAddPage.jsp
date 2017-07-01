@@ -14,7 +14,7 @@
 				<h1 class="page-header"><fmt:message key = "project.pageTitle.new" /></h1>
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
-				<div><c:out value="${error_message}" /></div>
+					<div><c:out value="${error_message}" /></div>
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
@@ -36,7 +36,6 @@
 								<tr>
 									<td><fmt:message key = "employees" /></td>
 									<td id="employee">
-										<c:set var="contains" value="false" />
 										<c:forEach items="${employee_list}" var="i">
 											<div>
 											

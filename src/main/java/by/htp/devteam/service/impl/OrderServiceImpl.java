@@ -17,6 +17,7 @@ import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.util.SettingConstantValue;
+import by.htp.devteam.util.Validator;
 
 public class OrderServiceImpl implements OrderService{
 
@@ -59,7 +60,14 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Order add(Customer customer, String title, String description, String specification, String dateStart, String dateFinish,
-			String[] workIds, Map<String, String> qualifications) {
+			String[] workIds, Map<String, String> qualifications) throws ServiceException {
+		
+		if ( Validator.isEmpty(title) || Validator.isEmpty(description)
+				|| !Validator.isDate(dateStart)
+				|| !Validator.isDate(dateFinish)  ) {
+			throw new ServiceException("Some fields are empty");
+		}
+		
 		Order order = new Order();
 		order.setTitle(title);
 		order.setDescription(description);

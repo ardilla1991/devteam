@@ -1,4 +1,5 @@
 <%@include file="fragment/header.jsp"%>
+<%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 	<div class="container-fluid">
 		<div class="row">
 		<%@include file="fragment/leftBar.jsp"%>
@@ -7,44 +8,47 @@
 
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
+					<div><c:out value="${error_message}" /></div>
 					<div class="table-responsive">
 						<table class="table table-striped tab-content tab-active">
 							<tbody>
 								<tr>
 									<td><fmt:message key = "order.title" /></td>
-									<td id="title"><input type="text" name="title" value="${i.getTitle()}" /></td>
+									<td id="title"><input type="text" name="title" value="${title}" /></td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.description" /></td>
 									<td id="description">
-										<input type="text" name="description" value="${i.getDescription()}" />
+										<input type="text" name="description" value="${description}" />
 									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.specification" /></td>
 									<td id="specification">
-										<input type="text" name="specification" value="${i.getSpecification()}" />
+										<input type="text" name="specification" value="${specification}" />
 									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.dateStart" /></td>
 									<td id="dateStart">
-										<input type="text" name="dateStart" value="${i.getDateStart()}" />
+										<input type="text" name="dateStart" value="${dateStart}" />
 									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.dateFinish" /></td>
 									<td id="dateFinish">
-										<input type="text" name="dateFinish" value="${i.getDateFinish()}" />
+										<input type="text" name="dateFinish" value="${dateFinish}" />
 									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.works" /></td>
 									<td id="work">
 										<c:forEach items="${work_list}" var="i">
-											<input type="checkbox" name="work" value="${i.getId()}" />
-											<c:out value="${i.getTitle()}" />
-											<br />
+											<div>
+												<input type="checkbox" name="work"  <c:if test="${jpl:inArray(i.getId(), work)}">checked="checked"</c:if>
+													  value="${i.getId()}"/>
+												 <c:out value="${i.getTitle()}" />
+											</div>
 										</c:forEach>
 									</td>
 								</tr>

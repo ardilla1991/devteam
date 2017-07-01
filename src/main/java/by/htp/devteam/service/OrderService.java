@@ -14,7 +14,7 @@ public interface OrderService {
 	OrderListDto getNewOrders(String currPage) throws ServiceException;
 	List<Order> geOrdersByCustomer(Customer customer);
 	Order add(Customer customer, String title, String description, String specification, String dateStart, 
-			String dateFinish, String[] workIds, Map<String, String> qualifications);
+			String dateFinish, String[] workIds, Map<String, String> qualifications) throws ServiceException;
 	OrderDto getOrderById(String orderId);
 	
 	List<Work> getWorks(Order order);

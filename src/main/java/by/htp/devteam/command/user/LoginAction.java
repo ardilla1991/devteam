@@ -41,6 +41,7 @@ public class LoginAction implements CommandAction{
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		UserService userService = serviceFactory.getUserService();
 		UserVO userVO = new UserVO();
+		boolean isNeededRedirect = false;
 		try {
 			user = userService.authorise(login, password);
 			userVO.setUser(user);
@@ -53,7 +54,7 @@ public class LoginAction implements CommandAction{
 			userVO.setEmployee(employee);
 			
 			session.setAttribute("user", userVO);
-			
+			isNeededRedirect = true;
 			if ( userVO.getUser().getRole() == RoleEnum.MANAGER ) {
 				page = PAGE_DEFAULT_MANAGER;
 			} else if ( userVO.getUser().getRole() == RoleEnum.CUSTOMER ){
@@ -62,11 +63,12 @@ public class LoginAction implements CommandAction{
 				page = PAGE_DEFAULT_DEVELOPER;
 			}
 		} catch (ServiceException e1) { 
+			System.out.println("Login error!!");
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e1.getMessage());
 			page = PAGE_LOGIN;
 		}
 		
-		return new Page(page, true);
+		return new Page(page, isNeededRedirect);
 	}
 
 }
