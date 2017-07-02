@@ -32,7 +32,7 @@ public class ConnectionPool {
 		return connection;
 	}
 	
-	public static void close(Connection connection) {
+	public static void returnConnection(Connection connection) {
 		try {
 			connection.close();
 		} catch (SQLException e) {

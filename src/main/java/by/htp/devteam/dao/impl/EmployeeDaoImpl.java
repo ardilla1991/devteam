@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.controller.ConnectionPool;
@@ -27,14 +28,14 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	private final int QUALIFICATION_ID = 6;
 	private final int QUALIFICATION_TITLE = 7;
 	
-	private final String FETCH_BY_CREDENTIALS = "SELECT e.*, q.id, q.title "
+	private final static String FETCH_BY_CREDENTIALS = "SELECT e.*, q.id, q.title "
 			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
 			+ "WHERE e.login=? AND e.password=?";
 	
-	private final String GET_BY_USER = "SELECT e.*, q.id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
+	private final static String GET_BY_USER = "SELECT e.*, q.id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
 			+ "WHERE e.user_id=?";
 	
-	private final String GET_FREE_FOR_PERIOD = "SELECT e.*, q.id, q.title "
+	private final static String GET_FREE_FOR_PERIOD = "SELECT e.*, q.id, q.title "
 			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
 			+ "WHERE q.id IN (##) AND e.id NOT IN "
 				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
@@ -52,7 +53,11 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
 				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
 	
-	private final String GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "SELECT qualification_id, COUNT(id) FROM employee WHERE id IN(##) GROUP BY qualification_id";
+	private final static String GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "SELECT qualification_id, COUNT(id) FROM employee WHERE id IN(##) GROUP BY qualification_id";
+	
+	private final static String GET_BY_PROJECT = "SELECT e.id, e.name, q.title, pe.hours FROM (SELECT * FROM project_employee WHERE project_id=?) as pe "
+			+ "JOIN employee as e ON pe.employee_id=e.id "
+			+ "JOIN qualification as q ON e.qualification_id=q.id";
 	
 	@Override
 	public Employee getEmployeeByUser(User user) {
@@ -238,7 +243,39 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 		}
 		return qualificationsCount;
 	}
-	
 
+	@Override
+	public Map<Employee, Integer> getEmployeesByProject(Project project) {
+		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
+		
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement st = dbConnection.prepareStatement(GET_BY_PROJECT) ) {
+			
+			st.setLong(1, project.getId());
+			ResultSet rs = st.executeQuery();
+			employees = getEmployeeListWithHoursOnProjectFromResultSet(rs);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+
+		return employees;
+	}
+	
+	private Map<Employee, Integer> getEmployeeListWithHoursOnProjectFromResultSet(ResultSet rs) throws SQLException {
+		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
+		while ( rs.next() ) {
+			Employee employee = new Employee();
+			employee.setId(rs.getLong(ID));
+			employee.setName(rs.getString(NAME));
+			Qualification qualification = new Qualification();
+			qualification.setTitle(rs.getString(3));
+			
+			employee.setQualification(qualification);
+			employees.put(employee, rs.getInt(4));
+		}
+		
+		return employees;
+	}
 
 }

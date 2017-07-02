@@ -37,7 +37,7 @@
 
 	<input type="hidden" name="order_id" value="${order_id}" /> 
 	<input type="hidden" name="action" value="project_add" /> 
-	<input type="submit" class="form_submit" id="add_project_button"
+	<input type="submit" class="btn btn-primary" id="add_project_button"
 		onclick="return checkFBForm(formElements);" name="submitted"
 		value="Send" />
 </form>

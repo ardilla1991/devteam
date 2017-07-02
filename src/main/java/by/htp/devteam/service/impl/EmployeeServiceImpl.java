@@ -2,9 +2,11 @@ package by.htp.devteam.service.impl;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.DaoFactory;
@@ -37,5 +39,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) {
 		return employeeDao.getFreeEmployeesForPeriod(dateStart, dateFinish, qualifications);
+	}
+
+	@Override
+	public Map<Employee, Integer> getEmployeesByProject(Project project) {
+		
+		return employeeDao.getEmployeesByProject(project);
 	}
 }

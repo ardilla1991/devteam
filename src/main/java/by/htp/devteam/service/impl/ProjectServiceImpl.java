@@ -11,14 +11,17 @@ import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.dto.OrderDto;
+import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.bean.dto.ProjectListDto;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.dao.ProjectDao;
+import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
+import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.util.SettingConstantValue;
 import by.htp.devteam.util.Validator;
 
@@ -165,6 +168,35 @@ public class ProjectServiceImpl implements ProjectService{
 		} catch (DaoException e) {
 			System.out.println("commit error");
 		}
+	}
+
+	@Override
+	public ProjectDto getById(String id) throws ServiceException {
+
+		ProjectDto projectDto = new ProjectDto();
+		Project project = projectDao.getById(Long.valueOf(id));
+		projectDto.setProject(project);
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		EmployeeService employeeService = serviceFactory.getEmployeeService();
+		Map<Employee, Integer> employees = employeeService.getEmployeesByProject(project);
+		projectDto.setEmployee(employees);
+		
+		return projectDto;
+	}
+
+	@Override
+	public void updateHours(String id, Employee employee, String hours) throws ServiceException {
+		if ( !Validator.isNumber(hours) )
+			throw new ServiceException("invalid value for hours");
+		
+		Project project = new Project();
+		project.setId(Long.valueOf(id));
+		try {
+			projectDao.updateHours(project, employee, Integer.valueOf(hours));
+		} catch (DaoException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 

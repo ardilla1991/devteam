@@ -1,6 +1,8 @@
 package by.htp.devteam.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +14,7 @@ import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.bean.dto.OrderListDto;
+import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.service.OrderService;
@@ -55,14 +58,17 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public List<Order> geOrdersByCustomer(Customer customer) {
 
-		return orderDao.geOrdersByCustomer(customer);
+		return orderDao.getByCustomer(customer);
 	}
 
 	@Override
 	public Order add(Customer customer, String title, String description, String specification, String dateStart, String dateFinish,
-			String[] workIds, Map<String, String> qualifications) throws ServiceException {
+			String[] workIds, Map<String, String> qualificationsIdsAndCount) throws ServiceException {
+		 Calendar c1 = Calendar.getInstance();
+		 java.util.Date now = c1.getTime();
 		
-		if ( Validator.isEmpty(title) || Validator.isEmpty(description)
+		if ( Validator.isEmpty(title) || workIds.length == 0
+				|| qualificationsIdsAndCount.size() == 0
 				|| !Validator.isDate(dateStart)
 				|| !Validator.isDate(dateFinish)  ) {
 			throw new ServiceException("Some fields are empty");
@@ -78,54 +84,54 @@ public class OrderServiceImpl implements OrderService{
 		order.setDateStart(Date.valueOf(dateStart));
 		order.setDateFinish(Date.valueOf(dateFinish));
 		order.setCustomer(customer);
-		Order orderCreated = orderDao.addOrder(order);	
+
+		List<Work> works = prepareWorks(workIds);
+		HashMap<Qualification, Integer> qualifications = prepareQualifications(qualificationsIdsAndCount);
 		
-		addWorks(orderCreated, workIds);
-		addQualifications(orderCreated, qualifications);
+		OrderDto orderDto = new OrderDto();
+		orderDto.setOrder(order);
+		orderDto.setWorks(works);
+		orderDto.setQualifications(qualifications);
+		try {
+			OrderDto orderCreated = orderDao.add(orderDto);
+		} catch (DaoException e) {
+			
+			e.printStackTrace();
+		}	
 		
 		return null;
 	}
 
 	@Override
 	public OrderDto getOrderById(String orderId) {
-		OrderDto orderDto = new OrderDto();
-System.out.println("orderId" + orderId);
-		Order order = orderDao.getOrder(Long.valueOf(orderId));
-		orderDto.setOrder(order);
-		orderDto.setWorks(getWorks(order));
-		orderDto.setQualifications(getQualifications(order));
+		OrderDto orderDto = orderDao.getById(Long.valueOf(orderId));
 		
 		return orderDto;
 	}
 	
-	@Override
-	public void addWorks(Order order, String[] ids) {
-		orderDao.addWorks(order, ids);
+	private List<Work> prepareWorks(String[] worksIds) {
+		List<Work> works = new ArrayList<Work>();
+		for ( int i = 0; i < worksIds.length; i++ ) {
+			Work work = new Work();
+			work.setId(Long.valueOf(worksIds[i]));
+		}
+		
+		return works;
 	}
 	
-	@Override
-	public List<Work> getWorks(Order order) {
-		return orderDao.getWorks(order);
-	}
-	
-	@Override
-	public void addQualifications(Order order, Map<String, String> qualifications) {
+	private HashMap<Qualification, Integer> prepareQualifications(Map<String, String> qualifications) {
 		HashMap<Qualification, Integer> qualificationsList = new HashMap<Qualification, Integer>();
 		Iterator it = qualifications.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry)it.next();
 			Qualification qualification = new Qualification();
-			System.out.println(pair.getKey() + " = " + pair.getValue());
 			qualification.setId(Long.valueOf((String) pair.getKey()));
 			
 			qualificationsList.put(qualification, Integer.valueOf((String) pair.getValue()));
 		}
-		orderDao.addQualifications(order, qualificationsList);	
+		return qualificationsList;
 	}
 	
-	@Override
-	public Map<Qualification, Integer> getQualifications(Order order) {
-		return orderDao.getQualifications(order);
-	}
+
 	
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 
@@ -16,4 +17,5 @@ public interface EmployeeDao {
 	List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications);
 	boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) throws DaoException;
 	Map<Long, Integer> getQualificationsCountByEmployees(Long[] employeesIds) throws DaoException;
+	Map<Employee, Integer> getEmployeesByProject(Project project);
 }

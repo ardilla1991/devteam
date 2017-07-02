@@ -3,6 +3,7 @@ package by.htp.devteam.service;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.dto.OrderDto;
+import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.bean.dto.ProjectListDto;
 
 public interface ProjectService {
@@ -11,4 +12,7 @@ public interface ProjectService {
 	ProjectListDto fetchAll(Employee employee, String currPage) throws ServiceException;
 	Project add(OrderDto orderDto, String title, String description, String[] qualification, String price) throws ServiceException;
 	
+	ProjectDto getById(String id) throws ServiceException;
+	
+	void updateHours(String id, Employee employee, String hours) throws ServiceException;
 }

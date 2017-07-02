@@ -1,4 +1,3 @@
-
 <%@include file="fragment/header.jsp"%>
 
 <div class="container-fluid">

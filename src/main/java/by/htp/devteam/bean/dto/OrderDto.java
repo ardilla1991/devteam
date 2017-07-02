@@ -9,11 +9,6 @@ import by.htp.devteam.bean.Work;
 
 public class OrderDto {
 	
-	@Override
-	public String toString() {
-		return "OrderDto [order=" + order + ", works=" + works + ", qualifications=" + qualifications + "]";
-	}
-
 	private Order order;
 	private List<Work> works;
 	private Map<Qualification, Integer> qualifications;
@@ -40,6 +35,11 @@ public class OrderDto {
 	
 	public void setQualifications(Map<Qualification, Integer> qualifications) {
 		this.qualifications = qualifications;
+	}
+	
+	@Override
+	public String toString() {
+		return "OrderDto [order=" + order + ", works=" + works + ", qualifications=" + qualifications + "]";
 	}
 	
 }

@@ -25,11 +25,6 @@
 			<param-value>US</param-value>
 		</init-param>
 	</filter>
-	<filter-mapping>
-		<filter-name>LocaleFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
 	<filter>
 		<display-name>EncodingFilter</display-name>
 		<filter-name>EncodingFilter</filter-name>

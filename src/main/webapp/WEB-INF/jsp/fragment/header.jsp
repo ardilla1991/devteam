@@ -31,7 +31,7 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <a class="navbar-brand" href="Main"><fmt:message key = "admin.goToMainPage" /></a>
+	          <a class="navbar-brand" href="#"><fmt:message key = "admin.goToMainPage" /></a>
 	        </div>
 	        <div class="navbar-collapse collapse">
 	        

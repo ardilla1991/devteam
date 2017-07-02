@@ -66,8 +66,8 @@ public class LeftMenuTag extends TagSupport{
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			switch (user.getRole()) {
 				case CUSTOMER:
-					//active = currAction.equals("order_list") ? currActionClass : "";
-					//pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + "Main?action=order_list" + "'>" + "Orders" + "</a></" + itemTag + ">");
+					active = currAction.equals("order_show_add_form") ? currActionClass : "";
+					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + "Main?action=order_show_add_form" + "'>" + rb.getString("order.addNew") + "</a></" + itemTag + ">");
 					break;
 				case MANAGER:
 					active = currAction.equals("project_list") ? currActionClass : "";

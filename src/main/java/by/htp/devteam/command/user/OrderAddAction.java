@@ -45,12 +45,13 @@ public class OrderAddAction implements CommandAction{
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e.getMessage());
-			System.out.println("title=" + title);
 			request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);
 			request.setAttribute(REQUEST_PARAM_ORDER_DESCRIPTION, description);
 			request.setAttribute(REQUEST_PARAM_ORDER_DATE_START, dateStart);
 			request.setAttribute(REQUEST_PARAM_ORDER_DATE_FINISH, dateFinish);
 			request.setAttribute(REQUEST_PARAM_ORDER_WORK, workIds);
+			request.setAttribute(REQUEST_PARAM_ORDER_QUALIFICATION, qualifications);
+			
 			page = "Main?action=order_show_add_form";
 			isRedirect = false;
 		}
@@ -65,7 +66,7 @@ public class OrderAddAction implements CommandAction{
 		    Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) obj;
 		    String name = entry.getKey();
 
-		    if (name.startsWith("qualification[")) {
+		    if (name.startsWith(REQUEST_PARAM_ORDER_QUALIFICATION + "[")) {
 		        String key = name.substring(name.indexOf('[') + 1, name.indexOf(']')); 
 		        
 		        if ( entry.getValue()[0].length() > 0 )

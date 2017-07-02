@@ -74,7 +74,9 @@ function checkInput(els, field, blockId) {
 	case "text_group":
 		var inputs = el.getElementsByTagName("input");
 		for (var i = 0; i < inputs.length; i++) {
-			result |= (inputs[i].value != "" && inputs[i].value != undefined ? 1
+			result |= (inputs[i].value != "" 
+						&& inputs[i].value != undefined 
+						&& /\b\d{1,2}\b/.test(inputs[i].value)? 1
 					: 0);
 		}
 		break;
@@ -89,11 +91,16 @@ function checkInput(els, field, blockId) {
 			result = checkWithNedeedTypes(blockId, checkboxes);
 		break;
 	case "date":
-
+		var element = el.getElementsByTagName("input")[0];
+		result = /\b\d{4}-\d{2}-\d{2}\b/.test(element.value);
 		break;
 	case "bigdecimal":
 		var element = el.getElementsByTagName("input")[0];
 		result = /\b(\d+.)?\d{2}\b/.test(element.value);
+		break;
+	case "number":
+		var element = el.getElementsByTagName("input")[0];
+		result = /\b\d+\b/.test(element.value);
 		break;
 	}
 

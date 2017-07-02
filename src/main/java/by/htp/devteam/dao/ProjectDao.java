@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.dto.ProjectDto;
 import by.htp.devteam.bean.dto.ProjectListDto;
 
 public interface ProjectDao {
@@ -15,4 +16,7 @@ public interface ProjectDao {
 	void commitTransaction(Connection connection) throws DaoException;
 	Project add(Connection connection, Project project) throws DaoException;
 	void addEmployees(Connection connection, Project project, Long[] employeeIds) throws DaoException;
+	Project getById(Long id);
+	
+	void updateHours(Project project, Employee employee, int hours) throws DaoException;
 }

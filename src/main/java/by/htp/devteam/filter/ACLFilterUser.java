@@ -88,6 +88,7 @@ public class ACLFilterUser implements Filter{
 		managerACL.add(CommandEnum.PERMISSION_DENIED);
 		managerACL.add(CommandEnum.LOGOUT);
 		managerACL.add(CommandEnum.PROJECT_LIST);
+		managerACL.add(CommandEnum.PROJECT_VIEW);
 		
 		acl.put(RoleEnum.MANAGER, managerACL);
 	}
@@ -98,6 +99,8 @@ public class ACLFilterUser implements Filter{
 		developerACL.add(CommandEnum.PERMISSION_DENIED);
 		developerACL.add(CommandEnum.LOGOUT);
 		developerACL.add(CommandEnum.PROJECT_LIST_BY_EMPLOYEE);
+		developerACL.add(CommandEnum.PROJECT_VIEW);
+		developerACL.add(CommandEnum.PROJECT_UPDATE_HOURS);
 		
 		acl.put(RoleEnum.DEVELOPER, developerACL);
 	}

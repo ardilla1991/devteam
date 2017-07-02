@@ -14,8 +14,10 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
+import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.bean.dto.OrderListDto;
 import by.htp.devteam.controller.ConnectionPool;
+import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.OrderDao;
 
 public class OrderDaoImpl extends CommonDao implements OrderDao{
@@ -88,23 +90,60 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		return orderDto;
 	}
 	
-	public Order getOrder(long id) {
+	public OrderDto getById(long id) {
+		OrderDto orderDto = new OrderDto();
+		Connection dbConnection = null;
+		try {
+			dbConnection = ConnectionPool.getConnection();
+			Order order = getOrder(dbConnection, id);
+			orderDto.setOrder(order);
+			orderDto.setWorks(getWorks(dbConnection, order));
+			orderDto.setQualifications(getQualifications(dbConnection, order));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return orderDto;
+	}
+	
+	private Order getOrder(Connection dbConnection, Long id) throws SQLException {
 		Order order = null;
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-			  PreparedStatement ps = dbConnection.prepareStatement(GET_BY_ID)	) {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(GET_BY_ID) ) {
 
 			ps.setLong(ID, id);
 			try ( ResultSet rs = ps.executeQuery() ) {
 				order = getOrderFromResultSet(rs);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
+		
 		return order;
+	}
+	
+	private List<Work> getWorks(Connection dbConnection, Order order) throws SQLException{
+		List<Work> works = new ArrayList<Work>();
+		try ( PreparedStatement ps = dbConnection.prepareStatement(GET_WORKS_BY_ORDER_ID) ) {
+			ps.setLong(ORDER_ID, order.getId());
+			try ( ResultSet rs = ps.executeQuery() ) {
+				works = getWorkListFromResultSet(rs);
+			}
+		}
+		return works;
+	}
+	
+	private Map<Qualification, Integer> getQualifications(Connection dbConnection, Order order) throws SQLException {
+		Map<Qualification, Integer> qualifications = new HashMap<Qualification, Integer>();	
+		try ( PreparedStatement ps = dbConnection.prepareStatement(GET_QUALIFICATIONS_BY_ORDER_ID) ) {
+
+			ps.setLong(ORDER_ID, order.getId());
+			try ( ResultSet rs = ps.executeQuery() ) {
+				qualifications = getQualificationsFromResultset(rs);
+			}
+		}
+		
+		return qualifications;
 	}
 
 	@Override
-	public List<Order> geOrdersByCustomer(Customer customer) {
+	public List<Order> getByCustomer(Customer customer) {
 		List<Order> orders = new ArrayList<Order>();
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
 			  PreparedStatement ps = dbConnection.prepareStatement(GET_ORDERS_BY_CUSTOMER_ID) ) {
@@ -121,75 +160,62 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	}
 
 	@Override
-	public Order addOrder(Order order) {	
-		try ( Connection dbConnection = ConnectionPool.getConnection(); 
-				PreparedStatement ps = dbConnection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
-
+	public OrderDto add(OrderDto orderDto) throws DaoException{	
+		Connection dbConnection = null;
+		try {
+			dbConnection = ConnectionPool.getConnection();
+			dbConnection.setAutoCommit(false);
+			orderDto.getOrder().setId(addOrder(dbConnection, orderDto.getOrder()));
+			addWorks(dbConnection, orderDto.getOrder(), orderDto.getWorks());
+			addQualifications(dbConnection, orderDto.getOrder(), orderDto.getQualifications());
+			dbConnection.commit();
+			
+		} catch (SQLException e) {
+			rollback(dbConnection);
+			ConnectionPool.returnConnection(dbConnection);
+			e.printStackTrace();
+		}
+		return orderDto;
+	}
+	
+	private Long addOrder(Connection dbConnection, Order order) throws SQLException{
+		Long id = 0L;
+		try ( PreparedStatement ps = dbConnection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
 			prepareStatementForOrder(ps, order);
 			ps.executeUpdate();
 			try ( ResultSet rs = ps.getGeneratedKeys() ) {
 				if (rs.next()) {
-				    order.setId(rs.getLong(ID));
+				    id  = rs.getLong(ID);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-		return order;
+		
+		return id;
 	}
 	
-	public void addWorks(Order order, String[] ids) {
-		try ( Connection dbConnection =  ConnectionPool.getConnection();
-				PreparedStatement ps = dbConnection.prepareStatement(ADD_WORK) ) {
+	public void addWorks(Connection dbConnection, Order order, List<Work> works) throws SQLException {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(ADD_WORK) ) {
 
-			prepareAndAddBatchesForWorks(ps, order, ids);
+			prepareAndAddBatchesForWorks(ps, order, works);
 			ps.executeBatch();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 	
-	@Override
-	public List<Work> getWorks(Order order) {
-		List<Work> works = new ArrayList<Work>();
-		try ( Connection dbConnection = ConnectionPool.getConnection(); 
-				PreparedStatement ps = dbConnection.prepareStatement(GET_WORKS_BY_ORDER_ID) ) {
-			ps.setLong(ORDER_ID, order.getId());
-			try ( ResultSet rs = ps.executeQuery() ) {
-				works = getWorkListFromResultSet(rs);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return works;
-	}
-	
-	@Override
-	public void addQualifications(Order order, HashMap<Qualification, Integer> qualifications) {
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-			  PreparedStatement ps = dbConnection.prepareStatement(ADD_QUALIFICATION) ) {
+	public void addQualifications(Connection dbConnection, Order order, Map<Qualification, Integer> qualifications) throws SQLException {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(ADD_QUALIFICATION) ) {
 
 			prepareAndAddBatchesForQualifications(ps, order, qualifications);
 			ps.executeBatch();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 	
-	@Override
-	public Map<Qualification, Integer> getQualifications(Order order) {
-		Map<Qualification, Integer> qualifications = new HashMap<Qualification, Integer>();	
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-			  PreparedStatement ps = dbConnection.prepareStatement(GET_QUALIFICATIONS_BY_ORDER_ID) ) {
-
-			ps.setLong(ORDER_ID, order.getId());
-			try ( ResultSet rs = ps.executeQuery() ) {
-				qualifications = getQualificationsFromResultset(rs);
-			}
+	private void rollback(Connection dbConnection) throws DaoException{
+		try {
+			dbConnection.rollback();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException("couldn't rollback");
 		}
-		return qualifications;
 	}
 	
 	private Order createOrderFromResultSet(ResultSet rs, Customer customer) throws SQLException {
@@ -299,16 +325,16 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		ps.setBigDecimal(PRICE, order.getPrice());
 	}
 	
-	private void prepareAndAddBatchesForWorks(PreparedStatement ps, Order order, String[] ids) throws SQLException {
-		for ( String id : ids ) {
+	private void prepareAndAddBatchesForWorks(PreparedStatement ps, Order order, List<Work> works) throws SQLException {
+		for ( Work work : works ) {
 			ps.setLong(ORDER_ID, order.getId());
-			ps.setLong(WORK_ID, Long.valueOf(id));
+			ps.setLong(WORK_ID, work.getId());
 			
 			ps.addBatch();
 		}
 	}
 	
-	private void prepareAndAddBatchesForQualifications(PreparedStatement ps, Order order, HashMap<Qualification, Integer> qualifications) throws SQLException {
+	private void prepareAndAddBatchesForQualifications(PreparedStatement ps, Order order, Map<Qualification, Integer> qualifications) throws SQLException {
 		for (Map.Entry<Qualification, Integer> entry : qualifications.entrySet()) {
 		    ps.setLong(ORDER_ID, order.getId());
 			ps.setLong(QUALIFICATION_ID, entry.getKey().getId());

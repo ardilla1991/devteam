@@ -1,13 +1,13 @@
-<%@include file="fragment/header.jsp"%>
+<%@include file="../fragment/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 <div class="container-fluid">
 	<div class="row">
-		<%@include file="fragment/leftBar.jsp"%>
+		<%@include file="../fragment/leftBar.jsp"%>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			
 			<div class="col-sm-5">
 				<!-- jsp:include page="/Main?action=order_view&order_id=${order_id}&jspf=1"  flush="true" / -->
-				<%@include file="fragment/orderView.jsp" %>
+				<%@include file="../fragment/orderView.jsp" %>
 				<div id="order_view"></div>
 			</div>
 			<div class="col-sm-7">
@@ -26,15 +26,15 @@
 						<table class="table table-striped tab-content tab-active">
 							<tbody>
 								<tr>
-									<td><fmt:message key = "project.title" /></td>
+									<td><fmt:message key = "project.title" />*</td>
 									<td id="title"><input type="text" name="title" value="${title}" /></td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "project.description" /></td>
+									<td><fmt:message key = "project.description" />*</td>
 									<td id="description"><input type="text" name="description" value="${description}" /></td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "employees" /></td>
+									<td><fmt:message key = "employees" />*</td>
 									<td id="employee">
 										<c:forEach items="${employee_list}" var="i">
 											<div>
@@ -47,7 +47,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.price" /></td>
+									<td><fmt:message key = "order.price" />*</td>
 									<td id="price"><input type="text" name="price" value="${price}" /></td>
 								</tr>
 							</tbody>
@@ -59,7 +59,7 @@
 					</div>
 					<input type="hidden" name="order_id" value="${order_id}" /> 
 					<input type="hidden" name="action" value="project_add" /> 
-					<input type="submit" class="form_submit"
+					<input type="submit" class="btn btn-primary"
 						onclick="return checkFBForm(formElements, 'qualification_list_count');" name="submitted"
 						value="<fmt:message key = "project.button.add" />" />
 				</form>
@@ -69,7 +69,7 @@
 </div>
 
 
-<%@include file="fragment/footer.jsp"%>
+<%@include file="../fragment/footer.jsp"%>
 <!-- script>
 	ajaxActionListener("order_view", "Main?action=order_view&order_id=${order_id}&jspf=1");
 </script -->

@@ -10,14 +10,18 @@ public final class ConstantValue {
 	public static final String JSP_FOLDER_PATH = "/WEB-INF/jsp/";
 	
 	public static final String PAGE_ERROR = JSP_FOLDER_PATH + "error.jsp";
-	
 	public static final String PAGE_LOGIN = JSP_FOLDER_PATH + "login.jsp";
-	public static final String PAGE_ORDER_LIST = JSP_FOLDER_PATH + "orderList.jsp";
-	public static final String PAGE_ORDER_EDIT = JSP_FOLDER_PATH + "orderAddPage.jsp";
-	public static final String PAGE_ORDER_VIEW = JSP_FOLDER_PATH + "orderView.jsp";
-	public static final String PAGE_PROJECT_EDIT = JSP_FOLDER_PATH + "projectAddPage.jsp";
-	public static final String PAGE_PROJECT_VIEW = JSP_FOLDER_PATH + "projectView.jsp";
-	public static final String PAGE_PROJECT_LIST = JSP_FOLDER_PATH + "projectList.jsp";
+	
+	public static final String PATH_ORDER = JSP_FOLDER_PATH + "order/";
+	public static final String PAGE_ORDER_LIST = PATH_ORDER + "list.jsp";
+	public static final String PAGE_ORDER_EDIT = PATH_ORDER + "addPage.jsp";
+	public static final String PAGE_ORDER_VIEW = PATH_ORDER + "view.jsp";
+	public static final String PAGE_ORDER_NEW_LIST = PATH_ORDER + "newList.jsp";
+	
+	public static final String PATH_PROJECT = JSP_FOLDER_PATH + "project/";
+	public static final String PAGE_PROJECT_EDIT = PATH_PROJECT + "addPage.jsp";
+	public static final String PAGE_PROJECT_VIEW = PATH_PROJECT + "view.jsp";
+	public static final String PAGE_PROJECT_LIST = PATH_PROJECT + "list.jsp";
 	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	
@@ -28,7 +32,7 @@ public final class ConstantValue {
 	public static final String PAGE_DEFAULT_MANAGER = "Main?action=order_new_list";
 	public static final String PAGE_DEFAULT_DEVELOPER = "Main?action=project_list_by_employee";
 	public static final String PAGE_DEFAULT_CUSTOMER = "Main?action=order_list";
-	public static final String PAGE_ORDER_NEW_LIST = JSP_FOLDER_PATH + "orderNewList.jsp";
+
 
 	public static final String REQUEST_PARAM_LOGIN = "login";
 	public static final String REQUEST_PARAM_PASSWORD = "pass";
@@ -55,9 +59,13 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_ORDER = "order";
 	public static final String REQUEST_PARAM_ORDER_DTO = "order_dto";
 	
+	public static final String REQUEST_PARAM_PROJECT_ID = "project_id";
+	public static final String REQUEST_PARAM_PROJECT_DTO = "project_dto";
+	
 	public static final String REQUEST_PARAM_PROJECT_TITLE = "title";
 	public static final String REQUEST_PARAM_PROJECT_DESCRIPTION = "description";
 	public static final String REQUEST_PARAM_PROJECT_EMPLOYEE = "employee";
+	public static final String REQUEST_PARAM_PROJECT_HOURS = "hours";
 	
 	public static final String REQUEST_PARAM_EMPLOYEE_LIST = "employee_list";
 	

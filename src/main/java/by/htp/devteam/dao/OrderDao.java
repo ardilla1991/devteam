@@ -9,24 +9,21 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
+import by.htp.devteam.bean.dto.OrderDto;
 import by.htp.devteam.bean.dto.OrderListDto;
 
 public interface OrderDao {
 	OrderListDto getNewOrders(int offset, int countPerPage);
 	
-	Order getOrder(long id);
+	OrderDto getById(long id);
 	
-	List<Order> geOrdersByCustomer(Customer customer);
+	List<Order> getByCustomer(Customer customer);
 	
-	Order addOrder(Order order);
+	OrderDto add(OrderDto orderDto) throws DaoException;
 	
-	void addWorks(Order order, String[] ids);
+	//List<Work> getWorks(Order order);
 	
-	List<Work> getWorks(Order order);
-	
-	void addQualifications(Order order, HashMap<Qualification, Integer> qualifications);
-	
-	Map<Qualification, Integer> getQualifications(Order order);
+	//Map<Qualification, Integer> getQualifications(Order order);
 	
 	void setPrice(Connection connection, Order order);
 	

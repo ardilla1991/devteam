@@ -1,19 +1,28 @@
-<%@include file="fragment/header.jsp"%>
+<%@include file="../fragment/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 	<div class="container-fluid">
 		<div class="row">
-		<%@include file="fragment/leftBar.jsp"%>
+		<%@include file="../fragment/leftBar.jsp"%>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header"><fmt:message key = "order.pageTitle.new" /></h1>
 
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
 					<div><c:out value="${error_message}" /></div>
+					<script type="text/javascript">
+						var formElements = {};
+						formElements["title"] = "text";
+						formElements["dateStart"] = "date";
+						formElements["dateFinish"] = "date";
+						//formElements["specification"] = "file";
+						formElements["work"] = "checkbox";
+						formElements["qualification"] = "text_group";
+					</script>
 					<div class="table-responsive">
 						<table class="table table-striped tab-content tab-active">
 							<tbody>
 								<tr>
-									<td><fmt:message key = "order.title" /></td>
+									<td><fmt:message key = "order.title" />*</td>
 									<td id="title"><input type="text" name="title" value="${title}" /></td>
 								</tr>
 								<tr>
@@ -29,19 +38,22 @@
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.dateStart" /></td>
+									<td><fmt:message key = "order.dateStart" />*</td>
 									<td id="dateStart">
-										<input type="text" name="dateStart" value="${dateStart}" />
+										<jsp:useBean id="now" class="java.util.Date"/> 
+										<input type="date" name="dateStart" value="${dateStart}"  
+											min="<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />"/>
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.dateFinish" /></td>
+									<td><fmt:message key = "order.dateFinish" />*</td>
 									<td id="dateFinish">
-										<input type="text" name="dateFinish" value="${dateFinish}" />
+										<input type="date" name="dateFinish" value="${dateFinish}" 
+											min="<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />"/>
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.works" /></td>
+									<td><fmt:message key = "order.works" />*</td>
 									<td id="work">
 										<c:forEach items="${work_list}" var="i">
 											<div>
@@ -53,14 +65,15 @@
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.qualifications" /></td>
+									<td><fmt:message key = "order.qualifications" />*</td>
 									<td id="qualification">
-										<c:forEach
-											items="${qualification_list}" var="i">
-											<input type="text" name="qualification[${i.getId()}]"
-												value="" />
-											<c:out value="${i.getTitle()}" />
-											<br />
+										<c:forEach items="${qualification_list}" var="i">
+											<div>
+												<c:set var="q_id">${i.getId()}</c:set>
+												<input type="text" name="qualification[${q_id}]"
+													value="${qualification[q_id]}" />
+												<c:out value="${i.getTitle()}" />
+											</div>
 										</c:forEach>
 									</td>
 								</tr>
@@ -71,17 +84,8 @@
 					<div class="el_obr_warn">
 						<sup>*</sup> - <fmt:message key = "required" />
 					</div>
-					<script type="text/javascript">
-						var formElements = {};
-						formElements["title"] = "text";
-						formElements["dateStart"] = "text";
-						formElements["dateFinish"] = "text";
-						//formElements["specification"] = "file";
-						formElements["work"] = "checkbox";
-						formElements["qualification"] = "text_group";
-					</script>
-					<input type="hidden" name="action" value="order_add" /> <input
-						type="submit" class="form_submit"
+					<input type="hidden" name="action" value="order_add" /> 
+					<input type="submit" class="btn btn-primary"
 						onclick="return checkFBForm(formElements);" name="submitted"
 						value="<fmt:message key = "order.button.add" />" />
 				</form>
@@ -91,4 +95,4 @@
 	
 
 
-<%@include file="fragment/footer.jsp"%>
+<%@include file="../fragment/footer.jsp"%>
