@@ -81,6 +81,14 @@ function checkInput(els, field, blockId) {
 		}
 		break;
 	case "file":
+		var filesExt = ['rar', 'zip', 'doc', 'docx', 'odt', 'txt'];
+		var element = el.getElementsByTagName("input")[0];
+		var fileName = element.value;
+		result = (element.value != undefined && element.value != "" ? 1 : 0);
+		if ( result ) {
+			var parts = fileName.split('.');
+			result = ( filesExt.join().search(parts[parts.length - 1]) != -1 ) ? 1 : 0;
+		}
 		break;
 	case "checkbox":
 		var checkboxes = el.getElementsByTagName("input");

@@ -8,6 +8,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import by.htp.devteam.dao.DaoException;
+
 public class ConnectionPool {
 	
 	private static final String DATASOURCE_NAME = "jdbc/devteam";
@@ -32,11 +34,11 @@ public class ConnectionPool {
 		return connection;
 	}
 	
-	public static void returnConnection(Connection connection) {
+	public static void returnConnection(Connection connection) throws DaoException{
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DaoException("Couldn't close connection", e);
 		}
 	}
 }

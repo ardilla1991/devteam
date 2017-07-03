@@ -9,10 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
@@ -29,9 +27,7 @@ public class LoginAction implements CommandAction{
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		
-		logger.info("Hello, World!");
-		
+				
 		HttpSession session = request.getSession();
 		String login = request.getParameter(REQUEST_PARAM_LOGIN);
 		String password = request.getParameter(REQUEST_PARAM_PASSWORD);
@@ -68,6 +64,7 @@ public class LoginAction implements CommandAction{
 				default:
 					break;
 			}
+			
 		} catch (ServiceException e1) { 
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e1.getMessage());
 			page = PAGE_LOGIN;

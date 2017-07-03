@@ -19,16 +19,16 @@ public class UserDaoImpl implements UserDao{
 	private final static int ROLE = 4;
 			
 	private final static String FETCH_BY_CREDENTIALS = "SELECT e.* FROM user as e "
-			+ "WHERE e.login=? AND e.password=?";
+			+ "WHERE e.login=?";
 	
 	@Override
-	public User fetchByCredentials(String login, String password) throws DaoException{
+	public User fetchByCredentials(String login) throws DaoException{
 		User user = null;
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(FETCH_BY_CREDENTIALS) ) {
 
 			ps.setString(1, login);
-			ps.setString(2, password);
+			//ps.setString(2, password);
 			
 			user = getUserFromResultSet(ps);
 		} catch (SQLException e) {
@@ -44,6 +44,7 @@ public class UserDaoImpl implements UserDao{
 				user = new User();
 				user.setId(rs.getLong(ID));
 				user.setLogin(rs.getString(LOGIN));
+				user.setPassword(rs.getString(PASSWORD));
 				user.setRole(RoleEnum.valueOf(rs.getString(ROLE)));
 			}
 		}

@@ -7,14 +7,14 @@
 				<h1 class="page-header"><fmt:message key = "order.pageTitle.new" /></h1>
 
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
-				<form id="order_add" name="order_form" action="Main" method="post">
+				<form id="order_add" name="order_form" action="Main" method="post" enctype="multipart/form-data">
 					<div><c:out value="${error_message}" /></div>
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
 						formElements["dateStart"] = "date";
 						formElements["dateFinish"] = "date";
-						//formElements["specification"] = "file";
+						formElements["specification"] = "file";
 						formElements["work"] = "checkbox";
 						formElements["qualification"] = "text_group";
 					</script>
@@ -34,7 +34,7 @@
 								<tr>
 									<td><fmt:message key = "order.specification" /></td>
 									<td id="specification">
-										<input type="text" name="specification" value="${specification}" />
+										<input type="file" name="specification" value="${specification}" />
 									</td>
 								</tr>
 								<tr>
