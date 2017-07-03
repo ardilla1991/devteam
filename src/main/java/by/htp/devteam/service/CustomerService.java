@@ -5,6 +5,6 @@ import by.htp.devteam.bean.User;
 
 public interface CustomerService {
 
-	Customer getCustomerByUser(User user);
-	boolean logOut(Customer customer);
+	Customer getByUser(User user) throws ServiceException;
+
 }

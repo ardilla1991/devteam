@@ -9,7 +9,7 @@ public class CommandExeption extends Exception{
 		super(s);
 	}
 	
-	CommandExeption(String s, Exception e) {
+	public CommandExeption(String s, Exception e) {
 		super(s);
 		_hidden = e;
 	}

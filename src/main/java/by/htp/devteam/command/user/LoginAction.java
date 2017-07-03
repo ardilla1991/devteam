@@ -37,38 +37,43 @@ public class LoginAction implements CommandAction{
 		String password = request.getParameter(REQUEST_PARAM_PASSWORD);
 		String page = PAGE_DEFAULT;
 		
-		User user;
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		UserService userService = serviceFactory.getUserService();
-		UserVO userVO = new UserVO();
-		boolean isNeededRedirect = false;
+		
+		boolean isRedirect = false;
 		try {
-			user = userService.authorise(login, password);
+			UserVO userVO = new UserVO();
+			User user = userService.authorise(login, password);
 			userVO.setUser(user);
 			CustomerService customerService = serviceFactory.getCustomerService();
-			Customer customer = customerService.getCustomerByUser(user);
+			Customer customer = customerService.getByUser(user);
 			userVO.setCustomer(customer);
 			
 			EmployeeService employeeService = serviceFactory.getEmployeeService();
-			Employee employee = employeeService.getEmployeeByUser(user);
+			Employee employee = employeeService.getByUser(user);
 			userVO.setEmployee(employee);
 			
-			session.setAttribute("user", userVO);
-			isNeededRedirect = true;
-			if ( userVO.getUser().getRole() == RoleEnum.MANAGER ) {
-				page = PAGE_DEFAULT_MANAGER;
-			} else if ( userVO.getUser().getRole() == RoleEnum.CUSTOMER ){
-				page = PAGE_DEFAULT_CUSTOMER;
-			} else if ( userVO.getUser().getRole() == RoleEnum.DEVELOPER ){ 
-				page = PAGE_DEFAULT_DEVELOPER;
+			session.setAttribute(SESSION_PARAM_USER, userVO);
+			isRedirect = true;
+			switch ( userVO.getUser().getRole() ) {
+				case MANAGER:
+					page = PAGE_DEFAULT_MANAGER;
+					break;
+				case CUSTOMER:
+					page = PAGE_DEFAULT_CUSTOMER;
+					break;
+				case DEVELOPER:
+					page = PAGE_DEFAULT_DEVELOPER;
+					break;
+				default:
+					break;
 			}
 		} catch (ServiceException e1) { 
-			System.out.println("Login error!!");
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e1.getMessage());
 			page = PAGE_LOGIN;
 		}
 		
-		return new Page(page, isNeededRedirect);
+		return new Page(page, isRedirect);
 	}
 
 }

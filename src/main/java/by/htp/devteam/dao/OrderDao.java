@@ -1,30 +1,22 @@
 package by.htp.devteam.dao;
 
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
-import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.bean.Work;
-import by.htp.devteam.bean.dto.OrderDto;
-import by.htp.devteam.bean.dto.OrderListDto;
+import by.htp.devteam.bean.dto.OrderVo;
+import by.htp.devteam.bean.dto.OrderListVo;
 
 public interface OrderDao {
-	OrderListDto getNewOrders(int offset, int countPerPage);
+	OrderListVo getNewOrders(int offset, int countPerPage) throws DaoException;
 	
-	OrderDto getById(long id);
+	OrderVo getById(long id) throws DaoException;
 	
-	List<Order> getByCustomer(Customer customer);
+	List<Order> getByCustomer(Customer customer) throws DaoException;
 	
-	OrderDto add(OrderDto orderDto) throws DaoException;
+	OrderVo add(OrderVo orderVo) throws DaoException;
 	
-	//List<Work> getWorks(Order order);
-	
-	//Map<Qualification, Integer> getQualifications(Order order);
-	
-	void setPrice(Connection connection, Order order);
+	void setPrice(Connection connection, Order order) throws DaoException;
 	
 }

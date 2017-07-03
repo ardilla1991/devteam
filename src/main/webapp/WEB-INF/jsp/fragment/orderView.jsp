@@ -3,27 +3,27 @@
 		<tbody>
 			<tr>
 				<td><fmt:message key = "order.title" /></td>
-				<td><c:out value="${order_dto.getOrder().getTitle()}" /></td>
+				<td><c:out value="${order_vo.getOrder().getTitle()}" /></td>
 			</tr>
 			<tr>
 				<td><fmt:message key = "order.description" /></td>
-				<td><c:out value="${order_dto.getOrder().getDescription()}" /></td>
+				<td><c:out value="${order_vo.getOrder().getDescription()}" /></td>
 			</tr>
 			<tr>
 				<td><fmt:message key = "order.specification" /></td>
-				<td><c:out value="${order_dto.getOrder().getSpecification()}" /></td>
+				<td><c:out value="${order_vo.getOrder().getSpecification()}" /></td>
 			</tr>
 			<tr>
 				<td><fmt:message key = "order.dateStart" /></td>
-				<td><c:out value="${order_dto.getOrder().getDateStart()}" /></td>
+				<td><c:out value="${order_vo.getOrder().getDateStart()}" /></td>
 			</tr>
 			<tr>
 				<td><fmt:message key = "order.dateFinish" /></td>
-				<td><c:out value="${order_dto.getOrder().getDateFinish()}" /></td>
+				<td><c:out value="${order_vo.getOrder().getDateFinish()}" /></td>
 			</tr>
 			<tr>
 				<td><fmt:message key = "order.works" /></td>
-				<td><c:forEach items="${order_dto.getWorks()}" var="i">
+				<td><c:forEach items="${order_vo.getWorks()}" var="i">
 						<c:out value="${i.getTitle()}" />
 						<br />
 					</c:forEach></td>
@@ -31,7 +31,7 @@
 			<tr>
 				<td><fmt:message key = "order.qualifications" /></td>
 				<td id="qualification_list_count">
-					<c:forEach items="${order_dto.getQualifications()}" var="i">
+					<c:forEach items="${order_vo.getQualifications()}" var="i">
 						<div data-id="${i.key.getId()}"
 							 data-count="${i.value}" >
 							<c:out value="${i.key.getTitle()}" />

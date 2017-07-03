@@ -1,6 +1,7 @@
 package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.User;
+import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
 import by.htp.devteam.service.ServiceException;
@@ -18,10 +19,14 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User authorise(String login, String password) throws ServiceException {
-		User user = userDao.fetchByCredentials(login, password);
-		System.out.println("user");
-		if ( user == null ) {
-			throw new ServiceException("Invalid credentials");
+		User user = null;
+		try {
+			user = userDao.fetchByCredentials(login, password);
+			if ( user == null ) {
+				throw new ServiceException("Invalid credentials");
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("service error", e);
 		}
 		
 		return user;

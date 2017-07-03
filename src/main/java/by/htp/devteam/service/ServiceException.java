@@ -9,7 +9,7 @@ public class ServiceException extends Exception{
 		super(s);
 	}
 	
-	ServiceException(String s, Exception e) {
+	public ServiceException(String s, Exception e) {
 		super(s);
 		_hidden = e;
 	}

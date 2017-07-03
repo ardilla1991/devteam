@@ -8,7 +8,7 @@
 	<uri>pagetag</uri>
 	<tag>
 		<name>paginator</name>
-		<tag-class>by.htp.devteam.util.PageTag</tag-class>
+		<tag-class>by.htp.devteam.util.jsp.PageTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>countPages</name>
@@ -23,6 +23,7 @@
 		<attribute>
 			<name>uri</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 </taglib>

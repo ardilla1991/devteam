@@ -1,4 +1,4 @@
-package by.htp.devteam.util;
+package by.htp.devteam.util.jsp;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -75,7 +75,7 @@ public class LeftMenuTag extends TagSupport{
 					break;
 				case DEVELOPER:
 					active = currAction.equals("project_list_by_employee_id") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + "Main?action=project_list_by_employee_id" + "'>" + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
+					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + "Main?action=project_list_by_employee" + "'>" + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
 					break;
 				default:
 					break;

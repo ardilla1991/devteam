@@ -9,9 +9,11 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
+import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.service.EmployeeService;
+import by.htp.devteam.service.ServiceException;
 
 public class EmployeeServiceImpl implements EmployeeService{
 
@@ -24,26 +26,37 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	@Override
-	public Employee getEmployeeByUser(User user){
-		Employee employee = employeeDao.getEmployeeByUser(user);
-		System.out.println("user");
+	public Employee getByUser(User user) throws ServiceException{
+		Employee employee = null;
+		try {
+			employee = employeeDao.getByUser(user);
+		} catch (DaoException e) {
+			throw new ServiceException("service error", e);
+		}
 		
 		return employee;
 	}
-
-	@Override
-	public boolean logOut(Employee employee) {
-		
-		return false;
-	}
 	
-	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) {
-		return employeeDao.getFreeEmployeesForPeriod(dateStart, dateFinish, qualifications);
+	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) throws ServiceException{
+		List<Employee> employees = null;
+		try {
+			employees = employeeDao.getFreeEmployeesForPeriod(dateStart, dateFinish, qualifications);
+		} catch (DaoException e) {
+			throw new ServiceException("service error", e);
+		}
+		
+		return employees;
 	}
 
 	@Override
-	public Map<Employee, Integer> getEmployeesByProject(Project project) {
+	public Map<Employee, Integer> getByProject(Project project) throws ServiceException{
+		Map<Employee, Integer>  employees = null;
+		try {
+			employees = employeeDao.getByProject(project);
+		} catch (DaoException e) {
+			throw new ServiceException("service error", e);
+		}
 		
-		return employeeDao.getEmployeesByProject(project);
+		return employees;
 	}
 }

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.dto.OrderDto;
+import by.htp.devteam.bean.dto.OrderVo;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -25,14 +25,14 @@ public class ProjectUpdateHoursAction implements CommandAction{
 	}
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		String page = "Main?action=project_list_by_employee";
+		String page = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;
 		boolean isRedirect = true;
 
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
 		String hours = request.getParameter(REQUEST_PARAM_PROJECT_HOURS);
 
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute("user");
+		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
 		
 		try {
 			projectService.updateHours(id, userVO.getEmployee(), hours);
@@ -41,7 +41,7 @@ public class ProjectUpdateHoursAction implements CommandAction{
 			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e.getMessage());
 			request.setAttribute(REQUEST_PARAM_PROJECT_ID, id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_HOURS, hours);
-			page = "Main?action=project_update_hours";
+			page = PAGE_PROJECT_UPDATE_HOURS;
 			isRedirect = false;			
 		}
 		

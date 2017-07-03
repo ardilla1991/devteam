@@ -34,26 +34,7 @@ public enum CommandEnum {
 	
 	LOGOUT { public CommandAction chooseAction() { return new LogoutAction(); } }
 	;
-	//ADMIM_PROJECTS_NEW_LIST("admin_projects_new_list");
-	
-	
-	/*private final String value;
-	
-	private CommandEnum(String value) {
-		this.value = value;
-	}
-	
-	public String getValue() {
-		return value;
-	}
-	
-	public static CommandEnum getNameByValue(String code) {
-        for (int i = 0; i < CommandEnum.values().length; i++) {
-            if (code.equals(CommandEnum.values()[i].value))
-                return CommandEnum.values()[i];
-        }
-        return null;
-    }*/
+
 	public abstract CommandAction chooseAction();
 	
 	public static CommandEnum getAction(String action) throws CommandExeption {

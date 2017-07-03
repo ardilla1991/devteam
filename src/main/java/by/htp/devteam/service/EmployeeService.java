@@ -12,8 +12,10 @@ import by.htp.devteam.bean.User;
 
 public interface EmployeeService {
 	
-	Employee getEmployeeByUser(User user);
-	boolean logOut(Employee employee);
-	List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications);
-	Map<Employee, Integer> getEmployeesByProject(Project project);
+	Employee getByUser(User user) throws ServiceException;
+	
+	List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) 
+			throws ServiceException;
+	
+	Map<Employee, Integer> getByProject(Project project) throws ServiceException;
 }

@@ -11,6 +11,7 @@ import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
+import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import static by.htp.devteam.util.ConstantValue.*;
 
@@ -23,10 +24,15 @@ public class OrderListAction implements CommandAction{
 		OrderService orderService = serviceFactory.getOrderService();
 		
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute("user");
+		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
 
-		List<Order> orders = orderService.geOrdersByCustomer(userVO.getCustomer());
-		request.setAttribute(REQUEST_PARAM_ORDER_LIST, orders);
+		try {
+			List<Order> orders = orderService.geOrdersByCustomer(userVO.getCustomer());
+			request.setAttribute(REQUEST_PARAM_ORDER_LIST, orders);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		
 		return new Page(PAGE_ORDER_LIST);
 	}
 

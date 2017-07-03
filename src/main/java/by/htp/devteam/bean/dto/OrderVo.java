@@ -7,7 +7,7 @@ import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 
-public class OrderDto {
+public class OrderVo {
 	
 	private Order order;
 	private List<Work> works;

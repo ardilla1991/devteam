@@ -8,7 +8,7 @@
 	<uri>leftmenutag</uri>
 	<tag>
 		<name>leftmenu</name>
-		<tag-class>by.htp.devteam.util.LeftMenuTag</tag-class>
+		<tag-class>by.htp.devteam.util.jsp.LeftMenuTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>user</name>

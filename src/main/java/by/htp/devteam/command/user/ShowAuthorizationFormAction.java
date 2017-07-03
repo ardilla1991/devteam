@@ -7,39 +7,44 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 
 import static by.htp.devteam.util.ConstantValue.*;
 
-public class ShowAuthorizationFormAction implements CommandAction{
-	
+public class ShowAuthorizationFormAction implements CommandAction {
 
-	 //private static final Logger logger = LogManager.getLogger(ShowAuthorizationFormAction.class);
-	
+	// private static final Logger logger =
+	// LogManager.getLogger(ShowAuthorizationFormAction.class);
+
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		
-		String page = PAGE_LOGIN;;
-		boolean isNeededRedirect = false;
+
+		String page = PAGE_LOGIN;
+		boolean isRedirect = false;
 		HttpSession session = request.getSession(false);
-		boolean isAuthorised = session != null && session.getAttribute("user") != null;
-		if ( isAuthorised ) {
-			Object userObject = session.getAttribute("user");
+		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
+		if (isAuthorised) {
+			Object userObject = session.getAttribute(SESSION_PARAM_USER);
 			UserVO userVO = (UserVO) userObject;
-			isNeededRedirect = true;
-			if ( userVO.getUser().getRole() == RoleEnum.MANAGER ) {
-				page = PAGE_DEFAULT_MANAGER;
-			} else if ( userVO.getUser().getRole() == RoleEnum.CUSTOMER ){
-				page = PAGE_DEFAULT_CUSTOMER;
-			} else if ( userVO.getUser().getRole() == RoleEnum.DEVELOPER ){ 
-				page = PAGE_DEFAULT_DEVELOPER;
+			isRedirect = true;
+			switch ( userVO.getUser().getRole() ) {
+				case MANAGER:
+					page = PAGE_DEFAULT_MANAGER;
+					break;
+				case CUSTOMER:
+					page = PAGE_DEFAULT_CUSTOMER;
+					break;
+				case DEVELOPER:
+					page = PAGE_DEFAULT_DEVELOPER;
+					break;
+				default:
+					break;
 			}
 		}
-			
-		return new Page(page, isNeededRedirect);
+
+		return new Page(page, isRedirect);
 	}
 
 }

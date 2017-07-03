@@ -10,7 +10,7 @@ public class DaoException extends Exception{
 		super(s);
 	}
 	
-	DaoException(String s, Exception e) {
+	public DaoException(String s, Exception e) {
 		super(s);
 		_hidden = e;
 	}

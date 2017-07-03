@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,16 +21,12 @@ import by.htp.devteam.dao.EmployeeDao;
 
 public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	
-	private final int ID = 1;
-	private final int NAME = 2;
-	private final int START_WORK = 3;
-	private final int QUALIFICATION_ID = 6;
-	private final int QUALIFICATION_TITLE = 7;
-	
-	private final static String FETCH_BY_CREDENTIALS = "SELECT e.*, q.id, q.title "
-			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
-			+ "WHERE e.login=? AND e.password=?";
-	
+	private final static int ID = 1;
+	private final static int NAME = 2;
+	private final static int START_WORK = 3;
+	private final static int QUALIFICATION_ID = 6;
+	private final static int QUALIFICATION_TITLE = 7;
+
 	private final static String GET_BY_USER = "SELECT e.*, q.id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
 			+ "WHERE e.user_id=?";
 	
@@ -60,36 +55,20 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			+ "JOIN qualification as q ON e.qualification_id=q.id";
 	
 	@Override
-	public Employee getEmployeeByUser(User user) {
+	public Employee getByUser(User user) throws DaoException{
 		Employee employee = null;	
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
 				PreparedStatement ps = dbConnection.prepareStatement(GET_BY_USER); ) {
 
 			ps.setLong(1, user.getId());
-			try ( ResultSet rs = ps.executeQuery() ) {
-				employee = getEmployeeFromResultSet(rs);
-			}
+			employee = getEmployeeFromResultSet(ps);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DaoException("sql error", e);
 		}
 		return employee;
 	}
 	
-	public List<Employee> fetchAll() {
-		List<Employee> employees = new ArrayList<Employee>();
-		
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				Statement st = dbConnection.createStatement(); 
-				ResultSet rs = st.executeQuery(FETCH_BY_CREDENTIALS);) {
-
-			employees = getEmployeeListFromResultSet(rs);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return employees;
-	}
-	
-	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) {
+	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) throws DaoException {
 		List<Employee> employees = new ArrayList<Employee>();
 		
 		StringBuilder qualificationIdsStr = new StringBuilder();
@@ -113,8 +92,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			ResultSet rs = st.executeQuery();
 			employees = getEmployeeListFromResultSet(rs);
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
+			throw new DaoException("sql error", e);
 		}
 
 		return employees;
@@ -129,27 +107,18 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 		return employees;
 	}
 	
-	private Employee getEmployeeFromResultSet(ResultSet rs) throws SQLException {
+	private Employee getEmployeeFromResultSet(PreparedStatement ps) throws SQLException {
 		Employee employee = null;
-		if ( rs.next() ) {
-			employee = createEmployeeFromResultSet(rs);
+		try ( ResultSet rs = ps.executeQuery() ) {
+			if ( rs.next() ) {
+				employee = createEmployeeFromResultSet(rs);
+			}
 		}
 		
 		return employee;
 	}
 	
 	private Employee createEmployeeFromResultSet(ResultSet rs) throws SQLException {
-		
-		
-		/*ResultSetMetaData rsmd = rs.getMetaData();
-		int columnCount = rsmd.getColumnCount();
-
-		// The column count starts from 1
-		for (int i = 1; i <= columnCount; i++ ) {
-		  String name = rsmd.getColumnName(i);
-		  System.out.println(name);
-		}*/
-		
 		Qualification qualification = new Qualification();
 		qualification.setId(rs.getLong(QUALIFICATION_ID));
 		qualification.setTitle(rs.getString(QUALIFICATION_TITLE));
@@ -164,7 +133,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	}
 
 	@Override
-	public boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish)
+	public boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) 
 			throws DaoException {
 	
 		StringBuilder qualificationIdsStr = new StringBuilder();
@@ -200,8 +169,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			if ( countIds == countFreeEmployee )
 				isFree = true;
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
+			throw new DaoException("sql error", e);
 		}
 
 		return isFree;
@@ -227,52 +195,54 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 				st.setLong(i+1, employeesIds[i]);
 			}
 
-			ResultSet rs = st.executeQuery();
-			qualificationsCount = getQualificationsCountFromResultSet(rs);
+			qualificationsCount = getQualificationsCountFromResultSet(st);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DaoException("sql error", e);
 		}
 
 		return qualificationsCount;
 	}
 	
-	private Map<Long, Integer> getQualificationsCountFromResultSet(ResultSet rs) throws SQLException {
+	private Map<Long, Integer> getQualificationsCountFromResultSet(PreparedStatement st) throws SQLException {
 		Map<Long, Integer> qualificationsCount = new HashMap<Long, Integer>();
-		while ( rs.next() ) {
-			qualificationsCount.put(rs.getLong(1), rs.getInt(2));
+		try ( ResultSet rs = st.executeQuery() ) {
+			while ( rs.next() ) {
+				qualificationsCount.put(rs.getLong(1), rs.getInt(2));
+			}
 		}
+		
 		return qualificationsCount;
 	}
 
 	@Override
-	public Map<Employee, Integer> getEmployeesByProject(Project project) {
+	public Map<Employee, Integer> getByProject(Project project) throws DaoException {
 		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
 		
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(GET_BY_PROJECT) ) {
 			
 			st.setLong(1, project.getId());
-			ResultSet rs = st.executeQuery();
-			employees = getEmployeeListWithHoursOnProjectFromResultSet(rs);
+			employees = getEmployeeListWithHoursOnProjectFromResultSet(st);
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
+			throw new DaoException("sql error", e);
 		}
 
 		return employees;
 	}
 	
-	private Map<Employee, Integer> getEmployeeListWithHoursOnProjectFromResultSet(ResultSet rs) throws SQLException {
+	private Map<Employee, Integer> getEmployeeListWithHoursOnProjectFromResultSet(PreparedStatement st) throws SQLException {
 		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
-		while ( rs.next() ) {
-			Employee employee = new Employee();
-			employee.setId(rs.getLong(ID));
-			employee.setName(rs.getString(NAME));
-			Qualification qualification = new Qualification();
-			qualification.setTitle(rs.getString(3));
-			
-			employee.setQualification(qualification);
-			employees.put(employee, rs.getInt(4));
+		try ( ResultSet rs = st.executeQuery() ) {
+			while ( rs.next() ) {
+				Employee employee = new Employee();
+				employee.setId(rs.getLong(ID));
+				employee.setName(rs.getString(NAME));
+				Qualification qualification = new Qualification();
+				qualification.setTitle(rs.getString(3));
+				
+				employee.setQualification(qualification);
+				employees.put(employee, rs.getInt(4));
+			}
 		}
 		
 		return employees;

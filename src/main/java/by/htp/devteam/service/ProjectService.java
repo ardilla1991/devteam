@@ -2,17 +2,18 @@ package by.htp.devteam.service;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.dto.OrderDto;
-import by.htp.devteam.bean.dto.ProjectDto;
-import by.htp.devteam.bean.dto.ProjectListDto;
+import by.htp.devteam.bean.dto.OrderVo;
+import by.htp.devteam.bean.dto.ProjectVo;
+import by.htp.devteam.bean.dto.ProjectListVo;
 
 public interface ProjectService {
 
-	ProjectListDto fetchAll(String currPage) throws ServiceException;
-	ProjectListDto fetchAll(Employee employee, String currPage) throws ServiceException;
-	Project add(OrderDto orderDto, String title, String description, String[] qualification, String price) throws ServiceException;
+	ProjectListVo fetchAll(String currPage, Employee employee) throws ServiceException;
 	
-	ProjectDto getById(String id) throws ServiceException;
+	Project add(OrderVo orderVo, String title, String description, String[] qualification, String price) 
+			throws ServiceException;
+	
+	ProjectVo getById(String id) throws ServiceException;
 	
 	void updateHours(String id, Employee employee, String hours) throws ServiceException;
 }

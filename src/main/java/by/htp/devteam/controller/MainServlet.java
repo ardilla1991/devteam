@@ -23,31 +23,30 @@ public class MainServlet extends HttpServlet{
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Page page = processRequest(request, response, ActionEnum.GET);
+		Page page = processRequest(request, response);
 		
-		if ( page.isInclude() ) {
-			this.getServletContext().getRequestDispatcher(page.getPage()).
-	        include(request, response);
-		} else if ( page.isRedirect() ) {
+		/*if ( page.isRedirect() ) {
 			response.sendRedirect(page.getPage());
 		} else {
 			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
 			disp.forward(request, response);
-		}	
+		}*/	
+		displayPage(request, response, page);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Page page = processRequest(request, response, ActionEnum.POST);
-		if ( !page.isRedirect() ) {
+		Page page = processRequest(request, response);
+		/*if ( !page.isRedirect() ) {
 			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
 			disp.forward(request, response);
 		} else {
 			response.sendRedirect(page.getPage());
-		}
+		}*/
+		displayPage(request, response, page);
 	}
 	
-	private Page processRequest(HttpServletRequest request, HttpServletResponse response, ActionEnum actionData) throws ServletException, IOException {
-		String action = request.getParameter("action");
+	private Page processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		Page page = null;
 		
 		CommandFactory commandFactory = CommandFactory.getInstance();
@@ -57,9 +56,19 @@ public class MainServlet extends HttpServlet{
 			page = commandAction.execute(request, response);
 		} catch (CommandExeption e) {
 			page = new Page(PAGE_ERROR);
-		}
+		}	
 		
 		return page;
+	}
+	
+	private void displayPage(HttpServletRequest request, HttpServletResponse response, Page page) throws ServletException, IOException {
+		
+		if ( page.isRedirect() )
+			response.sendRedirect(page.getPage());
+		else {
+			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
+			disp.forward(request, response);
+		}
 	}
 
 }

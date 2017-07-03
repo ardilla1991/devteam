@@ -4,19 +4,23 @@ import java.sql.Connection;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.dto.ProjectDto;
-import by.htp.devteam.bean.dto.ProjectListDto;
+import by.htp.devteam.bean.dto.ProjectListVo;
 
 public interface ProjectDao {
 
-	ProjectListDto fetchAll(int offset, int countPerPage);
-	ProjectListDto fetchAll(Employee employee, int offset, int countPerPage);
+	ProjectListVo fetchAll(int offset, int countPerPage, Employee employee) throws DaoException;
+	
 	Connection startTransaction() throws DaoException;
+	
 	void rollbackTransaction(Connection connection) throws DaoException;
+	
 	void commitTransaction(Connection connection) throws DaoException;
+	
 	Project add(Connection connection, Project project) throws DaoException;
+	
 	void addEmployees(Connection connection, Project project, Long[] employeeIds) throws DaoException;
-	Project getById(Long id);
+	
+	Project getById(Long id) throws DaoException;
 	
 	void updateHours(Project project, Employee employee, int hours) throws DaoException;
 }

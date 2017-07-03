@@ -3,8 +3,10 @@ package by.htp.devteam.service.impl;
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.CustomerDao;
+import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.service.CustomerService;
+import by.htp.devteam.service.ServiceException;
 
 public class CustomerServiceImpl implements CustomerService{
 	CustomerDao customerDao;
@@ -16,14 +18,14 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public boolean logOut(Customer customer) {
+	public Customer getByUser(User user) throws ServiceException{
+		Customer customer = null;
+		try {
+			customer = customerDao.getCustomerByUser(user);
+		} catch (DaoException e) {
+			throw new ServiceException("service error", e);
+		}
 		
-		return false;
-	}
-
-
-	@Override
-	public Customer getCustomerByUser(User user) {
-		return customerDao.getCustomerByUser(user);
+		return customer;
 	}
 }

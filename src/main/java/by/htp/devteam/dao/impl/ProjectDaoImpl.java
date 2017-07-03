@@ -12,19 +12,17 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.dto.OrderDto;
-import by.htp.devteam.bean.dto.ProjectDto;
-import by.htp.devteam.bean.dto.ProjectListDto;
+import by.htp.devteam.bean.dto.ProjectListVo;
 import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.ProjectDao;
 
 public class ProjectDaoImpl extends CommonDao implements ProjectDao {
 	
-	private final int ID = 1;
-	private final int TITLE = 2;
-	private final int DESCRIPTION = 3;
-	private final int ORDER_ID = 4;
+	private final static int ID = 1;
+	private final static int TITLE = 2;
+	private final static int DESCRIPTION = 3;
+	private final static int ORDER_ID = 4;
 	
 	private final static String PROJECT_LIST = "SELECT p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id LIMIT ?,?";
 	
@@ -42,76 +40,184 @@ public class ProjectDaoImpl extends CommonDao implements ProjectDao {
 
 	private final static String UPDATE_HOURS = "UPDATE project_employee SET hours=hours+? WHERE project_id=? AND employee_id=?";
 	
-	public ProjectListDto fetchAll(int offset, int countPerPage) {
-		ProjectListDto projectDto = new ProjectListDto();
+	private ProjectListVo fetchAll(int offset, int countPerPage) {
+		ProjectListVo projectListVo = new ProjectListVo();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(PROJECT_LIST); ) {
 
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
-			try ( ResultSet rs = ps.executeQuery() ) {
-				projectDto.setProjects(getProjectListFromResultSet(rs));
-			}
-			try ( Statement st = dbConnection.createStatement();
-					ResultSet rsNumebr  = st.executeQuery("SELECT FOUND_ROWS()");) {
-				if ( rsNumebr.next() ) {
-					projectDto.setCountRecords(rsNumebr.getInt(1));
-				}
-			}
+			projectListVo = createProjectListVoObject(dbConnection, ps);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return projectDto;
+		return projectListVo;
 	}
 	
 	@Override
-	public ProjectListDto fetchAll(Employee employee, int offset, int countPerPage) {
-		ProjectListDto projectDto = new ProjectListDto();
+	public ProjectListVo fetchAll(int offset, int countPerPage, Employee employee) {
+		if ( employee == null )
+			return fetchAll(offset, countPerPage);
+		
+		ProjectListVo projectListVo = new ProjectListVo();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(PROJECT_LIST_BY_EMPLOYEE); ) {
 
 			ps.setLong(1, employee.getId());
 			ps.setInt(2, offset);
 			ps.setInt(3, countPerPage);
-			try ( ResultSet rs = ps.executeQuery() ) {
-				projectDto.setProjects(getProjectListFromResultSet(rs));
-			}
-			try ( Statement st = dbConnection.createStatement();
-					ResultSet rsNumebr  = st.executeQuery("SELECT FOUND_ROWS()");) {
-				if ( rsNumebr.next() ) {
-					projectDto.setCountRecords(rsNumebr.getInt(1));
+			projectListVo = createProjectListVoObject(dbConnection, ps);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return projectListVo;
+	}
+	
+	@Override
+	public Project add(Connection connection, Project project) throws DaoException {
+		Project createdProject = project;
+		try ( PreparedStatement ps = connection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
+
+			prepareStatementForProject(ps, project);
+			ps.executeUpdate();
+			try ( ResultSet rs = ps.getGeneratedKeys() ) {
+				if (rs.next()) {
+					createdProject.setId(rs.getLong(ID));
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new DaoException("sql error");
 		}
-		return projectDto;
-	}
-	
-	private List<Project> getProjectListFromResultSet(ResultSet rs) throws SQLException {
-		List<Project> projects = new ArrayList<Project>();;
-		
-		while ( rs.next() ) {
-			Order order = new Order();
-			order.setId(rs.getLong(4));
-			order.setTitle(rs.getString(6));
-			order.setDescription(rs.getString(7));
-			order.setDateCreated(rs.getDate(11));
-			order.setDateStart(rs.getDate(12));
-			order.setDateFinish(rs.getDate(13));
-			
-			Project project = new Project();
-			project.setId(rs.getLong(ID));
-			project.setTitle(rs.getString(TITLE));
-			project.setDescription(rs.getString(DESCRIPTION));
-			project.setOrder(order);
-			
-			projects.add(project);
-		}
-		
-		return projects;
+		return createdProject;
 	}
 
+	@Override
+	public void addEmployees(Connection connection, Project project, Long[] employeeIds) throws DaoException {
+		try ( PreparedStatement ps = connection.prepareStatement(ADD_EMPLOYEE) ) {
+
+			prepareAndAddBatchesForEmployee(ps, project, employeeIds);
+			ps.executeBatch();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException("sql error! ");
+		}
+	}
+
+	@Override
+	public Project getById(Long id) {
+		Project project = null;
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(GET_BY_ID) ) {
+
+			ps.setLong(ID, id);
+			project = getProjectFromResultSet(ps);
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+		}
+		
+		return project;
+	}
+	
+	@Override
+	public void updateHours(Project project, Employee employee, int hours) throws DaoException {
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(UPDATE_HOURS) ) {
+
+			ps.setInt(1, hours);
+			ps.setLong(2, project.getId());
+			ps.setLong(3, employee.getId());
+			ps.executeUpdate();
+				
+		} catch ( SQLException e ) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private ProjectListVo createProjectListVoObject(Connection dbConnection, PreparedStatement ps) throws SQLException{
+		ProjectListVo projectListVo = new ProjectListVo();
+		projectListVo.setProjects(getProjectListFromResultSet(ps));
+		
+		try ( Statement st = dbConnection.createStatement();
+				ResultSet rsNumebr  = st.executeQuery("SELECT FOUND_ROWS()");) {
+			if ( rsNumebr.next() ) {
+				projectListVo.setCountRecords(rsNumebr.getInt(1));
+			}
+		}
+		
+		return projectListVo;
+	}
+	
+	private List<Project> getProjectListFromResultSet(PreparedStatement ps) throws SQLException {
+		List<Project> projects = new ArrayList<Project>();
+		try ( ResultSet rs = ps.executeQuery() ) {
+			while ( rs.next() ) {
+				Order order = new Order();
+				order.setId(rs.getLong(4));
+				order.setTitle(rs.getString(6));
+				order.setDescription(rs.getString(7));
+				order.setDateCreated(rs.getDate(11));
+				order.setDateStart(rs.getDate(12));
+				order.setDateFinish(rs.getDate(13));
+				
+				Project project = new Project();
+				project.setId(rs.getLong(ID));
+				project.setTitle(rs.getString(TITLE));
+				project.setDescription(rs.getString(DESCRIPTION));
+				project.setOrder(order);
+				
+				projects.add(project);
+			}
+		}
+
+		return projects;
+	}
+	
+	private void prepareStatementForProject(PreparedStatement ps, Project project) throws SQLException{
+		ps.setString(ID, null);
+		ps.setString(TITLE, project.getTitle());
+		ps.setString(DESCRIPTION, project.getDescription());
+		ps.setLong(ORDER_ID, project.getOrder().getId());
+	}
+	
+	private void prepareAndAddBatchesForEmployee(PreparedStatement ps, Project project, Long[] ids) throws SQLException {
+		for ( Long id : ids ) {
+			ps.setLong(1, project.getId());
+			ps.setLong(2, id);
+			ps.setInt(3, project.getHours());
+			
+			ps.addBatch();
+		}
+	}
+	
+	private Project getProjectFromResultSet(PreparedStatement ps) throws SQLException {
+		Project project = new Project();
+		try ( ResultSet rs = ps.executeQuery() ) {
+			if ( rs.next() ) {
+				project.setId(rs.getLong(1));
+				project.setTitle(rs.getString(2));
+				project.setDescription(rs.getString(3));
+				
+				Order order = new Order();
+				order.setId(rs.getLong(4));
+				order.setSpecification(rs.getString(5));
+				order.setDateStart(rs.getDate(6));
+				order.setDateFinish(rs.getDate(7));
+
+				Customer customer = new Customer();
+				customer.setName(rs.getString(8));
+				customer.setEmail(rs.getString(9));
+				customer.setPhone(rs.getString(10));
+				
+				order.setCustomer(customer);
+				project.setOrder(order);
+			}
+		}
+		
+		return project;
+	}
+	
 	@Override
 	public Connection startTransaction() throws DaoException {
 		Connection dbConnection = null;
@@ -142,121 +248,6 @@ public class ProjectDaoImpl extends CommonDao implements ProjectDao {
 			ConnectionPool.returnConnection(connection);
 		} catch (SQLException e) {
 			throw new DaoException("couldn't commit");
-		}
-		
-	}
-	
-	@Override
-	public Project add(Connection connection, Project project) throws DaoException {
-		Project createdProject = project;
-		try ( PreparedStatement ps = connection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
-
-			prepareStatementForProject(ps, project);
-			ps.executeUpdate();
-			try ( ResultSet rs = ps.getGeneratedKeys() ) {
-				if (rs.next()) {
-					//project.setId(rs.getLong(ID));
-					createdProject.setId(rs.getLong(ID));
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DaoException("sql error");
-		}
-		return createdProject;
-	}
-	
-	private void prepareStatementForProject(PreparedStatement ps, Project project) throws SQLException{
-		ps.setString(ID, null);
-		ps.setString(TITLE, project.getTitle());
-		ps.setString(DESCRIPTION, project.getDescription());
-		ps.setLong(ORDER_ID, project.getOrder().getId());
-	}
-
-	@Override
-	public void addEmployees(Connection connection, Project project, Long[] employeeIds) throws DaoException {
-		try ( PreparedStatement ps = connection.prepareStatement(ADD_EMPLOYEE) ) {
-
-			prepareAndAddBatchesForEmployee(ps, project, employeeIds);
-			ps.executeBatch();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new DaoException("sql error! ");
-		}
-		
-	}
-	
-	private void prepareAndAddBatchesForEmployee(PreparedStatement ps, Project project, Long[] ids) throws SQLException {
-		for ( Long id : ids ) {
-			ps.setLong(1, project.getId());
-			ps.setLong(2, id);
-			ps.setInt(3, project.getHours());
-			
-			ps.addBatch();
-		}
-	}
-
-	@Override
-	public Project getById(Long id) {
-		Project project = null;
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement ps = dbConnection.prepareStatement(GET_BY_ID) ) {
-
-			ps.setLong(ID, id);
-			try ( ResultSet rs = ps.executeQuery() ) {
-				project = getProjectFromResultSet(rs);
-			}
-		} catch ( SQLException e ) {
-			e.printStackTrace();
-		}
-		
-		return project;
-	}
-	
-	private Project getProjectFromResultSet(ResultSet rs) throws SQLException {
-		Project project = new Project();
-		if ( rs.next() ) {
-			project = createProjectFromResultSet(rs);
-		}
-		
-		return project;
-	}
-	
-	private Project createProjectFromResultSet(ResultSet rs) throws SQLException {
-		Project project = new Project();
-		project.setId(rs.getLong(1));
-		project.setTitle(rs.getString(2));
-		project.setDescription(rs.getString(3));
-		
-		Order order = new Order();
-		order.setId(rs.getLong(4));
-		order.setSpecification(rs.getString(5));
-		order.setDateStart(rs.getDate(6));
-		order.setDateFinish(rs.getDate(7));
-
-		Customer customer = new Customer();
-		customer.setName(rs.getString(8));
-		customer.setEmail(rs.getString(9));
-		customer.setPhone(rs.getString(10));
-		
-		order.setCustomer(customer);
-		project.setOrder(order);
-		
-		return project;
-	}
-
-	@Override
-	public void updateHours(Project project, Employee employee, int hours) throws DaoException {
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement ps = dbConnection.prepareStatement(UPDATE_HOURS) ) {
-
-			ps.setInt(1, hours);
-			ps.setLong(2, project.getId());
-			ps.setLong(3, employee.getId());
-			ps.executeUpdate();
-				
-		} catch ( SQLException e ) {
-			e.printStackTrace();
 		}
 		
 	}

@@ -14,7 +14,7 @@
 			<c:set var="role">CUSTOMER</c:set>
 				<c:if test="${ user.getUser().getRole()  != role }">
 					<a class="btn btn-default" role="button"
-						href="Main?action=project_show_add_form&order_id=${order_dto.getOrder().getId()}"
+						href="Main?action=project_show_add_form&order_id=${order_vo.getOrder().getId()}"
 						id="project_add"><fmt:message key="project.button.add" /></a>
 					<div id="project_edit"></div>
 				</c:if>

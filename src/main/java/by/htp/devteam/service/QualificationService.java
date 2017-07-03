@@ -5,5 +5,5 @@ import java.util.List;
 import by.htp.devteam.bean.Qualification;
 
 public interface QualificationService {
-	List<Qualification> fetchAll();
+	List<Qualification> fetchAll() throws ServiceException;
 }

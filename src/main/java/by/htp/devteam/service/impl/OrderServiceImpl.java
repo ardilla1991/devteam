@@ -12,8 +12,8 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
-import by.htp.devteam.bean.dto.OrderDto;
-import by.htp.devteam.bean.dto.OrderListDto;
+import by.htp.devteam.bean.dto.OrderVo;
+import by.htp.devteam.bean.dto.OrderListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public OrderListDto getNewOrders(String currPage) throws ServiceException{
+	public OrderListVo getNewOrders(String currPage) throws ServiceException{
 		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
 		int currPageValue = 0;
 		
@@ -46,19 +46,30 @@ public class OrderServiceImpl implements OrderService{
 		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
-		OrderListDto orderDto = orderDao.getNewOrders(offset, countPerPage);
-
-		int countPages = (int) Math.ceil(orderDto.getCountRecords() * 1.0 / countPerPage);
-		orderDto.setCountPages(countPages);
-		orderDto.setCurrPage(currPageValue);
-		
-		return orderDto;
+		OrderListVo orderListVo = new OrderListVo();
+		try {
+			orderListVo = orderDao.getNewOrders(offset, countPerPage);
+			int countPages = (int) Math.ceil(orderListVo.getCountRecords() * 1.0 / countPerPage);
+			orderListVo.setCountPages(countPages);
+			orderListVo.setCurrPage(currPageValue);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException("service error", e);
+		}
+	
+		return orderListVo;
 	}
 	
 	@Override
-	public List<Order> geOrdersByCustomer(Customer customer) {
-
-		return orderDao.getByCustomer(customer);
+	public List<Order> geOrdersByCustomer(Customer customer) throws ServiceException{
+		List<Order> orders = new ArrayList<Order>();
+		try {
+			orders = orderDao.getByCustomer(customer);
+		} catch (DaoException e) {
+			throw new ServiceException("error", e);
+		}
+		
+		return orders;
 	}
 
 	@Override
@@ -88,12 +99,12 @@ public class OrderServiceImpl implements OrderService{
 		List<Work> works = prepareWorks(workIds);
 		HashMap<Qualification, Integer> qualifications = prepareQualifications(qualificationsIdsAndCount);
 		
-		OrderDto orderDto = new OrderDto();
-		orderDto.setOrder(order);
-		orderDto.setWorks(works);
-		orderDto.setQualifications(qualifications);
+		OrderVo orderVo = new OrderVo();
+		orderVo.setOrder(order);
+		orderVo.setWorks(works);
+		orderVo.setQualifications(qualifications);
 		try {
-			OrderDto orderCreated = orderDao.add(orderDto);
+			OrderVo orderCreated = orderDao.add(orderVo);
 		} catch (DaoException e) {
 			
 			e.printStackTrace();
@@ -103,10 +114,18 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public OrderDto getOrderById(String orderId) {
-		OrderDto orderDto = orderDao.getById(Long.valueOf(orderId));
+	public OrderVo getOrderById(String orderId) throws ServiceException {
+		if ( !Validator.isNumber(orderId) )
+			throw new ServiceException("id is not valid");
 		
-		return orderDto;
+		OrderVo orderVo = null;
+		try {
+			orderVo = orderDao.getById(Long.valueOf(orderId));
+		} catch (DaoException e) {
+			e.printStackTrace();
+		}
+		
+		return orderVo;
 	}
 	
 	private List<Work> prepareWorks(String[] worksIds) {

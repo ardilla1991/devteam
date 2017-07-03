@@ -9,7 +9,7 @@
     <function>
         <name>inArray</name>
         <description>Checks if a value exists in an array</description>
-        <function-class>by.htp.devteam.util.JspPlugin</function-class>
+        <function-class>by.htp.devteam.util.jsp.JspPlugin</function-class>
         <function-signature>boolean inArray(java.lang.String,java.lang.Object)
         </function-signature>
         <example>

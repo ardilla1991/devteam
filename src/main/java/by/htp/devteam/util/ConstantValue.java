@@ -14,12 +14,12 @@ public final class ConstantValue {
 	
 	public static final String PATH_ORDER = JSP_FOLDER_PATH + "order/";
 	public static final String PAGE_ORDER_LIST = PATH_ORDER + "list.jsp";
-	public static final String PAGE_ORDER_EDIT = PATH_ORDER + "addPage.jsp";
+	public static final String PAGE_ORDER_EDIT = PATH_ORDER + "add.jsp";
 	public static final String PAGE_ORDER_VIEW = PATH_ORDER + "view.jsp";
 	public static final String PAGE_ORDER_NEW_LIST = PATH_ORDER + "newList.jsp";
 	
 	public static final String PATH_PROJECT = JSP_FOLDER_PATH + "project/";
-	public static final String PAGE_PROJECT_EDIT = PATH_PROJECT + "addPage.jsp";
+	public static final String PAGE_PROJECT_EDIT = PATH_PROJECT + "add.jsp";
 	public static final String PAGE_PROJECT_VIEW = PATH_PROJECT + "view.jsp";
 	public static final String PAGE_PROJECT_LIST = PATH_PROJECT + "list.jsp";
 	
@@ -28,12 +28,21 @@ public final class ConstantValue {
 	public static final String JSP_FOLDER_AJAX = "ajax/";
 	public static final String PAGE_PROJECT_EDIT_AJAX = JSP_FOLDER_PATH + JSP_FOLDER_AJAX + "projectAddPage.jsp";
 	
+	public static final String PAGE_PROJECT_LIST_URI = "Main?action=project_list";
+	public static final String PAGE_PROJECT_SHOW_ADD_FORM = "Main?action=project_show_add_form&order_id=";
+	public static final String PAGE_PROJECT_LIST_BY_EMPLOYEE_URI = "Main?action=project_list_by_employee";
+	public static final String PAGE_PROJECT_UPDATE_HOURS = "Main?action=project_update_hours";
 	
-	public static final String PAGE_DEFAULT_MANAGER = "Main?action=order_new_list";
-	public static final String PAGE_DEFAULT_DEVELOPER = "Main?action=project_list_by_employee";
-	public static final String PAGE_DEFAULT_CUSTOMER = "Main?action=order_list";
-
-
+	public static final String PAGE_ORDER_LIST_URI = "Main?action=order_list";
+	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";
+	public static final String PAGE_ORDER_SHOW_ADD_FORM_URI = "Main?action=order_show_add_form";
+	
+	public static final String PAGE_DEFAULT_MANAGER = PAGE_ORDER_NEW_LIST_URI;
+	public static final String PAGE_DEFAULT_DEVELOPER = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;
+	public static final String PAGE_DEFAULT_CUSTOMER = PAGE_ORDER_LIST_URI;
+	
+	public static final String REQUEST_PARAM_ACTION = "action";
+	
 	public static final String REQUEST_PARAM_LOGIN = "login";
 	public static final String REQUEST_PARAM_PASSWORD = "pass";
 	public static final String REQUEST_PARAM_ORDER_LIST = "order_list";
@@ -57,10 +66,11 @@ public final class ConstantValue {
 	
 	public static final String REQUEST_PARAM_ORDER_ID = "order_id";
 	public static final String REQUEST_PARAM_ORDER = "order";
-	public static final String REQUEST_PARAM_ORDER_DTO = "order_dto";
+	public static final String REQUEST_PARAM_ORDER_VO = "order_vo";
 	
 	public static final String REQUEST_PARAM_PROJECT_ID = "project_id";
-	public static final String REQUEST_PARAM_PROJECT_DTO = "project_dto";
+	public static final String REQUEST_PARAM_PROJECT_VO = "project_vo";
+	public static final String REQUEST_PARAM_PROJECT_LIST_VO = "project_list_vo";
 	
 	public static final String REQUEST_PARAM_PROJECT_TITLE = "title";
 	public static final String REQUEST_PARAM_PROJECT_DESCRIPTION = "description";
@@ -74,5 +84,9 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_JSPF = "jspf";
 	
 	public static final String PAGE_ORDER_VIEW_FRAGMENT = JSP_FOLDER_PATH + JSPF_FOLDER + "orderView.jsp";
+	
+	public static final String REQUEST_PARAM_URI = "uri";
+	
+	public static final String SESSION_PARAM_USER = "user";
 	
 }

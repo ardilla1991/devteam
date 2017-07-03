@@ -2,20 +2,21 @@ package by.htp.devteam.bean.dto;
 
 import java.util.List;
 
-import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.Project;
 
-public class OrderListDto {
-	private List<Order> orders;
+public class ProjectListVo {
+	
+	private List<Project> projects;
 	private int countRecords;
 	private int countPages;
 	private int currPage;
 	
-	public List<Order> getOrders() {
-		return orders;
+	public List<Project> getProjects() {
+		return projects;
 	}
 	
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
 	}
 	
 	public int getCountRecords() {

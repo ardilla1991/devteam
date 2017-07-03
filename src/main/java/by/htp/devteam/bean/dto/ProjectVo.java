@@ -5,11 +5,11 @@ import java.util.Map;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 
-public class ProjectDto {
+public class ProjectVo {
 	private Project project;
 	private Map<Employee, Integer> employee;
 	
-	public ProjectDto() {
+	public ProjectVo() {
 		super();
 	}
 	

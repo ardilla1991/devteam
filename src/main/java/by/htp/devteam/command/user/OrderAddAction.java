@@ -27,7 +27,7 @@ public class OrderAddAction implements CommandAction{
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		String page = "Main?action=order_list";
+		String page = PAGE_ORDER_LIST_URI;
 		boolean isRedirect = true;
 		String title = request.getParameter(REQUEST_PARAM_ORDER_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_ORDER_DESCRIPTION);
@@ -38,7 +38,7 @@ public class OrderAddAction implements CommandAction{
 		Map<String, String> qualifications = getQualificationsFromRequest(request);
 		
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute("user");
+		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
 		
 		try {
 			orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications);
@@ -52,7 +52,7 @@ public class OrderAddAction implements CommandAction{
 			request.setAttribute(REQUEST_PARAM_ORDER_WORK, workIds);
 			request.setAttribute(REQUEST_PARAM_ORDER_QUALIFICATION, qualifications);
 			
-			page = "Main?action=order_show_add_form";
+			page = PAGE_ORDER_SHOW_ADD_FORM_URI;
 			isRedirect = false;
 		}
 

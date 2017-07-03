@@ -10,9 +10,9 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.bean.dto.OrderDto;
-import by.htp.devteam.bean.dto.ProjectDto;
-import by.htp.devteam.bean.dto.ProjectListDto;
+import by.htp.devteam.bean.dto.OrderVo;
+import by.htp.devteam.bean.dto.ProjectVo;
+import by.htp.devteam.bean.dto.ProjectListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
@@ -38,9 +38,9 @@ public class ProjectServiceImpl implements ProjectService{
 		employeeDao = daoFactory.getEmployeeDao();
 		orderDao = daoFactory.getOrderDao();
 	}
-	
+
 	@Override
-	public ProjectListDto fetchAll(String currPage) throws ServiceException{
+	public ProjectListVo fetchAll(String currPage, Employee employee) throws ServiceException{
 		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
 		int currPageValue = 0;
 		
@@ -53,40 +53,23 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
-		ProjectListDto projectDto = projectDao.fetchAll(offset, countPerPage);
-
-		int countPages = (int) Math.ceil(projectDto.getCountRecords() * 1.0 / countPerPage);
-		projectDto.setCountPages(countPages);
-		projectDto.setCurrPage(currPageValue);
-		
-		return projectDto;
-	}
-	
-	@Override
-	public ProjectListDto fetchAll(Employee employee, String currPage) throws ServiceException {
-		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
-		int currPageValue = 0;
-		
-		currPageValue = ( currPage == null 
-					  ? SettingConstantValue.START_PAGE 
-					  : Integer.valueOf(currPage) );
-		
-		if ( currPageValue == 0 )
-			throw new ServiceException("page not found");
-		
-		int offset = (currPageValue - 1 ) * countPerPage;
+		ProjectListVo projectListVo = null;
+		try {
+			projectListVo = projectDao.fetchAll(offset, countPerPage, employee);
 			
-		ProjectListDto projectDto = projectDao.fetchAll(employee, offset, countPerPage);
+			int countPages = (int) Math.ceil(projectListVo.getCountRecords() * 1.0 / countPerPage);
+			projectListVo.setCountPages(countPages);
+			projectListVo.setCurrPage(currPageValue);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException("service error", e);
+		}
 
-		int countPages = (int) Math.ceil(projectDto.getCountRecords() * 1.0 / countPerPage);
-		projectDto.setCountPages(countPages);
-		projectDto.setCurrPage(currPageValue);
-		
-		return projectDto;
+		return projectListVo;
 	}
 
 	@Override
-	public Project add(OrderDto orderDto, String title, String description, String[] employees, String price) throws ServiceException {
+	public Project add(OrderVo orderDto, String title, String description, String[] employees, String price) throws ServiceException {
 		Long[] employeesIds = comvertFromStringToLongArray(employees);
 		Project project = null;
 		if ( Validator.isEmpty(title) || Validator.isEmpty(description)
@@ -171,15 +154,21 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public ProjectDto getById(String id) throws ServiceException {
+	public ProjectVo getById(String id) throws ServiceException {
 
-		ProjectDto projectDto = new ProjectDto();
-		Project project = projectDao.getById(Long.valueOf(id));
-		projectDto.setProject(project);
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		EmployeeService employeeService = serviceFactory.getEmployeeService();
-		Map<Employee, Integer> employees = employeeService.getEmployeesByProject(project);
-		projectDto.setEmployee(employees);
+		ProjectVo projectDto = new ProjectVo();
+		Project project;
+		try {
+			project = projectDao.getById(Long.valueOf(id));
+			projectDto.setProject(project);
+			ServiceFactory serviceFactory = ServiceFactory.getInstance();
+			EmployeeService employeeService = serviceFactory.getEmployeeService();
+			Map<Employee, Integer> employees = employeeService.getByProject(project);
+			projectDto.setEmployee(employees);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException("service error", e);
+		}
 		
 		return projectDto;
 	}

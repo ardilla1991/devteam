@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.bean.Order;
-import by.htp.devteam.bean.dto.OrderListDto;
+import by.htp.devteam.bean.dto.OrderListVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
@@ -26,12 +26,12 @@ public class OrderNewListAction implements CommandAction{
 		
 		List<Order> orders = null;
 		try {
-			OrderListDto orderDto = orderService.getNewOrders(currPage);
-			orders = orderDto.getOrders();
+			OrderListVo orderListVo = orderService.getNewOrders(currPage);
+			orders = orderListVo.getOrders();
 			
 			request.setAttribute(REQUEST_PARAM_ORDER_LIST, orders);
-			request.setAttribute(REQUEST_PARAM_CURR_PAGE, orderDto.getCurrPage());
-			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, orderDto.getCountPages());
+			request.setAttribute(REQUEST_PARAM_CURR_PAGE, orderListVo.getCurrPage());
+			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, orderListVo.getCountPages());
 	
 			page = PAGE_ORDER_NEW_LIST;
 		} catch (ServiceException e) {

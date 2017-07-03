@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.htp.devteam.bean.dto.OrderDto;
+import by.htp.devteam.bean.dto.OrderVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
@@ -16,12 +16,12 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
-public class ProjectAddAction implements CommandAction{
-	
+public class ProjectAddAction implements CommandAction {
+
 	private ProjectService projectService;
 	private OrderService orderService;
 	private static final Logger logger = LogManager.getLogger(LoginAction.class.getName());
-	
+
 	public ProjectAddAction() {
 		super();
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -31,22 +31,22 @@ public class ProjectAddAction implements CommandAction{
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		/*List<String> parameterNames = new ArrayList<String>(request.getParameterMap().values());
-		for ( String st : parameterNames ) {
-			System.out.println(st);
-		}*/
-		String page = "Main?action=project_list";
+		/*
+		 * List<String> parameterNames = new
+		 * ArrayList<String>(request.getParameterMap().values()); for ( String
+		 * st : parameterNames ) { System.out.println(st); }
+		 */
+		String page = PAGE_PROJECT_LIST_URI;
 		boolean isRedirect = true;
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
-		OrderDto order = orderService.getOrderById(orderId);
-		
+
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_PROJECT_DESCRIPTION);
 		String[] employees = request.getParameterValues(REQUEST_PARAM_PROJECT_EMPLOYEE);
 		String price = request.getParameter(REQUEST_PARAM_ORDER_PRICE);
-		
 		try {
-			projectService.add(order, title, description, employees, price);
+			OrderVo orderVo = orderService.getOrderById(orderId);
+			projectService.add(orderVo, title, description, employees, price);
 		} catch (ServiceException e) {
 			logger.info("fill the title and description");
 			e.printStackTrace();
@@ -55,11 +55,11 @@ public class ProjectAddAction implements CommandAction{
 			request.setAttribute(REQUEST_PARAM_PROJECT_DESCRIPTION, description);
 			request.setAttribute(REQUEST_PARAM_PROJECT_EMPLOYEE, employees);
 			request.setAttribute(REQUEST_PARAM_ORDER_PRICE, price);
-			page = "Main?action=project_show_add_form&order_id=" + orderId;
-			isRedirect = false;			
+			page = PAGE_PROJECT_SHOW_ADD_FORM + orderId;
+			isRedirect = false;
 		}
-		
+
 		return new Page(page, isRedirect);
 	}
-	
+
 }

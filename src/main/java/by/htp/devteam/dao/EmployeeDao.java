@@ -13,9 +13,14 @@ import by.htp.devteam.bean.User;
 
 public interface EmployeeDao {
 
-	Employee getEmployeeByUser(User user);
-	List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications);
-	boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) throws DaoException;
+	Employee getByUser(User user) throws DaoException;
+	
+	List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) 
+			throws DaoException;
+	
+	boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) 
+			throws DaoException;
 	Map<Long, Integer> getQualificationsCountByEmployees(Long[] employeesIds) throws DaoException;
-	Map<Employee, Integer> getEmployeesByProject(Project project);
+	
+	Map<Employee, Integer> getByProject(Project project) throws DaoException;
 }

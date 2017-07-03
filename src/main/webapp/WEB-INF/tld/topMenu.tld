@@ -8,7 +8,7 @@
 	<uri>topmenutag</uri>
 	<tag>
 		<name>topmenu</name>
-		<tag-class>by.htp.devteam.util.TopMenuTag</tag-class>
+		<tag-class>by.htp.devteam.util.jsp.TopMenuTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>user</name>
