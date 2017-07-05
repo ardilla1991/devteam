@@ -1,5 +1,5 @@
 <%@include file="../fragment/header.jsp"%>
-<%@ taglib uri="pagetag" prefix="ctg"%>
+
 <div class="container-fluid">
 	<div class="row">
 		<%@include file="../fragment/leftBar.jsp"%>

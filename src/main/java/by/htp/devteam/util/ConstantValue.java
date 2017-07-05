@@ -49,7 +49,11 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_PROJECT_LIST = "project_list";
 	public static final String REQUEST_PARAM_WORK_LIST = "work_list";
 	public static final String REQUEST_PARAM_QUALIFICATION_LIST = "qualification_list";
+	
+	
 	public static final String REQUEST_PARAM_ERROR_MSG = "error_message";
+	public static final String REQUEST_PARAM_ERROR_CODE = "error_code";
+	public static final String REQUEST_PARAM_ERROR_FIELD = "empty_field";
 	
 	public static final String REQUEST_PARAM_PAGE = "page";
 	public static final String REQUEST_PARAM_CURR_PAGE = "currPage";

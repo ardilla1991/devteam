@@ -43,7 +43,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 			+ "FROM `order` as o "
 			+ "JOIN customer as c "
 			+ "ON o.customer_id=c.id "
-			+ "WHERE o.price=0 ORDER BY o.dateCreated, o.dateStart LIMIT ?,?";
+			+ "WHERE o.price IS NULL ORDER BY o.dateCreated DESC, o.dateStart DESC LIMIT ?,?";
 	private final static String GET_BY_ID = "SELECT o.*, c.* FROM `order` as o "
 			+ " JOIN customer as c ON o.customer_id=c.id "
 			+ " WHERE o.id=?";
@@ -86,6 +86,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		} catch (SQLException e) {
 			throw new DaoException("sql error", e);
 		}
+
 		return orderListVo;
 	}
 	
@@ -200,6 +201,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		try ( PreparedStatement ps = dbConnection.prepareStatement(ADD_WORK) ) {
 
 			prepareAndAddBatchesForWorks(ps, order, works);
+			
 			ps.executeBatch();
 		}
 	}

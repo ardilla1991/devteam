@@ -22,6 +22,8 @@ import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
+import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.SettingConstantValue;
 import by.htp.devteam.util.Validator;
 
@@ -70,18 +72,41 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public Project add(OrderVo orderDto, String title, String description, String[] employees, String price) throws ServiceException {
-		Long[] employeesIds = comvertFromStringToLongArray(employees);
-		Project project = null;
-		if ( Validator.isEmpty(title) || Validator.isEmpty(description)
-				|| !isCheckedNeededQualifications(orderDto.getQualifications(), employeesIds) 
-				|| Validator.isEmpty(price) || !Validator.checkBigDecimal(price)  ) {
-			throw new ServiceException("Title or description is empty");
+		
+		ProjectValidation projectValidation = new ProjectValidation();
+		projectValidation.validate(title, description, employees, price);
+		
+		if ( !projectValidation.isValid() ) {
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ERROR, projectValidation.getNotValidField());
 		}
+		
+		Long[] employeesIds = comvertFromStringToLongArray(employees);
+		Map<Long, Integer> qualificationCountByEmployees = null;
+		try {
+			qualificationCountByEmployees = employeeDao.getQualificationsCountByEmployees(employeesIds);
+		} catch ( DaoException e ) {
+			//logger
+			e.printStackTrace();
+			throw new ServiceException(ErrorCodeEnum.APPLICATION_ERROR);
+		}
+		
+		Map<Long, Integer> neededQualifications = new HashMap<Long, Integer>(orderDto.getQualifications().size());
+		for ( Entry<Qualification, Integer> qualification : orderDto.getQualifications().entrySet() ) {
+		    Map.Entry<Qualification, Integer> entry = (Map.Entry<Qualification, Integer>) qualification;
+		    neededQualifications.put(entry.getKey().getId(), entry.getValue());
+		}
+		
+		projectValidation.validate(qualificationCountByEmployees, neededQualifications);
 
-		project = new Project();
+		if ( !projectValidation.isValid() ) {
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ERROR, projectValidation.getNotValidField());
+		} 
+		
+		Project project = new Project();
 		project.setTitle(title);
 		project.setDescription(description);
 		project.setOrder(orderDto.getOrder());
+		//Long[] employeesIds = comvertFromStringToLongArray(employees);
 		Connection connection = null;
 		try {
 			connection = projectDao.startTransaction();
@@ -96,37 +121,20 @@ public class ProjectServiceImpl implements ProjectService{
 				commitTransaction(connection);
 			} else {
 				rollbackTransaction(connection);
+				//logger
+				throw new ServiceException("not isset all free employee");
 			}
 		} catch (DaoException e) {
 			rollbackTransaction(connection);
 			e.printStackTrace();
+			//logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION_ERROR);
 		}
 
 		return project;
 	}
 	
-	private boolean isCheckedNeededQualifications(Map<Qualification, Integer> qualificationsInOrder, Long[] employeesIds) {
-		Map<Long, Integer> neededQualifications = new HashMap<Long, Integer>(qualificationsInOrder.size()); 
-		
-		for ( Entry<Qualification, Integer> qualification : qualificationsInOrder.entrySet() ) {
-		    Map.Entry<Qualification, Integer> entry = (Map.Entry<Qualification, Integer>) qualification;
-		    neededQualifications.put(entry.getKey().getId(), entry.getValue());
-		}
-		
-		boolean isCheched = false;
-		try {
-			Map<Long, Integer> qualificationCountByEmployees = employeeDao.getQualificationsCountByEmployees(employeesIds);
-			isCheched = neededQualifications.equals(qualificationCountByEmployees);
-		} catch (DaoException e) {
-			e.printStackTrace();
-			System.out.println("sql error");
-		}
-		
-		return isCheched;
-	}
-	
 	private Long[] comvertFromStringToLongArray(String[] arrayOfStringValues) {
-		System.out.println(arrayOfStringValues);
 		int arrayLength = arrayOfStringValues.length;
 		Long[] longTypeArray = new Long[arrayLength];
 		for ( int i = 0; i < arrayLength; i++ ) {
@@ -175,7 +183,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public void updateHours(String id, Employee employee, String hours) throws ServiceException {
-		if ( !Validator.isNumber(hours) )
+		if ( !Validator.isLong(hours) )
 			throw new ServiceException("invalid value for hours");
 		
 		Project project = new Project();

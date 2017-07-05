@@ -1,6 +1,7 @@
 <%@include file="../fragment/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="messagetag" prefix="msg"%>
 <div class="container-fluid">
 	<div class="row">
 		<%@include file="../fragment/leftBar.jsp"%>
@@ -18,7 +19,9 @@
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
 					<div>
-						<c:out value="${error_message}" />
+						<c:if test="${ error_code > 0}">
+							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="project"/>
+						</c:if>
 					</div>
 					<script type="text/javascript">
 						var formElements = {};

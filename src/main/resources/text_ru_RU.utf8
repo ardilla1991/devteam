@@ -39,3 +39,4 @@ menu.top.orders=Заказы
 menu.top.orders.new=Новые заказы
 menu.top.logout=Выйти
 menu.left.projects=Проекты
+error.code.1=Заполните поля:

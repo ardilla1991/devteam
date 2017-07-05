@@ -3,6 +3,8 @@ package by.htp.devteam.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Part;
+
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.dto.OrderVo;
@@ -13,7 +15,7 @@ public interface OrderService {
 	
 	List<Order> geOrdersByCustomer(Customer customer) throws ServiceException;
 	
-	Order add(Customer customer, String title, String description, String specification, String dateStart, 
+	OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, 
 			String dateFinish, String[] workIds, Map<String, String> qualifications) throws ServiceException;
 	
 	OrderVo getOrderById(String orderId) throws ServiceException;

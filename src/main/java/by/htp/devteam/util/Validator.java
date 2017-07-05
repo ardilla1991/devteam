@@ -33,9 +33,17 @@ public class Validator {
 		return matcher.find();
 	}
 	
-	public static boolean isNumber(String string) {
+	public static boolean isLong(String string) {
 		try {
-			return Long.parseLong(string) > 0;
+			return Long.parseUnsignedLong(string) > 0;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+	
+	public static boolean isInt(String string) {
+		try {
+			return Integer.parseUnsignedInt(string) > 0;
 		} catch (NumberFormatException e) {
 			return false;
 		}

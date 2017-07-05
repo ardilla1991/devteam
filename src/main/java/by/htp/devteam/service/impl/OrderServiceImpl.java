@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Part;
+
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
@@ -19,6 +21,8 @@ import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
+import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.util.SettingConstantValue;
 import by.htp.devteam.util.Validator;
 
@@ -73,49 +77,46 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public Order add(Customer customer, String title, String description, String specification, String dateStart, String dateFinish,
+	public OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, String dateFinish,
 			String[] workIds, Map<String, String> qualificationsIdsAndCount) throws ServiceException {
-		 Calendar c1 = Calendar.getInstance();
-		 java.util.Date now = c1.getTime();
 		
-		if ( Validator.isEmpty(title) || workIds.length == 0
-				|| qualificationsIdsAndCount.size() == 0
-				|| !Validator.isDate(dateStart)
-				|| !Validator.isDate(dateFinish)  ) {
-			throw new ServiceException("Some fields are empty");
-		}
+		OrderValidation orderValidation = new OrderValidation();
+		orderValidation.validate(title, description, specification, dateStart, dateFinish, workIds, qualificationsIdsAndCount);
+		
+		if ( !orderValidation.isValid() ) {
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ERROR, orderValidation.getNotValidField());
+		} 
 		
 		Order order = new Order();
 		order.setTitle(title);
 		order.setDescription(description);
-		order.setSpecification(specification);
 		java.util.Date utilDate = new java.util.Date();
 	    Date sqlDate = new Date(utilDate.getTime());
 		order.setDateCreated(sqlDate);
 		order.setDateStart(Date.valueOf(dateStart));
 		order.setDateFinish(Date.valueOf(dateFinish));
 		order.setCustomer(customer);
-
-		List<Work> works = prepareWorks(workIds);
-		HashMap<Qualification, Integer> qualifications = prepareQualifications(qualificationsIdsAndCount);
-		
+		//order.setSpecification(specification);
 		OrderVo orderVo = new OrderVo();
 		orderVo.setOrder(order);
-		orderVo.setWorks(works);
-		orderVo.setQualifications(qualifications);
+		orderVo.setWorks(prepareWorks(workIds));
+		orderVo.setQualifications(prepareQualifications(qualificationsIdsAndCount));
+		
 		try {
-			OrderVo orderCreated = orderDao.add(orderVo);
+			orderVo = orderDao.add(orderVo);
 		} catch (DaoException e) {
-			
+			////   Logger
+			System.out.println(e.getMessage()); // message from DAO
 			e.printStackTrace();
+			throw new ServiceException(ErrorCodeEnum.APPLICATION_ERROR);
 		}	
 		
-		return null;
+		return orderVo;
 	}
 
 	@Override
 	public OrderVo getOrderById(String orderId) throws ServiceException {
-		if ( !Validator.isNumber(orderId) )
+		if ( !Validator.isLong(orderId) )
 			throw new ServiceException("id is not valid");
 		
 		OrderVo orderVo = null;
@@ -133,6 +134,8 @@ public class OrderServiceImpl implements OrderService{
 		for ( int i = 0; i < worksIds.length; i++ ) {
 			Work work = new Work();
 			work.setId(Long.valueOf(worksIds[i]));
+			
+			works.add(work);
 		}
 		
 		return works;
@@ -151,6 +154,7 @@ public class OrderServiceImpl implements OrderService{
 		return qualificationsList;
 	}
 	
+
 
 	
 }

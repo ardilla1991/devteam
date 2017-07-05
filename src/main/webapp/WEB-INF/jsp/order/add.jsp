@@ -1,5 +1,7 @@
 <%@include file="../fragment/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
+<%@ taglib uri="messagetag" prefix="msg"%>
+
 	<div class="container-fluid">
 		<div class="row">
 		<%@include file="../fragment/leftBar.jsp"%>
@@ -7,8 +9,12 @@
 				<h1 class="page-header"><fmt:message key = "order.pageTitle.new" /></h1>
 
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
-				<form id="order_add" name="order_form" action="Main" method="post" enctype="multipart/form-data">
-					<div><c:out value="${error_message}" /></div>
+				<form id="order_add" name="order_form" action="Main?action=order_add" method="post" enctype="multipart/form-data">
+					<div>
+						<c:if test="${ error_code > 0}">
+							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="order"/>
+						</c:if>
+					</div>
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";

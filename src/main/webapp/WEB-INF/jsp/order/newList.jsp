@@ -1,5 +1,5 @@
 <%@include file="../fragment/header.jsp"%>
-
+<%@ taglib uri="pagetag" prefix="ctg"%>
 <div class="container-fluid">
 	<div class="row">
 		<%@include file="../fragment/leftBar.jsp"%>
@@ -8,7 +8,7 @@
 			
 			<c:set var="withCustomer" value="true" scope="page"/>
 			<%@include file="../fragment/orderTable.jsp"%>
-			
+
 			<ctg:paginator uri="Main?action=order_new_list"
 				currPage="${ currPage }" countPages="${ countPages }" />
 		</div>

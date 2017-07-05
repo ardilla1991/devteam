@@ -48,9 +48,10 @@ public class ProjectAddAction implements CommandAction {
 			OrderVo orderVo = orderService.getOrderById(orderId);
 			projectService.add(orderVo, title, description, employees, price);
 		} catch (ServiceException e) {
-			logger.info("fill the title and description");
+			//logger.info("fill the title and description");
 			e.printStackTrace();
-			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e.getMessage());
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
 			request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);
 			request.setAttribute(REQUEST_PARAM_PROJECT_DESCRIPTION, description);
 			request.setAttribute(REQUEST_PARAM_PROJECT_EMPLOYEE, employees);
