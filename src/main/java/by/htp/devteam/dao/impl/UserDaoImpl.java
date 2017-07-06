@@ -11,6 +11,8 @@ import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.UserDao;
 
+import static by.htp.devteam.dao.util.ConstantValue.*;
+
 public class UserDaoImpl implements UserDao{
 
 	private final static int ID = 1;
@@ -18,21 +20,20 @@ public class UserDaoImpl implements UserDao{
 	private final static int PASSWORD = 3;
 	private final static int ROLE = 4;
 			
-	private final static String FETCH_BY_CREDENTIALS = "SELECT e.* FROM user as e "
-			+ "WHERE e.login=?";
+
 	
 	@Override
 	public User fetchByCredentials(String login) throws DaoException{
 		User user = null;
 		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement ps = dbConnection.prepareStatement(FETCH_BY_CREDENTIALS) ) {
+				PreparedStatement ps = dbConnection.prepareStatement(SQL_USER_FETCH_BY_CREDENTIALS) ) {
 
 			ps.setString(1, login);
 			//ps.setString(2, password);
 			
 			user = getUserFromResultSet(ps);
 		} catch (SQLException e) {
-			throw new DaoException("sql erro", e);
+			throw new DaoException(MSG_ERROR_USER_FETCH_BY_CREDENTIALS, e);
 		}
 		return user;
 	}

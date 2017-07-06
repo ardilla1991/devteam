@@ -19,7 +19,9 @@ import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
 
-public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
+import static by.htp.devteam.dao.util.ConstantValue.*;
+
+public class EmployeeDaoImpl implements EmployeeDao {
 	
 	private final static int ID = 1;
 	private final static int NAME = 2;
@@ -27,43 +29,18 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 	private final static int QUALIFICATION_ID = 6;
 	private final static int QUALIFICATION_TITLE = 7;
 
-	private final static String GET_BY_USER = "SELECT e.*, q.id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
-			+ "WHERE e.user_id=?";
-	
-	private final static String GET_FREE_FOR_PERIOD = "SELECT e.*, q.id, q.title "
-			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
-			+ "WHERE q.id IN (##) AND e.id NOT IN "
-				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
-				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
-				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
-				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
-				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
-	
-	private final static String GET_COUNT_FREE_EMPLOYEE_FROM_LIST = "SELECT COUNT(*) "
-			+ "FROM employee as e "
-			+ "WHERE e.id IN (##) AND e.id NOT IN "
-				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
-				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
-				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
-				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
-				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
-	
-	private final static String GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "SELECT qualification_id, COUNT(id) FROM employee WHERE id IN(##) GROUP BY qualification_id";
-	
-	private final static String GET_BY_PROJECT = "SELECT e.id, e.name, q.title, pe.hours FROM (SELECT * FROM project_employee WHERE project_id=?) as pe "
-			+ "JOIN employee as e ON pe.employee_id=e.id "
-			+ "JOIN qualification as q ON e.qualification_id=q.id";
+
 	
 	@Override
 	public Employee getByUser(User user) throws DaoException{
 		Employee employee = null;	
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
-				PreparedStatement ps = dbConnection.prepareStatement(GET_BY_USER); ) {
+				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_USER); ) {
 
 			ps.setLong(1, user.getId());
 			employee = getEmployeeFromResultSet(ps);
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_BY_USER, e);
 		}
 		return employee;
 	}
@@ -79,7 +56,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			qualificationIdsStr.append(qualificaition.getId());
 		}
 		
-		String query = GET_FREE_FOR_PERIOD.replace("##", qualificationIdsStr);
+		String query = SQL_EMPLOYEE_GET_FREE_FOR_PERIOD.replace("##", qualificationIdsStr);
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
 			
@@ -92,7 +69,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			ResultSet rs = st.executeQuery();
 			employees = getEmployeeListFromResultSet(rs);
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_FREE_FOR_PERIOD, e);
 		}
 
 		return employees;
@@ -147,7 +124,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 		
 		int countFreeEmployee = 0;
 		boolean isFree = false;
-		String query = GET_COUNT_FREE_EMPLOYEE_FROM_LIST.replace("##", qualificationIdsStr);
+		String query = SQL_EMPLOYEE_GET_COUNT_FREE_FROM_LIST.replace("##", qualificationIdsStr);
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
 			
@@ -169,7 +146,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			if ( countIds == countFreeEmployee )
 				isFree = true;
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_COUNT_FREE_FROM_LIST, e);
 		}
 
 		return isFree;
@@ -187,7 +164,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 			employeeIdsStr.append("?");
 		}
 		
-		String query = GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS.replace("##", employeeIdsStr);
+		String query = SQL_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS.replace("##", employeeIdsStr);
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
 			
@@ -197,7 +174,7 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 
 			qualificationsCount = getQualificationsCountFromResultSet(st);
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS, e);
 		}
 
 		return qualificationsCount;
@@ -219,12 +196,12 @@ public class EmployeeDaoImpl extends CommonDao implements EmployeeDao {
 		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
 		
 		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement st = dbConnection.prepareStatement(GET_BY_PROJECT) ) {
+				PreparedStatement st = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_PROJECT) ) {
 			
 			st.setLong(1, project.getId());
 			employees = getEmployeeListWithHoursOnProjectFromResultSet(st);
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_BY_PROJECT, e);
 		}
 
 		return employees;

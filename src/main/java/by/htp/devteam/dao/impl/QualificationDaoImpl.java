@@ -12,12 +12,14 @@ import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.QualificationDao;
 
-public class QualificationDaoImpl extends CommonDao implements QualificationDao{
+import static by.htp.devteam.dao.util.ConstantValue.*;
+
+public class QualificationDaoImpl implements QualificationDao{
 	
 	private final static int ID = 1;
 	private final static int TITLE = 2;
 	
-	private final static String FETCH_ALL = "SELECT * FROM qualification";
+	
 	
 	public List<Qualification> fetchAll() throws DaoException {
 		List<Qualification> qualifications = new ArrayList<Qualification>();
@@ -26,7 +28,7 @@ public class QualificationDaoImpl extends CommonDao implements QualificationDao{
 
 			qualifications = getQualificationListFromResultSet(st);
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_QUALIFICATION_FETCH_ALL, e);
 		}
 		
 		return qualifications;
@@ -34,7 +36,7 @@ public class QualificationDaoImpl extends CommonDao implements QualificationDao{
 	
 	private List<Qualification> getQualificationListFromResultSet(Statement st) throws SQLException {
 		List<Qualification> qualifications = new ArrayList<Qualification>();
-		try ( ResultSet rs = st.executeQuery(FETCH_ALL) ) {
+		try ( ResultSet rs = st.executeQuery(SQL_QUALIFICATION_FETCH_ALL) ) {
 			while (rs.next()) {
 				Qualification qualification = new Qualification();
 				qualification.setId(rs.getLong(ID));

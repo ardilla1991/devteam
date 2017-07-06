@@ -20,7 +20,9 @@ import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.OrderDao;
 
-public class OrderDaoImpl extends CommonDao implements OrderDao{
+import static by.htp.devteam.dao.util.ConstantValue.*;
+
+public class OrderDaoImpl implements OrderDao{
 
 	private final static int ID = 1;
 	private final static int TITLE = 2;
@@ -39,52 +41,25 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	private final static int QUALIFICATION_ID = 2;
 	private final static int COUNT = 3;
 	
-	private final static String NEW_RECORDS_LIST = "SELECT SQL_CALC_FOUND_ROWS o.*, c.* "
-			+ "FROM `order` as o "
-			+ "JOIN customer as c "
-			+ "ON o.customer_id=c.id "
-			+ "WHERE o.price IS NULL ORDER BY o.dateCreated DESC, o.dateStart DESC LIMIT ?,?";
-	private final static String GET_BY_ID = "SELECT o.*, c.* FROM `order` as o "
-			+ " JOIN customer as c ON o.customer_id=c.id "
-			+ " WHERE o.id=?";
 	
-	private final static String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM `order` "
-			+ "WHERE customer_id=?";
-	
-	private final static String ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, status, dateCreated, dateStart, dateFinish, price) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	
-	private final static String ADD_WORK = "INSERT INTO order_work (order_id, work_id) VALUES(?, ?)";
-	
-	private final static String GET_WORKS_BY_ORDER_ID = "SELECT ow.order_id, w.* "
-			+ "FROM order_work as ow JOIN work as w ON w.id = ow.work_id "
-			+ "WHERE ow.order_id=?";
-	
-	private final static String ADD_QUALIFICATION = "INSERT INTO order_qualification (order_id, qualification_id, count) "
-			+ "VALUES(?, ?, ?)";
-	
-	private final static String GET_QUALIFICATIONS_BY_ORDER_ID = "SELECT q.*, oq.count "
-			+ "FROM qualification as q JOIN order_qualification as oq ON q.id = oq.qualification_id "
-			+ "WHERE oq.order_id=?";
-	
-	private final static String SET_PRICE = "UPDATE `order` SET price=? WHERE id=?";
+
 	
 	@Override
 	public OrderListVo getNewOrders(int offset, int countPerPage) throws DaoException {
 		OrderListVo orderListVo = new OrderListVo();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
-			  PreparedStatement ps = dbConnection.prepareStatement(NEW_RECORDS_LIST);
+			  PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_NEW_RECORDS_LIST);
 			  Statement st = dbConnection.createStatement()) {
 			
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
 			orderListVo.setOrders(getOrderListFromResultSet(ps));
-			try ( ResultSet rsNumebr  = st.executeQuery("SELECT FOUND_ROWS()") ) {
+			try ( ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
 				if ( rsNumebr.next() )
 					orderListVo.setCountRecords(rsNumebr.getInt(1));
 			}
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_ORDER_NEW_RECORDS_LIST, e);
 		}
 
 		return orderListVo;
@@ -94,12 +69,12 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	public List<Order> getByCustomer(Customer customer) throws DaoException{
 		List<Order> orders = new ArrayList<Order>();
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
-			  PreparedStatement ps = dbConnection.prepareStatement(GET_ORDERS_BY_CUSTOMER_ID) ) {
+			  PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_LIST_BY_CUSTOMER_ID) ) {
 
 			ps.setLong(ID, customer.getId());
 			orders = getOrderListFromResultSet(ps, customer);
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_ORDER_GET_LIST_BY_CUSTOMER_ID, e);
 		}
 
 		return orders;
@@ -118,7 +93,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		} catch (SQLException e) {
 			rollback(dbConnection);
 			ConnectionPool.returnConnection(dbConnection);
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_ORDER_ADD, e);
 		}
 		return orderVo;
 	}
@@ -132,26 +107,26 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 			orderVo.setWorks(getWorks(dbConnection, order));
 			orderVo.setQualifications(getQualifications(dbConnection, order));
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_ORDER_GET_BY_ID, e);
 		}
 		return orderVo;
 	}
 	
 	@Override
 	public void setPrice(Connection connection, Order order) throws DaoException {
-		try ( PreparedStatement ps = connection.prepareStatement(SET_PRICE) ) {
+		try ( PreparedStatement ps = connection.prepareStatement(SQL_ORDER_SET_PRICE) ) {
 			ps.setBigDecimal(1, order.getPrice());
 			ps.setLong(2, order.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_ORDER_SET_PRICE, e);
 		}
 		
 	}
 	
 	private Order getOrder(Connection dbConnection, Long id) throws SQLException {
 		Order order = null;
-		try ( PreparedStatement ps = dbConnection.prepareStatement(GET_BY_ID) ) {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_BY_ID) ) {
 
 			ps.setLong(ID, id);
 			order = getOrderFromResultSet(ps);
@@ -162,7 +137,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	
 	private List<Work> getWorks(Connection dbConnection, Order order) throws SQLException{
 		List<Work> works = new ArrayList<Work>();
-		try ( PreparedStatement ps = dbConnection.prepareStatement(GET_WORKS_BY_ORDER_ID) ) {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_WORKS_BY_ORDER_ID) ) {
 			
 			ps.setLong(ORDER_ID, order.getId());
 			works = getWorkListFromResultSet(ps);
@@ -173,7 +148,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	
 	private Map<Qualification, Integer> getQualifications(Connection dbConnection, Order order) throws SQLException {
 		Map<Qualification, Integer> qualifications = new HashMap<Qualification, Integer>();	
-		try ( PreparedStatement ps = dbConnection.prepareStatement(GET_QUALIFICATIONS_BY_ORDER_ID) ) {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_QUALIFICATIONS_BY_ORDER_ID) ) {
 
 			ps.setLong(ORDER_ID, order.getId());
 			qualifications = getQualificationsFromResultset(ps);
@@ -184,7 +159,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	
 	private Long addOrder(Connection dbConnection, Order order) throws SQLException{
 		Long id = 0L;
-		try ( PreparedStatement ps = dbConnection.prepareStatement(ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
 			prepareStatementForOrder(ps, order);
 			ps.executeUpdate();
 			try ( ResultSet rs = ps.getGeneratedKeys() ) {
@@ -198,7 +173,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	}
 	
 	public void addWorks(Connection dbConnection, Order order, List<Work> works) throws SQLException {
-		try ( PreparedStatement ps = dbConnection.prepareStatement(ADD_WORK) ) {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_ADD_WORK) ) {
 
 			prepareAndAddBatchesForWorks(ps, order, works);
 			
@@ -207,7 +182,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 	}
 	
 	public void addQualifications(Connection dbConnection, Order order, Map<Qualification, Integer> qualifications) throws SQLException {
-		try ( PreparedStatement ps = dbConnection.prepareStatement(ADD_QUALIFICATION) ) {
+		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_ADD_QUALIFICATION) ) {
 
 			prepareAndAddBatchesForQualifications(ps, order, qualifications);
 			ps.executeBatch();
@@ -218,7 +193,7 @@ public class OrderDaoImpl extends CommonDao implements OrderDao{
 		try {
 			dbConnection.rollback();
 		} catch (SQLException e) {
-			throw new DaoException("couldn't rollback");
+			throw new DaoException(MSG_ERROR_ROLLBACK);
 		}
 	}
 	

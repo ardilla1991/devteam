@@ -12,14 +12,16 @@ import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.WorkDao;
 
-public class WorkDaoImpl extends CommonDao implements WorkDao{
+import static by.htp.devteam.dao.util.ConstantValue.*;
+
+public class WorkDaoImpl implements WorkDao{
 
 	private final static int ID = 1;
 	private final static int TITLE = 2;
 	private final static int DESCRIPTION = 3;
 	private final static int PRICE = 4;
 	
-	private final static String FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
+	
 	
 	@Override
 	public List<Work> fetchAll() throws DaoException{
@@ -29,14 +31,14 @@ public class WorkDaoImpl extends CommonDao implements WorkDao{
 		
 			works = getWorkListFromResultSet(st);
 		} catch (SQLException e) {
-			throw new DaoException("sql error", e);
+			throw new DaoException(MSG_ERROR_WORK_FETCH_ALL, e);
 		}
 		return works;
 	}
 	
 	private List<Work> getWorkListFromResultSet(Statement st) throws SQLException{
 		List<Work> works = new ArrayList<Work>();
-		try ( ResultSet rs = st.executeQuery(FETCH_ALL) ) {
+		try ( ResultSet rs = st.executeQuery(SQL_WORK_FETCH_ALL) ) {
 			while ( rs.next() ) {
 				Work work = new Work();
 				work.setId(rs.getLong(ID));
