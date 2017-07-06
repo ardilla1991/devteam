@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import by.htp.devteam.util.Validator;
+import by.htp.devteam.service.util.Validator;
 
 public class ProjectValidation {
 	private boolean valid;

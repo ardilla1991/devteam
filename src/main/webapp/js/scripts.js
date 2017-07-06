@@ -88,6 +88,7 @@ function checkInput(els, field, blockId) {
 		if ( result ) {
 			var parts = fileName.split('.');
 			result = ( filesExt.join().search(parts[parts.length - 1]) != -1 ) ? 1 : 0;
+			result &= validateFileSize(element);
 		}
 		break;
 	case "checkbox":
@@ -119,6 +120,19 @@ function checkInput(els, field, blockId) {
 		el.style.border = '1px solid red';
 		return false;
 	}
+}
+
+function validateFileSize(fileInput) {
+    var fileObj, size;
+    if ( typeof ActiveXObject == "function" ) { // IE
+      fileObj = (new ActiveXObject("Scripting.FileSystemObject")).getFile(fileInput.value);
+    } else {
+      fileObj = fileInput.files[0];
+    }
+
+    size = fileObj.size; // Size returned in bytes.
+    
+    return size <= 5 * 1024 * 1024;
 }
 
 function checkWithNedeedTypes(blockId, checkboxes) {

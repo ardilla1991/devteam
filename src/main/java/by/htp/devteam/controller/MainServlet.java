@@ -6,6 +6,7 @@ import static by.htp.devteam.util.ConstantValue.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,12 @@ import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.command.CommandExeption;
 import by.htp.devteam.command.CommandFactory;
 
+@MultipartConfig(
+	    location="/tmp", 
+	    fileSizeThreshold=1024*1024,    // 1 MB
+	    maxFileSize=1024*1024*5,        // 5 MB 
+	    maxRequestSize=1024*1024*5*5    // 25 MB
+	)
 public class MainServlet extends HttpServlet{
 
 	private static final long serialVersionUID = -6529178696057273184L;

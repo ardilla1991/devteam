@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.Part;
 
 import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.util.Validator;
+import by.htp.devteam.service.util.Validator;
 
 public final class OrderValidation {
 	
@@ -30,7 +30,7 @@ public final class OrderValidation {
 		return notValidField;
 	}
 	
-	public void validate(String title, String description, Part specification, String dateStart, String dateFinish,
+	public void validate(String title, String description, String specificationFileName, String dateStart, String dateFinish,
 			String[] workIds, Map<String, String> qualificationsIdsAndCount) {
 
 		title = title.trim();
@@ -42,6 +42,11 @@ public final class OrderValidation {
 		if ( Validator.isEmpty(description) ) {
 			valid &= false;
 			notValidField.add("description");
+		}
+		
+		if ( !Validator.isCorrectFileExtension(specificationFileName) ) {
+			valid &= false;
+			notValidField.add("specification");
 		}
 		
 		if ( !Validator.isDate(dateStart) ) {

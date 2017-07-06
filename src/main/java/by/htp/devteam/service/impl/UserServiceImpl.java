@@ -6,8 +6,8 @@ import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.UserService;
-import by.htp.devteam.util.Encripting;
-import by.htp.devteam.util.Validator;
+import by.htp.devteam.service.util.Encripting;
+import by.htp.devteam.service.util.Validator;
 
 public class UserServiceImpl implements UserService{
 

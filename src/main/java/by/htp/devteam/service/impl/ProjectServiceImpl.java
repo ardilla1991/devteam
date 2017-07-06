@@ -23,9 +23,9 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.Validator;
 import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.SettingConstantValue;
-import by.htp.devteam.util.Validator;
 
 public class ProjectServiceImpl implements ProjectService{
 

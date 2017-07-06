@@ -1,4 +1,4 @@
-package by.htp.devteam.util;
+package by.htp.devteam.service.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,8 +8,9 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-	private final static Pattern DECIMAL_PATTERN = Pattern.compile("^(\\d*\\.)?\\d+$");
+	private static final Pattern DECIMAL_PATTERN = Pattern.compile("^(\\d*\\.)?\\d+$");
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private static final Pattern FILE_EXTENSION_PATTERN = Pattern.compile("([^\\s]+(\\.(?i)(rar|zip|doc|docx|odt|txt))$)");
 	
 	private Validator() {
 		super();
@@ -47,6 +48,12 @@ public class Validator {
 		} catch (NumberFormatException e) {
 			return false;
 		}
+	}
+	
+	public static boolean isCorrectFileExtension(String string) {
+		Matcher matcher = FILE_EXTENSION_PATTERN .matcher(string);
+		
+		return matcher.find();
 	}
 	
 	

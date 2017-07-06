@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import by.htp.devteam.service.util.Validator;
+
 public class ValidatorTest {
 
 	@Test

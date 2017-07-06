@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.Part;
 
+import org.apache.commons.fileupload.FileUploadException;
+
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
@@ -22,9 +24,10 @@ import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.UploadFile;
+import by.htp.devteam.service.util.Validator;
 import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.util.SettingConstantValue;
-import by.htp.devteam.util.Validator;
 
 public class OrderServiceImpl implements OrderService{
 
@@ -78,14 +81,23 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, String dateFinish,
-			String[] workIds, Map<String, String> qualificationsIdsAndCount) throws ServiceException {
+			String[] workIds, Map<String, String> qualificationsIdsAndCount, String applicationPath) throws ServiceException {
+		
+		UploadFile uploadFile = new UploadFile(applicationPath);
+		String specificationFileName = uploadFile.getFileName(specification);
 		
 		OrderValidation orderValidation = new OrderValidation();
-		orderValidation.validate(title, description, specification, dateStart, dateFinish, workIds, qualificationsIdsAndCount);
+		orderValidation.validate(title, description, specificationFileName, dateStart, dateFinish, workIds, qualificationsIdsAndCount);
 		
 		if ( !orderValidation.isValid() ) {
 			throw new ServiceException(ErrorCodeEnum.VALIDATION_ERROR, orderValidation.getNotValidField());
 		} 
+		
+		try {
+			uploadFile.upload(specification);
+		} catch (FileUploadException e1) {
+			throw new ServiceException(ErrorCodeEnum.FILE_UPLOAD_ERROR);
+		}
 		
 		Order order = new Order();
 		order.setTitle(title);
@@ -108,6 +120,13 @@ public class OrderServiceImpl implements OrderService{
 			////   Logger
 			System.out.println(e.getMessage()); // message from DAO
 			e.printStackTrace();
+			try {
+				uploadFile.delete(specificationFileName);
+			} catch (FileUploadException e1) {
+				e1.printStackTrace();
+				////Loger
+			}
+
 			throw new ServiceException(ErrorCodeEnum.APPLICATION_ERROR);
 		}	
 		

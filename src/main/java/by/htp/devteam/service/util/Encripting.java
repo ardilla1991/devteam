@@ -1,4 +1,4 @@
-package by.htp.devteam.util;
+package by.htp.devteam.service.util;
 
 import org.mindrot.jbcrypt.BCrypt;
 

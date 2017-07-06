@@ -58,6 +58,9 @@ public class MessageTag extends TagSupport{
 	}
 	
 	private void printMsgList(ResourceBundle rb) throws IOException {
+		if ( msgList == null )
+			return;
+		
 		int msgListSize = msgList.size();
 		if ( msgListSize == 0 ) {
 			return;

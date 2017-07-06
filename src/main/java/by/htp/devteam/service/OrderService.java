@@ -16,7 +16,7 @@ public interface OrderService {
 	List<Order> geOrdersByCustomer(Customer customer) throws ServiceException;
 	
 	OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, 
-			String dateFinish, String[] workIds, Map<String, String> qualifications) throws ServiceException;
+			String dateFinish, String[] workIds, Map<String, String> qualifications, String applicationPath ) throws ServiceException;
 	
 	OrderVo getOrderById(String orderId) throws ServiceException;
 }
