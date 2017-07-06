@@ -7,8 +7,6 @@ import javax.servlet.http.Part;
 
 import static by.htp.devteam.util.SettingConstantValue.*;
 
-import org.apache.commons.fileupload.FileUploadException;;
-
 final public class UploadFile {
 	
 	private String applicationPath;

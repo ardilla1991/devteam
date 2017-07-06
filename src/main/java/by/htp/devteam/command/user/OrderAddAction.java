@@ -6,10 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
 import by.htp.devteam.bean.dto.OrderVo;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
@@ -18,16 +14,11 @@ import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCodeEnum;
-import by.htp.devteam.service.util.UploadFile;
 
 import static by.htp.devteam.util.ConstantValue.*;
-import static by.htp.devteam.util.SettingConstantValue.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OrderAddAction implements CommandAction{

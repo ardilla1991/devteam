@@ -10,8 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.Part;
 
-import org.apache.commons.fileupload.FileUploadException;
-
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
@@ -24,6 +22,7 @@ import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.util.UploadFile;
 import by.htp.devteam.service.util.Validator;
 import by.htp.devteam.service.validation.OrderValidation;
