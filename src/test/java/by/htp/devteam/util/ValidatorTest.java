@@ -18,5 +18,28 @@ public class ValidatorTest {
 		assertEquals(false, Validator.checkBigDecimal(".f"));
 	}
 	
+	@Test
+	public void testIsCorrectFileExtension() {
+		String[] extensions = new String[] {
+				   "a.rar", "a.zip","a.doc", "a.docx", "a.odt", "a.txt",
+				   "..rar", "..zip","..doc", "..docx", "..odt", "..txt",
+				   "a.RAR", "a.ZIP","a.DOC", "a.DOCX", "a.ODT", "a.TXT",
+				   "a.RaR", "a.ZiP","a.DoC", "a.DocX", "a.OdT", "a.TxT",
+				   "rar.rar", "zip.zip","doc.doc", "docx.docx", "odt.odt", "txt.txt"
+		  	       };
+		for ( String ext : extensions ) {
+			assertEquals(true, Validator.isCorrectFileExtension(ext));
+		}
+
+		extensions = new String[] {
+				   ".rar", ".zip",".doc",".docx", ".odt", ".txt",
+				   " .rar", " .zip"," .doc"," .docx", " .odt", " .txt",
+		           "a.png", "a.exe","a.","a.mp3",
+				   "rar", "zip","png","bmp"
+			       };
+		for ( String ext : extensions ) {
+			assertEquals(false, Validator.isCorrectFileExtension(ext));
+		}
+	}
 	
 }
