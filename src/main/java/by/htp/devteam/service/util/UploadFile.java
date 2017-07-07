@@ -10,10 +10,13 @@ import static by.htp.devteam.util.SettingConstantValue.*;
 final public class UploadFile {
 	
 	private String applicationPath;
-	
+	public final static String uploadPath = UPLOAD_DIR + File.separator;
+	private String fullUploadPath;
+
 	public UploadFile(String applicationPath) {
 		super();
 		this.applicationPath = applicationPath;
+		this.fullUploadPath = this.applicationPath + File.separator + uploadPath ;
 	}
 	
     /**
@@ -42,38 +45,33 @@ final public class UploadFile {
         return "";
     }*/
 	
-	public void upload(Part part) throws FileUploadException {
+	public String upload(Part part, String fileName) throws FileUploadException {
 
 		System.out.println("fileName="+getFileName(part));
         // constructs path of the directory to save uploaded file
-        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
-        
      // creates the save directory if it does not exists
-        File fileSaveDir = new File(uploadFilePath);
+        File fileSaveDir = new File(fullUploadPath);
         if ( !fileSaveDir.exists() ) {
             fileSaveDir.mkdirs();
         }
         
         System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
  
-        String fileName = null;
         try {
         //Get all the parts from request and write it to the file on server
        // for (Part part : request.getParts()) {
-            fileName = getFileName(part);
             System.out.println(fileName);
-            part.write(uploadFilePath + File.separator + fileName);
+            part.write(fullUploadPath + fileName);
        // }
         } catch (IOException e) {
         	throw new FileUploadException("can't upload file");
         }
+        
+        return fileName;
 	}
 	
-	public void delete(String fileName) throws FileUploadException {
-		
-		String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
-		
-		File file = new File(uploadFilePath + File.separator + fileName);
+	public void delete(String fileName) throws FileUploadException {		
+		File file = new File(fullUploadPath + fileName);
 
 		if ( !file.delete()) {
 			throw new FileUploadException("Delete operation is failed.");

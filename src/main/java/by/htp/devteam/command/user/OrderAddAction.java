@@ -49,18 +49,13 @@ public class OrderAddAction implements CommandAction{
 			
 			HttpSession session = request.getSession(false);
 			UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
-			
-			OrderVo orderVo = null;
-			try {
 
+			try {
 				// gets absolute path of the web application
 		        String applicationPath = request.getServletContext().getRealPath("");
-				orderVo = orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications, applicationPath);
-				
-
+		        OrderVo orderVo = orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications, applicationPath);
 			} catch (ServiceException e) {
 				e.printStackTrace();
-				
 				request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 				request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
 				request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);

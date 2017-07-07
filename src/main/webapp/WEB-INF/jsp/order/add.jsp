@@ -10,7 +10,7 @@
 
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main?action=order_add" method="post" enctype="multipart/form-data">
-					<div>
+					<div class="error_message">
 						<c:if test="${ error_code > 0}">
 							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="order"/>
 						</c:if>

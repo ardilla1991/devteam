@@ -1,33 +1,16 @@
 package by.htp.devteam.service.validation;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.servlet.http.Part;
 
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.service.util.Validator;
 
-public final class OrderValidation {
-	
-	private boolean valid;
-	private List<String> notValidField;
+public final class OrderValidation extends BeanValidation{
 	
 	public OrderValidation() {
 		super();
-		valid = true;
-		notValidField = new ArrayList<String>();
-	}
-	
-	public boolean isValid() {
-		return valid;
-	}
-	
-	public List<String> getNotValidField() {
-		return notValidField;
 	}
 	
 	public void validate(String title, String description, String specificationFileName, String dateStart, String dateFinish,
@@ -79,8 +62,7 @@ public final class OrderValidation {
 				break;
 			}
 			
-		}
-		
+		}	
 	}
-
+	
 }

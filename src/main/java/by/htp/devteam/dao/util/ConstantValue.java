@@ -52,7 +52,7 @@ public final class ConstantValue {
 			+ " WHERE o.id=?";
 	
 	public final static String SQL_ORDER_GET_LIST_BY_CUSTOMER_ID = "SELECT * FROM `order` "
-			+ "WHERE customer_id=?";
+			+ "WHERE customer_id=? ORDER BY dateCreated DESC";
 	
 	public final static String SQL_ORDER_ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, status, dateCreated, dateStart, dateFinish, price) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

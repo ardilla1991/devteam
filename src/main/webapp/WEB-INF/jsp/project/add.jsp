@@ -18,7 +18,7 @@
 				</h1>
 				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main" method="post">
-					<div>
+					<div class="error_message">
 						<c:if test="${ error_code > 0}">
 							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="project"/>
 						</c:if>
@@ -70,8 +70,8 @@
 						<sup>*</sup> -
 						<fmt:message key="required" />
 					</div>
-					<input type="hidden" name="order_id" value="${order_id}" /> <input
-						type="hidden" name="action" value="project_add" /> <input
+					<input type="hidden" name="order_id" value="${order_id}" /> 
+					<input type="hidden" name="action" value="project_add" /> <input
 						type="submit" class="btn btn-primary"
 						onclick="return checkFBForm(formElements, 'qualification_list_count');"
 						name="submitted"

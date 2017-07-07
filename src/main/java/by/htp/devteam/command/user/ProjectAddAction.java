@@ -56,7 +56,7 @@ public class ProjectAddAction implements CommandAction {
 			request.setAttribute(REQUEST_PARAM_PROJECT_DESCRIPTION, description);
 			request.setAttribute(REQUEST_PARAM_PROJECT_EMPLOYEE, employees);
 			request.setAttribute(REQUEST_PARAM_ORDER_PRICE, price);
-			page = PAGE_PROJECT_SHOW_ADD_FORM + orderId;
+			page = PAGE_PROJECT_SHOW_ADD_FORM_URI + orderId;
 			isRedirect = false;
 		}
 

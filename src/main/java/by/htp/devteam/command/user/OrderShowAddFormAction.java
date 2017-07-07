@@ -1,12 +1,8 @@
 package by.htp.devteam.command.user;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.bean.Work;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.QualificationService;
@@ -23,14 +19,10 @@ public class OrderShowAddFormAction implements CommandAction{
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		
 		WorkService workService = serviceFactory.getWorkService();
-		List<Work> works = workService.fetchAll();
-		request.setAttribute(REQUEST_PARAM_WORK_LIST, works);
-		
 		QualificationService qualificationService = serviceFactory.getQualificationService();
-		List<Qualification> qualifications;
 		try {
-			qualifications = qualificationService.fetchAll();
-			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualifications);
+			request.setAttribute(REQUEST_PARAM_WORK_LIST, workService.fetchAll());
+			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

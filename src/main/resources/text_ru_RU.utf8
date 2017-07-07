@@ -1,6 +1,6 @@
 hello=Привет!
-login.login=Логин
-login.password=Пароль
+user.login=Логин
+user.password=Пароль
 login.formTitle=Пожалуйста, авторизируйтесь
 login.signin=Войти
 admin.sitename=DevTeam
@@ -43,3 +43,8 @@ error.code.1=Заполните поля:
 error.code.2=Ошибка приложения
 error.code.3=Превышен размер загружаемого файла
 error.code.4=Ошибка загрузки файла
+error.code.6=Пользователь не найден
+error.code.7=Ошибка ввода пароля
+error.code.8=Страница не найдена
+error.code.9=Ошибка удаления файла
+error.code.10=Отсутствуют свободные разработчики на указанный период

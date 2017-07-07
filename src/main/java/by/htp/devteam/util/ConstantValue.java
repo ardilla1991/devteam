@@ -29,9 +29,10 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_EDIT_AJAX = JSP_FOLDER_PATH + JSP_FOLDER_AJAX + "projectAddPage.jsp";
 	
 	public static final String PAGE_PROJECT_LIST_URI = "Main?action=project_list";
-	public static final String PAGE_PROJECT_SHOW_ADD_FORM = "Main?action=project_show_add_form&order_id=";
+	public static final String PAGE_PROJECT_SHOW_ADD_FORM_URI = "Main?action=project_show_add_form&order_id=";
 	public static final String PAGE_PROJECT_LIST_BY_EMPLOYEE_URI = "Main?action=project_list_by_employee";
-	public static final String PAGE_PROJECT_UPDATE_HOURS = "Main?action=project_update_hours";
+	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = "Main?action=project_update_hours";
+	public static final String PAGE_PROJECT_VIEW_BY_ID_URI = "Main?action=project_view&project_id=";
 	
 	public static final String PAGE_ORDER_LIST_URI = "Main?action=order_list";
 	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";
@@ -49,6 +50,7 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_PROJECT_LIST = "project_list";
 	public static final String REQUEST_PARAM_WORK_LIST = "work_list";
 	public static final String REQUEST_PARAM_QUALIFICATION_LIST = "qualification_list";
+	public static final String REQUEST_PARAM_UPLOAD_PATH = "upload_path";
 	
 	
 	public static final String REQUEST_PARAM_ERROR_MSG = "error_message";

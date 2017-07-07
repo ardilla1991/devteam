@@ -6,5 +6,5 @@ import by.htp.devteam.bean.Work;
 
 public interface WorkService {
 
-	List<Work> fetchAll();
+	List<Work> fetchAll() throws ServiceException;
 }

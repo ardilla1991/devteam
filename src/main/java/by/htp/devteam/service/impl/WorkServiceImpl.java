@@ -6,7 +6,9 @@ import by.htp.devteam.bean.Work;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.WorkDao;
+import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.WorkService;
+import by.htp.devteam.service.util.ErrorCodeEnum;
 
 public class WorkServiceImpl implements WorkService{
 	
@@ -19,12 +21,14 @@ public class WorkServiceImpl implements WorkService{
 	}
 
 	@Override
-	public List<Work> fetchAll() {
+	public List<Work> fetchAll() throws ServiceException {
 		List<Work> works = null;
 		try {
 			works = workDao.fetchAll();
-		} catch (DaoException e) {
+		} catch ( DaoException e ) {
 			e.printStackTrace();
+			///Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return works;

@@ -1,5 +1,6 @@
 package by.htp.devteam.service.impl;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
+import by.htp.devteam.service.util.ErrorCodeEnum;
 
 public class EmployeeServiceImpl implements EmployeeService{
 
@@ -30,8 +32,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 		Employee employee = null;
 		try {
 			employee = employeeDao.getByUser(user);
-		} catch (DaoException e) {
-			throw new ServiceException("service error", e);
+		} catch ( DaoException e ) {
+			// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return employee;
@@ -41,8 +44,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 		List<Employee> employees = null;
 		try {
 			employees = employeeDao.getFreeEmployeesForPeriod(dateStart, dateFinish, qualifications);
-		} catch (DaoException e) {
-			throw new ServiceException("service error", e);
+		} catch ( DaoException  e ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return employees;
@@ -53,10 +57,30 @@ public class EmployeeServiceImpl implements EmployeeService{
 		Map<Employee, Integer>  employees = null;
 		try {
 			employees = employeeDao.getByProject(project);
-		} catch (DaoException e) {
-			throw new ServiceException("service error", e);
+		} catch ( DaoException e ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return employees;
+	}
+
+	@Override
+	public Map<Long, Integer> getQualificationsCountByEmployees(Long[] ids) throws ServiceException {
+		Map<Long, Integer> qualificationCountByEmployees = null;
+		try {
+			qualificationCountByEmployees = employeeDao.getQualificationsCountByEmployees(ids);
+		} catch ( DaoException e ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+		}
+		return qualificationCountByEmployees;
+	}
+
+	@Override
+	public boolean isEmployeesFreeFroPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish)
+			throws DaoException {
+	
+		return employeeDao.isEmployeesFreeFroPeriod(connection, employeesIds, dateStart, dateFinish);
 	}
 }

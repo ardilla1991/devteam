@@ -1,5 +1,7 @@
 package by.htp.devteam.service.impl;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,8 +49,10 @@ public class OrderServiceImpl implements OrderService{
 					  ? SettingConstantValue.START_PAGE 
 					  : Integer.valueOf(currPage) );
 		
-		if ( currPageValue == 0 )
-			throw new ServiceException("page not found");
+		if ( currPageValue == 0 ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
+		}
 		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
@@ -58,9 +62,10 @@ public class OrderServiceImpl implements OrderService{
 			int countPages = (int) Math.ceil(orderListVo.getCountRecords() * 1.0 / countPerPage);
 			orderListVo.setCountPages(countPages);
 			orderListVo.setCurrPage(currPageValue);
-		} catch (DaoException e) {
+		} catch ( DaoException e ) {
 			e.printStackTrace();
-			throw new ServiceException("service error", e);
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 	
 		return orderListVo;
@@ -71,8 +76,9 @@ public class OrderServiceImpl implements OrderService{
 		List<Order> orders = new ArrayList<Order>();
 		try {
 			orders = orderDao.getByCustomer(customer);
-		} catch (DaoException e) {
-			throw new ServiceException("error", e);
+		} catch ( DaoException e ) {
+			// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return orders;
@@ -89,13 +95,14 @@ public class OrderServiceImpl implements OrderService{
 		orderValidation.validate(title, description, specificationFileName, dateStart, dateFinish, workIds, qualificationsIdsAndCount);
 		
 		if ( !orderValidation.isValid() ) {
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ERROR, orderValidation.getNotValidField());
+			throw new ServiceException(ErrorCodeEnum.VALIDATION, orderValidation.getNotValidField());
 		} 
 		
 		try {
-			uploadFile.upload(specification);
-		} catch (FileUploadException e1) {
-			throw new ServiceException(ErrorCodeEnum.FILE_UPLOAD_ERROR);
+			uploadFile.upload(specification, specificationFileName);
+		} catch ( FileUploadException e ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.FILE_UPLOAD);
 		}
 		
 		Order order = new Order();
@@ -107,7 +114,7 @@ public class OrderServiceImpl implements OrderService{
 		order.setDateStart(Date.valueOf(dateStart));
 		order.setDateFinish(Date.valueOf(dateFinish));
 		order.setCustomer(customer);
-		//order.setSpecification(specification);
+		order.setSpecification(specificationFileName);
 		OrderVo orderVo = new OrderVo();
 		orderVo.setOrder(order);
 		orderVo.setWorks(prepareWorks(workIds));
@@ -115,7 +122,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		try {
 			orderVo = orderDao.add(orderVo);
-		} catch (DaoException e) {
+		} catch ( DaoException e ) {
 			////   Logger
 			System.out.println(e.getMessage()); // message from DAO
 			e.printStackTrace();
@@ -124,9 +131,10 @@ public class OrderServiceImpl implements OrderService{
 			} catch (FileUploadException e1) {
 				e1.printStackTrace();
 				////Loger
+				throw new ServiceException(ErrorCodeEnum.FILE_DELETE);
 			}
 
-			throw new ServiceException(ErrorCodeEnum.APPLICATION_ERROR);
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}	
 		
 		return orderVo;
@@ -134,14 +142,20 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public OrderVo getOrderById(String orderId) throws ServiceException {
-		if ( !Validator.isLong(orderId) )
-			throw new ServiceException("id is not valid");
+
+		OrderValidation orderValidation = new OrderValidation();
+		
+		if ( !orderValidation.validateId(orderId)) {
+			throw new ServiceException(ErrorCodeEnum.VALIDATION);
+		} 
 		
 		OrderVo orderVo = null;
 		try {
 			orderVo = orderDao.getById(Long.valueOf(orderId));
-		} catch (DaoException e) {
+		} catch ( DaoException e ) {
+			/// logger
 			e.printStackTrace();
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return orderVo;
@@ -160,6 +174,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	private HashMap<Qualification, Integer> prepareQualifications(Map<String, String> qualifications) {
+		
 		HashMap<Qualification, Integer> qualificationsList = new HashMap<Qualification, Integer>();
 		Iterator it = qualifications.entrySet().iterator();
 		while (it.hasNext()) {
@@ -171,8 +186,17 @@ public class OrderServiceImpl implements OrderService{
 		}
 		return qualificationsList;
 	}
-	
 
-
+	@Override
+	public void setPrice(Connection connection, Order order, String price) throws ServiceException {
+		try {
+			order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
+			orderDao.setPrice(connection, order);
+		} catch ( DaoException e ) {
+			//// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+		}
+		
+	}
 	
 }

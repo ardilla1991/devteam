@@ -60,9 +60,18 @@
 								var formElements = {};
 								formElements["hours"] = "number";
 							</script>
-							<input type="text" value="" name="hours" />
-							<input type="hidden" name="action" value="project_update_hours" />
-							<input type="hidden" name="project_id" value="${project_vo.getProject().getId() }" />
+							<%@ taglib uri="messagetag" prefix="msg"%>
+							<div class="error_message">
+								<c:if test="${ error_code > 0}">
+									<msg:message errorCode="${ error_code }"
+										msgList="${ empty_field }" language="${clientLanguage}"
+										country="${clientCountry}" bean="project" />
+								</c:if>
+							</div>
+							<input type="text" value="" name="hours" /> <input type="hidden"
+								name="action" value="project_update_hours" /> 
+							<input type="hidden" name="project_id"
+								value="${project_vo.getProject().getId() }" /> 
 							<input type="submit" class="btn btn-primary"
 								onclick="return checkFBForm(formElements);" name="submitted"
 								value="<fmt:message key = "project.button.addHours" />" />

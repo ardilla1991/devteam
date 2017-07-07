@@ -9,6 +9,8 @@ import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
+import by.htp.devteam.service.util.UploadFile;
+
 import static by.htp.devteam.util.ConstantValue.*;
 
 public class OrderViewAction implements CommandAction{
@@ -23,6 +25,7 @@ public class OrderViewAction implements CommandAction{
 		try {
 			OrderVo orderVo = orderService.getOrderById(id);
 			request.setAttribute(REQUEST_PARAM_ORDER_VO, orderVo);
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

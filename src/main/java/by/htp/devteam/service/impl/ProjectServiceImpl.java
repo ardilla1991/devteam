@@ -1,13 +1,11 @@
 package by.htp.devteam.service.impl;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.dto.OrderVo;
@@ -15,10 +13,9 @@ import by.htp.devteam.bean.dto.ProjectVo;
 import by.htp.devteam.bean.dto.ProjectListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
-import by.htp.devteam.dao.EmployeeDao;
-import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.dao.ProjectDao;
 import by.htp.devteam.service.EmployeeService;
+import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
@@ -30,15 +27,11 @@ import by.htp.devteam.util.SettingConstantValue;
 public class ProjectServiceImpl implements ProjectService{
 
 	private ProjectDao projectDao;
-	private EmployeeDao employeeDao;
-	private OrderDao orderDao;
 	
 	public ProjectServiceImpl() {
 		super();
 		DaoFactory daoFactory = DaoFactory.getInstance();
 		projectDao = daoFactory.getProjectDao();
-		employeeDao = daoFactory.getEmployeeDao();
-		orderDao = daoFactory.getOrderDao();
 	}
 
 	@Override
@@ -50,8 +43,10 @@ public class ProjectServiceImpl implements ProjectService{
 					  ? SettingConstantValue.START_PAGE 
 					  : Integer.valueOf(currPage) );
 		
-		if ( currPageValue == 0 )
-			throw new ServiceException("page not found");
+		if ( currPageValue == 0 ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
+		}
 		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
@@ -62,9 +57,10 @@ public class ProjectServiceImpl implements ProjectService{
 			int countPages = (int) Math.ceil(projectListVo.getCountRecords() * 1.0 / countPerPage);
 			projectListVo.setCountPages(countPages);
 			projectListVo.setCurrPage(currPageValue);
-		} catch (DaoException e) {
+		} catch ( DaoException e ) {
 			e.printStackTrace();
-			throw new ServiceException("service error", e);
+			// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 
 		return projectListVo;
@@ -77,61 +73,62 @@ public class ProjectServiceImpl implements ProjectService{
 		projectValidation.validate(title, description, employees, price);
 		
 		if ( !projectValidation.isValid() ) {
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ERROR, projectValidation.getNotValidField());
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
 		}
 		
 		Long[] employeesIds = comvertFromStringToLongArray(employees);
-		Map<Long, Integer> qualificationCountByEmployees = null;
-		try {
-			qualificationCountByEmployees = employeeDao.getQualificationsCountByEmployees(employeesIds);
-		} catch ( DaoException e ) {
-			//logger
-			e.printStackTrace();
-			throw new ServiceException(ErrorCodeEnum.APPLICATION_ERROR);
-		}
 		
-		Map<Long, Integer> neededQualifications = new HashMap<Long, Integer>(orderDto.getQualifications().size());
-		for ( Entry<Qualification, Integer> qualification : orderDto.getQualifications().entrySet() ) {
-		    Map.Entry<Qualification, Integer> entry = (Map.Entry<Qualification, Integer>) qualification;
-		    neededQualifications.put(entry.getKey().getId(), entry.getValue());
-		}
-		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		EmployeeService employeeService = serviceFactory.getEmployeeService();
+		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsCountByEmployees(employeesIds);
+		Map<Long, Integer> neededQualifications = getNeededQualifications(orderDto.getQualifications());
 		projectValidation.validate(qualificationCountByEmployees, neededQualifications);
 
 		if ( !projectValidation.isValid() ) {
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ERROR, projectValidation.getNotValidField());
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
 		} 
 		
 		Project project = new Project();
 		project.setTitle(title);
 		project.setDescription(description);
 		project.setOrder(orderDto.getOrder());
-		//Long[] employeesIds = comvertFromStringToLongArray(employees);
-		Connection connection = null;
+		
+		Connection connection = null;	
+		OrderService orderService = serviceFactory.getOrderService();
 		try {
 			connection = projectDao.startTransaction();
-			boolean neededEmployeeeAreFree = employeeDao.isEmployeesFreeFroPeriod(connection, employeesIds,
+			boolean neededEmployeeeAreFree = employeeService.isEmployeesFreeFroPeriod(connection, employeesIds,
 					orderDto.getOrder().getDateStart(), orderDto.getOrder().getDateFinish());
 			if (neededEmployeeeAreFree) {
 				project = projectDao.add(connection, project);
 				projectDao.addEmployees(connection, project, employeesIds);
-				Order order = orderDto.getOrder();
-				order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
-				orderDao.setPrice(connection, order);
+				orderService.setPrice(connection, orderDto.getOrder(), price);
 				commitTransaction(connection);
 			} else {
 				rollbackTransaction(connection);
 				//logger
-				throw new ServiceException("not isset all free employee");
+				throw new ServiceException(ErrorCodeEnum.NOT_ISSET_FREE_EMPLOYEE);
 			}
-		} catch (DaoException e) {
+		} catch ( DaoException | ServiceException e) {
 			rollbackTransaction(connection);
 			e.printStackTrace();
 			//logger
-			throw new ServiceException(ErrorCodeEnum.APPLICATION_ERROR);
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 
 		return project;
+	}
+	
+	private Map<Long, Integer> getNeededQualifications(Map<Qualification, Integer> qualifications) {
+		Map<Long, Integer> neededQualifications = new HashMap<Long, Integer>(qualifications.size());
+		for ( Entry<Qualification, Integer> qualification : qualifications.entrySet() ) {
+		    Map.Entry<Qualification, Integer> entry = (Map.Entry<Qualification, Integer>) qualification;
+		    neededQualifications.put(entry.getKey().getId(), entry.getValue());
+		}
+		
+		return neededQualifications;
 	}
 	
 	private Long[] comvertFromStringToLongArray(String[] arrayOfStringValues) {
@@ -144,26 +141,31 @@ public class ProjectServiceImpl implements ProjectService{
 		return longTypeArray;
 	}
 	
-	private void rollbackTransaction(Connection connection) {
+	private void rollbackTransaction(Connection connection) throws ServiceException {
 		try {
 			projectDao.rollbackTransaction(connection);
 		} catch (DaoException e1) {
 			e1.printStackTrace();
-			System.out.println("rollback error");
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 	}
 	
-	private void commitTransaction(Connection connection) {
-		try {
-			projectDao.commitTransaction(connection);
-		} catch (DaoException e) {
-			System.out.println("commit error");
-		}
+	private void commitTransaction(Connection connection) throws DaoException {
+		projectDao.commitTransaction(connection);
 	}
 
 	@Override
 	public ProjectVo getById(String id) throws ServiceException {
 
+		ProjectValidation projectValidation = new ProjectValidation();
+		projectValidation.validateId(id);
+		
+		if ( !projectValidation.isValid() ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.VALIDATION);
+		}
+		
 		ProjectVo projectDto = new ProjectVo();
 		Project project;
 		try {
@@ -175,7 +177,8 @@ public class ProjectServiceImpl implements ProjectService{
 			projectDto.setEmployee(employees);
 		} catch (DaoException e) {
 			e.printStackTrace();
-			throw new ServiceException("service error", e);
+			// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return projectDto;
@@ -183,20 +186,31 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public void updateHours(String id, Employee employee, String hours) throws ServiceException {
-		if ( !Validator.isLong(hours) )
-			throw new ServiceException("invalid value for hours");
+		
+		ProjectValidation projectValidation = new ProjectValidation();
+		
+		if ( !projectValidation.validateId(id) ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.VALIDATION);
+		}
+		
+		projectValidation.validate(hours);
+		
+		if ( !projectValidation.isValid() ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
+		}
 		
 		Project project = new Project();
 		project.setId(Long.valueOf(id));
 		try {
 			projectDao.updateHours(project, employee, Integer.valueOf(hours));
-		} catch (DaoException e) {
+		} catch ( DaoException e ) {
 			e.printStackTrace();
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 	}
-
-
-	
 
 }

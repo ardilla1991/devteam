@@ -1,5 +1,6 @@
 package by.htp.devteam.service;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -19,4 +20,6 @@ public interface OrderService {
 			String dateFinish, String[] workIds, Map<String, String> qualifications, String applicationPath ) throws ServiceException;
 	
 	OrderVo getOrderById(String orderId) throws ServiceException;
+	
+	void setPrice(Connection connection, Order order, String price) throws ServiceException;
 }

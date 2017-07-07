@@ -1,27 +1,13 @@
 package by.htp.devteam.service.validation;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import by.htp.devteam.service.util.Validator;
 
-public class ProjectValidation {
-	private boolean valid;
-	private List<String> notValidField;
+public class ProjectValidation extends BeanValidation{
 	
 	public ProjectValidation() {
 		super();
-		valid = true;
-		notValidField = new ArrayList<String>();
-	}
-
-	public boolean isValid() {
-		return valid;
-	}
-	
-	public List<String> getNotValidField() {
-		return notValidField;
 	}
 	
 	public void validate(String title, String description, String[] employees, String price) {
@@ -32,6 +18,7 @@ public class ProjectValidation {
 			notValidField.add("title");
 		}
 		
+		description = description.trim();
 		if ( Validator.isEmpty(description) ) {
 			valid &= false;
 			notValidField.add("description");
@@ -60,6 +47,13 @@ public class ProjectValidation {
 			notValidField.add("qualification");
 		}
 		
+	}
+	
+	public void validate(String hours) {
+		if ( !Validator.isLong(hours) ) {
+			valid &= false;
+			notValidField.add("hours");
+		}
 	}
 	
 

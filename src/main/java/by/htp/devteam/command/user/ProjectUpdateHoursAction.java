@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.dto.OrderVo;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -14,9 +13,13 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class ProjectUpdateHoursAction implements CommandAction{
 
 	private ProjectService projectService;
+	private static final Logger logger = LogManager.getLogger(LoginAction.class.getName());
 	
 	public ProjectUpdateHoursAction() {
 		super();
@@ -36,12 +39,15 @@ public class ProjectUpdateHoursAction implements CommandAction{
 		
 		try {
 			projectService.updateHours(id, userVO.getEmployee(), hours);
+			logger.info("all are ok");
 		} catch (ServiceException e) {
-			e.printStackTrace();
-			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e.getMessage());
+			logger.error(e.getMessage(), e.fillInStackTrace());
+			//e.printStackTrace();
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
 			request.setAttribute(REQUEST_PARAM_PROJECT_ID, id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_HOURS, hours);
-			page = PAGE_PROJECT_UPDATE_HOURS;
+			page = PAGE_PROJECT_VIEW_BY_ID_URI + id;
 			isRedirect = false;			
 		}
 		

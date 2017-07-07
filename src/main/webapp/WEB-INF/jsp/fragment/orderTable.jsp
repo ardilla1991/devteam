@@ -23,7 +23,7 @@
 					<td><c:out value="${i.getId()}" /></td>
 					<td><c:out value="${i.getTitle()}" /></td>
 					<td><c:out value="${i.getDescription()}" /></td>
-					<td><c:out value="${i.getSpecification()}" /></td>
+					<td><a href="${upload_path}${i.getSpecification()}" ><c:out value="${i.getSpecification()}" /></a></td>
 					<td><c:out value="${i.getDateCreated()}" /></td>
 					<td><c:out value="${i.getDateStart()}" /></td>
 					<td><c:out value="${i.getDateFinish()}" /></td>

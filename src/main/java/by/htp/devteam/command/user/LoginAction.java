@@ -9,8 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import by.htp.devteam.bean.Customer;
-import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
@@ -41,13 +39,12 @@ public class LoginAction implements CommandAction{
 			UserVO userVO = new UserVO();
 			User user = userService.authorise(login, password);
 			userVO.setUser(user);
+			
 			CustomerService customerService = serviceFactory.getCustomerService();
-			Customer customer = customerService.getByUser(user);
-			userVO.setCustomer(customer);
+			userVO.setCustomer(customerService.getByUser(user));
 			
 			EmployeeService employeeService = serviceFactory.getEmployeeService();
-			Employee employee = employeeService.getByUser(user);
-			userVO.setEmployee(employee);
+			userVO.setEmployee(employeeService.getByUser(user));
 			
 			session.setAttribute(SESSION_PARAM_USER, userVO);
 			isRedirect = true;
@@ -65,8 +62,12 @@ public class LoginAction implements CommandAction{
 					break;
 			}
 			
-		} catch (ServiceException e1) { 
-			request.setAttribute(REQUEST_PARAM_ERROR_MSG, e1.getMessage());
+		} catch (ServiceException e) { 
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
+			request.setAttribute(REQUEST_PARAM_LOGIN, login);
+			request.setAttribute(REQUEST_PARAM_PASSWORD, password);
+			
 			page = PAGE_LOGIN;
 		}
 		

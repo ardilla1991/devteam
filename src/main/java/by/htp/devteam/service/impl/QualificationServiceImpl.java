@@ -8,6 +8,7 @@ import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.QualificationDao;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
+import by.htp.devteam.service.util.ErrorCodeEnum;
 
 public class QualificationServiceImpl implements QualificationService{
 	
@@ -23,8 +24,9 @@ public class QualificationServiceImpl implements QualificationService{
 		List<Qualification> qualifications = null;
 		try {
 			qualifications = qualificationDao.fetchAll();
-		} catch (DaoException e) {
-			throw new ServiceException("service error", e);
+		} catch ( DaoException e ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return qualifications;

@@ -7,7 +7,10 @@ import by.htp.devteam.dao.UserDao;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encripting;
+import by.htp.devteam.service.util.ErrorCodeEnum;
 import by.htp.devteam.service.util.Validator;
+import by.htp.devteam.service.validation.OrderValidation;
+import by.htp.devteam.service.validation.UserValidation;
 
 public class UserServiceImpl implements UserService{
 
@@ -23,20 +26,27 @@ public class UserServiceImpl implements UserService{
 	public User authorise(String login, String password) throws ServiceException {
 		User user = null;
 		
-		if ( Validator.isEmpty(login) || Validator.isEmpty(password) )
-			throw new ServiceException("fill login or password");
+		UserValidation userValidation = new UserValidation();
+		userValidation.validate(login, password);
+		
+		if ( !userValidation.isValid() ) {
+			throw new ServiceException(ErrorCodeEnum.VALIDATION, userValidation.getNotValidField());
+		}
 		
 		try {
 			user = userDao.fetchByCredentials(login);
 			if ( user == null ) {
-				throw new ServiceException("No such user");
+				// Logger
+				throw new ServiceException(ErrorCodeEnum.NO_SUCH_USER);
 			} else if ( !Encripting.isCorrectPassword(password, user.getPassword()) ) {
-				throw new ServiceException("Password is not correct");
+				/// Logger
+				throw new ServiceException(ErrorCodeEnum.INCORRECT_PASSWORD);
 			} else {
 				user.setPassword(null);
 			}
-		} catch (DaoException e) {
-			throw new ServiceException("service error", e);
+		} catch ( DaoException e ) {
+			/// Logger
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return user;

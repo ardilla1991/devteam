@@ -11,7 +11,7 @@
 			</tr>
 			<tr>
 				<td><fmt:message key = "order.specification" /></td>
-				<td><c:out value="${order_vo.getOrder().getSpecification()}" /></td>
+				<td><a href="${upload_path}${order_vo.getOrder().getSpecification()}" ><c:out value="${order_vo.getOrder().getSpecification()}" /></a></td>
 			</tr>
 			<tr>
 				<td><fmt:message key = "order.dateStart" /></td>
