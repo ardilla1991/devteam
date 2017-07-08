@@ -65,7 +65,6 @@
 							</tbody>
 						</table>
 					</div>
-					<input type="hidden" name="order_id" value="${order_id}" />
 					<div class="el_obr_warn">
 						<sup>*</sup> -
 						<fmt:message key="required" />

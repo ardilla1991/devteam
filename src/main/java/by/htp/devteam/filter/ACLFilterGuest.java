@@ -20,10 +20,16 @@ import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.command.CommandEnum;
 import by.htp.devteam.command.CommandExeption;
 
+import static by.htp.devteam.command.util.ConstantValue.*;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class ACLFilterGuest implements Filter{
 
 	private final static Map<RoleEnum, List<CommandEnum>> acl = new HashMap<RoleEnum, List<CommandEnum>>();
 	private final static List<CommandEnum> guestACL = new ArrayList<CommandEnum>();
+	private final static Logger logger = LogManager.getLogger(ACLFilterGuest.class.getName());
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -38,25 +44,29 @@ public class ACLFilterGuest implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         
-		String action = req.getParameter("action");
-		System.out.println("guest action=" + action);
+		String action = req.getParameter(REQUEST_PARAM_ACTION);
 
 		HttpSession session = req.getSession(false);
-		boolean isAuthorised = session != null && session.getAttribute("user") != null;
+		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
 		
-		if ( action != null && !isAuthorised ) {
+		if ( action == null ) {
+			logger.info(MSG_LOGGER_NULL_ACTION);
+			request.getRequestDispatcher(PAGE_DEFAULT).forward(request, response);
+			return;
+		}
+		
+		if ( !isAuthorised ) {
 			RoleEnum role = RoleEnum.GUEST;
-			System.out.println("action="+action);
-			System.out.println("isAu=" + isAuthorised);
-			System.out.println("role="+role);
+
 			try {
 				if ( !acl.get(role).contains(CommandEnum.getAction(action))) {
-					resp.sendRedirect("Main?action=show_form");
+					resp.sendRedirect(PAGE_USER_SHOW_FORM_URI);
 					return;
 				}
 			} catch (CommandExeption e) {
-				System.out.println("invalid command");
-				// e.printStackTrace();
+				logger.info(e.getMessage());
+				request.getRequestDispatcher(PAGE_ERROR_404_GUEST).forward(request, response);
+				return;
 			}
 		}
 		chain.doFilter(request, response);
@@ -64,7 +74,8 @@ public class ACLFilterGuest implements Filter{
 
 	@Override
 	public void destroy() {
-				
+		guestACL.clear();
+		acl.clear();
 	}
 
 	private void setGuestsACL() {

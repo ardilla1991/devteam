@@ -23,6 +23,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
 	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
 	
+	public static final String MSG_LOGGER_NULL_ACTION = "Unknown action is null";
 	
 	public static final String PAGE_DEFAULT = "index.html";
 	
@@ -31,6 +32,8 @@ public final class ConstantValue {
 	
 	public static final String PAGE_ERROR = JSP_FOLDER_PATH + "error.jsp";
 	public static final String PAGE_ERROR_500 = JSP_FOLDER_ERROR + "error500.jsp";
+	public static final String PAGE_ERROR_404 = JSP_FOLDER_ERROR + "error404.jsp";
+	public static final String PAGE_ERROR_404_GUEST = JSP_FOLDER_ERROR + "error404_guest.jsp";
 	
 	public static final String PAGE_LOGIN = JSP_FOLDER_PATH + "login.jsp";
 	
@@ -56,9 +59,12 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = "Main?action=project_update_hours";
 	public static final String PAGE_PROJECT_VIEW_BY_ID_URI = "Main?action=project_view&project_id=";
 	
+	public static final String PAGE_PERMISSION_DENIED_URI = "Main?action=permission_denied";
+	
 	public static final String PAGE_ORDER_LIST_URI = "Main?action=order_list";
 	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";
 	public static final String PAGE_ORDER_SHOW_ADD_FORM_URI = "Main?action=order_show_add_form";
+	public static final String PAGE_USER_SHOW_FORM_URI = "Main?action=show_form";
 	
 	public static final String PAGE_DEFAULT_MANAGER = PAGE_ORDER_NEW_LIST_URI;
 	public static final String PAGE_DEFAULT_DEVELOPER = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;

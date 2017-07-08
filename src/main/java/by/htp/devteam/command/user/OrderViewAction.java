@@ -24,7 +24,7 @@ public class OrderViewAction implements CommandAction{
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		
+		String page = PAGE_ORDER_VIEW;
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		String id = request.getParameter(REQUEST_PARAM_ORDER_ID);
@@ -37,9 +37,10 @@ public class OrderViewAction implements CommandAction{
 			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+			page = PAGE_ERROR_404;
 		}
 
-		return new Page(PAGE_ORDER_VIEW);
+		return new Page(page);
 	}
 	
 	private void logging(HttpServletRequest request, String orderId) {

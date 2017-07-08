@@ -74,8 +74,8 @@ public class OrderAddAction implements CommandAction{
 				isRedirect = false;
 			}			
 		} catch (IOException | ServletException | IllegalStateException e) {
-			logger.info(MSG_LOGGER_ORDER_ADD_FILE_UPLOAD);
-			request.setAttribute(REQUEST_PARAM_ERROR_CODE, ErrorCodeEnum.FILE_LIMIT_SIZE.getValue());
+			logger.info(MSG_LOGGER_ORDER_ADD_FILE_UPLOAD, e);
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, ErrorCodeEnum.FILE_UPLOAD.getValue());
 			page = PAGE_ORDER_SHOW_ADD_FORM_URI;
 			isRedirect = false;
 		}

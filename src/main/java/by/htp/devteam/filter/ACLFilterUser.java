@@ -16,10 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandEnum;
 import by.htp.devteam.command.CommandExeption;
+
+import static by.htp.devteam.command.util.ConstantValue.*;
 
 public class ACLFilterUser implements Filter{
 
@@ -27,6 +32,7 @@ public class ACLFilterUser implements Filter{
 	private final static List<CommandEnum> managerACL = new ArrayList<CommandEnum>();
 	private final static List<CommandEnum> developerACL = new ArrayList<CommandEnum>();
 	private final static List<CommandEnum> customerACL = new ArrayList<CommandEnum>();
+	private final static Logger logger = LogManager.getLogger(ACLFilterUser.class.getName());
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -43,39 +49,40 @@ public class ACLFilterUser implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 
-		String action = req.getParameter("action");
-		System.out.println("user action=" + action);
+		String action = req.getParameter(REQUEST_PARAM_ACTION);
 
 		HttpSession session = req.getSession(false);
-		boolean isAuthorised = session != null && session.getAttribute("user") != null;
-		System.out.println("USER ! isAuth=" + isAuthorised);
+		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
 		
 		RoleEnum role;
 		if (isAuthorised && action != null) {
-			Object userObject = session.getAttribute("user");
+			Object userObject = session.getAttribute(SESSION_PARAM_USER);
 			UserVO userVO = (UserVO) userObject;
 			role = userVO.getUser().getRole();
-			System.out.println("role="+role);
 			try {
 				if (acl.get(role).contains(CommandEnum.getAction(action))) {
-					req.setAttribute("user", session.getAttribute("user"));
+					req.setAttribute(SESSION_PARAM_USER, session.getAttribute(SESSION_PARAM_USER));
 				} else {
-					/*String redirectAction = (role == RoleEnum.CUSTOMER ? "permission_denied"
-							: "admin_permission_denied");
-					resp.sendRedirect("Main?action=" + redirectAction);*/
-					resp.sendRedirect("Main?action=permission_denied");
+					resp.sendRedirect(PAGE_PERMISSION_DENIED_URI);
 					return;
 				}
 			} catch (CommandExeption e) {
-				System.out.println("invalid command");
+				logger.info(e.getMessage());
+				request.getRequestDispatcher(PAGE_ERROR_404).forward(request, response);
 			}
+		} else if ( action == null ) {
+			logger.info(MSG_LOGGER_NULL_ACTION);
+			request.getRequestDispatcher(PAGE_DEFAULT).forward(request, response);
 		}
 		chain.doFilter(request, response);	
 	}
 
 	@Override
 	public void destroy() {
-				
+		managerACL.clear();
+		developerACL.clear();
+		customerACL.clear();
+		acl.clear();
 	}
 	
 	private void setManagersACL() {

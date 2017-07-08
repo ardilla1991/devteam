@@ -23,7 +23,7 @@ public class ProjectViewAction implements CommandAction{
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		
+		String page = PAGE_PROJECT_VIEW;
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
@@ -35,9 +35,10 @@ public class ProjectViewAction implements CommandAction{
 			request.setAttribute(REQUEST_PARAM_PROJECT_VO, projectVo);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+			page = PAGE_ERROR_404;
 		}
 		
-		return new Page(PAGE_PROJECT_VIEW);
+		return new Page(page);
 	}
 	
 	private void logging(HttpServletRequest request, String id ) {
