@@ -38,6 +38,9 @@ public enum CommandEnum {
 	public abstract CommandAction chooseAction();
 	
 	public static CommandEnum getAction(String action) throws CommandExeption {
+		if ( action == null )
+			throw new CommandExeption("Action is empty ");
+		
 		String enumAction = action.toUpperCase();
 		boolean found = lookup(action);
         if ( !found ) 

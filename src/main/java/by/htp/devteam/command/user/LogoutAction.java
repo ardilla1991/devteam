@@ -37,7 +37,7 @@ public class LogoutAction implements CommandAction{
 			logger.info(MSG_LOGGER_USER_LOGOUT, "no name");
 		}
 		
-		return new Page(PAGE_LOGIN);
+		return new Page(PAGE_SHOW_AUTHORIZATION_FORM_URI, true);
 	}
 
 }

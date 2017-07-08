@@ -48,14 +48,8 @@ public class ACLFilterGuest implements Filter{
 
 		HttpSession session = req.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
-		
-		if ( action == null ) {
-			logger.info(MSG_LOGGER_NULL_ACTION);
-			request.getRequestDispatcher(PAGE_DEFAULT).forward(request, response);
-			return;
-		}
-		
-		if ( !isAuthorised ) {
+
+		if ( !isAuthorised && action != null ) {
 			RoleEnum role = RoleEnum.GUEST;
 
 			try {
@@ -65,9 +59,14 @@ public class ACLFilterGuest implements Filter{
 				}
 			} catch (CommandExeption e) {
 				logger.info(e.getMessage());
-				request.getRequestDispatcher(PAGE_ERROR_404_GUEST).forward(request, response);
+				req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
 				return;
 			}
+		} else if ( action == null ) {
+			logger.info(MSG_LOGGER_NULL_ACTION);
+			//esp.sendRedirect(PAGE_EMPTY_URI);
+			//req.getRequestDispatcher(PAGE_EMPTY_URI).forward(req, resp);
+			//return;
 		}
 		chain.doFilter(request, response);
 	}

@@ -17,7 +17,6 @@ public class CommandFactory {
 			try {
 				return CommandEnum.getAction(action).chooseAction();
 			} catch (CommandExeption e) {
-				System.out.println("invalid action");
 				throw new CommandExeption("invalid action", e);
 			}
 		

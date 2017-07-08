@@ -54,8 +54,10 @@ public class ACLFilterUser implements Filter{
 		HttpSession session = req.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
 		
+		
+		
 		RoleEnum role;
-		if (isAuthorised && action != null) {
+		if ( isAuthorised && action != null) {
 			Object userObject = session.getAttribute(SESSION_PARAM_USER);
 			UserVO userVO = (UserVO) userObject;
 			role = userVO.getUser().getRole();
@@ -68,11 +70,8 @@ public class ACLFilterUser implements Filter{
 				}
 			} catch (CommandExeption e) {
 				logger.info(e.getMessage());
-				request.getRequestDispatcher(PAGE_ERROR_404).forward(request, response);
+				req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
 			}
-		} else if ( action == null ) {
-			logger.info(MSG_LOGGER_NULL_ACTION);
-			request.getRequestDispatcher(PAGE_DEFAULT).forward(request, response);
 		}
 		chain.doFilter(request, response);	
 	}

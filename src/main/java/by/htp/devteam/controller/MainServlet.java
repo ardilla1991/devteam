@@ -62,7 +62,7 @@ public class MainServlet extends HttpServlet{
 			commandAction = commandFactory.chooseAction(action);
 			page = commandAction.execute(request, response);
 		} catch (CommandExeption e) {
-			page = new Page(PAGE_ERROR);
+			page = new Page(PAGE_ERROR_404);
 		}	
 		
 		return page;
