@@ -15,9 +15,9 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
+import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 

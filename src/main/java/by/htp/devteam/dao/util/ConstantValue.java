@@ -103,12 +103,17 @@ public final class ConstantValue {
 	/************************************************************************/
 	/****************************   MESSAGES   ******************************/
 	/************************************************************************/
+	public final static String MSG_ERROR_GET_CONNECTION_TO_DB = "sql: error: cannot get connection to DB";
+	public final static String MSG_ERROR_GET_CONNECTION_FROM_POOL = "sql: error: cannot get connection from pool";
+	public final static String MSG_ERROR_CLOSE_CONNECTION = "sql: error: cannot close connection";
+	
 	public final static String MSG_ERROR_ROLLBACK = "sql error: can't rollback";
 	public final static String MSG_ERROR_COMMIT = "sql error: can't commit";
 	public final static String MSG_ERROR_CONNECTION = "sql error: can't get connection";
 	
 	/************  CUSTOMER  ****************/
 	public final static String MSG_ERROR_CUSTOMER_GET_BY_USER = "sql error: can't get customer by user";
+	public final static String MSG_CUSTOMER_NOT_FOUND = "Customer id={} not found ";
 	
 	/************  EMPLOYEE  ****************/
 	public final static String MSG_ERROR_EMPLOYEE_GET_BY_USER = "sql error: can't get employee by user";

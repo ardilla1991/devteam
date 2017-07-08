@@ -26,13 +26,18 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCodeEnum;
 import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.util.UploadFile;
-import by.htp.devteam.service.util.Validator;
 import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.util.SettingConstantValue;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+import static by.htp.devteam.service.util.ConstantValue.*;
 
 public class OrderServiceImpl implements OrderService{
 
 	private OrderDao orderDao;
+	private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class.getName());
 	
 	public OrderServiceImpl() {
 		super();
@@ -42,18 +47,19 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Override
 	public OrderListVo getNewOrders(String currPage) throws ServiceException{
-		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
-		int currPageValue = 0;
 		
-		currPageValue = ( currPage == null 
-					  ? SettingConstantValue.START_PAGE 
-					  : Integer.valueOf(currPage) );
+		if ( currPage == null ) {
+			currPage = String.valueOf(SettingConstantValue.START_PAGE);
+		}
 		
-		if ( currPageValue == 0 ) {
-			/// Logger
+		OrderValidation orderValidation = new OrderValidation();
+		if ( !orderValidation.validatePage(currPage) ) {
+			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
 		}
 		
+		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int currPageValue = Integer.valueOf(currPage);
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
 		OrderListVo orderListVo = new OrderListVo();
@@ -63,8 +69,7 @@ public class OrderServiceImpl implements OrderService{
 			orderListVo.setCountPages(countPages);
 			orderListVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
-			e.printStackTrace();
-			/// Logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 	
@@ -76,8 +81,8 @@ public class OrderServiceImpl implements OrderService{
 		List<Order> orders = new ArrayList<Order>();
 		try {
 			orders = orderDao.getByCustomer(customer);
-		} catch ( DaoException e ) {
-			// Logger
+		} catch ( DaoException e) {
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
@@ -95,13 +100,14 @@ public class OrderServiceImpl implements OrderService{
 		orderValidation.validate(title, description, specificationFileName, dateStart, dateFinish, workIds, qualificationsIdsAndCount);
 		
 		if ( !orderValidation.isValid() ) {
+			logger.info(MSG_LOGGER_ORDER_ADD_INCORRECT_FIELD);
 			throw new ServiceException(ErrorCodeEnum.VALIDATION, orderValidation.getNotValidField());
 		} 
 		
 		try {
 			uploadFile.upload(specification, specificationFileName);
 		} catch ( FileUploadException e ) {
-			/// Logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.FILE_UPLOAD);
 		}
 		
@@ -123,14 +129,11 @@ public class OrderServiceImpl implements OrderService{
 		try {
 			orderVo = orderDao.add(orderVo);
 		} catch ( DaoException e ) {
-			////   Logger
-			System.out.println(e.getMessage()); // message from DAO
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			try {
 				uploadFile.delete(specificationFileName);
 			} catch (FileUploadException e1) {
-				e1.printStackTrace();
-				////Loger
+				logger.error(e.getMessage(), e);
 				throw new ServiceException(ErrorCodeEnum.FILE_DELETE);
 			}
 
@@ -144,18 +147,20 @@ public class OrderServiceImpl implements OrderService{
 	public OrderVo getOrderById(String orderId) throws ServiceException {
 
 		OrderValidation orderValidation = new OrderValidation();
-		
 		if ( !orderValidation.validateId(orderId)) {
-			throw new ServiceException(ErrorCodeEnum.VALIDATION);
+			logger.info(MSG_LOGGER_ORDER_VIEW_INCORRECT_ID, orderId);
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
 		} 
 		
 		OrderVo orderVo = null;
 		try {
 			orderVo = orderDao.getById(Long.valueOf(orderId));
 		} catch ( DaoException e ) {
-			/// logger
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+		} catch ( NullPointerException e ) {
+			logger.info(MSG_LOGGER_ORDER_VIEW_NOT_EXIST_ID, orderId);
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
 		}
 		
 		return orderVo;
@@ -193,7 +198,7 @@ public class OrderServiceImpl implements OrderService{
 			order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
 			orderDao.setPrice(connection, order);
 		} catch ( DaoException e ) {
-			//// Logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		

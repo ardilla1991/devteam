@@ -2,7 +2,7 @@ package by.htp.devteam.controller;
 
 import java.io.IOException;
 
-import static by.htp.devteam.util.ConstantValue.*;
+import static by.htp.devteam.command.util.ConstantValue.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

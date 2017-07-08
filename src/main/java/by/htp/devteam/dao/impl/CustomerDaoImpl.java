@@ -7,11 +7,13 @@ import java.sql.SQLException;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.CustomerDao;
 import by.htp.devteam.dao.DaoException;
+import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class CustomerDaoImpl implements CustomerDao{
 
@@ -19,6 +21,8 @@ public class CustomerDaoImpl implements CustomerDao{
 	private final static int NAME = 2;
 	private final static int EMAIL = 3;
 	private final static int PHONE = 4;
+	
+	private static final Logger logger = LogManager.getLogger(CustomerDaoImpl.class.getName());
 
 	@Override
 	public Customer getCustomerByUser(User user) throws DaoException {
@@ -27,15 +31,15 @@ public class CustomerDaoImpl implements CustomerDao{
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_CUSTOMER_GET_BY_USER) ) {
 			
 			ps.setLong(1, user.getId());
-			customer = getCustomerFromResultSet(ps);
+			customer = getCustomerFromResultSet(ps, user);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_CUSTOMER_GET_BY_USER, e);
 		}
 		return customer;
 	}
 	
-	private Customer getCustomerFromResultSet(PreparedStatement ps) throws SQLException {
-		Customer customer = null;
+	private Customer getCustomerFromResultSet(PreparedStatement ps, User user) throws SQLException {
+		Customer customer = new Customer();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			if ( rs.next() ) {
 				customer = new Customer();
@@ -43,6 +47,8 @@ public class CustomerDaoImpl implements CustomerDao{
 				customer.setName(rs.getString(NAME));
 				customer.setEmail(rs.getString(EMAIL));
 				customer.setPhone(rs.getString(PHONE));
+			} else {
+				logger.info(MSG_CUSTOMER_NOT_FOUND, user.getId());
 			}
 		}
 		

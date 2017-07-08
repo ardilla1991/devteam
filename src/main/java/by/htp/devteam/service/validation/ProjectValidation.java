@@ -2,8 +2,6 @@ package by.htp.devteam.service.validation;
 
 import java.util.Map;
 
-import by.htp.devteam.service.util.Validator;
-
 public class ProjectValidation extends BeanValidation{
 	
 	public ProjectValidation() {
@@ -54,6 +52,10 @@ public class ProjectValidation extends BeanValidation{
 			valid &= false;
 			notValidField.add("hours");
 		}
+	}
+	
+	public boolean validatePage(String pageNumber) {
+		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
 	}
 	
 

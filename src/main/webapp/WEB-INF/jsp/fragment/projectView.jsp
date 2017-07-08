@@ -1,4 +1,10 @@
-
+<%@ taglib uri="messagetag" prefix="msg"%>
+<div class="error_message">
+	<c:if test="${ error_code > 0}">
+		<msg:message errorCode="${ error_code }" language="${clientLanguage}"
+			country="${clientCountry}" bean="order" />
+	</c:if>
+</div>
 <div class="table-responsive">
 	<table class="table table-striped tab-content tab-active">
 		<tbody>

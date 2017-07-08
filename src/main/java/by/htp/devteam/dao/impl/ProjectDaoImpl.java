@@ -13,9 +13,9 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.dto.ProjectListVo;
-import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.ProjectDao;
+import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
@@ -73,7 +73,6 @@ public class ProjectDaoImpl implements ProjectDao {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DaoException(MSG_ERROR_PROJECT_ADD, e);
 		}
 		return createdProject;
@@ -211,7 +210,6 @@ public class ProjectDaoImpl implements ProjectDao {
 			dbConnection = ConnectionPool.getConnection();
 			dbConnection.setAutoCommit(false);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DaoException(MSG_ERROR_CONNECTION, e);
 		}
 		return dbConnection;

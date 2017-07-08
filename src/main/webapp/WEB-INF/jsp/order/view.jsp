@@ -1,4 +1,5 @@
 <%@include file="../fragment/header.jsp"%>
+
 <div class="container-fluid">
 	<div class="row">
 		<%@include file="../fragment/leftBar.jsp"%>
@@ -12,7 +13,7 @@
 			</div>
 			<div class="col-sm-7">
 			<c:set var="role">CUSTOMER</c:set>
-				<c:if test="${ user.getUser().getRole()  != role }">
+				<c:if test="${ user.getUser().getRole()  != role && order_vo.getOrder().getId() > 0}">
 					<a class="btn btn-default" role="button"
 						href="Main?action=project_show_add_form&order_id=${order_vo.getOrder().getId()}"
 						id="project_add"><fmt:message key="project.button.add" /></a>

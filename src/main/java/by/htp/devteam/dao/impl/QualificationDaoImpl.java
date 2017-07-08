@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.QualificationDao;
+import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 

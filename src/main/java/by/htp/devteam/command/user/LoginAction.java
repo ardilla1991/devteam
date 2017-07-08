@@ -1,13 +1,10 @@
 package by.htp.devteam.command.user;
 
-import static by.htp.devteam.util.ConstantValue.*;
+import static by.htp.devteam.command.util.ConstantValue.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.dto.UserVO;
@@ -19,10 +16,13 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class LoginAction implements CommandAction{
 	
 	private static final Logger logger = LogManager.getLogger(LoginAction.class.getName());
-
+	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 				
@@ -30,6 +30,8 @@ public class LoginAction implements CommandAction{
 		String login = request.getParameter(REQUEST_PARAM_LOGIN);
 		String password = request.getParameter(REQUEST_PARAM_PASSWORD);
 		String page = PAGE_DEFAULT;
+		
+		logger.info(MSG_LOGGER_USER_LOGIN, login);
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		UserService userService = serviceFactory.getUserService();

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.service.util.Validator;
 
 public final class OrderValidation extends BeanValidation{
 	
@@ -63,6 +62,10 @@ public final class OrderValidation extends BeanValidation{
 			}
 			
 		}	
+	}
+	
+	public boolean validatePage(String pageNumber) {
+		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
 	}
 	
 }

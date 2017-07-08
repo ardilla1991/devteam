@@ -1,4 +1,4 @@
-package by.htp.devteam.service.util;
+package by.htp.devteam.service.validation;
 
 import java.text.DateFormat;
 import java.text.ParseException;

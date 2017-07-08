@@ -1,6 +1,6 @@
 package by.htp.devteam.command.user;
 
-import static by.htp.devteam.util.ConstantValue.*;
+import static by.htp.devteam.command.util.ConstantValue.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +14,13 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class ProjectListByEmployeeAction implements CommandAction{
 
+	private static final Logger logger = LogManager.getLogger(ProjectListByEmployeeAction.class.getName());
+	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -26,13 +31,15 @@ public class ProjectListByEmployeeAction implements CommandAction{
 		HttpSession session = request.getSession(false);
 		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
 		
+		logger.info(MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE, userVO.getUser().getLogin(), currPage);
+		
 		try {
 			ProjectListVo projectListVo = projectService.fetchAll(currPage, userVO.getEmployee());
 
 			request.setAttribute(REQUEST_PARAM_URI, PAGE_DEFAULT_DEVELOPER);
 			request.setAttribute(REQUEST_PARAM_PROJECT_LIST_VO, projectListVo);
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
 		
 		return new Page(PAGE_PROJECT_LIST);

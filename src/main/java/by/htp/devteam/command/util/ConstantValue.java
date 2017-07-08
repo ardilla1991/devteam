@@ -1,15 +1,37 @@
-package by.htp.devteam.util;
+package by.htp.devteam.command.util;
 
 public final class ConstantValue {
 
 	private ConstantValue() {
-		
+		super();
 	}
+	
+	public static final String MSG_LOGGER_USER_LOGIN = "User {}. Login action";
+	public static final String MSG_LOGGER_USER_LOGOUT = "User {}. Logout action";
+	public static final String MSG_LOGGER_ORDER_NEW_LIST = "User {}. New orders list. Page {}";
+	public static final String MSG_LOGGER_ORDER_SWOR_ADD_FORM = "User {}. Show order add form";
+	public static final String MSG_LOGGER_ORDER_LIST = "User {}. Orders list";
+	public static final String MSG_LOGGER_ORDER_ADD = "User {}. Orders add";
+	public static final String MSG_LOGGER_ORDER_ADD_FILE_UPLOAD = "Orders add. Upload file error";
+	public static final String MSG_LOGGER_ORDER_VIEW = "User {}. Order id {} view";
+	public static final String MSG_LOGGER_PERMISSION_DENIED = "User {}. Permission denied";
+	public static final String MSG_LOGGER_PROJECT_ADD = "User {}. Add project for order {}";
+	public static final String MSG_LOGGER_PROJECT_LIST = "User {}. Projects list. Page {}";
+	public static final String MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE = "User {}. Projects list by employee. Page {}";
+	public static final String MSG_LOGGER_PROJECT_SWOR_ADD_FORM = "User {}. Show project add form for order {}";
+	public static final String MSG_LOGGER_PROJECT_UPDATE_HOURS = "User {}. Project {} . Update hours";
+	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
+	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
+	
+	
 	public static final String PAGE_DEFAULT = "index.html";
 	
 	public static final String JSP_FOLDER_PATH = "/WEB-INF/jsp/";
+	public static final String JSP_FOLDER_ERROR = JSP_FOLDER_PATH + "error/";
 	
 	public static final String PAGE_ERROR = JSP_FOLDER_PATH + "error.jsp";
+	public static final String PAGE_ERROR_500 = JSP_FOLDER_ERROR + "error500.jsp";
+	
 	public static final String PAGE_LOGIN = JSP_FOLDER_PATH + "login.jsp";
 	
 	public static final String PATH_ORDER = JSP_FOLDER_PATH + "order/";
@@ -94,5 +116,4 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_URI = "uri";
 	
 	public static final String SESSION_PARAM_USER = "user";
-	
 }

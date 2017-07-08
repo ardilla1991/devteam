@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import static by.htp.devteam.util.ConstantValue.*;
 import by.htp.devteam.command.CommandEnum;
 
 import by.htp.devteam.bean.User;

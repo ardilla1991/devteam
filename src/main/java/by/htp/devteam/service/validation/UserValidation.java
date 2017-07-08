@@ -1,7 +1,5 @@
 package by.htp.devteam.service.validation;
 
-import by.htp.devteam.service.util.Validator;
-
 public class UserValidation extends BeanValidation {
 	
 	public UserValidation() {

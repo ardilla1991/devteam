@@ -1,41 +1,52 @@
+<%@ taglib uri="messagetag" prefix="msg"%>
+
+<div class="error_message">
+	<c:if test="${ error_code > 0}">
+		<msg:message errorCode="${ error_code }" language="${clientLanguage}"
+			country="${clientCountry}" bean="order" />
+	</c:if>
+</div>
 <div class="table-responsive">
 	<table class="table table-striped tab-content tab-active">
 		<tbody>
 			<tr>
-				<td><fmt:message key = "order.title" /></td>
+				<td><fmt:message key="order.title" /></td>
 				<td><c:out value="${order_vo.getOrder().getTitle()}" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key = "order.description" /></td>
+				<td><fmt:message key="order.description" /></td>
 				<td><c:out value="${order_vo.getOrder().getDescription()}" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key = "order.specification" /></td>
-				<td><a href="${upload_path}${order_vo.getOrder().getSpecification()}" ><c:out value="${order_vo.getOrder().getSpecification()}" /></a></td>
+				<td><fmt:message key="order.specification" /></td>
+				<td><a
+					href="${upload_path}${order_vo.getOrder().getSpecification()}"><c:out
+							value="${order_vo.getOrder().getSpecification()}" /></a></td>
 			</tr>
 			<tr>
-				<td><fmt:message key = "order.dateStart" /></td>
+				<td><fmt:message key="order.dateStart" /></td>
 				<td><c:out value="${order_vo.getOrder().getDateStart()}" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key = "order.dateFinish" /></td>
+				<td><fmt:message key="order.dateFinish" /></td>
 				<td><c:out value="${order_vo.getOrder().getDateFinish()}" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key = "order.works" /></td>
+				<td><fmt:message key="order.works" /></td>
 				<td><c:forEach items="${order_vo.getWorks()}" var="i">
 						<c:out value="${i.getTitle()}" />
 						<br />
 					</c:forEach></td>
 			</tr>
 			<tr>
-				<td><fmt:message key = "order.qualifications" /></td>
-				<td id="qualification_list_count">
-					<c:forEach items="${order_vo.getQualifications()}" var="i">
-						<div data-id="${i.key.getId()}"
-							 data-count="${i.value}" >
+				<td><fmt:message key="order.qualifications" /></td>
+				<td id="qualification_list_count"><c:forEach
+						items="${order_vo.getQualifications()}" var="i">
+						<div data-id="${i.key.getId()}" data-count="${i.value}">
 							<c:out value="${i.key.getTitle()}" />
-							(<c:out value="${i.value}" />)
+							(
+							<c:out value="${i.value}" />
+							)
 						</div>
 					</c:forEach></td>
 			</tr>

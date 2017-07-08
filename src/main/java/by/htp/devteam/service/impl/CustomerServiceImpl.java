@@ -9,7 +9,12 @@ import by.htp.devteam.service.CustomerService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCodeEnum;
 
-public class CustomerServiceImpl implements CustomerService{
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+public class CustomerServiceImpl implements CustomerService {
+	
+	private static final Logger logger = LogManager.getLogger(CustomerServiceImpl.class.getName());
 	CustomerDao customerDao;
 	
 	public CustomerServiceImpl() {
@@ -24,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService{
 		try {
 			customer = customerDao.getCustomerByUser(user);
 		} catch ( DaoException e ) {
-			/// Logger
+			logger.error(e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		

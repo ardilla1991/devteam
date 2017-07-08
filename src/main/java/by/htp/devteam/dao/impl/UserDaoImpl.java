@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import by.htp.devteam.bean.RoleEnum;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.UserDao;
+import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 

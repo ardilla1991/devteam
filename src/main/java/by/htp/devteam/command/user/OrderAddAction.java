@@ -15,7 +15,10 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCodeEnum;
 
-import static by.htp.devteam.util.ConstantValue.*;
+import static by.htp.devteam.command.util.ConstantValue.*;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +27,7 @@ import java.util.Map;
 public class OrderAddAction implements CommandAction{
 	
 	private OrderService orderService;
+	private static final Logger logger = LogManager.getLogger(OrderAddAction.class.getName());
 	
 	public OrderAddAction() {
 		super();
@@ -33,6 +37,9 @@ public class OrderAddAction implements CommandAction{
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+		
+		logging(request);
+		
 		String page = PAGE_ORDER_LIST_URI;
 		boolean isRedirect = true;
 		String title = request.getParameter(REQUEST_PARAM_ORDER_TITLE);
@@ -41,7 +48,6 @@ public class OrderAddAction implements CommandAction{
 		String dateFinish = request.getParameter(REQUEST_PARAM_ORDER_DATE_FINISH);
 		String[] workIds = request.getParameterValues(REQUEST_PARAM_ORDER_WORK);
 		Map<String, String> qualifications = getQualificationsFromRequest(request);
-		
 		
 		Part specification = null;
 		try {
@@ -55,7 +61,6 @@ public class OrderAddAction implements CommandAction{
 		        String applicationPath = request.getServletContext().getRealPath("");
 		        OrderVo orderVo = orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications, applicationPath);
 			} catch (ServiceException e) {
-				e.printStackTrace();
 				request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 				request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
 				request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);
@@ -67,18 +72,13 @@ public class OrderAddAction implements CommandAction{
 				
 				page = PAGE_ORDER_SHOW_ADD_FORM_URI;
 				isRedirect = false;
-			}
-			
-			
-			
+			}			
 		} catch (IOException | ServletException | IllegalStateException e) {
-			e.printStackTrace();
+			logger.info(MSG_LOGGER_ORDER_ADD_FILE_UPLOAD);
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, ErrorCodeEnum.FILE_LIMIT_SIZE.getValue());
 			page = PAGE_ORDER_SHOW_ADD_FORM_URI;
 			isRedirect = false;
-			
 		}
-
 
 		return new Page(page, isRedirect);
 	}
@@ -100,6 +100,12 @@ public class OrderAddAction implements CommandAction{
 		return assocArray;
 	}
 	
+	private void logging(HttpServletRequest request ) {
+		HttpSession session = request.getSession(false);
+		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		
+		logger.info(MSG_LOGGER_ORDER_ADD, userVO.getUser().getLogin());
+	}
 
 
 }

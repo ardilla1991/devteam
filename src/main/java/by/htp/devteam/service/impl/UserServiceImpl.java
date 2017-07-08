@@ -8,13 +8,17 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encripting;
 import by.htp.devteam.service.util.ErrorCodeEnum;
-import by.htp.devteam.service.util.Validator;
-import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.service.validation.UserValidation;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+import static by.htp.devteam.service.util.ConstantValue.*;
 
 public class UserServiceImpl implements UserService{
 
 	UserDao userDao;
+	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
 	
 	public UserServiceImpl() {
 		super();
@@ -30,26 +34,32 @@ public class UserServiceImpl implements UserService{
 		userValidation.validate(login, password);
 		
 		if ( !userValidation.isValid() ) {
+			logger.info(MSG_LOGGER_FILL_LOGIN_OR_PASSWORD);
 			throw new ServiceException(ErrorCodeEnum.VALIDATION, userValidation.getNotValidField());
 		}
 		
 		try {
 			user = userDao.fetchByCredentials(login);
 			if ( user == null ) {
-				// Logger
+				logger.info(MSG_LOGGER_USER_NOT_FOUND, login);
 				throw new ServiceException(ErrorCodeEnum.NO_SUCH_USER);
 			} else if ( !Encripting.isCorrectPassword(password, user.getPassword()) ) {
-				/// Logger
+				logger.info(MSG_LOGGER_USER_INCORRECT_PASSWORD);
 				throw new ServiceException(ErrorCodeEnum.INCORRECT_PASSWORD);
 			} else {
 				user.setPassword(null);
 			}
 		} catch ( DaoException e ) {
-			/// Logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
 		return user;
+	}
+
+	@Override
+	public void logout(User user) {
+		//logger.info(MSG_LOGGER_USER_LOGOUT, user.getLogin());
 	}
 
 }

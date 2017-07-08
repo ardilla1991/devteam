@@ -11,12 +11,11 @@ import by.htp.devteam.bean.dto.UserVO;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 
-import static by.htp.devteam.util.ConstantValue.*;
+import static by.htp.devteam.command.util.ConstantValue.*;
 
 public class ShowAuthorizationFormAction implements CommandAction {
 
-	// private static final Logger logger =
-	// LogManager.getLogger(ShowAuthorizationFormAction.class);
+	private static final Logger logger = LogManager.getLogger(ShowAuthorizationFormAction.class);
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
@@ -25,7 +24,7 @@ public class ShowAuthorizationFormAction implements CommandAction {
 		boolean isRedirect = false;
 		HttpSession session = request.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
-		if (isAuthorised) {
+		if ( isAuthorised ) {
 			Object userObject = session.getAttribute(SESSION_PARAM_USER);
 			UserVO userVO = (UserVO) userObject;
 			isRedirect = true;
@@ -42,6 +41,10 @@ public class ShowAuthorizationFormAction implements CommandAction {
 				default:
 					break;
 			}
+			
+			logger.info(MSG_LOGGER_SHOW_AUTHORIZATION_FORM, userVO.getUser().getLogin());
+		} else {
+			logger.info(MSG_LOGGER_SHOW_AUTHORIZATION_FORM);
 		}
 
 		return new Page(page, isRedirect);

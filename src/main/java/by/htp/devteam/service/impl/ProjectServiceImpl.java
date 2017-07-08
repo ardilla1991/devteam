@@ -1,5 +1,7 @@
 package by.htp.devteam.service.impl;
 
+import static by.htp.devteam.service.util.ConstantValue.*;
+
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,13 +22,17 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCodeEnum;
-import by.htp.devteam.service.util.Validator;
+import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.SettingConstantValue;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class ProjectServiceImpl implements ProjectService{
 
 	private ProjectDao projectDao;
+	private static final Logger logger = LogManager.getLogger(ProjectServiceImpl.class.getName());
 	
 	public ProjectServiceImpl() {
 		super();
@@ -36,18 +42,19 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public ProjectListVo fetchAll(String currPage, Employee employee) throws ServiceException{
-		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
-		int currPageValue = 0;
 		
-		currPageValue = ( currPage == null 
-					  ? SettingConstantValue.START_PAGE 
-					  : Integer.valueOf(currPage) );
+		if ( currPage == null ) {
+			currPage = String.valueOf(SettingConstantValue.START_PAGE);
+		}
 		
-		if ( currPageValue == 0 ) {
-			/// Logger
+		ProjectValidation projectValidation = new ProjectValidation();
+		if ( !projectValidation.validatePage(currPage) ) {
+			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
 		}
 		
+		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int currPageValue = Integer.valueOf(currPage);		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
 		ProjectListVo projectListVo = null;
@@ -58,8 +65,7 @@ public class ProjectServiceImpl implements ProjectService{
 			projectListVo.setCountPages(countPages);
 			projectListVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
-			e.printStackTrace();
-			// Logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 
@@ -73,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService{
 		projectValidation.validate(title, description, employees, price);
 		
 		if ( !projectValidation.isValid() ) {
-			/// Logger
+			logger.info(MSG_LOGGER_PROJECT_ADD_INCORRECT_FIELD);
 			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
 		}
 		
@@ -86,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService{
 		projectValidation.validate(qualificationCountByEmployees, neededQualifications);
 
 		if ( !projectValidation.isValid() ) {
-			/// Logger
+			logger.info(MSG_LOGGER_PROJECT_ADD_INCORRECT_FIELD_EMPLOYEE);
 			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
 		} 
 		
@@ -108,13 +114,12 @@ public class ProjectServiceImpl implements ProjectService{
 				commitTransaction(connection);
 			} else {
 				rollbackTransaction(connection);
-				//logger
+				logger.info(MSG_LOGGER_PROJECT_ADD_NO_ISSET_FREE_EMPLOYEE);
 				throw new ServiceException(ErrorCodeEnum.NOT_ISSET_FREE_EMPLOYEE);
 			}
 		} catch ( DaoException | ServiceException e) {
 			rollbackTransaction(connection);
-			e.printStackTrace();
-			//logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 
@@ -144,9 +149,8 @@ public class ProjectServiceImpl implements ProjectService{
 	private void rollbackTransaction(Connection connection) throws ServiceException {
 		try {
 			projectDao.rollbackTransaction(connection);
-		} catch (DaoException e1) {
-			e1.printStackTrace();
-			/// Logger
+		} catch (DaoException e) {
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 	}
@@ -159,12 +163,10 @@ public class ProjectServiceImpl implements ProjectService{
 	public ProjectVo getById(String id) throws ServiceException {
 
 		ProjectValidation projectValidation = new ProjectValidation();
-		projectValidation.validateId(id);
-		
-		if ( !projectValidation.isValid() ) {
-			/// Logger
-			throw new ServiceException(ErrorCodeEnum.VALIDATION);
-		}
+		if ( !projectValidation.validateId(id)) {
+			logger.info(MSG_LOGGER_PROJECT_VIEW_INCORRECT_ID, id);
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
+		} 
 		
 		ProjectVo projectDto = new ProjectVo();
 		Project project;
@@ -176,9 +178,11 @@ public class ProjectServiceImpl implements ProjectService{
 			Map<Employee, Integer> employees = employeeService.getByProject(project);
 			projectDto.setEmployee(employees);
 		} catch (DaoException e) {
-			e.printStackTrace();
-			// Logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+		} catch (NullPointerException e) {
+			logger.info(MSG_LOGGER_PROJECT_VIEW_NOT_EXIST_ID, id);
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
 		}
 		
 		return projectDto;
@@ -189,15 +193,15 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		ProjectValidation projectValidation = new ProjectValidation();
 		
-		if ( !projectValidation.validateId(id) ) {
-			/// Logger
-			throw new ServiceException(ErrorCodeEnum.VALIDATION);
-		}
+		if ( !projectValidation.validateId(id)) {
+			logger.info(MSG_LOGGER_PROJECT_UPDATE_HOURS_INCORRECT_PROJECT_ID, id);
+			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
+		} 
 		
 		projectValidation.validate(hours);
 		
 		if ( !projectValidation.isValid() ) {
-			/// Logger
+			logger.info(MSG_LOGGER_PROJECT_UPDATE_HOURS_INCORRECT_FIELD, id);
 			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
 		}
 		
@@ -206,8 +210,7 @@ public class ProjectServiceImpl implements ProjectService{
 		try {
 			projectDao.updateHours(project, employee, Integer.valueOf(hours));
 		} catch ( DaoException e ) {
-			e.printStackTrace();
-			/// Logger
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		

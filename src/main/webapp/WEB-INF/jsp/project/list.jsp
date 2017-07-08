@@ -1,11 +1,23 @@
 <%@include file="../fragment/header.jsp"%>
 <%@ taglib uri="pagetag" prefix="ctg"%>
+<%@ taglib uri="messagetag" prefix="msg"%>
+
 <div class="container-fluid">
 	<div class="row">
 
 		<%@include file="../fragment/leftBar.jsp"%>
 
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h1 class="page-header">
+				<fmt:message key="project.pageTitle.list" />
+			</h1>
+			<div class="error_message">
+				<c:if test="${ error_code > 0}">
+					<msg:message errorCode="${ error_code }"
+						language="${clientLanguage}" country="${clientCountry}"
+						bean="project" />
+				</c:if>
+			</div>
 			<div class="table-responsive">
 				<table class="table table-striped tab-content tab-active">
 					<thead>
@@ -31,7 +43,8 @@
 				</table>
 			</div>
 			<ctg:paginator uri="${ uri }"
-				currPage="${ project_list_vo.getCurrPage() }" countPages="${ project_list_vo.getCountPages() }" />
+				currPage="${ project_list_vo.getCurrPage() }"
+				countPages="${ project_list_vo.getCountPages() }" />
 		</div>
 	</div>
 </div>

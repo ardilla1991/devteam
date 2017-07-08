@@ -16,9 +16,9 @@ import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.dto.OrderVo;
 import by.htp.devteam.bean.dto.OrderListVo;
-import by.htp.devteam.controller.ConnectionPool;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.OrderDao;
+import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
@@ -125,7 +125,7 @@ public class OrderDaoImpl implements OrderDao{
 	}
 	
 	private Order getOrder(Connection dbConnection, Long id) throws SQLException {
-		Order order = null;
+		Order order = new Order();
 		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_BY_ID) ) {
 
 			ps.setLong(ID, id);

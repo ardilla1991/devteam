@@ -3,8 +3,6 @@ package by.htp.devteam.service.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import by.htp.devteam.service.util.Validator;
-
 public class BeanValidation {
 	boolean valid;
 	List<String> notValidField;

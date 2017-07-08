@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.servlet.http.Part;
 
 import static by.htp.devteam.util.SettingConstantValue.*;
+import static by.htp.devteam.service.util.ConstantValue.*;
 
 final public class UploadFile {
 	
@@ -64,7 +65,7 @@ final public class UploadFile {
             part.write(fullUploadPath + fileName);
        // }
         } catch (IOException e) {
-        	throw new FileUploadException("can't upload file");
+        	throw new FileUploadException(MSG_ERROR_UPLOAD_FILE);
         }
         
         return fileName;
@@ -74,7 +75,7 @@ final public class UploadFile {
 		File file = new File(fullUploadPath + fileName);
 
 		if ( !file.delete()) {
-			throw new FileUploadException("Delete operation is failed.");
+			throw new FileUploadException(MSG_ERROR_DELETE_FILE);
 		}
 	}
 	
