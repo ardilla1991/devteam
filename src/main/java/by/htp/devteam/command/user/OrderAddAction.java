@@ -40,7 +40,8 @@ public class OrderAddAction implements CommandAction{
 		
 		logging(request);
 		
-		String page = PAGE_ORDER_LIST_URI;
+		//String page = PAGE_ORDER_LIST_URI;
+		String page = PAGE_ORDER_ADD_MESSAGE_URI;
 		boolean isRedirect = true;
 		String title = request.getParameter(REQUEST_PARAM_ORDER_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_ORDER_DESCRIPTION);

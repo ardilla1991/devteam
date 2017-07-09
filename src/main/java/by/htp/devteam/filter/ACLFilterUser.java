@@ -91,6 +91,7 @@ public class ACLFilterUser implements Filter{
 		managerACL.add(CommandEnum.ORDER_VIEW);
 		managerACL.add(CommandEnum.PROJECT_SHOW_ADD_FORM);
 		managerACL.add(CommandEnum.PROJECT_ADD);
+		managerACL.add(CommandEnum.PROJECT_ADD_MESSAGE);
 		managerACL.add(CommandEnum.PERMISSION_DENIED);
 		managerACL.add(CommandEnum.LOGOUT);
 		managerACL.add(CommandEnum.PROJECT_LIST);
@@ -119,6 +120,7 @@ public class ACLFilterUser implements Filter{
 		customerACL.add(CommandEnum.ORDER_LIST);
 		customerACL.add(CommandEnum.ORDER_SHOW_ADD_FORM);
 		customerACL.add(CommandEnum.ORDER_ADD);
+		customerACL.add(CommandEnum.ORDER_ADD_MESSAGE);
 		customerACL.add(CommandEnum.ORDER_VIEW);
 		
 		acl.put(RoleEnum.CUSTOMER, customerACL);

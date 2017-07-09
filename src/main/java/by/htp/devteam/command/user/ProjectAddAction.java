@@ -34,7 +34,8 @@ public class ProjectAddAction implements CommandAction {
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 
-		String page = PAGE_PROJECT_LIST_URI;
+		//String page = PAGE_PROJECT_LIST_URI;
+		String page = PAGE_PROJECT_ADD_MESSAGE_URI;
 		boolean isRedirect = true;
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
 		

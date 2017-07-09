@@ -8,7 +8,6 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header"><fmt:message key = "order.pageTitle.new" /></h1>
 
-				<!-- h2 class="sub-header">Rented Equipment</h2 -->
 				<form id="order_add" name="order_form" action="Main?action=order_add" method="post" enctype="multipart/form-data">
 					<div class="error_message">
 						<c:if test="${ error_code > 0}">

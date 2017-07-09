@@ -12,10 +12,12 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_ORDER_SWOR_ADD_FORM = "User {}. Show order add form";
 	public static final String MSG_LOGGER_ORDER_LIST = "User {}. Orders list";
 	public static final String MSG_LOGGER_ORDER_ADD = "User {}. Orders add";
+	public static final String MSG_LOGGER_ORDER_ADD_OK_MESSAGE = "User {}. Add order --> OK";
 	public static final String MSG_LOGGER_ORDER_ADD_FILE_UPLOAD = "Orders add. Upload file error";
 	public static final String MSG_LOGGER_ORDER_VIEW = "User {}. Order id {} view";
 	public static final String MSG_LOGGER_PERMISSION_DENIED = "User {}. Permission denied";
 	public static final String MSG_LOGGER_PROJECT_ADD = "User {}. Add project for order {}";
+	public static final String MSG_LOGGER_PROJECT_ADD_OK_MESSAGE = "User {}. Add project --> OK";
 	public static final String MSG_LOGGER_PROJECT_LIST = "User {}. Projects list. Page {}";
 	public static final String MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE = "User {}. Projects list by employee. Page {}";
 	public static final String MSG_LOGGER_PROJECT_SWOR_ADD_FORM = "User {}. Show project add form for order {}";
@@ -41,11 +43,13 @@ public final class ConstantValue {
 	public static final String PAGE_ORDER_EDIT = PATH_ORDER + "add.jsp";
 	public static final String PAGE_ORDER_VIEW = PATH_ORDER + "view.jsp";
 	public static final String PAGE_ORDER_NEW_LIST = PATH_ORDER + "newList.jsp";
+	public static final String PAGE_ORDER_ADD_MESSAGE = PATH_ORDER + "addMessage.jsp";
 	
 	public static final String PATH_PROJECT = JSP_FOLDER_PATH + "project/";
 	public static final String PAGE_PROJECT_EDIT = PATH_PROJECT + "add.jsp";
 	public static final String PAGE_PROJECT_VIEW = PATH_PROJECT + "view.jsp";
 	public static final String PAGE_PROJECT_LIST = PATH_PROJECT + "list.jsp";
+	public static final String PAGE_PROJECT_ADD_MESSAGE = PATH_PROJECT + "addMessage.jsp";
 	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	
@@ -57,12 +61,15 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_LIST_BY_EMPLOYEE_URI = "Main?action=project_list_by_employee";
 	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = "Main?action=project_update_hours";
 	public static final String PAGE_PROJECT_VIEW_BY_ID_URI = "Main?action=project_view&project_id=";
+	public static final String PAGE_PROJECT_ADD_MESSAGE_URI = "Main?action=project_add_message";
 	
 	public static final String PAGE_PERMISSION_DENIED_URI = "Main?action=permission_denied";
 	
 	public static final String PAGE_ORDER_LIST_URI = "Main?action=order_list";
 	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";
 	public static final String PAGE_ORDER_SHOW_ADD_FORM_URI = "Main?action=order_show_add_form";
+	public static final String PAGE_ORDER_ADD_MESSAGE_URI = "Main?action=order_add_message";
+	
 	public static final String PAGE_USER_SHOW_FORM_URI = "Main?action=show_form";
 	
 	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=show_form";

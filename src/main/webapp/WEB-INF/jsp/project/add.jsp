@@ -16,7 +16,7 @@
 				<h1 class="page-header">
 					<fmt:message key="project.pageTitle.new" />
 				</h1>
-				<!-- h2 class="sub-header">Rented Equipment</h2 -->
+
 				<form id="order_add" name="order_form" action="Main" method="post">
 					<div class="error_message">
 						<c:if test="${ error_code > 0}">
