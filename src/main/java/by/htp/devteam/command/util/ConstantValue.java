@@ -26,6 +26,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
 	
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
+	public static final String MSG_LOGGER_WRONG_HTTP_METHOD = "User {}. Wrong http method ";
 	
 	public static final String PAGE_DEFAULT = "index.html";
 	
@@ -70,9 +71,7 @@ public final class ConstantValue {
 	public static final String PAGE_ORDER_SHOW_ADD_FORM_URI = "Main?action=order_show_add_form";
 	public static final String PAGE_ORDER_ADD_MESSAGE_URI = "Main?action=order_add_message";
 	
-	public static final String PAGE_USER_SHOW_FORM_URI = "Main?action=show_form";
-	
-	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=show_form";
+	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=login_show_form";
 	public static final String PAGE_EMPTY_URI = "Main?action=empty";
 	
 	public static final String PAGE_DEFAULT_MANAGER = PAGE_ORDER_NEW_LIST_URI;

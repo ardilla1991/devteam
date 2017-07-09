@@ -53,8 +53,13 @@ public class ACLFilterGuest implements Filter{
 			RoleEnum role = RoleEnum.GUEST;
 
 			try {
-				if ( !acl.get(role).contains(CommandEnum.getAction(action))) {
-					resp.sendRedirect(PAGE_USER_SHOW_FORM_URI);
+				boolean issetInACL = acl.get(role).contains(CommandEnum.getAction(action) );
+				if ( !issetInACL ) {
+					resp.sendRedirect(PAGE_SHOW_AUTHORIZATION_FORM_URI);
+					return;
+				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandEnum.getAction(action).getHTTPMethod().getValue()) ) {
+					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD);
+					req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
 					return;
 				}
 			} catch (CommandExeption e) {
@@ -78,8 +83,8 @@ public class ACLFilterGuest implements Filter{
 
 	private void setGuestsACL() {
 		guestACL.add(CommandEnum.LOGIN);
-		guestACL.add(CommandEnum.SHOW_FORM);
-		guestACL.add(CommandEnum.PERMISSION_DENIED);
+		guestACL.add(CommandEnum.LOGIN_SHOW_FORM);
+		//guestACL.add(CommandEnum.PERMISSION_DENIED);
 
 		acl.put(RoleEnum.GUEST, guestACL);
 	}

@@ -17,30 +17,113 @@ import by.htp.devteam.command.user.OrderListAction;
 import by.htp.devteam.command.user.OrderShowAddFormAction;
 import by.htp.devteam.command.user.OrderViewAction;
 import by.htp.devteam.command.user.ShowAuthorizationFormAction;
+import by.htp.devteam.controller.ActionEnum;
 
 public enum CommandEnum {
-	LOGIN { public CommandAction chooseAction() { return new LoginAction(); } },  
-	SHOW_FORM { public CommandAction chooseAction() { return new ShowAuthorizationFormAction(); } },
-	PERMISSION_DENIED { public CommandAction chooseAction() { return new PermissionDeniedAction(); } },
-	ORDER_LIST { public CommandAction chooseAction() { return new OrderListAction(); } },
-	ORDER_SHOW_ADD_FORM { public CommandAction chooseAction() { return new OrderShowAddFormAction(); } },
-	ORDER_ADD { public CommandAction chooseAction() { return new OrderAddAction(); } },
-	ORDER_VIEW { public CommandAction chooseAction() { return new OrderViewAction(); } },
-	ORDER_NEW_LIST { public CommandAction chooseAction() { return new OrderNewListAction(); } },
-	ORDER_ADD_MESSAGE { public CommandAction chooseAction() { return new OrderAddMessageAction(); } },
+	LOGIN { 
+		public CommandAction chooseAction() { 
+			return new LoginAction(); 
+		} 
+		public ActionEnum getHTTPMethod() { 
+			return ActionEnum.POST; 
+		} 
+	},  
+	LOGIN_SHOW_FORM { 
+		public CommandAction chooseAction() { 
+			return new ShowAuthorizationFormAction(); 
+		} 
+	},
+	PERMISSION_DENIED { 
+		public CommandAction chooseAction() { 
+			return new PermissionDeniedAction(); 
+		} 
+	},
+	ORDER_LIST { 
+		public CommandAction chooseAction() { 
+			return new OrderListAction(); 
+		} 
+	},
+	ORDER_SHOW_ADD_FORM { 
+		public CommandAction chooseAction() { 
+			return new OrderShowAddFormAction(); 
+		} 
+	},
+	ORDER_ADD { 
+		public CommandAction chooseAction() { 
+			return new OrderAddAction(); 
+		} 
+		public ActionEnum getHTTPMethod() { 
+			return ActionEnum.POST; 
+		}
+	},
+	ORDER_VIEW { 
+		public CommandAction chooseAction() { 
+			return new OrderViewAction(); 
+		} 
+	},
+	ORDER_NEW_LIST { 
+		public CommandAction chooseAction() { 
+			return new OrderNewListAction(); 
+		}
+	},
 	
-	PROJECT_SHOW_ADD_FORM { public CommandAction chooseAction() { return new ProjectShowAddFormAction(); } },
-	PROJECT_ADD { public CommandAction chooseAction() { return new ProjectAddAction(); } },
-	PROJECT_LIST { public CommandAction chooseAction() { return new ProjectListAction(); } },
-	PROJECT_LIST_BY_EMPLOYEE { public CommandAction chooseAction() { return new ProjectListByEmployeeAction(); } },
-	PROJECT_VIEW { public CommandAction chooseAction() { return new ProjectViewAction(); } },
-	PROJECT_UPDATE_HOURS { public CommandAction chooseAction() { return new ProjectUpdateHoursAction(); } },
-	PROJECT_ADD_MESSAGE { public CommandAction chooseAction() { return new ProjectAddMessageAction(); } },
+	ORDER_ADD_MESSAGE { 
+		public CommandAction chooseAction() { 
+			return new OrderAddMessageAction(); 
+		} 
+	},
 	
-	LOGOUT { public CommandAction chooseAction() { return new LogoutAction(); } }
-	;
+	PROJECT_SHOW_ADD_FORM { 
+		public CommandAction chooseAction() { 
+			return new ProjectShowAddFormAction(); 
+		} 
+	},
+	PROJECT_ADD { 
+		public CommandAction chooseAction() { 
+			return new ProjectAddAction(); 
+		} 
+		public ActionEnum getHTTPMethod() { 
+			return ActionEnum.POST; 
+		}
+	},
+	PROJECT_LIST { 
+		public CommandAction chooseAction() { 
+			return new ProjectListAction(); 
+		} 
+	},
+	PROJECT_LIST_BY_EMPLOYEE { 
+		public CommandAction chooseAction() { 
+			return new ProjectListByEmployeeAction(); 
+		} 
+	},
+	PROJECT_VIEW { 
+		public CommandAction chooseAction() { 
+			return new ProjectViewAction(); 
+		} 
+	},
+	PROJECT_UPDATE_HOURS { 
+		public CommandAction chooseAction() { 
+			return new ProjectUpdateHoursAction(); 
+		} 
+		public ActionEnum getHTTPMethod() { 
+			return ActionEnum.POST; 
+		}
+	},
+	PROJECT_ADD_MESSAGE { 
+		public CommandAction chooseAction() { 
+			return new ProjectAddMessageAction(); 
+		} 
+	},
+	
+	LOGOUT { public CommandAction chooseAction() { 
+		return new LogoutAction(); 
+		} 
+	};
 
 	public abstract CommandAction chooseAction();
+	public ActionEnum getHTTPMethod() {
+		return ActionEnum.GET;
+	};
 	
 	public static CommandEnum getAction(String action) throws CommandExeption {
 		if ( action == null )

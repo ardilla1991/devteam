@@ -62,15 +62,19 @@ public class ACLFilterUser implements Filter{
 			UserVO userVO = (UserVO) userObject;
 			role = userVO.getUser().getRole();
 			try {
-				if (acl.get(role).contains(CommandEnum.getAction(action))) {
-					req.setAttribute(SESSION_PARAM_USER, session.getAttribute(SESSION_PARAM_USER));
-				} else {
+				boolean issetInACL = acl.get(role).contains(CommandEnum.getAction(action) );
+				if ( !issetInACL ) {
 					resp.sendRedirect(PAGE_PERMISSION_DENIED_URI);
+					return;
+				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandEnum.getAction(action).getHTTPMethod().getValue()) ) {
+					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD, userVO.getUser().getLogin());
+					req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
 					return;
 				}
 			} catch (CommandExeption e) {
 				logger.info(e.getMessage());
 				req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
+				return;
 			}
 		}
 		chain.doFilter(request, response);	
@@ -86,7 +90,7 @@ public class ACLFilterUser implements Filter{
 	
 	private void setManagersACL() {
 		managerACL.add(CommandEnum.LOGIN);
-		managerACL.add(CommandEnum.SHOW_FORM);
+		managerACL.add(CommandEnum.LOGIN_SHOW_FORM);
 		managerACL.add(CommandEnum.ORDER_NEW_LIST);
 		managerACL.add(CommandEnum.ORDER_VIEW);
 		managerACL.add(CommandEnum.PROJECT_SHOW_ADD_FORM);
@@ -102,7 +106,7 @@ public class ACLFilterUser implements Filter{
 	
 	private void setDevelopersACL() {
 		developerACL.add(CommandEnum.LOGIN);
-		developerACL.add(CommandEnum.SHOW_FORM);
+		developerACL.add(CommandEnum.LOGIN_SHOW_FORM);
 		developerACL.add(CommandEnum.PERMISSION_DENIED);
 		developerACL.add(CommandEnum.LOGOUT);
 		developerACL.add(CommandEnum.PROJECT_LIST_BY_EMPLOYEE);
@@ -114,7 +118,7 @@ public class ACLFilterUser implements Filter{
 	
 	private void setCustomersACL() {
 		customerACL.add(CommandEnum.LOGIN);
-		customerACL.add(CommandEnum.SHOW_FORM);
+		customerACL.add(CommandEnum.LOGIN_SHOW_FORM);
 		customerACL.add(CommandEnum.PERMISSION_DENIED);
 		customerACL.add(CommandEnum.LOGOUT);
 		customerACL.add(CommandEnum.ORDER_LIST);
