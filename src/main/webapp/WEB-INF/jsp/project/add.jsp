@@ -26,7 +26,7 @@
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
-						formElements["description"] = "text";
+						formElements["description"] = "textarea";
 						formElements["employee"] = "checkbox";
 						formElements["price"] = "bigdecimal";
 					</script>
@@ -35,16 +35,17 @@
 							<tbody>
 								<tr>
 									<td><fmt:message key="project.title" />*</td>
-									<td id="title"><input type="text" name="title"
+									<td id="title"><input type="text" name="title" maxlength="250"
 										value="${title}" /></td>
 								</tr>
 								<tr>
 									<td><fmt:message key="project.description" />*</td>
-									<td id="description"><input type="text" name="description"
-										value="${description}" /></td>
+									<td id="description">
+										<textarea name="description" cols="22" rows="5">${description}</textarea>
+									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key="employees" />*</td>
+									<td><fmt:message key="employee" />*</td>
 									<td id="employee"><c:forEach items="${employee_list}"
 											var="i">
 											<div>
@@ -60,7 +61,7 @@
 								<tr>
 									<td><fmt:message key="order.price" />*</td>
 									<td id="price"><input type="text" name="price"
-										value="${price}" /></td>
+										value="${price}" maxlength="11" /></td>
 								</tr>
 							</tbody>
 						</table>

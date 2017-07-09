@@ -34,7 +34,7 @@ public class LogoutAction implements CommandAction{
 			request.getSession().removeAttribute(SESSION_PARAM_USER);
 			request.getSession().invalidate();
 		} else {
-			logger.info(MSG_LOGGER_USER_LOGOUT, "no name");
+			logger.info(MSG_LOGGER_USER_LOGOUT);
 		}
 		
 		return new Page(PAGE_SHOW_AUTHORIZATION_FORM_URI, true);

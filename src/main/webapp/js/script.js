@@ -69,7 +69,11 @@ function checkInput(els, field, blockId) {
 	switch (els[field]) {
 	case "text":
 		var element = el.getElementsByTagName("input")[0];
-		result = (element.value != undefined && element.value != "" ? 1 : 0);
+		result = (element.value != undefined && element.value != "" && element.value.length <= 250 ? 1 : 0);
+		break;
+	case "textarea":
+		var element = el.getElementsByTagName("textarea")[0];
+		result = (element != undefined && element.value != "" && element.value.length <= 2000 ? 1 : 0);
 		break;
 	case "text_group":
 		var inputs = el.getElementsByTagName("input");
@@ -84,7 +88,7 @@ function checkInput(els, field, blockId) {
 		var filesExt = ['rar', 'zip', 'doc', 'docx', 'odt', 'txt'];
 		var element = el.getElementsByTagName("input")[0];
 		var fileName = element.value;
-		result = (element.value != undefined && element.value != "" ? 1 : 0);
+		result = (element.value != undefined && element.value != "" && element.value.length <= 50 ? 1 : 0);
 		if ( result ) {
 			var parts = fileName.split('.');
 			result = ( filesExt.join().search(parts[parts.length - 1]) != -1 ) ? 1 : 0;
@@ -105,7 +109,7 @@ function checkInput(els, field, blockId) {
 		break;
 	case "bigdecimal":
 		var element = el.getElementsByTagName("input")[0];
-		result = /\b(\d+.)?\d{2}\b/.test(element.value);
+		result = /^[0-9]{1,8}(.[0-9]{1,2})?$/.test(element.value);
 		break;
 	case "number":
 		var element = el.getElementsByTagName("input")[0];

@@ -48,7 +48,7 @@ public class MessageTag extends TagSupport{
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 			
 			pageContext.getOut().write("<div>");
-			pageContext.getOut().write(rb.getString("error.code." + errorCode));
+			pageContext.getOut().write(rb.getString("error.code." + errorCode) + " ");
 			printMsgList(rb);
 			pageContext.getOut().write("</div>");
 		} catch (IOException e) {
@@ -67,7 +67,7 @@ public class MessageTag extends TagSupport{
 		}
 	
 		for ( String msg : msgList) {
-			pageContext.getOut().write("<span>" + rb.getString(bean + "." + msg) + "</span>");
+			pageContext.getOut().write("<span>" + rb.getString(bean + "." + msg) + "</span>, ");
 		}
 	}
 

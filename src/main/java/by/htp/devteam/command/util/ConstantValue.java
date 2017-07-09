@@ -23,7 +23,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
 	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
 	
-	public static final String MSG_LOGGER_NULL_ACTION = "Unknown action is null";
+	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
 	
 	public static final String PAGE_DEFAULT = "index.html";
 	
@@ -66,6 +66,7 @@ public final class ConstantValue {
 	public static final String PAGE_USER_SHOW_FORM_URI = "Main?action=show_form";
 	
 	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=show_form";
+	public static final String PAGE_EMPTY_URI = "Main?action=empty";
 	
 	public static final String PAGE_DEFAULT_MANAGER = PAGE_ORDER_NEW_LIST_URI;
 	public static final String PAGE_DEFAULT_DEVELOPER = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;

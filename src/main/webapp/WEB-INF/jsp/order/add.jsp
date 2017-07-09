@@ -18,6 +18,7 @@
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
+						formElements["description"] = "textarea";
 						formElements["dateStart"] = "date";
 						formElements["dateFinish"] = "date";
 						formElements["specification"] = "file";
@@ -29,16 +30,16 @@
 							<tbody>
 								<tr>
 									<td><fmt:message key = "order.title" />*</td>
-									<td id="title"><input type="text" name="title" value="${title}" /></td>
+									<td id="title"><input type="text" name="title" value="${title}" maxlength="250"/></td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.description" /></td>
+									<td><fmt:message key = "order.description" />*</td>
 									<td id="description">
-										<input type="text" name="description" value="${description}" />
+										<textarea name="description" cols="22" rows="5">${description}</textarea>
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.specification" /></td>
+									<td><fmt:message key = "order.specification" />*</td>
 									<td id="specification">
 										<input type="file" name="specification" value="${specification}" />
 									</td>
@@ -59,7 +60,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.works" />*</td>
+									<td><fmt:message key = "order.work" />*</td>
 									<td id="work">
 										<c:forEach items="${work_list}" var="i">
 											<div>
@@ -71,7 +72,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td><fmt:message key = "order.qualifications" />*</td>
+									<td><fmt:message key = "order.qualification" />*</td>
 									<td id="qualification">
 										<c:forEach items="${qualification_list}" var="i">
 											<div>

@@ -64,8 +64,7 @@ public class ACLFilterGuest implements Filter{
 			}
 		} else if ( action == null ) {
 			logger.info(MSG_LOGGER_NULL_ACTION);
-			//esp.sendRedirect(PAGE_EMPTY_URI);
-			//req.getRequestDispatcher(PAGE_EMPTY_URI).forward(req, resp);
+			//resp.sendRedirect(PAGE_EMPTY_URI);
 			//return;
 		}
 		chain.doFilter(request, response);
