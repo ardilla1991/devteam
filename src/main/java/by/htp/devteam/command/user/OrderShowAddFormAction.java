@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.QualificationService;
@@ -40,7 +40,7 @@ public class OrderShowAddFormAction implements CommandAction{
 	
 	private void logging(HttpServletRequest request ) {
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
 		logger.info(MSG_LOGGER_ORDER_SWOR_ADD_FORM, userVO.getUser().getLogin());
 	}

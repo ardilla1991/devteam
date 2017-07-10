@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.dto.OrderVo;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.EmployeeService;
@@ -52,7 +52,7 @@ public class ProjectShowAddFormAction implements CommandAction{
 	
 	private void logging(HttpServletRequest request, String orderId ) {
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
 		logger.info(MSG_LOGGER_PROJECT_SWOR_ADD_FORM, userVO.getUser().getLogin(), orderId);
 	}

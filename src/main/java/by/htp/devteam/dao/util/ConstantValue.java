@@ -15,19 +15,24 @@ public final class ConstantValue {
 	/************  EMPLOYEE  ****************/
 	public final static String SQL_EMPLOYEE_GET_BY_USER = "SELECT e.*, q.id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
 			+ "WHERE e.user_id=?";
-	
+	/**
+	 * must be 2 queries!
+	 */
 	public final static String SQL_EMPLOYEE_GET_FREE_FOR_PERIOD = "SELECT e.*, q.id, q.title "
 			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
-			+ "WHERE q.id IN (##) AND e.id NOT IN "
+			+ "WHERE q.service=0 AND q.id IN (##) AND e.id NOT IN "
 				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
 				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
 				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
 				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
 				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
 	
+	/**
+	 * must be 2 queries!
+	 */
 	public final static String SQL_EMPLOYEE_GET_COUNT_FREE_FROM_LIST = "SELECT COUNT(*) "
-			+ "FROM employee as e "
-			+ "WHERE e.id IN (##) AND e.id NOT IN "
+			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
+			+ "WHERE q.service=0 AND e.id IN (##) AND e.id NOT IN "
 				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
 				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
 				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
@@ -66,7 +71,7 @@ public final class ConstantValue {
 	public final static String SQL_ORDER_ADD_QUALIFICATION = "INSERT INTO order_qualification (order_id, qualification_id, count) "
 			+ "VALUES(?, ?, ?)";
 	
-	public final static String SQL_ORDER_GET_QUALIFICATIONS_BY_ORDER_ID = "SELECT q.*, oq.count "
+	public final static String SQL_ORDER_GET_QUALIFICATIONS_BY_ORDER_ID = "SELECT q.id, q.title, oq.count "
 			+ "FROM qualification as q JOIN order_qualification as oq ON q.id = oq.qualification_id "
 			+ "WHERE oq.order_id=?";
 	
@@ -92,11 +97,15 @@ public final class ConstantValue {
 	public final static String SQL_PROJECT_FIND_BY_TITLE = "SELECT p.* FROM project as p WHERE title LIKE ? ";
 	
 	/************  Qualification  ****************/
-	public final static String SQL_QUALIFICATION_FETCH_ALL = "SELECT * FROM qualification";
+	public final static String SQL_QUALIFICATION_FETCH_ALL = "SELECT q.id, q.title FROM qualification as q WHERE q.service=0";
 	
 	/************  User  ****************/
 	public final static String SQL_USER_FETCH_BY_CREDENTIALS = "SELECT e.* FROM user as e "
 			+ "WHERE e.login=?";
+	
+	public final static String SQL_USER_FETCH_ALL_WITH_EMPLOYEE = "SELECT u.* FROM user as u "
+			+ "JOIN ( (SELECT e.id, e.name, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
+			+ "			UNION (SELECT c.id, c.name, c.user_id, '' as qualification FROM customer as c ) LIMIT ?,?   )  as ec ON ec.user_id=u.id  ";
 	
 	/************  Work  ****************/
 	public final static String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";

@@ -15,6 +15,7 @@ public class Qualification implements Serializable{
 	private static final long serialVersionUID = 3700326780172626583L;
 	private Long id;
 	private String title;
+	private String service;
 	
 	public Qualification() {
 		super();
@@ -34,5 +35,13 @@ public class Qualification implements Serializable{
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
 	}
 }

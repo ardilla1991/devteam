@@ -61,16 +61,6 @@
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-	<filter>
-		<display-name>NoCacheFilter</display-name>
-		<filter-name>NoCacheFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.NoCacheFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>NoCacheFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
 	<error-page>
 		<!-- Uncaught exception -->
 		<error-code>500</error-code>

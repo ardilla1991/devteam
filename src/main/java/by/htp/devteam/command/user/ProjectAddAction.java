@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.htp.devteam.bean.dto.OrderVo;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
@@ -65,7 +65,7 @@ public class ProjectAddAction implements CommandAction {
 	
 	private void logging(HttpServletRequest request, String orderId) {
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
 		logger.info(MSG_LOGGER_PROJECT_ADD, userVO.getUser().getLogin(), orderId);
 	}

@@ -1,6 +1,8 @@
 package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.User;
+import by.htp.devteam.bean.dto.ProjectListVo;
+import by.htp.devteam.bean.dto.UserListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
@@ -8,7 +10,9 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encripting;
 import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.service.validation.UserValidation;
+import by.htp.devteam.util.SettingConstantValue;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -60,6 +64,37 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void logout(User user) {
 		//logger.info(MSG_LOGGER_USER_LOGOUT, user.getLogin());
+	}
+
+	@Override
+	public UserListVo fetchAll(String currPage) throws ServiceException {
+		if ( currPage == null ) {
+			currPage = String.valueOf(SettingConstantValue.START_PAGE);
+		}
+		
+		//ProjectValidation projectValidation = new ProjectValidation();
+		if ( !UserValidation.validatePage(currPage) ) {
+			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
+			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
+		}
+		
+		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int currPageValue = Integer.valueOf(currPage);		
+		int offset = (currPageValue - 1 ) * countPerPage;
+			
+		UserListVo userListVo = null;
+		try {
+			userListVo = userDao.fetchAll(offset, countPerPage);
+			
+			int countPages = (int) Math.ceil(userListVo.getCountRecords() * 1.0 / countPerPage);
+			userListVo.setCountPages(countPages);
+			userListVo.setCurrPage(currPageValue);
+		} catch ( DaoException e ) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+		}
+
+		return userListVo;
 	}
 
 }

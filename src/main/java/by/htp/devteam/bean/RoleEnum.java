@@ -1,5 +1,5 @@
 package by.htp.devteam.bean;
 
 public enum RoleEnum {
-	MANAGER, DEVELOPER, CUSTOMER, GUEST
+	MANAGER, DEVELOPER, CUSTOMER, GUEST, ADMIN
 }

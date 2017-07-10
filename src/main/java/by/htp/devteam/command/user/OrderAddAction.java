@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import by.htp.devteam.bean.dto.OrderVo;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
@@ -55,7 +55,7 @@ public class OrderAddAction implements CommandAction{
 			specification = request.getPart(REQUEST_PARAM_ORDER_SPECIFICATION);
 			
 			HttpSession session = request.getSession(false);
-			UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+			UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 
 			try {
 				// gets absolute path of the web application
@@ -103,7 +103,7 @@ public class OrderAddAction implements CommandAction{
 	
 	private void logging(HttpServletRequest request ) {
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
 		logger.info(MSG_LOGGER_ORDER_ADD, userVO.getUser().getLogin());
 	}

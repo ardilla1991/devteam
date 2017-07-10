@@ -4,7 +4,7 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 
-public class UserVO {
+public class UserVo {
 	private User user;
 	private Customer customer;
 	private Employee employee;

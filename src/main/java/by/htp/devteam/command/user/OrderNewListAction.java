@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.dto.OrderListVo;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
@@ -27,7 +27,7 @@ public class OrderNewListAction implements CommandAction{
 		String page = PAGE_ORDER_NEW_LIST;
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 		
-		logging(request, currPage);
+		logging(request);
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
@@ -47,11 +47,11 @@ public class OrderNewListAction implements CommandAction{
 		return new Page(page);
 	}
 	
-	private void logging(HttpServletRequest request, String currPage ) {
+	private void logging(HttpServletRequest request ) {
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
-		logger.info(MSG_LOGGER_ORDER_NEW_LIST, userVO.getUser().getLogin(), currPage);
+		logger.info(MSG_LOGGER_ORDER_NEW_LIST, userVO.getUser().getLogin());
 	}
 
 }

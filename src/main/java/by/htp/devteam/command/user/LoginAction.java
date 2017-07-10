@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.CustomerService;
@@ -38,7 +38,7 @@ public class LoginAction implements CommandAction{
 		
 		boolean isRedirect = false;
 		try {
-			UserVO userVO = new UserVO();
+			UserVo userVO = new UserVo();
 			User user = userService.authorise(login, password);
 			userVO.setUser(user);
 			
@@ -59,6 +59,9 @@ public class LoginAction implements CommandAction{
 					break;
 				case DEVELOPER:
 					page = PAGE_DEFAULT_DEVELOPER;
+					break;
+				case ADMIN:
+					page = PAGE_DEFAULT_ADMIN;
 					break;
 				default:
 					break;

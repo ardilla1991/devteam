@@ -42,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `employee` (
   PRIMARY KEY (`id`),
   KEY `FK_employee_qualification` (`qualification_id`),
   CONSTRAINT `FK_employee_qualification` FOREIGN KEY (`qualification_id`) REFERENCES `qualification` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.employee: ~6 rows (approximately)
+-- Dumping data for table devteam.employee: ~7 rows (approximately)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 INSERT INTO `employee` (`id`, `name`, `start_work`, `qualification_id`, `user_id`) VALUES
 	(1, 'manager', '2017-06-04 21:59:27', 1, 2),
@@ -52,7 +52,8 @@ INSERT INTO `employee` (`id`, `name`, `start_work`, `qualification_id`, `user_id
 	(3, 'disigner', '2017-06-29 21:39:41', 2, NULL),
 	(4, 'front-end', '2017-06-29 21:39:51', 3, 3),
 	(5, 'middle', '2017-06-29 21:40:00', 5, NULL),
-	(6, 'senior', '2017-06-29 21:40:07', 6, NULL);
+	(6, 'senior', '2017-06-29 21:40:07', 6, NULL),
+	(7, 'admin', '2017-07-10 22:59:48', 7, 4);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
 
@@ -67,27 +68,34 @@ CREATE TABLE IF NOT EXISTS `order` (
   `dateCreated` datetime DEFAULT NULL,
   `dateStart` datetime DEFAULT NULL,
   `dateFinish` datetime DEFAULT NULL,
-  `price` decimal(10,0) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.order: ~14 rows (approximately)
+-- Dumping data for table devteam.order: ~18 rows (approximately)
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
 INSERT INTO `order` (`id`, `title`, `description`, `specification`, `customer_id`, `status`, `dateCreated`, `dateStart`, `dateFinish`, `price`) VALUES
-	(1, 'order1', 'description', 'file', 1, 0, '2017-06-19 21:59:00', '2017-06-19 21:59:02', '2017-06-30 21:59:03', 0),
-	(2, 'vkyv', 'gxg', 'xdfx', 1, 0, '2017-06-21 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
-	(3, 'veerv', 'evev', 'evfv', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
-	(48, 'cbvcb', 'xbx', 'bxb', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
-	(49, '6969', '996796', '969', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
-	(50, 'dgf', 'dgdg', 'dfg', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
-	(51, 'BKNKN', 'KN', 'KBNK', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 35),
-	(58, 'zvz', 'xvxv', 'xv', 1, 0, '2017-06-25 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
-	(60, 'erg', 'sdg', 'sdg', 1, 0, '2017-06-25 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
-	(61, 'fgshzhf', '', '', 1, 0, '2017-06-25 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0),
+	(1, 'order1', 'description', 'file', 1, 0, '2017-06-19 21:59:00', '2017-06-19 21:59:02', '2017-06-30 21:59:03', 0.00),
+	(2, 'vkyv', 'gxg', 'xdfx', 1, 0, '2017-06-21 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
+	(3, 'veerv', 'evev', 'evfv', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
+	(48, 'cbvcb', 'xbx', 'bxb', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
+	(49, '6969', '996796', '969', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
+	(50, 'dgf', 'dgdg', 'dfg', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
+	(51, 'BKNKN', 'KN', 'KBNK', 1, 0, '2017-06-22 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 35.00),
+	(58, 'zvz', 'xvxv', 'xv', 1, 0, '2017-06-25 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
+	(60, 'erg', 'sdg', 'sdg', 1, 0, '2017-06-25 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
+	(61, 'fgshzhf', '', '', 1, 0, '2017-06-25 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', 0.00),
 	(62, 'sfsfsF', 'sgzhzsdhd', '', 1, 0, '2017-07-01 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', NULL),
 	(63, 'eGDgDG', 'fbdzg', '', 1, 0, '2017-07-01 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', NULL),
 	(64, 'SDsd', '', '', 1, 0, '2017-07-01 00:00:00', '2016-12-31 00:00:00', '2016-12-31 00:00:00', NULL),
-	(65, 'dgd', '', '', 1, 0, '2017-07-02 00:00:00', '2017-07-01 00:00:00', '2017-07-11 00:00:00', NULL);
+	(65, 'dgd', '', '', 1, 0, '2017-07-02 00:00:00', '2017-07-01 00:00:00', '2017-07-11 00:00:00', NULL),
+	(66, 'sdhshsdh', 'gdjdjdgj', 'Questions.docx', 1, 0, '2017-07-08 00:00:00', '2017-07-14 00:00:00', '2017-07-29 00:00:00', NULL),
+	(67, 'asfasa', 'gagag', 'Класс3_задачи.docx', 1, 0, '2017-07-09 00:00:00', '2017-07-29 00:00:00', '2017-07-30 00:00:00', 5.00),
+	(68, 'dgzg', 'dzfgdg', 'Questions.docx', 1, 0, '2017-07-09 00:00:00', '2017-07-15 00:00:00', '2017-07-22 00:00:00', NULL),
+	(69, 'dgzg', 'dzfgdg', 'Questions.docx', 1, 0, '2017-07-09 00:00:00', '2017-07-15 00:00:00', '2017-07-22 00:00:00', NULL),
+	(70, 'dgzg', 'dzfgdg', 'Questions.docx', 1, 0, '2017-07-09 00:00:00', '2017-07-15 00:00:00', '2017-07-22 00:00:00', 2.00),
+	(71, 'nfd', 'hdfjxfgj', 'Questions.docx', 1, 0, '2017-07-10 00:00:00', '2017-07-13 00:00:00', '2017-07-29 00:00:00', NULL),
+	(72, 'fg', 'mxgmg', 'Questions.docx', 1, 0, '2017-07-10 00:00:00', '2017-10-08 00:00:00', '2017-10-28 00:00:00', 77.00);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 
 
@@ -98,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `order_qualification` (
   `count` tinyint(2) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.order_qualification: ~9 rows (approximately)
+-- Dumping data for table devteam.order_qualification: ~12 rows (approximately)
 /*!40000 ALTER TABLE `order_qualification` DISABLE KEYS */;
 INSERT INTO `order_qualification` (`order_id`, `qualification_id`, `count`) VALUES
 	(51, 4, 1),
@@ -109,7 +117,14 @@ INSERT INTO `order_qualification` (`order_id`, `qualification_id`, `count`) VALU
 	(62, 1, 4),
 	(63, 4, 5),
 	(64, 1, 4),
-	(65, 1, 3);
+	(65, 1, 3),
+	(66, 3, 1),
+	(67, 2, 1),
+	(68, 1, 1),
+	(69, 1, 1),
+	(70, 1, 1),
+	(71, 2, 1),
+	(72, 2, 1);
 /*!40000 ALTER TABLE `order_qualification` ENABLE KEYS */;
 
 
@@ -122,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `order_work` (
   KEY `FK_project` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.order_work: ~18 rows (approximately)
+-- Dumping data for table devteam.order_work: ~21 rows (approximately)
 /*!40000 ALTER TABLE `order_work` DISABLE KEYS */;
 INSERT INTO `order_work` (`order_id`, `work_id`, `description`) VALUES
 	(48, 3, NULL),
@@ -142,7 +157,14 @@ INSERT INTO `order_work` (`order_id`, `work_id`, `description`) VALUES
 	(63, 4, NULL),
 	(63, 1, NULL),
 	(64, 4, NULL),
-	(64, 1, NULL);
+	(64, 1, NULL),
+	(66, 4, NULL),
+	(67, 4, NULL),
+	(68, 4, NULL),
+	(69, 4, NULL),
+	(70, 4, NULL),
+	(71, 4, NULL),
+	(72, 4, NULL);
 /*!40000 ALTER TABLE `order_work` ENABLE KEYS */;
 
 
@@ -150,17 +172,20 @@ INSERT INTO `order_work` (`order_id`, `work_id`, `description`) VALUES
 CREATE TABLE IF NOT EXISTS `project` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(250) NOT NULL,
-  `description` text,
+  `description` varchar(2000) DEFAULT NULL,
   `order_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_project_order` (`order_id`),
   CONSTRAINT `FK_project_order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.project: ~1 rows (approximately)
+-- Dumping data for table devteam.project: ~3 rows (approximately)
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
 INSERT INTO `project` (`id`, `title`, `description`, `order_id`) VALUES
-	(3, 'FHrDFh', 'hdfhzdf', 51);
+	(3, 'проект', 'hdfhzdf', 51),
+	(4, 'dFHdfh', 'dzfgjzgjzgj', 67),
+	(5, 'sgsdg', 'sdgD', 70),
+	(6, 'txjgk', 'gxkxgkxgkx', 72);
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 
 
@@ -175,11 +200,14 @@ CREATE TABLE IF NOT EXISTS `project_employee` (
   CONSTRAINT `FK_employee_project_project` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.project_employee: ~2 rows (approximately)
+-- Dumping data for table devteam.project_employee: ~4 rows (approximately)
 /*!40000 ALTER TABLE `project_employee` DISABLE KEYS */;
 INSERT INTO `project_employee` (`project_id`, `employee_id`, `hours`) VALUES
 	(3, 2, 0),
-	(3, 4, 4);
+	(3, 4, 4),
+	(4, 3, 0),
+	(5, 1, 0),
+	(6, 3, 0);
 /*!40000 ALTER TABLE `project_employee` ENABLE KEYS */;
 
 
@@ -187,36 +215,39 @@ INSERT INTO `project_employee` (`project_id`, `employee_id`, `hours`) VALUES
 CREATE TABLE IF NOT EXISTS `qualification` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) DEFAULT NULL,
+  `service` tinyint(1) unsigned DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.qualification: ~6 rows (approximately)
+-- Dumping data for table devteam.qualification: ~7 rows (approximately)
 /*!40000 ALTER TABLE `qualification` DISABLE KEYS */;
-INSERT INTO `qualification` (`id`, `title`) VALUES
-	(1, 'manager'),
-	(2, 'disigner'),
-	(3, 'front-end developer'),
-	(4, 'junior java developer'),
-	(5, 'middle java developer'),
-	(6, 'senior java developer');
+INSERT INTO `qualification` (`id`, `title`, `service`) VALUES
+	(1, 'manager', 0),
+	(2, 'disigner', 0),
+	(3, 'front-end developer', 0),
+	(4, 'junior java developer', 0),
+	(5, 'middle java developer', 0),
+	(6, 'senior java developer', 0),
+	(7, 'admin', 1);
 /*!40000 ALTER TABLE `qualification` ENABLE KEYS */;
 
 
 -- Dumping structure for table devteam.user
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `login` varchar(50) NOT NULL,
   `password` varchar(250) NOT NULL,
-  `role` enum('DEVELOPER','ADMINISTRATOR','MANAGER','CUSTOMER') NOT NULL DEFAULT 'CUSTOMER',
+  `role` enum('DEVELOPER','ADMIN','MANAGER','CUSTOMER') NOT NULL DEFAULT 'CUSTOMER',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.user: ~3 rows (approximately)
+-- Dumping data for table devteam.user: ~4 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `login`, `password`, `role`) VALUES
 	(1, 'c', '$2a$10$zBNfpHh0ZqErueXZCR/XzuZlRQGmOmkSU8ZqakwgMCpCjbo0SG/qW', 'CUSTOMER'),
 	(2, 'm', '$2a$10$WrC53OHV6D/3CrjznATTmel2rlJif.j05d0QXxhBlEA6XX/AeHsHa', 'MANAGER'),
-	(3, 'fd', '$2a$10$GuRoYflaEACL/fAk5LFgCOfTUv0nwj9EAHNINoCnuAMDoTMKhRxue', 'DEVELOPER');
+	(3, 'fd', '$2a$10$GuRoYflaEACL/fAk5LFgCOfTUv0nwj9EAHNINoCnuAMDoTMKhRxue', 'DEVELOPER'),
+	(4, 'admin', '$2a$10$WrC53OHV6D/3CrjznATTmel2rlJif.j05d0QXxhBlEA6XX/AeHsHa', 'ADMIN');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 

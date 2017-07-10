@@ -8,7 +8,7 @@ public final class ConstantValue {
 	
 	public static final String MSG_LOGGER_USER_LOGIN = "User {}. Login action";
 	public static final String MSG_LOGGER_USER_LOGOUT = "User {}. Logout action";
-	public static final String MSG_LOGGER_ORDER_NEW_LIST = "User {}. New orders list. Page {}";
+	public static final String MSG_LOGGER_ORDER_NEW_LIST = "User {}. New orders list";
 	public static final String MSG_LOGGER_ORDER_SWOR_ADD_FORM = "User {}. Show order add form";
 	public static final String MSG_LOGGER_ORDER_LIST = "User {}. Orders list";
 	public static final String MSG_LOGGER_ORDER_ADD = "User {}. Orders add";
@@ -18,7 +18,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PERMISSION_DENIED = "User {}. Permission denied";
 	public static final String MSG_LOGGER_PROJECT_ADD = "User {}. Add project for order {}";
 	public static final String MSG_LOGGER_PROJECT_ADD_OK_MESSAGE = "User {}. Add project --> OK";
-	public static final String MSG_LOGGER_PROJECT_LIST = "User {}. Projects list. Page {}";
+	public static final String MSG_LOGGER_PROJECT_LIST = "User {}. Projects list";
 	public static final String MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE = "User {}. Projects list by employee. Page {}";
 	public static final String MSG_LOGGER_PROJECT_FIND = "User {}. Find project by name {}";
 	public static final String MSG_LOGGER_PROJECT_SWOR_ADD_FORM = "User {}. Show project add form for order {}";
@@ -26,6 +26,8 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
 	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
 	public static final String MSG_LOGGER_USER_VIEW = "User {}. View user's information";
+	
+	public static final String MSG_LOGGER_USER_LIST = "User {}. User's list";
 	
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
 	public static final String MSG_LOGGER_WRONG_HTTP_METHOD = "User {}. Wrong http method ";
@@ -59,6 +61,7 @@ public final class ConstantValue {
 	
 	public static final String PATH_USER = JSP_FOLDER_PATH + "user/";
 	public static final String PAGE_USER_VIEW = PATH_USER + "view.jsp";
+	public static final String PAGE_USER_LIST = PATH_USER + "list.jsp";
 	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	
@@ -77,6 +80,7 @@ public final class ConstantValue {
 	public static final String PAGE_ORDER_ADD_MESSAGE_URI = "Main?action=order_add_message";
 	
 	public static final String PAGE_USER_VIEW_URI = "Main?action=user_view";
+	public static final String PAGE_USER_LIST_URI = "Main?action=user_list";
 	public static final String PAGE_LOGOUT = "Main?action=logout";
 	
 	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=login_show_form";
@@ -85,6 +89,7 @@ public final class ConstantValue {
 	public static final String PAGE_DEFAULT_MANAGER = PAGE_ORDER_NEW_LIST_URI;
 	public static final String PAGE_DEFAULT_DEVELOPER = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;
 	public static final String PAGE_DEFAULT_CUSTOMER = PAGE_ORDER_LIST_URI;
+	public static final String PAGE_DEFAULT_ADMIN = PAGE_USER_LIST_URI;
 	
 	public static final String REQUEST_PARAM_ACTION = "action";
 	
@@ -130,6 +135,7 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_EMPLOYEE_LIST = "employee_list";
 	
 	public static final String REQUEST_PARAM_USER_VO = "user_vo";
+	public static final String REQUEST_PARAM_USER_LIST_VO = "user_list_vo";
 	
 	public static final String JSPF_FOLDER = "fragment/";
 	public static final String REQUEST_PARAM_XHR = "xhr";

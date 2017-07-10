@@ -25,14 +25,14 @@
 				<td><c:out value="${order_vo.getOrder().getDateFinish()}" /></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="order.works" /></td>
+				<td><fmt:message key="order.work" /></td>
 				<td><c:forEach items="${order_vo.getWorks()}" var="i">
 						<c:out value="${i.getTitle()}" />
 						<br />
 					</c:forEach></td>
 			</tr>
 			<tr>
-				<td><fmt:message key="order.qualifications" /></td>
+				<td><fmt:message key="order.qualification" /></td>
 				<td id="qualification_list_count"><c:forEach
 						items="${order_vo.getQualifications()}" var="i">
 						<div data-id="${i.key.getId()}" data-count="${i.value}">

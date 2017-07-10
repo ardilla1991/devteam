@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.ProjectService;
@@ -50,9 +50,9 @@ public class ProjectFindAction implements CommandAction{
 	
 	private void logging(HttpServletRequest request, String title ) {
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVo = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
-		logger.info(MSG_LOGGER_PROJECT_FIND, userVO.getUser().getLogin(), title);
+		logger.info(MSG_LOGGER_PROJECT_FIND, userVo.getUser().getLogin(), title);
 	}
 	
 }

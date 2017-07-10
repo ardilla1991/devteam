@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 
@@ -26,7 +26,7 @@ public class ShowAuthorizationFormAction implements CommandAction {
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
 		if ( isAuthorised ) {
 			Object userObject = session.getAttribute(SESSION_PARAM_USER);
-			UserVO userVO = (UserVO) userObject;
+			UserVo userVO = (UserVo) userObject;
 			isRedirect = true;
 			switch ( userVO.getUser().getRole() ) {
 				case MANAGER:

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.ServiceFactory;
@@ -23,7 +23,7 @@ public class LogoutAction implements CommandAction{
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
 		if ( userVO != null ) {			
 			logger.info(MSG_LOGGER_USER_LOGOUT, userVO.getUser().getLogin());

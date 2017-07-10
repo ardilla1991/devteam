@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.dto.ProjectListVo;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.ProjectService;
@@ -28,7 +28,7 @@ public class ProjectListAction implements CommandAction{
 		
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 		
-		logging(request, currPage);
+		logging(request);
 		
 		try {
 			ProjectListVo projectListVo = projectService.fetchAll(currPage, null);
@@ -42,11 +42,11 @@ public class ProjectListAction implements CommandAction{
 		return new Page(PAGE_PROJECT_LIST);
 	}
 	
-	private void logging(HttpServletRequest request, String currPage ) {
+	private void logging(HttpServletRequest request ) {
 		HttpSession session = request.getSession(false);
-		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
-		logger.info(MSG_LOGGER_PROJECT_LIST, userVO.getUser().getLogin(), currPage);
+		logger.info(MSG_LOGGER_PROJECT_LIST, userVO.getUser().getLogin());
 	}
 
 }

@@ -62,6 +62,7 @@ error.code.10=Отсутствуют свободные разработчики
 error.code.11=Неправильный id
 error.code.12=Заголовок слишком короткий
 user.pageTitle.view=Информация о пользователе
+user.pageTitle.list=Список пользователей
 user.login=Login
 user.role=Роль
 user.name=Имя

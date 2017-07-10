@@ -19,4 +19,8 @@ public class UserValidation extends BeanValidation {
 			notValidField.add("password");
 		}
 	}
+	
+	public static boolean validatePage(String pageNumber) {
+		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
+	}
 }

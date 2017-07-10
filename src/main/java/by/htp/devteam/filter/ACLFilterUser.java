@@ -20,7 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.htp.devteam.bean.RoleEnum;
-import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.bean.dto.UserVo;
 import by.htp.devteam.command.CommandEnum;
 import by.htp.devteam.command.CommandExeption;
 
@@ -32,6 +32,7 @@ public class ACLFilterUser implements Filter{
 	private final static List<CommandEnum> managerACL = new ArrayList<CommandEnum>();
 	private final static List<CommandEnum> developerACL = new ArrayList<CommandEnum>();
 	private final static List<CommandEnum> customerACL = new ArrayList<CommandEnum>();
+	private final static List<CommandEnum> adminACL = new ArrayList<CommandEnum>();
 	private final static Logger logger = LogManager.getLogger(ACLFilterUser.class.getName());
 	
 	@Override
@@ -40,6 +41,7 @@ public class ACLFilterUser implements Filter{
 		setManagersACL();
 		setDevelopersACL();
 		setCustomersACL();
+		setAdminACL();
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public class ACLFilterUser implements Filter{
 		RoleEnum role;
 		if ( isAuthorised && action != null) {
 			Object userObject = session.getAttribute(SESSION_PARAM_USER);
-			UserVO userVO = (UserVO) userObject;
+			UserVo userVO = (UserVo) userObject;
 			role = userVO.getUser().getRole();
 			try {
 				boolean issetInACL = acl.get(role).contains(CommandEnum.getAction(action) );
@@ -85,6 +87,7 @@ public class ACLFilterUser implements Filter{
 		managerACL.clear();
 		developerACL.clear();
 		customerACL.clear();
+		adminACL.clear();
 		acl.clear();
 	}
 	
@@ -133,6 +136,16 @@ public class ACLFilterUser implements Filter{
 		customerACL.add(CommandEnum.USER_VIEW);
 		
 		acl.put(RoleEnum.CUSTOMER, customerACL);
+	}
+	
+	private void setAdminACL() {
+		adminACL.add(CommandEnum.LOGIN);
+		adminACL.add(CommandEnum.LOGIN_SHOW_FORM);
+		adminACL.add(CommandEnum.PERMISSION_DENIED);
+		adminACL.add(CommandEnum.LOGOUT);
+		adminACL.add(CommandEnum.USER_LIST);
+		
+		acl.put(RoleEnum.ADMIN, adminACL);
 	}
 
 }
