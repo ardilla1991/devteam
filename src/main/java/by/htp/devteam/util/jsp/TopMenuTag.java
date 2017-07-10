@@ -1,16 +1,14 @@
 package by.htp.devteam.util.jsp;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import by.htp.devteam.command.CommandEnum;
-
 import by.htp.devteam.bean.User;
+import static by.htp.devteam.command.util.ConstantValue.*;
 
 public class TopMenuTag extends TagSupport{
 
@@ -58,29 +56,30 @@ public class TopMenuTag extends TagSupport{
 	
 	@Override
 	public int doStartTag() throws JspException {
+		String active = "";
 		try {
 
 			Locale locale = new Locale(language, country);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 
-			String active = "";
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			switch (user.getRole()) {
 				case CUSTOMER:
 					active = currAction.equals("order_list") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + "Main?action=order_list" + "'>" + rb.getString("menu.top.orders") + "</a></" + itemTag + ">");
+					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_ORDER_LIST_URI + "'>" + rb.getString("menu.top.orders") + "</a></" + itemTag + ">");
 					break;
 				case MANAGER:
 					active = currAction.equals("order_new_list") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + "Main?action=order_new_list" + "'>" + rb.getString("menu.top.orders.new") + "</a></" + itemTag + ">");
+					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_ORDER_NEW_LIST_URI + "'>" + rb.getString("menu.top.orders.new") + "</a></" + itemTag + ">");
 					break;
 				case DEVELOPER:
 					break;
 				default:
 					break;
 			}
-			pageContext.getOut().write("<" + itemTag + "><a href='" + "#" +"'>" + user.getLogin() + "</a></" + itemTag + ">");
-			pageContext.getOut().write("<" + itemTag + "><a href='" + "Main?action=logout" +"'>" + rb.getString("menu.top.logout") + "</a></" + itemTag + ">");
+			active = currAction.equals("user_view") ? currActionClass : "";
+			pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_USER_VIEW_URI +"'>" + user.getLogin() + "</a></" + itemTag + ">");
+			pageContext.getOut().write("<" + itemTag + "><a href='" + PAGE_LOGOUT +"'>" + rb.getString("menu.top.logout") + "</a></" + itemTag + ">");
 			pageContext.getOut().write("</" +containerTag  + ">");			
 		} catch (IOException e) {
 			throw new JspException(e.getMessage());

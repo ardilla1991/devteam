@@ -17,6 +17,7 @@ import by.htp.devteam.command.user.OrderListAction;
 import by.htp.devteam.command.user.OrderShowAddFormAction;
 import by.htp.devteam.command.user.OrderViewAction;
 import by.htp.devteam.command.user.ShowAuthorizationFormAction;
+import by.htp.devteam.command.user.UserViewAction;
 import by.htp.devteam.controller.ActionEnum;
 
 public enum CommandEnum {
@@ -112,6 +113,11 @@ public enum CommandEnum {
 	PROJECT_ADD_MESSAGE { 
 		public CommandAction chooseAction() { 
 			return new ProjectAddMessageAction(); 
+		} 
+	},
+	USER_VIEW { 
+		public CommandAction chooseAction() { 
+			return new UserViewAction(); 
 		} 
 	},
 	

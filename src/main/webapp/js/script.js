@@ -109,7 +109,7 @@ function checkInput(els, field, blockId) {
 		break;
 	case "bigdecimal":
 		var element = el.getElementsByTagName("input")[0];
-		result = /^[0-9]{1,8}(.[0-9]{1,2})?$/.test(element.value);
+		result = /^[0-9]{1,8}(\.[0-9]{1,2})?$/.test(element.value);
 		break;
 	case "number":
 		var element = el.getElementsByTagName("input")[0];

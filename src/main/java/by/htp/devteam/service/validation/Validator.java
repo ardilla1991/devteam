@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class Validator {
 
-	private static final Pattern DECIMAL_PATTERN = Pattern.compile("^[0-9]{1,8}(.[0-9]{1,2})?$");
+	private static final Pattern DECIMAL_PATTERN = Pattern.compile("^[0-9]{1,8}(\\.[0-9]{1,2})?$");
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private static final Pattern FILE_EXTENSION_PATTERN = Pattern.compile("([^\\s]+(\\.(?i)(rar|zip|doc|docx|odt|txt))$)");
 	

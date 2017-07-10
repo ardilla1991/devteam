@@ -24,6 +24,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_UPDATE_HOURS = "User {}. Project {} . Update hours";
 	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
 	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
+	public static final String MSG_LOGGER_USER_VIEW = "User {}. View user's information";
 	
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
 	public static final String MSG_LOGGER_WRONG_HTTP_METHOD = "User {}. Wrong http method ";
@@ -52,6 +53,9 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_LIST = PATH_PROJECT + "list.jsp";
 	public static final String PAGE_PROJECT_ADD_MESSAGE = PATH_PROJECT + "addMessage.jsp";
 	
+	public static final String PATH_USER = JSP_FOLDER_PATH + "user/";
+	public static final String PAGE_USER_VIEW = PATH_USER + "view.jsp";
+	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	
 	public static final String JSP_FOLDER_AJAX = "ajax/";
@@ -70,6 +74,9 @@ public final class ConstantValue {
 	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";
 	public static final String PAGE_ORDER_SHOW_ADD_FORM_URI = "Main?action=order_show_add_form";
 	public static final String PAGE_ORDER_ADD_MESSAGE_URI = "Main?action=order_add_message";
+	
+	public static final String PAGE_USER_VIEW_URI = "Main?action=user_view";
+	public static final String PAGE_LOGOUT = "Main?action=logout";
 	
 	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=login_show_form";
 	public static final String PAGE_EMPTY_URI = "Main?action=empty";
@@ -120,6 +127,8 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_PROJECT_HOURS = "hours";
 	
 	public static final String REQUEST_PARAM_EMPLOYEE_LIST = "employee_list";
+	
+	public static final String REQUEST_PARAM_USER_VO = "user_vo";
 	
 	public static final String JSPF_FOLDER = "fragment/";
 	public static final String REQUEST_PARAM_XHR = "xhr";

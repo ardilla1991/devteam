@@ -11,7 +11,8 @@ public class ValidatorTest {
 	@Test
 	public void testCheckBigDecimal() {
 		assertEquals(true, Validator.checkBigDecimal("0.8"));
-		assertEquals(true, Validator.checkBigDecimal("12.888"));
+		assertEquals(true, Validator.checkBigDecimal("12.88"));
+		assertEquals(false, Validator.checkBigDecimal("12.888"));
 		assertEquals(false, Validator.checkBigDecimal("ghjh"));
 		assertEquals(false, Validator.checkBigDecimal("rrr.rrr"));
 		assertEquals(false, Validator.checkBigDecimal("0,89"));

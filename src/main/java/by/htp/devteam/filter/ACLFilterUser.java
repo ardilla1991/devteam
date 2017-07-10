@@ -100,6 +100,7 @@ public class ACLFilterUser implements Filter{
 		managerACL.add(CommandEnum.LOGOUT);
 		managerACL.add(CommandEnum.PROJECT_LIST);
 		managerACL.add(CommandEnum.PROJECT_VIEW);
+		managerACL.add(CommandEnum.USER_VIEW);
 		
 		acl.put(RoleEnum.MANAGER, managerACL);
 	}
@@ -112,6 +113,7 @@ public class ACLFilterUser implements Filter{
 		developerACL.add(CommandEnum.PROJECT_LIST_BY_EMPLOYEE);
 		developerACL.add(CommandEnum.PROJECT_VIEW);
 		developerACL.add(CommandEnum.PROJECT_UPDATE_HOURS);
+		developerACL.add(CommandEnum.USER_VIEW);
 		
 		acl.put(RoleEnum.DEVELOPER, developerACL);
 	}
@@ -126,6 +128,7 @@ public class ACLFilterUser implements Filter{
 		customerACL.add(CommandEnum.ORDER_ADD);
 		customerACL.add(CommandEnum.ORDER_ADD_MESSAGE);
 		customerACL.add(CommandEnum.ORDER_VIEW);
+		customerACL.add(CommandEnum.USER_VIEW);
 		
 		acl.put(RoleEnum.CUSTOMER, customerACL);
 	}
