@@ -1,0 +1,58 @@
+package by.htp.devteam.command.user;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.dto.UserVO;
+import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.controller.Page;
+import by.htp.devteam.service.ProjectService;
+import by.htp.devteam.service.ServiceException;
+import by.htp.devteam.service.ServiceFactory;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+import static by.htp.devteam.command.util.ConstantValue.*;
+
+import java.util.List;
+
+public class ProjectFindAction implements CommandAction{
+
+	private static final Logger logger = LogManager.getLogger(ProjectFindAction.class.getName());
+	
+	@Override
+	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+		String page = PAGE_PROJECT_FIND_AJAX;
+		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		ProjectService projectService = serviceFactory.getProjectService();
+		
+		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
+		
+		logging(request, title);
+		
+		try {
+			List<Project> project = projectService.findByTitle(title);
+			
+			request.setAttribute(REQUEST_PARAM_PROJECT_LIST, project);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+		}
+		
+		if ( request.getParameter(REQUEST_PARAM_XHR) == null)
+			page = PAGE_PROJECT_FIND;
+		
+		return new Page(page);
+	}
+	
+	private void logging(HttpServletRequest request, String title ) {
+		HttpSession session = request.getSession(false);
+		UserVO userVO = (UserVO) session.getAttribute(SESSION_PARAM_USER);
+		
+		logger.info(MSG_LOGGER_PROJECT_FIND, userVO.getUser().getLogin(), title);
+	}
+	
+}

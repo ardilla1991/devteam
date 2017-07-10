@@ -4,6 +4,7 @@ import static by.htp.devteam.service.util.ConstantValue.*;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -47,8 +48,8 @@ public class ProjectServiceImpl implements ProjectService{
 			currPage = String.valueOf(SettingConstantValue.START_PAGE);
 		}
 		
-		ProjectValidation projectValidation = new ProjectValidation();
-		if ( !projectValidation.validatePage(currPage) ) {
+		//ProjectValidation projectValidation = new ProjectValidation();
+		if ( !ProjectValidation.validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
 		}
@@ -214,6 +215,23 @@ public class ProjectServiceImpl implements ProjectService{
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
 		}
 		
+	}
+
+	@Override
+	public List<Project> findByTitle(String title) throws ServiceException {
+		if ( !ProjectValidation.validateFindedTitle(title) ) {
+			logger.info(MSG_LOGGER_PROJECT_FIND_TITLE_TOO_SHORT, title);
+			throw new ServiceException(ErrorCodeEnum.TITLE_SHORT);
+		}
+		
+		List<Project> project = null;
+		try {
+			project = projectDao.findByTitle(title);
+		} catch (DaoException e) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+		}
+		return project;
 	}
 
 }

@@ -10,14 +10,25 @@ public class ProjectValidation extends BeanValidation{
 	
 	public void validate(String title, String description, String[] employees, String price) {
 		
-		title = title.trim();
-		if ( Validator.isEmpty(title) || title.length() > 250 ) {
+		if ( title != null ) {
+			title = title.trim();
+			if ( Validator.isEmpty(title) || title.length() > 250 ) {
+				valid &= false;
+				notValidField.add("title");
+			}
+		} else {
 			valid &= false;
 			notValidField.add("title");
 		}
 		
-		description = description.trim();
-		if ( Validator.isEmpty(description) || description.length() > 2000 ) {
+		
+		if ( description != null ) {
+			description = description.trim();
+			if ( Validator.isEmpty(description) || description.length() > 2000 ) {
+				valid &= false;
+				notValidField.add("description");
+			}
+		} else {
 			valid &= false;
 			notValidField.add("description");
 		}
@@ -59,8 +70,16 @@ public class ProjectValidation extends BeanValidation{
 		}
 	}
 	
-	public boolean validatePage(String pageNumber) {
+	public static boolean validatePage(String pageNumber) {
 		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
+	}
+	
+	public static boolean validateFindedTitle(String title) {
+		if ( title == null )
+			return false;
+		
+		title = title.trim();
+		return !Validator.isEmpty(title) && title.length() > 3 && title.length() < 250;
 	}
 	
 

@@ -1,15 +1,15 @@
-<%@include file="../fragment/header.jsp"%>
+<%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="messagetag" prefix="msg"%>
 <div class="container-fluid">
 	<div class="row">
-		<%@include file="../fragment/leftBar.jsp"%>
+		<%@include file="../jspf/leftBar.jsp"%>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 			<div class="col-sm-5">
 				<!-- jsp:include page="/Main?action=order_view&order_id=${order_id}&jspf=1"  flush="true" / -->
-				<%@include file="../fragment/orderView.jsp"%>
+				<%@include file="../order/jspf/view.jsp"%>
 				<div id="order_view"></div>
 			</div>
 			<div class="col-sm-7">
@@ -84,7 +84,7 @@
 </div>
 
 
-<%@include file="../fragment/footer.jsp"%>
+<%@include file="../jspf/footer.jsp"%>
 <!-- script>
 	ajaxActionListener("order_view", "Main?action=order_view&order_id=${order_id}&jspf=1");
 </script -->

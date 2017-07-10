@@ -21,3 +21,11 @@ body.login { padding-top: 40px; padding-bottom: 40px;   background-color: #eee;}
 
 .project_add{margin-top: 30px}
 .error_message{color: red;}
+#projectList{width:196px;
+overflow: auto;
+padding: 5px;
+position: absolute;
+top: 42px;
+background: #d6d6d6;}
+#projectList a.project_title{display: block; color: #101010}
+#projectList a.project_title:hover{text-decoration: none; color:#555}

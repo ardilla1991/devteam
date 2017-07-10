@@ -33,6 +33,8 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_UPDATE_HOURS_INCORRECT_FIELD = "Project update hours. Incorrect field value for project {}";
 	public static final String MSG_LOGGER_PROJECT_VIEW_NOT_EXIST_ID = "Project view. Not exist id {} ";
 	
+	public static final String MSG_LOGGER_PROJECT_FIND_TITLE_TOO_SHORT = "Project's title {} too short";
+	
 	
 	
 	

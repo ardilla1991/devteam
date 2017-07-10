@@ -44,9 +44,15 @@
 	          </ul-->
 			  <tmt:topmenu user="${ user.getUser() }"
 				currAction="${param.action}"  containerTag="ul" containerClass="nav navbar-nav navbar-right" itemTag="li" currActionClass="active" language="${clientLanguage}" country="${clientCountry}"/>
-	          <!-- form class="navbar-form navbar-right">
-	            <input type="text" class="form-control" placeholder="Search...">
-	          </form -->
+	          <%@ page import="by.htp.devteam.bean.RoleEnum" %>
+			  <c:if test="${ user.getUser().getRole()  == RoleEnum.DEVELOPER || user.getUser().getRole()  == RoleEnum.MANAGER }">
+		          <form class="navbar-form navbar-right" action="Main" method="GET">
+		          		<input type="hidden" name="action" value="project_find">
+		          		<input type="text" class="form-control" autocomplete="off" placeholder="<fmt:message key = "project.goTo" />" id="projectName" name="title" maxlength="250"/>
+		          	
+		          		<div style="display: none;" id="projectList"></div>
+		          </form>
+	          </c:if>
 	        </div>
 	      </div>
     	</div>

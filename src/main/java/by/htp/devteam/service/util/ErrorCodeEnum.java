@@ -10,7 +10,8 @@ public enum ErrorCodeEnum {
 	PAGE_NUMBER_NOT_FOUND(8),
 	FILE_DELETE(9),
 	NOT_ISSET_FREE_EMPLOYEE(10),
-	VALIDATION_ID(11);
+	VALIDATION_ID(11),
+	TITLE_SHORT(12);
 	
 	
 	private int code; 

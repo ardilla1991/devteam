@@ -20,6 +20,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_ADD_OK_MESSAGE = "User {}. Add project --> OK";
 	public static final String MSG_LOGGER_PROJECT_LIST = "User {}. Projects list. Page {}";
 	public static final String MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE = "User {}. Projects list by employee. Page {}";
+	public static final String MSG_LOGGER_PROJECT_FIND = "User {}. Find project by name {}";
 	public static final String MSG_LOGGER_PROJECT_SWOR_ADD_FORM = "User {}. Show project add form for order {}";
 	public static final String MSG_LOGGER_PROJECT_UPDATE_HOURS = "User {}. Project {} . Update hours";
 	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
@@ -33,6 +34,7 @@ public final class ConstantValue {
 	
 	public static final String JSP_FOLDER_PATH = "/WEB-INF/jsp/";
 	public static final String JSP_FOLDER_ERROR = JSP_FOLDER_PATH + "error/";
+	public static final String PATH_AJAX = "ajax/";
 	
 	public static final String PAGE_ERROR = JSP_FOLDER_PATH + "error.jsp";
 	public static final String PAGE_ERROR_500 = JSP_FOLDER_ERROR + "error500.jsp";
@@ -52,14 +54,13 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_VIEW = PATH_PROJECT + "view.jsp";
 	public static final String PAGE_PROJECT_LIST = PATH_PROJECT + "list.jsp";
 	public static final String PAGE_PROJECT_ADD_MESSAGE = PATH_PROJECT + "addMessage.jsp";
+	public static final String PAGE_PROJECT_FIND = PATH_PROJECT + "find.jsp";
+	public static final String PAGE_PROJECT_FIND_AJAX = PATH_PROJECT + PATH_AJAX + "find.jsp";
 	
 	public static final String PATH_USER = JSP_FOLDER_PATH + "user/";
 	public static final String PAGE_USER_VIEW = PATH_USER + "view.jsp";
 	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
-	
-	public static final String JSP_FOLDER_AJAX = "ajax/";
-	public static final String PAGE_PROJECT_EDIT_AJAX = JSP_FOLDER_PATH + JSP_FOLDER_AJAX + "projectAddPage.jsp";
 	
 	public static final String PAGE_PROJECT_LIST_URI = "Main?action=project_list";
 	public static final String PAGE_PROJECT_SHOW_ADD_FORM_URI = "Main?action=project_show_add_form&order_id=";

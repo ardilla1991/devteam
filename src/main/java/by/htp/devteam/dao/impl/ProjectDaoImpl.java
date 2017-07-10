@@ -236,4 +236,29 @@ public class ProjectDaoImpl implements ProjectDao {
 		
 	}
 
+	@Override
+	public List<Project> findByTitle(String title) throws DaoException {
+		List<Project> projects = new ArrayList<Project>();
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(SQL_PROJECT_FIND_BY_TITLE) ) {
+
+			ps.setString(1, "%" + title + "%");
+			//System.out.println(ps);
+			try ( ResultSet rs = ps.executeQuery() ) {
+				while ( rs.next() ) {					
+					Project project = new Project();
+					project.setId(rs.getLong(ID));
+					project.setTitle(rs.getString(TITLE));
+					project.setDescription(rs.getString(DESCRIPTION));
+					
+					projects.add(project);
+				}
+			}
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_PROJECT_FIND_BY_TITLE, e);
+		}
+		
+		return projects;
+	}
+
 }

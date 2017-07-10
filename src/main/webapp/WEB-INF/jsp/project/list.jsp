@@ -1,11 +1,11 @@
-<%@include file="../fragment/header.jsp"%>
+<%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="pagetag" prefix="ctg"%>
 <%@ taglib uri="messagetag" prefix="msg"%>
 
 <div class="container-fluid">
 	<div class="row">
 
-		<%@include file="../fragment/leftBar.jsp"%>
+		<%@include file="../jspf/leftBar.jsp"%>
 
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h1 class="page-header">
@@ -18,30 +18,9 @@
 						bean="project" />
 				</c:if>
 			</div>
-			<div class="table-responsive">
-				<table class="table table-striped tab-content tab-active">
-					<thead>
-						<tr>
-							<th><fmt:message key="action" /></th>
-							<th>#</th>
-							<th><fmt:message key="project.title" /></th>
-							<th><fmt:message key="project.description" /></th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${project_list_vo.getProjects()}" var="i">
-							<tr>
-								<td><a
-									href="Main?action=project_view&project_id=${i.getId()}"><fmt:message
-											key="order.action.view" /></a></td>
-								<td><c:out value="${i.getId()}" /></td>
-								<td><c:out value="${i.getTitle()}" /></td>
-								<td><c:out value="${i.getDescription()}" /></td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
+			<c:set var="project_list" value="${project_list_vo.getProjects()}" scope="request" />
+			<%@include file="jspf/list.jsp"%>
+			
 			<ctg:paginator uri="${ uri }"
 				currPage="${ project_list_vo.getCurrPage() }"
 				countPages="${ project_list_vo.getCountPages() }" />
@@ -50,4 +29,4 @@
 </div>
 
 
-<%@include file="../fragment/footer.jsp"%>
+<%@include file="../jspf/footer.jsp"%>

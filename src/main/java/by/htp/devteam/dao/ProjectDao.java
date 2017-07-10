@@ -1,6 +1,7 @@
 package by.htp.devteam.dao;
 
 import java.sql.Connection;
+import java.util.List;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
@@ -23,4 +24,6 @@ public interface ProjectDao {
 	Project getById(Long id) throws DaoException;
 	
 	void updateHours(Project project, Employee employee, int hours) throws DaoException;
+	
+	List<Project> findByTitle(String title) throws DaoException;
 }

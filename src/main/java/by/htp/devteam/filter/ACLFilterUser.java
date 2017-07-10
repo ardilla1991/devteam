@@ -96,6 +96,7 @@ public class ACLFilterUser implements Filter{
 		managerACL.add(CommandEnum.PROJECT_SHOW_ADD_FORM);
 		managerACL.add(CommandEnum.PROJECT_ADD);
 		managerACL.add(CommandEnum.PROJECT_ADD_MESSAGE);
+		managerACL.add(CommandEnum.PROJECT_FIND);
 		managerACL.add(CommandEnum.PERMISSION_DENIED);
 		managerACL.add(CommandEnum.LOGOUT);
 		managerACL.add(CommandEnum.PROJECT_LIST);
@@ -112,6 +113,7 @@ public class ACLFilterUser implements Filter{
 		developerACL.add(CommandEnum.LOGOUT);
 		developerACL.add(CommandEnum.PROJECT_LIST_BY_EMPLOYEE);
 		developerACL.add(CommandEnum.PROJECT_VIEW);
+		developerACL.add(CommandEnum.PROJECT_FIND);
 		developerACL.add(CommandEnum.PROJECT_UPDATE_HOURS);
 		developerACL.add(CommandEnum.USER_VIEW);
 		

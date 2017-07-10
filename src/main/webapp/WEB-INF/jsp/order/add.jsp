@@ -1,10 +1,10 @@
-<%@include file="../fragment/header.jsp"%>
+<%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 <%@ taglib uri="messagetag" prefix="msg"%>
 
 	<div class="container-fluid">
 		<div class="row">
-		<%@include file="../fragment/leftBar.jsp"%>
+		<%@include file="../jspf/leftBar.jsp"%>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header"><fmt:message key = "order.pageTitle.new" /></h1>
 
@@ -101,4 +101,4 @@
 	
 
 
-<%@include file="../fragment/footer.jsp"%>
+<%@include file="../jspf/footer.jsp"%>

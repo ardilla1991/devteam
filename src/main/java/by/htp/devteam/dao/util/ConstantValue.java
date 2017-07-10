@@ -89,6 +89,8 @@ public final class ConstantValue {
 
 	public final static String SQL_PROJECT_UPDATE_HOURS = "UPDATE project_employee SET hours=hours+? WHERE project_id=? AND employee_id=?";
 	
+	public final static String SQL_PROJECT_FIND_BY_TITLE = "SELECT p.* FROM project as p WHERE title LIKE ? ";
+	
 	/************  Qualification  ****************/
 	public final static String SQL_QUALIFICATION_FETCH_ALL = "SELECT * FROM qualification";
 	
@@ -136,6 +138,7 @@ public final class ConstantValue {
 	public final static String MSG_ERROR_PROJECT_ADD_EMPLOYEE = "sql error: can't add employee to the project";
 	public final static String MSG_ERROR_PROJECT_GET_BY_ID = "sql error: can't get progect by id";
 	public final static String MSG_ERROR_PROJECT_UPDATE_HOURS = "sql error: can't update hours for project";
+	public final static String MSG_ERROR_PROJECT_FIND_BY_TITLE = "sql error: can't get list of projects by title";
 	
 	/************  Qualification  ****************/
 	public final static String MSG_ERROR_QUALIFICATION_FETCH_ALL = "sql error: can't get list of qualifications";
