@@ -12,7 +12,7 @@ public final class UserListVo {
 	public UserListVo() {
 		super();
 	}
-	
+
 	public List<UserVo> getUsers() {
 		return users;
 	}
@@ -44,5 +44,11 @@ public final class UserListVo {
 	public void setCurrPage(int currPage) {
 		this.currPage = currPage;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "UserListVo [users=" + users + ", countRecords=" + countRecords + ", countPages=" + countPages
+				+ ", currPage=" + currPage + "]";
+	}
+	
 }

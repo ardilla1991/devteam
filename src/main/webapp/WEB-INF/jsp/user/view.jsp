@@ -20,32 +20,37 @@
 								<td><c:out value="${user_vo.getUser().getRole()}" /></td>
 							</tr>
 							<%@ page import="by.htp.devteam.bean.RoleEnum" %>
-							<c:if test="${ user_vo.getUser().getRole()  == RoleEnum.DEVELOPER || user_vo.getUser().getRole()  == RoleEnum.MANAGER }">
-								<tr>
-									<td><fmt:message key="user.name" /></td>
-									<td><c:out
-										value="${user_vo.getEmployee().getName()}" /></td>
-								</tr>
-								<tr>
-									<td><fmt:message key="user.qualification" /></td>
-									<td><c:out
-										value="${user_vo.getEmployee().getQualification().getTitle()}" /></td>
-							</c:if>
-							<c:if test="${ user_vo.getUser().getRole()  == RoleEnum.CUSTOMER }">
-								<tr>
-									<td><fmt:message key="user.name" /></td>
-									<td><c:out
-										value="${user_vo.getCustomer().getName()}" /></td>
-								</tr>
-								<tr>
-									<td><fmt:message key="user.email" /></td>
-									<td><c:out
-										value="${user_vo.getCustomer().getEmail()}" /></td>
-								<tr>
-									<td><fmt:message key="user.phone" /></td>
-									<td><c:out
-										value="${user_vo.getCustomer().getPhone()}" /></td>
-							</c:if>
+							<c:choose>
+								<c:when test="${ user_vo.getUser().getRole()  == RoleEnum.CUSTOMER }">
+									<tr>
+										<td><fmt:message key="user.name" /></td>
+										<td><c:out
+											value="${user_vo.getCustomer().getName()}" /></td>
+									</tr>
+									<tr>
+										<td><fmt:message key="customer.email" /></td>
+										<td><c:out
+											value="${user_vo.getCustomer().getEmail()}" /></td>
+									<tr>
+										<td><fmt:message key="customer.phone" /></td>
+										<td><c:out
+											value="${user_vo.getCustomer().getPhone()}" /></td>
+									</tr>
+									
+								</c:when>
+								<c:otherwise >
+									<tr>
+										<td><fmt:message key="user.name" /></td>
+										<td><c:out
+											value="${user_vo.getEmployee().getName()}" /></td>
+									</tr>
+									<tr>
+										<td><fmt:message key="employee.qualification" /></td>
+										<td><c:out
+											value="${user_vo.getEmployee().getQualification().getTitle()}" /></td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 						</tbody>
 					</table>
 				</div>

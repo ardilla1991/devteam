@@ -144,6 +144,7 @@ public class ACLFilterUser implements Filter{
 		adminACL.add(CommandEnum.PERMISSION_DENIED);
 		adminACL.add(CommandEnum.LOGOUT);
 		adminACL.add(CommandEnum.USER_LIST);
+		adminACL.add(CommandEnum.USER_VIEW);
 		
 		acl.put(RoleEnum.ADMIN, adminACL);
 	}

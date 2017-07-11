@@ -18,27 +18,38 @@
 						bean="project" />
 				</c:if>
 			</div>
-			<c:set var="project_list" value="${project_list_vo.getProjects()}"
-				scope="request" />
 			<div class="table-responsive">
 				<table class="table table-striped tab-content tab-active">
 					<thead>
 						<tr>
-							<th><fmt:message key="action" /></th>
+							<!--th><fmt:message key="action" /></th -->
 							<th>#</th>
-							<th><fmt:message key="project.title" /></th>
-							<th><fmt:message key="project.description" /></th>
+							<th><fmt:message key="user.login" /></th>
+							<th><fmt:message key="user.role" /></th>
+							<th><fmt:message key="user.name" /></th>
+							<th><fmt:message key="employee.qualification" /></th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${project_list}" var="i">
+						<c:set var="user_list" value="${user_list_vo.getUsers()}" scope="page" />
+						<%@ page import="by.htp.devteam.bean.RoleEnum" %>
+						<c:forEach items="${user_list}" var="i">
 							<tr>
-								<td><a
-									href="Main?action=project_view&project_id=${i.getId()}"><fmt:message
-											key="project.action.view" /></a></td>
-								<td><c:out value="${i.getId()}" /></td>
-								<td><c:out value="${i.getTitle()}" /></td>
-								<td><c:out value="${i.getDescription()}" /></td>
+								<!--td><a
+									href="Main?action=project_view&project_id=${i.getUser().getId()}"><fmt:message
+											key="project.action.view" /></a></td -->
+								<td><c:out value="${i.getUser().getId()}" /></td>
+								<td><c:out value="${i.getUser().getLogin()}" /></td>
+								<td><c:out value="${i.getUser().getRole()}" /></td>
+								<c:choose>
+									<c:when test="${ i.getUser().getRole()  == RoleEnum.CUSTOMER }">
+										<td><c:out value="${i.getCustomer().getName()}" /></td>
+									</c:when>
+									<c:otherwise>
+										<td><c:out value="${i.getEmployee().getName()}" /></td>
+										<td><c:out value="${i.getEmployee().getQualification().getTitle()}" /></td>
+									</c:otherwise>
+								</c:choose>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -46,8 +57,8 @@
 			</div>
 
 			<ctg:paginator uri="${ uri }"
-				currPage="${ project_list_vo.getCurrPage() }"
-				countPages="${ project_list_vo.getCountPages() }" />
+				currPage="${ user_list_vo.getCurrPage() }"
+				countPages="${ user_list_vo.getCountPages() }" />
 		</div>
 	</div>
 </div>

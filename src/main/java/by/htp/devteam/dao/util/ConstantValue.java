@@ -103,7 +103,7 @@ public final class ConstantValue {
 	public final static String SQL_USER_FETCH_BY_CREDENTIALS = "SELECT e.* FROM user as e "
 			+ "WHERE e.login=?";
 	
-	public final static String SQL_USER_FETCH_ALL_WITH_EMPLOYEE = "SELECT u.* FROM user as u "
+	public final static String SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER = "SELECT u.*, ec.* FROM user as u "
 			+ "JOIN ( (SELECT e.id, e.name, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
 			+ "			UNION (SELECT c.id, c.name, c.user_id, '' as qualification FROM customer as c ) LIMIT ?,?   )  as ec ON ec.user_id=u.id  ";
 	
@@ -154,6 +154,7 @@ public final class ConstantValue {
 	
 	/************  User  ****************/
 	public final static String MSG_ERROR_USER_FETCH_BY_CREDENTIALS  = "sql error: can't get user by credentials";
+	public final static String MSG_ERROR_USER_LIST = "sql error: can't get list of users";
 	
 	/************  Work  ****************/
 	public final static String MSG_ERROR_WORK_FETCH_ALL = "sql error: can't get list of works";

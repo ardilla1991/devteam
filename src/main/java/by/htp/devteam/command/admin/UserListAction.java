@@ -38,7 +38,7 @@ public class UserListAction implements CommandAction{
 		try {
 			UserListVo userListVo = userService.fetchAll(currPage);
 			
-			request.setAttribute(REQUEST_PARAM_URI, PAGE_PROJECT_LIST_URI);
+			request.setAttribute(REQUEST_PARAM_URI, PAGE_USER_LIST_URI);
 			request.setAttribute(REQUEST_PARAM_USER_LIST_VO, userListVo);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
