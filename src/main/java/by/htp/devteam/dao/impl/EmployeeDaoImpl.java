@@ -28,11 +28,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	private final static int START_WORK = 3;
 	private final static int QUALIFICATION_ID = 6;
 	private final static int QUALIFICATION_TITLE = 7;
-
-
 	
+	private final static String SQL_IN_CONDITION_MASK = "##";
+
 	@Override
-	public Employee getByUser(User user) throws DaoException{
+	public Employee getByUser(User user) throws DaoException {
 		Employee employee = null;	
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_USER); ) {
@@ -43,45 +43,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_BY_USER, e);
 		}
 		return employee;
-	}
-	
-	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) throws DaoException {
-		List<Employee> employees = new ArrayList<Employee>();
-		
-		StringBuilder qualificationIdsStr = new StringBuilder();
-		String delimiter = "";
-		for ( Qualification qualificaition : qualifications ) {
-			qualificationIdsStr.append(delimiter);
-			delimiter = ",";
-			qualificationIdsStr.append(qualificaition.getId());
-		}
-		
-		String query = SQL_EMPLOYEE_GET_FREE_FOR_PERIOD.replace("##", qualificationIdsStr);
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement st = dbConnection.prepareStatement(query) ) {
-			
-			st.setDate(1, dateStart);
-			st.setDate(2, dateFinish);
-			st.setDate(3, dateStart);
-			st.setDate(4, dateFinish);
-			st.setDate(5, dateStart);
-			st.setDate(6, dateFinish);
-			ResultSet rs = st.executeQuery();
-			employees = getEmployeeListFromResultSet(rs);
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_FREE_FOR_PERIOD, e);
-		}
-
-		return employees;
-	}
-	
-	private List<Employee> getEmployeeListFromResultSet(ResultSet rs) throws SQLException {
-		List<Employee> employees = new ArrayList<Employee>();
-		while ( rs.next() ) {
-			employees.add(createEmployeeFromResultSet(rs));
-		}
-		
-		return employees;
 	}
 	
 	private Employee getEmployeeFromResultSet(PreparedStatement ps) throws SQLException {
@@ -95,6 +56,49 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return employee;
 	}
 	
+	@Override
+	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) 
+			throws DaoException {
+		List<Employee> employees = new ArrayList<Employee>();
+		
+		StringBuilder qualificationIdsStr = new StringBuilder();
+		String delimiter = "";
+		for ( Qualification qualificaition : qualifications ) {
+			qualificationIdsStr.append(delimiter);
+			delimiter = ",";
+			qualificationIdsStr.append(qualificaition.getId());
+		}
+		
+		String query = SQL_EMPLOYEE_GET_FREE_FOR_PERIOD.replace(SQL_IN_CONDITION_MASK, qualificationIdsStr);
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement st = dbConnection.prepareStatement(query) ) {
+			
+			st.setDate(1, dateStart);
+			st.setDate(2, dateFinish);
+			st.setDate(3, dateStart);
+			st.setDate(4, dateFinish);
+			st.setDate(5, dateStart);
+			st.setDate(6, dateFinish);
+			
+			employees = executeQueryAndGetEmployeeListFromResultSet(st);
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_FREE_FOR_PERIOD, e);
+		}
+
+		return employees;
+	}
+	
+	private List<Employee> executeQueryAndGetEmployeeListFromResultSet(PreparedStatement st) throws SQLException {
+		List<Employee> employees = new ArrayList<Employee>();
+		try ( ResultSet rs = st.executeQuery() ) {
+			while ( rs.next() ) {
+				employees.add(createEmployeeFromResultSet(rs));
+			}
+		}
+		
+		return employees;
+	}
+
 	private Employee createEmployeeFromResultSet(ResultSet rs) throws SQLException {
 		Qualification qualification = new Qualification();
 		qualification.setId(rs.getLong(QUALIFICATION_ID));
@@ -122,9 +126,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			qualificationIdsStr.append("?");
 		}
 		
-		int countFreeEmployee = 0;
+		int countFreeEmployees = 0;
 		boolean isFree = false;
-		String query = SQL_EMPLOYEE_GET_COUNT_FREE_FROM_LIST.replace("##", qualificationIdsStr);
+		String query = SQL_EMPLOYEE_GET_COUNT_FREE_FROM_LIST.replace(SQL_IN_CONDITION_MASK, qualificationIdsStr);
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
 			
@@ -138,13 +142,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			st.setDate(countIds + 5, dateStart);
 			st.setDate(countIds + 6, dateFinish);
 
-			ResultSet rs = st.executeQuery();
-			
-			if ( rs.next() )
-				countFreeEmployee = rs.getInt(1);
-			
-			if ( countIds == countFreeEmployee )
-				isFree = true;
+			try ( ResultSet rs = st.executeQuery() ) {
+				if ( rs.next() )
+					countFreeEmployees = rs.getInt(1);
+				
+				if ( countIds == countFreeEmployees )
+					isFree = true;
+			}
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_COUNT_FREE_FROM_LIST, e);
 		}
@@ -153,7 +157,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public Map<Long, Integer> getQualificationsCountByEmployees(Long[] employeesIds) throws DaoException {
+	public Map<Long, Integer> getQualificationsIdsAndCountByEmployees(Long[] employeesIds) throws DaoException {
 		Map<Long, Integer> qualificationsCount = new HashMap<Long, Integer>();
 		
 		StringBuilder employeeIdsStr = new StringBuilder();
@@ -164,14 +168,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			employeeIdsStr.append("?");
 		}
 		
-		String query = SQL_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS.replace("##", employeeIdsStr);
+		String query = SQL_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS.replace(SQL_IN_CONDITION_MASK, employeeIdsStr);
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
 			
 			for ( int i = 0; i < employeesIds.length; i++ ) {
 				st.setLong(i+1, employeesIds[i]);
 			}
-
 			qualificationsCount = getQualificationsCountFromResultSet(st);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS, e);
@@ -191,15 +194,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return qualificationsCount;
 	}
 
+	/*
+	 * Order by quelification title DESC
+	 * @see by.htp.devteam.dao.EmployeeDao#getEmployeesAndSpendingHoursByProject(by.htp.devteam.bean.Project)
+	 */
 	@Override
-	public Map<Employee, Integer> getByProject(Project project) throws DaoException {
+	public Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException {
 		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
 		
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_PROJECT) ) {
 			
 			st.setLong(1, project.getId());
-			employees = getEmployeeListWithHoursOnProjectFromResultSet(st);
+			employees = executeQueryAndGetEmployeeListWithHoursOnProjectFromResultSet(st);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_BY_PROJECT, e);
 		}
@@ -207,7 +214,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return employees;
 	}
 	
-	private Map<Employee, Integer> getEmployeeListWithHoursOnProjectFromResultSet(PreparedStatement st) throws SQLException {
+	private Map<Employee, Integer> executeQueryAndGetEmployeeListWithHoursOnProjectFromResultSet(PreparedStatement st) 
+			throws SQLException {
 		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
 		try ( ResultSet rs = st.executeQuery() ) {
 			while ( rs.next() ) {

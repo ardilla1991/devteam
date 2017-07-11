@@ -11,9 +11,9 @@ import java.util.Map.Entry;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
-import by.htp.devteam.bean.dto.OrderVo;
-import by.htp.devteam.bean.dto.ProjectVo;
-import by.htp.devteam.bean.dto.ProjectListVo;
+import by.htp.devteam.bean.vo.OrderVo;
+import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.vo.ProjectVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.ProjectDao;
@@ -110,7 +110,7 @@ public class ProjectServiceImpl implements ProjectService{
 					orderDto.getOrder().getDateStart(), orderDto.getOrder().getDateFinish());
 			if (neededEmployeeeAreFree) {
 				project = projectDao.add(connection, project);
-				projectDao.addEmployees(connection, project, employeesIds);
+				projectDao.setEmployees(connection, project, employeesIds);
 				orderService.setPrice(connection, orderDto.getOrder(), price);
 				commitTransaction(connection);
 			} else {

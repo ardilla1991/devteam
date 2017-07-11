@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import by.htp.devteam.bean.dto.UserVo;
+import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 

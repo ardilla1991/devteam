@@ -32,7 +32,7 @@
 					</thead>
 					<tbody>
 						<c:set var="user_list" value="${user_list_vo.getUsers()}" scope="page" />
-						<%@ page import="by.htp.devteam.bean.RoleEnum" %>
+						<%@ page import="by.htp.devteam.bean.UserRole" %>
 						<c:forEach items="${user_list}" var="i">
 							<tr>
 								<!--td><a
@@ -42,7 +42,7 @@
 								<td><c:out value="${i.getUser().getLogin()}" /></td>
 								<td><c:out value="${i.getUser().getRole()}" /></td>
 								<c:choose>
-									<c:when test="${ i.getUser().getRole()  == RoleEnum.CUSTOMER }">
+									<c:when test="${ i.getUser().getRole()  == UserRole.CUSTOMER }">
 										<td><c:out value="${i.getCustomer().getName()}" /></td>
 									</c:when>
 									<c:otherwise>

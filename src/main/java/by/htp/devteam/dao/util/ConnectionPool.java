@@ -14,6 +14,11 @@ import javax.sql.DataSource;
 import by.htp.devteam.dao.DaoException;
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
+/**
+ * Tomcat's Connection pool. Singleton pattern
+ * @author julia
+ *
+ */
 public class ConnectionPool {
 	
 	private static final String DATASOURCE_NAME = "jdbc/devteam";
@@ -21,6 +26,7 @@ public class ConnectionPool {
 	
 	private static final Logger logger = LogManager.getLogger(ConnectionPool.class.getName());
 	
+	/* Initialization of connection */
 	static {
 		try {
 			Context initContext = new InitialContext();
@@ -35,6 +41,11 @@ public class ConnectionPool {
 		super();
 	}
 	
+	/**
+	 * Get connection from pool
+	 * @return Connection
+	 * @throws DaoException
+	 */
 	public static Connection getConnection() throws DaoException {
 		Connection connection = null;
 		try {
@@ -46,6 +57,11 @@ public class ConnectionPool {
 		return connection;
 	}
 	
+	/**
+	 * Return connection into pool
+	 * @param connection
+	 * @throws DaoException
+	 */
 	public static void returnConnection(Connection connection) throws DaoException{
 		try {
 			connection.close();

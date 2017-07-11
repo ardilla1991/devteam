@@ -1,8 +1,8 @@
 package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.dto.ProjectListVo;
-import by.htp.devteam.bean.dto.UserListVo;
+import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.vo.UserListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;

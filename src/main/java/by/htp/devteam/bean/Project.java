@@ -1,11 +1,24 @@
 package by.htp.devteam.bean;
 
+/**
+ * Project's object. Project is created after creating order (if isset not busy employees for development perion)
+ * Has properties <b>id</b>, <b>title</b>, 
+ * <b>description</b>, <b>order</b>.
+ * @author julia
+ *
+ */
 public class Project {
 
+	/** Identifier for record */
 	private Long id;
+	
+	/** Project's title */
 	private String title;
+	
+	/** Project's description */
 	private String description;
-	private int hours;
+	
+	/** Project's order */
 	private Order order;
 	
 	public Project() {
@@ -44,16 +57,47 @@ public class Project {
 		this.order = order;
 	}
 
-	public int getHours() {
-		return hours;
-	}
-
-	public void setHours(int hours) {
-		this.hours = hours;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((order == null) ? 0 : order.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
 	}
 
 	@Override
-	public String toString() {
-		return "Project [id=" + id + ", title=" + title + ", description=" + description + ", order=" + order + "]";
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Project other = (Project) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (order == null) {
+			if (other.order != null)
+				return false;
+		} else if (!order.equals(other.order))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
+
 }

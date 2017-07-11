@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               5.7.12-log - MySQL Community Server (GPL)
--- Server OS:                    Win64
--- HeidiSQL Version:             9.3.0.4984
+-- Хост:                         127.0.0.1
+-- Версия сервера:               5.7.13-0ubuntu0.16.04.2 - (Ubuntu)
+-- ОС Сервера:                   Linux
+-- HeidiSQL Версия:              9.3.0.4984
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,12 +10,7 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping database structure for devteam
-CREATE DATABASE IF NOT EXISTS `devteam` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `devteam`;
-
-
--- Dumping structure for table devteam.customer
+-- Дамп структуры для таблица devteam.customer
 CREATE TABLE IF NOT EXISTS `customer` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
@@ -25,14 +20,14 @@ CREATE TABLE IF NOT EXISTS `customer` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.customer: ~0 rows (approximately)
+-- Дамп данных таблицы devteam.customer: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
 INSERT INTO `customer` (`id`, `name`, `email`, `phone`, `user_id`) VALUES
 	(1, 'customer 1', 'email', 'phone', 1);
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.employee
+-- Дамп структуры для таблица devteam.employee
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -44,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   CONSTRAINT `FK_employee_qualification` FOREIGN KEY (`qualification_id`) REFERENCES `qualification` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.employee: ~7 rows (approximately)
+-- Дамп данных таблицы devteam.employee: ~7 rows (приблизительно)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 INSERT INTO `employee` (`id`, `name`, `start_work`, `qualification_id`, `user_id`) VALUES
 	(1, 'manager', '2017-06-04 21:59:27', 1, 2),
@@ -57,7 +52,7 @@ INSERT INTO `employee` (`id`, `name`, `start_work`, `qualification_id`, `user_id
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.order
+-- Дамп структуры для таблица devteam.order
 CREATE TABLE IF NOT EXISTS `order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(250) DEFAULT NULL,
@@ -72,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.order: ~18 rows (approximately)
+-- Дамп данных таблицы devteam.order: ~21 rows (приблизительно)
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
 INSERT INTO `order` (`id`, `title`, `description`, `specification`, `customer_id`, `status`, `dateCreated`, `dateStart`, `dateFinish`, `price`) VALUES
 	(1, 'order1', 'description', 'file', 1, 0, '2017-06-19 21:59:00', '2017-06-19 21:59:02', '2017-06-30 21:59:03', 0.00),
@@ -99,14 +94,14 @@ INSERT INTO `order` (`id`, `title`, `description`, `specification`, `customer_id
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.order_qualification
+-- Дамп структуры для таблица devteam.order_qualification
 CREATE TABLE IF NOT EXISTS `order_qualification` (
   `order_id` int(11) unsigned NOT NULL,
   `qualification_id` int(11) unsigned NOT NULL,
   `count` tinyint(2) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.order_qualification: ~12 rows (approximately)
+-- Дамп данных таблицы devteam.order_qualification: ~16 rows (приблизительно)
 /*!40000 ALTER TABLE `order_qualification` DISABLE KEYS */;
 INSERT INTO `order_qualification` (`order_id`, `qualification_id`, `count`) VALUES
 	(51, 4, 1),
@@ -128,7 +123,7 @@ INSERT INTO `order_qualification` (`order_id`, `qualification_id`, `count`) VALU
 /*!40000 ALTER TABLE `order_qualification` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.order_work
+-- Дамп структуры для таблица devteam.order_work
 CREATE TABLE IF NOT EXISTS `order_work` (
   `order_id` int(11) unsigned NOT NULL,
   `work_id` int(11) unsigned NOT NULL,
@@ -137,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `order_work` (
   KEY `FK_project` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.order_work: ~21 rows (approximately)
+-- Дамп данных таблицы devteam.order_work: ~25 rows (приблизительно)
 /*!40000 ALTER TABLE `order_work` DISABLE KEYS */;
 INSERT INTO `order_work` (`order_id`, `work_id`, `description`) VALUES
 	(48, 3, NULL),
@@ -168,7 +163,7 @@ INSERT INTO `order_work` (`order_id`, `work_id`, `description`) VALUES
 /*!40000 ALTER TABLE `order_work` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.project
+-- Дамп структуры для таблица devteam.project
 CREATE TABLE IF NOT EXISTS `project` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(250) NOT NULL,
@@ -179,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   CONSTRAINT `FK_project_order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.project: ~3 rows (approximately)
+-- Дамп данных таблицы devteam.project: ~4 rows (приблизительно)
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
 INSERT INTO `project` (`id`, `title`, `description`, `order_id`) VALUES
 	(3, 'проект', 'hdfhzdf', 51),
@@ -189,7 +184,7 @@ INSERT INTO `project` (`id`, `title`, `description`, `order_id`) VALUES
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.project_employee
+-- Дамп структуры для таблица devteam.project_employee
 CREATE TABLE IF NOT EXISTS `project_employee` (
   `project_id` int(11) unsigned NOT NULL,
   `employee_id` int(11) unsigned NOT NULL,
@@ -200,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `project_employee` (
   CONSTRAINT `FK_employee_project_project` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.project_employee: ~4 rows (approximately)
+-- Дамп данных таблицы devteam.project_employee: ~5 rows (приблизительно)
 /*!40000 ALTER TABLE `project_employee` DISABLE KEYS */;
 INSERT INTO `project_employee` (`project_id`, `employee_id`, `hours`) VALUES
 	(3, 2, 0),
@@ -211,7 +206,7 @@ INSERT INTO `project_employee` (`project_id`, `employee_id`, `hours`) VALUES
 /*!40000 ALTER TABLE `project_employee` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.qualification
+-- Дамп структуры для таблица devteam.qualification
 CREATE TABLE IF NOT EXISTS `qualification` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) DEFAULT NULL,
@@ -219,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `qualification` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.qualification: ~7 rows (approximately)
+-- Дамп данных таблицы devteam.qualification: ~7 rows (приблизительно)
 /*!40000 ALTER TABLE `qualification` DISABLE KEYS */;
 INSERT INTO `qualification` (`id`, `title`, `service`) VALUES
 	(1, 'manager', 0),
@@ -232,7 +227,7 @@ INSERT INTO `qualification` (`id`, `title`, `service`) VALUES
 /*!40000 ALTER TABLE `qualification` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.user
+-- Дамп структуры для таблица devteam.user
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `login` varchar(50) NOT NULL,
@@ -241,7 +236,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.user: ~4 rows (approximately)
+-- Дамп данных таблицы devteam.user: ~4 rows (приблизительно)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `login`, `password`, `role`) VALUES
 	(1, 'c', '$2a$10$zBNfpHh0ZqErueXZCR/XzuZlRQGmOmkSU8ZqakwgMCpCjbo0SG/qW', 'CUSTOMER'),
@@ -251,22 +246,21 @@ INSERT INTO `user` (`id`, `login`, `password`, `role`) VALUES
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
--- Dumping structure for table devteam.work
+-- Дамп структуры для таблица devteam.work
 CREATE TABLE IF NOT EXISTS `work` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` text,
-  `price` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table devteam.work: ~4 rows (approximately)
+-- Дамп данных таблицы devteam.work: ~4 rows (приблизительно)
 /*!40000 ALTER TABLE `work` DISABLE KEYS */;
-INSERT INTO `work` (`id`, `title`, `description`, `price`) VALUES
-	(1, 'Дизайн', NULL, 20),
-	(2, 'Верстка', NULL, 20),
-	(3, 'Front end', NULL, 50),
-	(4, 'Программирование', NULL, 50);
+INSERT INTO `work` (`id`, `title`, `description`) VALUES
+	(1, 'Дизайн', NULL),
+	(2, 'Верстка', NULL),
+	(3, 'Front end', NULL),
+	(4, 'Программирование', NULL);
 /*!40000 ALTER TABLE `work` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

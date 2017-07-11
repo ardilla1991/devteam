@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.RoleEnum;
+import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.command.CommandEnum;
 import by.htp.devteam.command.CommandExeption;
 
@@ -27,7 +27,7 @@ import org.apache.logging.log4j.LogManager;
 
 public class ACLFilterGuest implements Filter{
 
-	private final static Map<RoleEnum, List<CommandEnum>> acl = new HashMap<RoleEnum, List<CommandEnum>>();
+	private final static Map<UserRole, List<CommandEnum>> acl = new HashMap<UserRole, List<CommandEnum>>();
 	private final static List<CommandEnum> guestACL = new ArrayList<CommandEnum>();
 	private final static Logger logger = LogManager.getLogger(ACLFilterGuest.class.getName());
 	
@@ -50,7 +50,7 @@ public class ACLFilterGuest implements Filter{
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
 
 		if ( !isAuthorised && action != null ) {
-			RoleEnum role = RoleEnum.GUEST;
+			UserRole role = UserRole.GUEST;
 
 			try {
 				boolean issetInACL = acl.get(role).contains(CommandEnum.getAction(action) );
@@ -86,7 +86,7 @@ public class ACLFilterGuest implements Filter{
 		guestACL.add(CommandEnum.LOGIN_SHOW_FORM);
 		//guestACL.add(CommandEnum.PERMISSION_DENIED);
 
-		acl.put(RoleEnum.GUEST, guestACL);
+		acl.put(UserRole.GUEST, guestACL);
 	}
 
 }

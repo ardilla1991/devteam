@@ -4,9 +4,9 @@ import java.util.List;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.dto.OrderVo;
-import by.htp.devteam.bean.dto.ProjectVo;
-import by.htp.devteam.bean.dto.ProjectListVo;
+import by.htp.devteam.bean.vo.OrderVo;
+import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.vo.ProjectVo;
 
 public interface ProjectService {
 

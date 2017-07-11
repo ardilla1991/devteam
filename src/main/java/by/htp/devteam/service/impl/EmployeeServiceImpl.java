@@ -62,7 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Map<Employee, Integer> getByProject(Project project) throws ServiceException{
 		Map<Employee, Integer>  employees = null;
 		try {
-			employees = employeeDao.getByProject(project);
+			employees = employeeDao.getEmployeesAndSpendingHoursByProject(project);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);
@@ -75,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public Map<Long, Integer> getQualificationsCountByEmployees(Long[] ids) throws ServiceException {
 		Map<Long, Integer> qualificationCountByEmployees = null;
 		try {
-			qualificationCountByEmployees = employeeDao.getQualificationsCountByEmployees(ids);
+			qualificationCountByEmployees = employeeDao.getQualificationsIdsAndCountByEmployees(ids);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCodeEnum.APPLICATION);

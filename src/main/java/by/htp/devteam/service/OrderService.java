@@ -8,8 +8,8 @@ import javax.servlet.http.Part;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
-import by.htp.devteam.bean.dto.OrderVo;
-import by.htp.devteam.bean.dto.OrderListVo;
+import by.htp.devteam.bean.vo.OrderListVo;
+import by.htp.devteam.bean.vo.OrderVo;
 
 public interface OrderService {
 	OrderListVo getNewOrders(String currPage) throws ServiceException;

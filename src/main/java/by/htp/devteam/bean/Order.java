@@ -3,19 +3,40 @@ package by.htp.devteam.bean;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+/**
+ * Order's object. Has properties <b>id</b>, <b>title</b>, 
+ * <b>description</b>, <b>specification</b>, <b>customer</b>,
+ * <b>dateCreated</b>, <b>dateStart</b>, <b>dateFinish</b>, <b>price</b>
+ * @author julia
+ *
+ */
 public class Order {
 
-
-
+	/** Identifier for record */
 	private Long id;
+	
+	/** Order's title */
 	private String title;
+	
+	/** Order's description */
 	private String description;
+	
+	/** Order's specification (filename) */
 	private String specification;
+	
+	/** Order's customer */
 	private Customer customer;
-	private boolean status;
+	
+	/** Order's date created */
 	private Date dateCreated;
+	
+	/** Order's date start */
 	private Date dateStart;
+	
+	/** Order's date finish */
 	private Date dateFinish;
+	
+	/** Order's price */
 	private BigDecimal price;
 	
 	public Order() {
@@ -62,15 +83,6 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-	
-
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -104,12 +116,77 @@ public class Order {
 	}
 
 	@Override
-	public String toString() {
-		return "Order [id=" + id + ", title=" + title + ", description=" + description + ", specification="
-				+ specification + ", customer=" + customer + ", status=" + status + ", dateCreated=" + dateCreated
-				+ ", dateStart=" + dateStart + ", dateFinish=" + dateFinish + ", price=" + price + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
+		result = prime * result + ((dateFinish == null) ? 0 : dateFinish.hashCode());
+		result = prime * result + ((dateStart == null) ? 0 : dateStart.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((specification == null) ? 0 : specification.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
+		if (dateCreated == null) {
+			if (other.dateCreated != null)
+				return false;
+		} else if (!dateCreated.equals(other.dateCreated))
+			return false;
+		if (dateFinish == null) {
+			if (other.dateFinish != null)
+				return false;
+		} else if (!dateFinish.equals(other.dateFinish))
+			return false;
+		if (dateStart == null) {
+			if (other.dateStart != null)
+				return false;
+		} else if (!dateStart.equals(other.dateStart))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (specification == null) {
+			if (other.specification != null)
+				return false;
+		} else if (!specification.equals(other.specification))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
 	
-
-
+	
 }

@@ -19,9 +19,9 @@
 								<td><fmt:message key="user.role" /></td>
 								<td><c:out value="${user_vo.getUser().getRole()}" /></td>
 							</tr>
-							<%@ page import="by.htp.devteam.bean.RoleEnum" %>
+							<%@ page import="by.htp.devteam.bean.UserRole" %>
 							<c:choose>
-								<c:when test="${ user_vo.getUser().getRole()  == RoleEnum.CUSTOMER }">
+								<c:when test="${ user_vo.getUser().getRole()  == UserRole.CUSTOMER }">
 									<tr>
 										<td><fmt:message key="user.name" /></td>
 										<td><c:out

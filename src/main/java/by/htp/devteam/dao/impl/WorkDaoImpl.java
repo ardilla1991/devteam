@@ -14,29 +14,29 @@ import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public class WorkDaoImpl implements WorkDao{
+public class WorkDaoImpl implements WorkDao {
 
 	private final static int ID = 1;
 	private final static int TITLE = 2;
-	private final static int DESCRIPTION = 3;
-	private final static int PRICE = 4;
+	private final static int DESCRIPTION = 3;	
 	
-	
-	
+	/*
+	 * Get all records sorted by title desc
+	 */
 	@Override
-	public List<Work> fetchAll() throws DaoException{
+	public List<Work> fetchAll() throws DaoException {
 		List<Work> works = new ArrayList<Work>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				Statement st = dbConnection.createStatement() ) {
 		
-			works = getWorkListFromResultSet(st);
+			works = executeQueryAndGetWorkListFromResultSet(st);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_WORK_FETCH_ALL, e);
 		}
 		return works;
 	}
 	
-	private List<Work> getWorkListFromResultSet(Statement st) throws SQLException{
+	private List<Work> executeQueryAndGetWorkListFromResultSet(Statement st) throws SQLException {
 		List<Work> works = new ArrayList<Work>();
 		try ( ResultSet rs = st.executeQuery(SQL_WORK_FETCH_ALL) ) {
 			while ( rs.next() ) {
@@ -44,7 +44,6 @@ public class WorkDaoImpl implements WorkDao{
 				work.setId(rs.getLong(ID));
 				work.setTitle(rs.getString(TITLE));
 				work.setDescription(rs.getString(DESCRIPTION));
-				work.setPrice(rs.getInt(PRICE));
 				
 				works.add(work);
 			}

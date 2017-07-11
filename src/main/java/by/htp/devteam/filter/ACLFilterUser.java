@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.htp.devteam.bean.RoleEnum;
-import by.htp.devteam.bean.dto.UserVo;
+import by.htp.devteam.bean.UserRole;
+import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandEnum;
 import by.htp.devteam.command.CommandExeption;
 
@@ -28,7 +28,7 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 
 public class ACLFilterUser implements Filter{
 
-	private final static Map<RoleEnum, List<CommandEnum>> acl = new HashMap<RoleEnum, List<CommandEnum>>();
+	private final static Map<UserRole, List<CommandEnum>> acl = new HashMap<UserRole, List<CommandEnum>>();
 	private final static List<CommandEnum> managerACL = new ArrayList<CommandEnum>();
 	private final static List<CommandEnum> developerACL = new ArrayList<CommandEnum>();
 	private final static List<CommandEnum> customerACL = new ArrayList<CommandEnum>();
@@ -58,7 +58,7 @@ public class ACLFilterUser implements Filter{
 		
 		
 		
-		RoleEnum role;
+		UserRole role;
 		if ( isAuthorised && action != null) {
 			Object userObject = session.getAttribute(SESSION_PARAM_USER);
 			UserVo userVO = (UserVo) userObject;
@@ -106,7 +106,7 @@ public class ACLFilterUser implements Filter{
 		managerACL.add(CommandEnum.PROJECT_VIEW);
 		managerACL.add(CommandEnum.USER_VIEW);
 		
-		acl.put(RoleEnum.MANAGER, managerACL);
+		acl.put(UserRole.MANAGER, managerACL);
 	}
 	
 	private void setDevelopersACL() {
@@ -120,7 +120,7 @@ public class ACLFilterUser implements Filter{
 		developerACL.add(CommandEnum.PROJECT_UPDATE_HOURS);
 		developerACL.add(CommandEnum.USER_VIEW);
 		
-		acl.put(RoleEnum.DEVELOPER, developerACL);
+		acl.put(UserRole.DEVELOPER, developerACL);
 	}
 	
 	private void setCustomersACL() {
@@ -135,7 +135,7 @@ public class ACLFilterUser implements Filter{
 		customerACL.add(CommandEnum.ORDER_VIEW);
 		customerACL.add(CommandEnum.USER_VIEW);
 		
-		acl.put(RoleEnum.CUSTOMER, customerACL);
+		acl.put(UserRole.CUSTOMER, customerACL);
 	}
 	
 	private void setAdminACL() {
@@ -146,7 +146,7 @@ public class ACLFilterUser implements Filter{
 		adminACL.add(CommandEnum.USER_LIST);
 		adminACL.add(CommandEnum.USER_VIEW);
 		
-		acl.put(RoleEnum.ADMIN, adminACL);
+		acl.put(UserRole.ADMIN, adminACL);
 	}
 
 }

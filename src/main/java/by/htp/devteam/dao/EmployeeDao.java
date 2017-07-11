@@ -11,16 +11,62 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 
+/**
+ * Interface for employee's DAO layer
+ * @author julia
+ *
+ */
 public interface EmployeeDao {
 
+	/**
+	 * Get employee by user
+	 * @param user
+	 * @return Employee
+	 * @throws DaoException
+	 */
 	Employee getByUser(User user) throws DaoException;
 	
+	/**
+	 * Get all not busy employees with needed qualifications in the period (between date start and date finish).
+	 * Used on create project page.
+	 * @param dateStart date start of project in order
+	 * @param dateFinish date finish of project in order
+	 * @param qualifications qualifications list in order
+	 * @return list of employees
+	 * @throws DaoException
+	 */
 	List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) 
 			throws DaoException;
 	
+	/**
+	 * Check if selected employees are not busy in the period (between date start and date finish).
+	 * Used on create project page.
+	 * @param connection
+	 * @param ids employees' ids
+	 * @param dateStart date start of project in order
+	 * @param dateFinish date finish of project in order
+	 * @return if employee is not busy for definite period
+	 * @throws DaoException
+	 */
 	boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) 
 			throws DaoException;
-	Map<Long, Integer> getQualificationsCountByEmployees(Long[] employeesIds) throws DaoException;
 	
-	Map<Employee, Integer> getByProject(Project project) throws DaoException;
+	/**
+	 * Get Map of qualifications' ids and qualifications' count by selected employees' list.
+	 * This method used on create project action when we ckeck 
+	 * if selected employees correspond to selected qualifications in order
+	 * @param employeesIds selected in created project
+	 * @return Map of qualifications' ids and qualifications' count by selected employees' list
+	 * @throws DaoException
+	 */
+	Map<Long, Integer> getQualificationsIdsAndCountByEmployees(Long[] employeesIds) throws DaoException;
+	
+	
+	/**
+	 * Get map of employees and their spending time to work on project. Used on project's page
+	 * @param project
+	 * @return map of employee as key and spending hours on project as value
+	 * @throws DaoException
+	 */
+	Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException;
 }

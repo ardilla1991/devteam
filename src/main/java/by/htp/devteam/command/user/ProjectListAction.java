@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.dto.ProjectListVo;
-import by.htp.devteam.bean.dto.UserVo;
+import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.ProjectService;

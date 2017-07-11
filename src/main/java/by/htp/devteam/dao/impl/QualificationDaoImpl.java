@@ -14,19 +14,21 @@ import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public class QualificationDaoImpl implements QualificationDao{
+public class QualificationDaoImpl implements QualificationDao {
 	
 	private final static int ID = 1;
 	private final static int TITLE = 2;
 	
-	
-	
+	/*
+	 * Get all records sorted by title desc
+	 */
+	@Override
 	public List<Qualification> fetchAll() throws DaoException {
 		List<Qualification> qualifications = new ArrayList<Qualification>();
 		try (Connection dbConnection = ConnectionPool.getConnection();
 				Statement st = dbConnection.createStatement() ) {
 
-			qualifications = getQualificationListFromResultSet(st);
+			qualifications = executeQueryAndGetQualificationListFromResultSet(st);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_QUALIFICATION_FETCH_ALL, e);
 		}
@@ -34,7 +36,7 @@ public class QualificationDaoImpl implements QualificationDao{
 		return qualifications;
 	}
 	
-	private List<Qualification> getQualificationListFromResultSet(Statement st) throws SQLException {
+	private List<Qualification> executeQueryAndGetQualificationListFromResultSet(Statement st) throws SQLException {
 		List<Qualification> qualifications = new ArrayList<Qualification>();
 		try ( ResultSet rs = st.executeQuery(SQL_QUALIFICATION_FETCH_ALL) ) {
 			while (rs.next()) {
