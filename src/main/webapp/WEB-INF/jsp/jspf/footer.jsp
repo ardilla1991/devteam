@@ -3,6 +3,7 @@
 				  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
 				  crossorigin="anonymous"></script>
 	<script src="js/script.js"></script>	
-
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="bootstrap/js/npm.js"></script>
 </body>
 </html>
