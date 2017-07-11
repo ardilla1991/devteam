@@ -1,11 +1,16 @@
 package by.htp.devteam.controller;
 
-public enum ActionEnum {
+/**
+ * HTTP methods
+ * @author julia
+ *
+ */
+public enum HTTPMethod {
 	POST("POST"), GET("GET");
 	
 	private String name; 
 	
-	private ActionEnum(String name) {
+	private HTTPMethod(String name) {
 		this.name = name;
 	}
 	

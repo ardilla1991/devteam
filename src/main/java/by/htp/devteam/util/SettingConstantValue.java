@@ -2,6 +2,11 @@ package by.htp.devteam.util;
 
 import java.io.File;
 
+/**
+ * Settings for project
+ * @author julia
+ *
+ */
 public final class SettingConstantValue {
 	
 	private SettingConstantValue() {

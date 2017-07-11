@@ -15,7 +15,7 @@ import static by.htp.devteam.dao.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class CustomerDaoImpl implements CustomerDao {
+public final class CustomerDaoImpl implements CustomerDao {
 
 	private final static int ID = 1;
 	private final static int NAME = 2;
@@ -23,6 +23,10 @@ public class CustomerDaoImpl implements CustomerDao {
 	private final static int PHONE = 4;
 	
 	private static final Logger logger = LogManager.getLogger(CustomerDaoImpl.class.getName());
+	
+	public CustomerDaoImpl() {
+		super();
+	}
 
 	@Override
 	public Customer getCustomerByUser(User user) throws DaoException {

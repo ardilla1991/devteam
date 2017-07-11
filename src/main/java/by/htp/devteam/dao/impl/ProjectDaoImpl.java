@@ -19,7 +19,7 @@ import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public class ProjectDaoImpl implements ProjectDao {
+public final class ProjectDaoImpl implements ProjectDao {
 	
 	private final static int ID = 1;
 	private final static int TITLE = 2;
@@ -27,6 +27,10 @@ public class ProjectDaoImpl implements ProjectDao {
 	private final static int ORDER_ID = 4;
 	
 	private final static String SQL_LIKE_CONDITION_PERCENT = "%";
+	
+	public ProjectDaoImpl() {
+		super();
+	}
 	
 	@Override
 	public ProjectListVo fetchAll(int offset, int countPerPage, Employee employee) throws DaoException {

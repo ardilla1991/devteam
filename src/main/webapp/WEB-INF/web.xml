@@ -19,15 +19,6 @@
 		<url-pattern>/Main</url-pattern>
 	</servlet-mapping>
 	<filter>
-		<display-name>LocaleFilter</display-name>
-		<filter-name>LocaleFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.LocaleFilter</filter-class>
-		<init-param>
-			<param-name>locale</param-name>
-			<param-value>US</param-value>
-		</init-param>
-	</filter>
-	<filter>
 		<display-name>EncodingFilter</display-name>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>by.htp.devteam.filter.EncodingFilter</filter-class>
@@ -42,22 +33,22 @@
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	<filter>
-		<display-name>ACLFilterUser</display-name>
-		<filter-name>ACLFilterUser</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLFilterUser</filter-class>
+		<display-name>ACLUserFilter</display-name>
+		<filter-name>ACLUserFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.ACLUserFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>ACLFilterUser</filter-name>
+		<filter-name>ACLUserFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	<filter>
-		<display-name>ACLFilterGuest</display-name>
-		<filter-name>ACLFilterGuest</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLFilterGuest</filter-class>
+		<display-name>ACLGuestFilter</display-name>
+		<filter-name>ACLGuestFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.ACLGuestFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>ACLFilterGuest</filter-name>
+		<filter-name>ACLGuestFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>

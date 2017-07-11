@@ -14,10 +14,14 @@ import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public class QualificationDaoImpl implements QualificationDao {
+public final class QualificationDaoImpl implements QualificationDao {
 	
 	private final static int ID = 1;
 	private final static int TITLE = 2;
+	
+	public QualificationDaoImpl() {
+		super();
+	}
 	
 	/*
 	 * Get all records sorted by title desc

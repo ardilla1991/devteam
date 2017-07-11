@@ -5,25 +5,49 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import by.htp.devteam.bean.Qualification;
-
+/**
+ * Validation orders fields. Extends {@link BeanValidation}
+ * @author julia
+ *
+ */
 public final class OrderValidation extends BeanValidation{
 	
 	public OrderValidation() {
 		super();
 	}
 	
-	public void validate(String title, String description, String specificationFileName, String dateStart, String dateFinish,
-			String[] workIds, Map<String, String> qualificationsIdsAndCount) {
+	/**
+	 * Validation of main fields
+	 * @param title Check if field is empty or more than definite length 
+	 * @param description Check if field is empty or more than definite length 
+	 * @param specificationFileName Check if correct file extension and length of title
+	 * @param dateStart Check if date is real date and check if date after now
+	 * @param dateFinish Check if date is real date and check if date after dateStart
+	 * @param workIds Check if array length not more then 0 and all array's values have correct Long numbers
+	 * @param qualificationsIdsAndCount Check if qualification's ids are correct number 
+	 * and count value fields are correct too
+	 */
+	public void validate(String title, String description, String specificationFileName, String dateStart, 
+						 String dateFinish, String[] workIds, Map<String, String> qualificationsIdsAndCount) {
 
-		title = title.trim();
-		if ( Validator.isEmpty(title) || title.length() > 250 ) {
+		if ( title != null ) {
+			title = title.trim();
+			if ( Validator.isEmpty(title) || title.length() > 250 ) {
+				valid &= false;
+				notValidField.add("title");
+			}
+		} else {
 			valid &= false;
 			notValidField.add("title");
 		}
 		
-		description = description.trim();
-		if ( Validator.isEmpty(description) || description.length() > 2000 ) {
+		if ( description != null ) {
+			description = description.trim();
+			if ( Validator.isEmpty(description) || description.length() > 2000 ) {
+				valid &= false;
+				notValidField.add("description");
+			}
+		} else {
 			valid &= false;
 			notValidField.add("description");
 		}
@@ -78,8 +102,6 @@ public final class OrderValidation extends BeanValidation{
 		if ( it.hasNext() ) {
 			while ( it.hasNext() ) {
 				Map.Entry pair = (Map.Entry) it.next();
-				Qualification qualification = new Qualification();
-				qualification.setId(Long.valueOf((String) pair.getKey()));
 				if ( !Validator.isLong( (String) pair.getKey() ) || !Validator.isInt( (String) pair.getValue() ) ) {
 					valid &= false;
 					notValidField.add("qualification");
@@ -92,10 +114,18 @@ public final class OrderValidation extends BeanValidation{
 		}
 	}
 	
+	/**
+	 * Check if a page number has a correct value
+	 * @param pageNumber
+	 * @return if page number is int value
+	 */
 	public boolean validatePage(String pageNumber) {
 		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
 	}
 	
+	/*
+	 * Create Calendar object for date from form
+	 */
 	private Calendar getCalendarTypeFromString(String date) {
 		String[] dateSplit = date.split("-");
 		Calendar dateCal = Calendar.getInstance();

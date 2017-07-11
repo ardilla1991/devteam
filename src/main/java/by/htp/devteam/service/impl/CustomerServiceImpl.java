@@ -7,7 +7,7 @@ import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.service.CustomerService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.ErrorCode;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 			customer = customerDao.getCustomerByUser(user);
 		} catch ( DaoException e ) {
 			logger.error(e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 		return customer;

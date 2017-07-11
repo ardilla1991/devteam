@@ -21,12 +21,16 @@ import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public class UserDaoImpl implements UserDao {
+public final class UserDaoImpl implements UserDao {
 
 	private final static int ID = 1;
 	private final static int LOGIN = 2;
 	private final static int PASSWORD = 3;
 	private final static int ROLE = 4;
+	
+	public UserDaoImpl() {
+		super();
+	}
 			
 	@Override
 	public User fetchByCredentials(String login) throws DaoException {

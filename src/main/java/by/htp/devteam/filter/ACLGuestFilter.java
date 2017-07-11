@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.UserRole;
-import by.htp.devteam.command.CommandEnum;
+import by.htp.devteam.command.Command;
 import by.htp.devteam.command.CommandExeption;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
@@ -25,11 +25,24 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class ACLFilterGuest implements Filter{
+/**
+ * Check if selected action for GUEST user is in ACL list. If not we send him on login page
+ * @author julia
+ *
+ */
+public final class ACLGuestFilter implements Filter{
 
-	private final static Map<UserRole, List<CommandEnum>> acl = new HashMap<UserRole, List<CommandEnum>>();
-	private final static List<CommandEnum> guestACL = new ArrayList<CommandEnum>();
-	private final static Logger logger = LogManager.getLogger(ACLFilterGuest.class.getName());
+	/** ACL for users */
+	private final static Map<UserRole, List<Command>> acl = new HashMap<UserRole, List<Command>>();
+	
+	/** 
+	 * ACL for guest. Contains a actions from Command enum
+	 * @see by.htp.devteam.command.Command
+	 */
+	private final static List<Command> guestACL = new ArrayList<Command>();
+	
+	/** logger */
+	private final static Logger logger = LogManager.getLogger(ACLGuestFilter.class.getName());
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -53,11 +66,11 @@ public class ACLFilterGuest implements Filter{
 			UserRole role = UserRole.GUEST;
 
 			try {
-				boolean issetInACL = acl.get(role).contains(CommandEnum.getAction(action) );
+				boolean issetInACL = acl.get(role).contains(Command.getAction(action) );
 				if ( !issetInACL ) {
 					resp.sendRedirect(PAGE_SHOW_AUTHORIZATION_FORM_URI);
 					return;
-				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandEnum.getAction(action).getHTTPMethod().getValue()) ) {
+				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(Command.getAction(action).getHTTPMethod().getValue()) ) {
 					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD);
 					req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
 					return;
@@ -82,9 +95,9 @@ public class ACLFilterGuest implements Filter{
 	}
 
 	private void setGuestsACL() {
-		guestACL.add(CommandEnum.LOGIN);
-		guestACL.add(CommandEnum.LOGIN_SHOW_FORM);
-		//guestACL.add(CommandEnum.PERMISSION_DENIED);
+		guestACL.add(Command.LOGIN);
+		guestACL.add(Command.LOGIN_SHOW_FORM);
+		guestACL.add(Command.PERMISSION_DENIED);
 
 		acl.put(UserRole.GUEST, guestACL);
 	}

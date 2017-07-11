@@ -13,7 +13,7 @@ import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
-import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.ErrorCode;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
@@ -76,7 +76,7 @@ public class OrderAddAction implements CommandAction{
 			}			
 		} catch (IOException | ServletException | IllegalStateException e) {
 			logger.info(MSG_LOGGER_ORDER_ADD_FILE_UPLOAD, e);
-			request.setAttribute(REQUEST_PARAM_ERROR_CODE, ErrorCodeEnum.FILE_UPLOAD.getValue());
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, ErrorCode.FILE_UPLOAD.getValue());
 			page = PAGE_ORDER_SHOW_ADD_FORM_URI;
 			isRedirect = false;
 		}

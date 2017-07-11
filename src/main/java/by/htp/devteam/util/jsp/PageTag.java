@@ -5,12 +5,27 @@ import java.io.IOException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-public class PageTag extends TagSupport{
+/**
+ * Tag for display pages
+ * @author julia
+ *
+ */
+public final class PageTag extends TagSupport{
 	
 	private static final long serialVersionUID = 7633809780473295006L;
+	
+	/** Count pages */
 	private int countPages;
+	
+	/** Current page number */
 	private int currPage;
+	
+	/** Uri for pages */
 	private String uri;
+	
+	public PageTag() {
+		super();
+	}
 	
 	public void setCountPages(int countPages) {
 		this.countPages = countPages;
@@ -24,6 +39,9 @@ public class PageTag extends TagSupport{
 		this.uri = uri;
 	}
 	
+	/**
+	 * Display pages
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		try {

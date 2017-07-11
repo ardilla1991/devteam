@@ -7,22 +7,45 @@ import java.util.ResourceBundle;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import by.htp.devteam.command.CommandEnum;
-
 import by.htp.devteam.bean.User;
 import static by.htp.devteam.command.util.ConstantValue.*;
 
-public class LeftMenuTag extends TagSupport{
+/**
+ * Display left bar for user
+ * @author julia
+ *
+ */
+public final class LeftMenuTag extends TagSupport{
 
 	private static final long serialVersionUID = -5906908027211026605L;
+	
+	/** User */
 	private User user;
+	
+	/** Current action. Use for set active class for selected action */
 	private String currAction;
+	
+	/** Container tag for all points */
 	private String containerTag;
+	
+	/** Container class for all points */	
 	private String containerClass;
+	
+	/** Item tag for point */
 	private String itemTag;
+	
+	/** Item tag class for selected points */
 	private String currActionClass;
+	
+	/** Current language */
 	private String language;
+	
+	/** Current country */
 	private String country;
+	
+	public LeftMenuTag() {
+		super();
+	}
 	
 	public void setUser(User user) {
 		this.user = user;
@@ -56,6 +79,9 @@ public class LeftMenuTag extends TagSupport{
 		this.country = country;
 	}
 
+	/**
+	 * Create bar
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		try {

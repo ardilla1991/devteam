@@ -20,15 +20,15 @@ import by.htp.devteam.command.user.OrderShowAddFormAction;
 import by.htp.devteam.command.user.OrderViewAction;
 import by.htp.devteam.command.user.ShowAuthorizationFormAction;
 import by.htp.devteam.command.user.UserViewAction;
-import by.htp.devteam.controller.ActionEnum;
+import by.htp.devteam.controller.HTTPMethod;
 
-public enum CommandEnum {
+public enum Command {
 	LOGIN { 
 		public CommandAction chooseAction() { 
 			return new LoginAction(); 
 		} 
-		public ActionEnum getHTTPMethod() { 
-			return ActionEnum.POST; 
+		public HTTPMethod getHTTPMethod() { 
+			return HTTPMethod.POST; 
 		} 
 	},  
 	LOGIN_SHOW_FORM { 
@@ -55,8 +55,8 @@ public enum CommandEnum {
 		public CommandAction chooseAction() { 
 			return new OrderAddAction(); 
 		} 
-		public ActionEnum getHTTPMethod() { 
-			return ActionEnum.POST; 
+		public HTTPMethod getHTTPMethod() { 
+			return HTTPMethod.POST; 
 		}
 	},
 	ORDER_VIEW { 
@@ -85,8 +85,8 @@ public enum CommandEnum {
 		public CommandAction chooseAction() { 
 			return new ProjectAddAction(); 
 		} 
-		public ActionEnum getHTTPMethod() { 
-			return ActionEnum.POST; 
+		public HTTPMethod getHTTPMethod() { 
+			return HTTPMethod.POST; 
 		}
 	},
 	PROJECT_LIST { 
@@ -108,8 +108,8 @@ public enum CommandEnum {
 		public CommandAction chooseAction() { 
 			return new ProjectUpdateHoursAction(); 
 		} 
-		public ActionEnum getHTTPMethod() { 
-			return ActionEnum.POST; 
+		public HTTPMethod getHTTPMethod() { 
+			return HTTPMethod.POST; 
 		}
 	},
 	PROJECT_ADD_MESSAGE { 
@@ -138,11 +138,11 @@ public enum CommandEnum {
 	};
 
 	public abstract CommandAction chooseAction();
-	public ActionEnum getHTTPMethod() {
-		return ActionEnum.GET;
+	public HTTPMethod getHTTPMethod() {
+		return HTTPMethod.GET;
 	};
 	
-	public static CommandEnum getAction(String action) throws CommandExeption {
+	public static Command getAction(String action) throws CommandExeption {
 		if ( action == null )
 			throw new CommandExeption("Action is empty ");
 		
@@ -151,13 +151,13 @@ public enum CommandEnum {
         if ( !found ) 
         	throw new CommandExeption("Invalid action: " +action);
         
-        return CommandEnum.valueOf(enumAction);
+        return Command.valueOf(enumAction);
        }
 	
 	public static boolean lookup(String action) {
 		String enumAction = action.toUpperCase();
 		boolean found = false;
-        for ( CommandEnum enumElement: values() ){
+        for ( Command enumElement: values() ){
            if ( enumElement.toString().equals(enumAction) ) 
         	   found = true;
         }  

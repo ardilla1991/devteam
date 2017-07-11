@@ -8,12 +8,27 @@ import javax.servlet.http.Part;
 import static by.htp.devteam.util.SettingConstantValue.*;
 import static by.htp.devteam.service.util.ConstantValue.*;
 
-final public class UploadFile {
+/**
+ * Upload file. Save file in projects directory
+ * @author julia
+ * @todo Must by a static! If we don't pass the applicationPath each time
+ *
+ */
+public final class UploadFile {
 	
-	private String applicationPath;
+	/** Path to save file */
 	public final static String uploadPath = UPLOAD_DIR + File.separator;
+	
+	/** Applications path */
+	private String applicationPath;
+	
+	/** Full path to save file */
 	private String fullUploadPath;
 
+	public UploadFile() {
+		super();
+	}
+	
 	public UploadFile(String applicationPath) {
 		super();
 		this.applicationPath = applicationPath;
@@ -33,37 +48,27 @@ final public class UploadFile {
 		
 		return "";
 	}
-
-	/*public String getFileName1(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        System.out.println("content-disposition header= "+contentDisp);
-        String[] tokens = contentDisp.split(";");
-        for (String token : tokens) {
-            if (token.trim().startsWith("filename")) {
-                return token.substring(token.indexOf("=") + 2, token.length()-1);
-            }
-        }
-        return "";
-    }*/
 	
+	/**
+	 * Upload file
+	 * @param part Part() field value
+	 * @param fileName File name
+	 * @return File name
+	 * @throws FileUploadException
+	 */
 	public String upload(Part part, String fileName) throws FileUploadException {
-
-		System.out.println("fileName="+getFileName(part));
+		//System.out.println("fileName="+getFileName(part));
         // constructs path of the directory to save uploaded file
-     // creates the save directory if it does not exists
+		// creates the save directory if it does not exists
         File fileSaveDir = new File(fullUploadPath);
         if ( !fileSaveDir.exists() ) {
             fileSaveDir.mkdirs();
         }
         
-        System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
+        //System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
  
         try {
-        //Get all the parts from request and write it to the file on server
-       // for (Part part : request.getParts()) {
-            System.out.println(fileName);
             part.write(fullUploadPath + fileName);
-       // }
         } catch (IOException e) {
         	throw new FileUploadException(MSG_ERROR_UPLOAD_FILE);
         }
@@ -71,6 +76,11 @@ final public class UploadFile {
         return fileName;
 	}
 	
+	/**
+	 * Delete file from folder
+	 * @param fileName file name
+	 * @throws FileUploadException
+	 */
 	public void delete(String fileName) throws FileUploadException {		
 		File file = new File(fullUploadPath + fileName);
 

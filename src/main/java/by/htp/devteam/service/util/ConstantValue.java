@@ -1,5 +1,10 @@
 package by.htp.devteam.service.util;
 
+/**
+ * Constants for service layer: messages error for logger and for exception
+ * @author julia
+ *
+ */
 public final class ConstantValue {
 
 	private ConstantValue() {

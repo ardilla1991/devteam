@@ -23,7 +23,7 @@ import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.util.UploadFile;
 import by.htp.devteam.service.validation.OrderValidation;
@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService{
 		OrderValidation orderValidation = new OrderValidation();
 		if ( !orderValidation.validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
-			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
+			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
 		
 		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService{
 			orderListVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 	
 		return orderListVo;
@@ -83,7 +83,7 @@ public class OrderServiceImpl implements OrderService{
 			orders = orderDao.getByCustomer(customer);
 		} catch ( DaoException e) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 		return orders;
@@ -101,14 +101,14 @@ public class OrderServiceImpl implements OrderService{
 		
 		if ( !orderValidation.isValid() ) {
 			logger.info(MSG_LOGGER_ORDER_ADD_INCORRECT_FIELD);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION, orderValidation.getNotValidField());
+			throw new ServiceException(ErrorCode.VALIDATION, orderValidation.getNotValidField());
 		} 
 		
 		try {
 			uploadFile.upload(specification, specificationFileName);
 		} catch ( FileUploadException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.FILE_UPLOAD);
+			throw new ServiceException(ErrorCode.FILE_UPLOAD);
 		}
 		
 		Order order = new Order();
@@ -134,10 +134,10 @@ public class OrderServiceImpl implements OrderService{
 				uploadFile.delete(specificationFileName);
 			} catch (FileUploadException e1) {
 				logger.error(e.getMessage(), e);
-				throw new ServiceException(ErrorCodeEnum.FILE_DELETE);
+				throw new ServiceException(ErrorCode.FILE_DELETE);
 			}
 
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}	
 		
 		return orderVo;
@@ -149,7 +149,7 @@ public class OrderServiceImpl implements OrderService{
 		OrderValidation orderValidation = new OrderValidation();
 		if ( !orderValidation.validateId(orderId)) {
 			logger.info(MSG_LOGGER_ORDER_VIEW_INCORRECT_ID, orderId);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
+			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		} 
 		
 		OrderVo orderVo = null;
@@ -157,10 +157,10 @@ public class OrderServiceImpl implements OrderService{
 			orderVo = orderDao.getById(Long.valueOf(orderId));
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		} catch ( NullPointerException e ) {
 			logger.info(MSG_LOGGER_ORDER_VIEW_NOT_EXIST_ID, orderId);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
+			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		}
 		
 		return orderVo;
@@ -199,7 +199,7 @@ public class OrderServiceImpl implements OrderService{
 			orderDao.setPrice(connection, order);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 	}

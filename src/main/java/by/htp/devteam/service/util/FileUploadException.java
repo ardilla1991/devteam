@@ -1,5 +1,10 @@
 package by.htp.devteam.service.util;
 
+/**
+ * Exception type for uploading file
+ * @author julia
+ *
+ */
 public class FileUploadException extends Exception{
 
 	private static final long serialVersionUID = 4975340870978126108L;

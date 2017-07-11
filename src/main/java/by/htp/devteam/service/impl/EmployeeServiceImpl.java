@@ -15,7 +15,7 @@ import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.ErrorCode;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			employee = employeeDao.getByUser(user);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 		return employee;
@@ -52,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			employees = employeeDao.getFreeEmployeesForPeriod(dateStart, dateFinish, qualifications);
 		} catch ( DaoException  e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 		return employees;
@@ -65,7 +65,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			employees = employeeDao.getEmployeesAndSpendingHoursByProject(project);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 		return employees;
@@ -78,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			qualificationCountByEmployees = employeeDao.getQualificationsIdsAndCountByEmployees(ids);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		return qualificationCountByEmployees;
 	}

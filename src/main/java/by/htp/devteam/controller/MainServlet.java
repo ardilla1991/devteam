@@ -1,5 +1,8 @@
 package by.htp.devteam.controller;
 
+/**
+ * Main point for application
+ */
 import java.io.IOException;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
@@ -29,30 +32,22 @@ public class MainServlet extends HttpServlet{
         super();
     }
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		Page page = processRequest(request, response);
-		
-		/*if ( page.isRedirect() ) {
-			response.sendRedirect(page.getPage());
-		} else {
-			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
-			disp.forward(request, response);
-		}*/	
+	
 		displayPage(request, response, page);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		Page page = processRequest(request, response);
-		/*if ( !page.isRedirect() ) {
-			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
-			disp.forward(request, response);
-		} else {
-			response.sendRedirect(page.getPage());
-		}*/
+
 		displayPage(request, response, page);
 	}
 	
-	private Page processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private Page processRequest(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		Page page = null;
 		
@@ -68,7 +63,16 @@ public class MainServlet extends HttpServlet{
 		return page;
 	}
 	
-	private void displayPage(HttpServletRequest request, HttpServletResponse response, Page page) throws ServletException, IOException {
+	/**
+	 * Display page with way chosen in Page (is redirect or not)
+	 * @param request
+	 * @param response
+	 * @param page Page object
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void displayPage(HttpServletRequest request, HttpServletResponse response, Page page) 
+			throws ServletException, IOException {
 		
 		if ( page.isRedirect() )
 			response.sendRedirect(page.getPage());

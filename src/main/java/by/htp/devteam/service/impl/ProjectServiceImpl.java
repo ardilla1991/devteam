@@ -22,7 +22,7 @@ import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
-import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.SettingConstantValue;
@@ -51,7 +51,7 @@ public class ProjectServiceImpl implements ProjectService{
 		//ProjectValidation projectValidation = new ProjectValidation();
 		if ( !ProjectValidation.validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
-			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
+			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
 		
 		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
@@ -67,7 +67,7 @@ public class ProjectServiceImpl implements ProjectService{
 			projectListVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 
 		return projectListVo;
@@ -81,7 +81,7 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		if ( !projectValidation.isValid() ) {
 			logger.info(MSG_LOGGER_PROJECT_ADD_INCORRECT_FIELD);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
+			throw new ServiceException(ErrorCode.VALIDATION, projectValidation.getNotValidField());
 		}
 		
 		Long[] employeesIds = comvertFromStringToLongArray(employees);
@@ -94,7 +94,7 @@ public class ProjectServiceImpl implements ProjectService{
 
 		if ( !projectValidation.isValid() ) {
 			logger.info(MSG_LOGGER_PROJECT_ADD_INCORRECT_FIELD_EMPLOYEE);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
+			throw new ServiceException(ErrorCode.VALIDATION, projectValidation.getNotValidField());
 		} 
 		
 		Project project = new Project();
@@ -116,12 +116,12 @@ public class ProjectServiceImpl implements ProjectService{
 			} else {
 				rollbackTransaction(connection);
 				logger.info(MSG_LOGGER_PROJECT_ADD_NO_ISSET_FREE_EMPLOYEE);
-				throw new ServiceException(ErrorCodeEnum.NOT_ISSET_FREE_EMPLOYEE);
+				throw new ServiceException(ErrorCode.NOT_ISSET_FREE_EMPLOYEE);
 			}
 		} catch ( DaoException | ServiceException e) {
 			rollbackTransaction(connection);
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 
 		return project;
@@ -152,7 +152,7 @@ public class ProjectServiceImpl implements ProjectService{
 			projectDao.rollbackTransaction(connection);
 		} catch (DaoException e) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 	}
 	
@@ -166,7 +166,7 @@ public class ProjectServiceImpl implements ProjectService{
 		ProjectValidation projectValidation = new ProjectValidation();
 		if ( !projectValidation.validateId(id)) {
 			logger.info(MSG_LOGGER_PROJECT_VIEW_INCORRECT_ID, id);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
+			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		} 
 		
 		ProjectVo projectDto = new ProjectVo();
@@ -180,10 +180,10 @@ public class ProjectServiceImpl implements ProjectService{
 			projectDto.setEmployee(employees);
 		} catch (DaoException e) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		} catch (NullPointerException e) {
 			logger.info(MSG_LOGGER_PROJECT_VIEW_NOT_EXIST_ID, id);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
+			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		}
 		
 		return projectDto;
@@ -196,14 +196,14 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		if ( !projectValidation.validateId(id)) {
 			logger.info(MSG_LOGGER_PROJECT_UPDATE_HOURS_INCORRECT_PROJECT_ID, id);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION_ID);
+			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		} 
 		
 		projectValidation.validate(hours);
 		
 		if ( !projectValidation.isValid() ) {
 			logger.info(MSG_LOGGER_PROJECT_UPDATE_HOURS_INCORRECT_FIELD, id);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION, projectValidation.getNotValidField());
+			throw new ServiceException(ErrorCode.VALIDATION, projectValidation.getNotValidField());
 		}
 		
 		Project project = new Project();
@@ -212,7 +212,7 @@ public class ProjectServiceImpl implements ProjectService{
 			projectDao.updateHours(project, employee, Integer.valueOf(hours));
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 	}
@@ -221,7 +221,7 @@ public class ProjectServiceImpl implements ProjectService{
 	public List<Project> findByTitle(String title) throws ServiceException {
 		if ( !ProjectValidation.validateFindedTitle(title) ) {
 			logger.info(MSG_LOGGER_PROJECT_FIND_TITLE_TOO_SHORT, title);
-			throw new ServiceException(ErrorCodeEnum.TITLE_SHORT);
+			throw new ServiceException(ErrorCode.TITLE_SHORT);
 		}
 		
 		List<Project> project = null;
@@ -229,7 +229,7 @@ public class ProjectServiceImpl implements ProjectService{
 			project = projectDao.findByTitle(title);
 		} catch (DaoException e) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		return project;
 	}

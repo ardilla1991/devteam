@@ -14,11 +14,15 @@ import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public class WorkDaoImpl implements WorkDao {
+public final class WorkDaoImpl implements WorkDao {
 
 	private final static int ID = 1;
 	private final static int TITLE = 2;
-	private final static int DESCRIPTION = 3;	
+	private final static int DESCRIPTION = 3;
+	
+	public WorkDaoImpl() {
+		super();
+	}
 	
 	/*
 	 * Get all records sorted by title desc

@@ -8,8 +8,8 @@ import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.UserService;
-import by.htp.devteam.service.util.Encripting;
-import by.htp.devteam.service.util.ErrorCodeEnum;
+import by.htp.devteam.service.util.Encrypting;
+import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.service.validation.UserValidation;
 import by.htp.devteam.util.SettingConstantValue;
@@ -39,23 +39,23 @@ public class UserServiceImpl implements UserService{
 		
 		if ( !userValidation.isValid() ) {
 			logger.info(MSG_LOGGER_FILL_LOGIN_OR_PASSWORD);
-			throw new ServiceException(ErrorCodeEnum.VALIDATION, userValidation.getNotValidField());
+			throw new ServiceException(ErrorCode.VALIDATION, userValidation.getNotValidField());
 		}
 		
 		try {
 			user = userDao.fetchByCredentials(login);
 			if ( user == null ) {
 				logger.info(MSG_LOGGER_USER_NOT_FOUND, login);
-				throw new ServiceException(ErrorCodeEnum.NO_SUCH_USER);
-			} else if ( !Encripting.isCorrectPassword(password, user.getPassword()) ) {
+				throw new ServiceException(ErrorCode.NO_SUCH_USER);
+			} else if ( !Encrypting.isCorrectPassword(password, user.getPassword()) ) {
 				logger.info(MSG_LOGGER_USER_INCORRECT_PASSWORD);
-				throw new ServiceException(ErrorCodeEnum.INCORRECT_PASSWORD);
+				throw new ServiceException(ErrorCode.INCORRECT_PASSWORD);
 			} else {
 				user.setPassword(null);
 			}
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		
 		return user;
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService{
 		//ProjectValidation projectValidation = new ProjectValidation();
 		if ( !UserValidation.validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
-			throw new ServiceException(ErrorCodeEnum.PAGE_NUMBER_NOT_FOUND);
+			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
 		
 		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService{
 			userListVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCodeEnum.APPLICATION);
+			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 
 		return userListVo;

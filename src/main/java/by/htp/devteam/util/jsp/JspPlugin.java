@@ -1,7 +1,18 @@
 package by.htp.devteam.util.jsp;
 
+/**
+ * Methods for jsp
+ * @author julia
+ *
+ */
 public class JspPlugin {
 	
+	/**
+	 * Check if isset needle string in array of strings values
+	 * @param needle needle value
+	 * @param haystack Array of strings values
+	 * @return boolean
+	 */
 	public static boolean inArray(String needle, Object haystack) {
 		if ( haystack == null || needle == null )
 			return false;

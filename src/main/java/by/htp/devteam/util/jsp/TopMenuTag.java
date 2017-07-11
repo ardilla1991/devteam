@@ -10,17 +10,41 @@ import javax.servlet.jsp.tagext.TagSupport;
 import by.htp.devteam.bean.User;
 import static by.htp.devteam.command.util.ConstantValue.*;
 
-public class TopMenuTag extends TagSupport{
+/**
+ * Display top menu for user
+ * @author julia
+ *
+ */
+public final class TopMenuTag extends TagSupport{
 
-	private static final long serialVersionUID = -5906908027211026605L;
+	private static final long serialVersionUID = -489716399391515003L;
+	/** User */
 	private User user;
+	
+	/** Current action. Use for set active class for selected action */
 	private String currAction;
+	
+	/** Container tag for all points */
 	private String containerTag;
+	
+	/** Container class for all points */	
 	private String containerClass;
+	
+	/** Item tag for point */
 	private String itemTag;
+	
+	/** Item tag class for selected points */
 	private String currActionClass;
+	
+	/** Current language */
 	private String language;
+	
+	/** Current country */
 	private String country;
+	
+	public TopMenuTag() {
+		super();
+	}
 	
 	public void setUser(User user) {
 		this.user = user;
@@ -54,6 +78,9 @@ public class TopMenuTag extends TagSupport{
 		this.country = country;
 	}
 	
+	/**
+	 * Create menu
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		String active = "";

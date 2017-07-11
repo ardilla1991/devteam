@@ -21,7 +21,7 @@ import by.htp.devteam.dao.util.ConnectionPool;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public class EmployeeDaoImpl implements EmployeeDao {
+public final class EmployeeDaoImpl implements EmployeeDao {
 	
 	private final static int ID = 1;
 	private final static int NAME = 2;
@@ -30,6 +30,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	private final static int QUALIFICATION_TITLE = 7;
 	
 	private final static String SQL_IN_CONDITION_MASK = "##";
+	
+	public EmployeeDaoImpl() {
+		super();
+	}
 
 	@Override
 	public Employee getByUser(User user) throws DaoException {

@@ -1,9 +1,16 @@
 package by.htp.devteam.controller;
 
+/**
+ * Page object for view layer
+ * @author julia
+ *
+ */
 public class Page {
 	
+	/** Page path (jsp or uri) */
 	private String page;
-	private boolean isInclude;
+	
+	/** Is needed redirect to display page */
 	private boolean isRedirect;
 	
 	public Page() {
@@ -20,25 +27,12 @@ public class Page {
 		this.isRedirect = isRedirect;
 	}
 	
-	public Page(String page, int include) {
-		this.page = page;
-		this.isInclude = include == 1 ? true : false;
-	}
-	
 	public String getPage() {
 		return page;
 	}
 	
 	public void setPage(String page) {
 		this.page = page;
-	}
-	
-	public boolean isInclude() {
-		return isInclude;
-	}
-	
-	public void setInclude(boolean isInclude) {
-		this.isInclude = isInclude;
 	}
 
 	public boolean isRedirect() {

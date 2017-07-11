@@ -1,6 +1,11 @@
 package by.htp.devteam.service.util;
 
-public enum ErrorCodeEnum {
+/**
+ * Error codes for extension. Use values for display a message for user if something are happened
+ * @author julia
+ *
+ */
+public enum ErrorCode {
 	VALIDATION(1),
 	APPLICATION(2),
 	FILE_LIMIT_SIZE(3),
@@ -13,14 +18,13 @@ public enum ErrorCodeEnum {
 	VALIDATION_ID(11),
 	TITLE_SHORT(12);
 	
-	
 	private int code; 
 	
-	private ErrorCodeEnum(int code) {
+	private ErrorCode(int code) {
 		this.code = code;
 	}
 	
-	 public int getValue() {
-		  return code;
-	 }
+	public int getValue() {
+		return code;
+	}
 }

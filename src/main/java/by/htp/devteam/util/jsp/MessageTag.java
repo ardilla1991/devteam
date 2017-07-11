@@ -8,13 +8,34 @@ import java.util.ResourceBundle;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+/**
+ * Display error massage by code
+ * @author julia
+ *
+ */
 public class MessageTag extends TagSupport{
 	
 	private static final long serialVersionUID = 6316769356559277444L;
+	
+	/**
+	 * Error code
+	 * @see by.htp.devteam.service.util.ErrorCode
+	 */
 	private int errorCode;
+	
+	/**
+	 * List of incorrect fields
+	 * @see by.htp.devteam.service.ServiceException
+	 */
 	private List<String> msgList;
+	
+	/** Bean name for bundles text */
 	private String bean;
+	
+	/** Current language */
 	private String language;
+	
+	/** Current country */
 	private String country;
 	
 	public MessageTag() {
@@ -41,6 +62,9 @@ public class MessageTag extends TagSupport{
 		this.bean = bean;
 	}
 	
+	/**
+	 * Display message
+	 */
 	@Override
 	public int doStartTag() throws JspException {
 		try {
