@@ -13,13 +13,23 @@ import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
+/**
+ * Action to display user information.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class UserViewAction implements CommandAction{
 
+	/** logger */
 	private static final Logger logger = LogManager.getLogger(UserViewAction.class.getName());
+	
+	public UserViewAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		

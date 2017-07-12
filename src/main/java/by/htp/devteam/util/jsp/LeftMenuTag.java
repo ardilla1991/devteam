@@ -91,20 +91,27 @@ public final class LeftMenuTag extends TagSupport{
 			String active = "";
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			switch (user.getRole()) {
-				case CUSTOMER:
-					active = currAction.equals("order_show_add_form") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_ORDER_SHOW_ADD_FORM_URI + "'>" + rb.getString("order.addNew") + "</a></" + itemTag + ">");
-					break;
-				case MANAGER:
-					active = currAction.equals("project_list") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_PROJECT_LIST_URI + "'>" + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
-					break;
-				case DEVELOPER:
-					active = currAction.equals("project_list_by_employee_id") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_PROJECT_LIST_BY_EMPLOYEE_URI + "'>" + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
-					break;
-				default:
-					break;
+			case CUSTOMER:
+				active = currAction.equals("order_show_add_form") ? currActionClass : "";
+				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">" 
+										   + "<a href='" + PAGE_ORDER_SHOW_ADD_FORM_URI + "'>" 
+										   + rb.getString("order.addNew") 
+										   + "</a></" + itemTag + ">");
+				break;
+			case MANAGER:
+				active = currAction.equals("project_list") ? currActionClass : "";
+				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
+										   + "<a href='" + PAGE_PROJECT_LIST_URI + "'>" 
+										   + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
+				break;
+			case DEVELOPER:
+				active = currAction.equals("project_list_by_employee_id") ? currActionClass : "";
+				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
+										   + "<a href='" + PAGE_PROJECT_LIST_BY_EMPLOYEE_URI + "'>" 
+										   + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
+				break;
+			default:
+				break;
 			}
 			pageContext.getOut().write("</" +containerTag  + ">");			
 		} catch (IOException e) {

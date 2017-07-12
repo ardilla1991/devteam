@@ -13,9 +13,20 @@ import by.htp.devteam.controller.Page;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
+/**
+ * Action to show auorization form.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ShowAuthorizationFormAction implements CommandAction {
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ShowAuthorizationFormAction.class);
+	
+	public ShowAuthorizationFormAction() {
+		super();
+	}
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
@@ -28,18 +39,18 @@ public class ShowAuthorizationFormAction implements CommandAction {
 			Object userObject = session.getAttribute(SESSION_PARAM_USER);
 			UserVo userVO = (UserVo) userObject;
 			isRedirect = true;
-			switch ( userVO.getUser().getRole() ) {
-				case MANAGER:
-					page = PAGE_DEFAULT_MANAGER;
-					break;
-				case CUSTOMER:
-					page = PAGE_DEFAULT_CUSTOMER;
-					break;
-				case DEVELOPER:
-					page = PAGE_DEFAULT_DEVELOPER;
-					break;
-				default:
-					break;
+			switch (userVO.getUser().getRole()) {
+			case MANAGER:
+				page = PAGE_DEFAULT_MANAGER;
+				break;
+			case CUSTOMER:
+				page = PAGE_DEFAULT_CUSTOMER;
+				break;
+			case DEVELOPER:
+				page = PAGE_DEFAULT_DEVELOPER;
+				break;
+			default:
+				break;
 			}
 			
 			logger.info(MSG_LOGGER_SHOW_AUTHORIZATION_FORM, userVO.getUser().getLogin());

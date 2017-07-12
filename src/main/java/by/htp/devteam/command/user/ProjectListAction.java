@@ -17,18 +17,29 @@ import by.htp.devteam.service.ServiceFactory;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action for display all projects
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ProjectListAction implements CommandAction{
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectListAction.class.getName());
+	
+	public ProjectListAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+		logging(request);
+		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
-		
-		logging(request);
 		
 		try {
 			ProjectListVo projectListVo = projectService.fetchAll(currPage, null);

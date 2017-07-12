@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.UserRole;
-import by.htp.devteam.command.Command;
+import by.htp.devteam.command.CommandFactory;
 import by.htp.devteam.command.CommandExeption;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
@@ -33,13 +33,13 @@ import org.apache.logging.log4j.LogManager;
 public final class ACLGuestFilter implements Filter{
 
 	/** ACL for users */
-	private final static Map<UserRole, List<Command>> acl = new HashMap<UserRole, List<Command>>();
+	private final static Map<UserRole, List<CommandFactory>> acl = new HashMap<UserRole, List<CommandFactory>>();
 	
 	/** 
 	 * ACL for guest. Contains a actions from Command enum
-	 * @see by.htp.devteam.command.Command
+	 * @see by.htp.devteam.command.CommandFactory
 	 */
-	private final static List<Command> guestACL = new ArrayList<Command>();
+	private final static List<CommandFactory> guestACL = new ArrayList<CommandFactory>();
 	
 	/** logger */
 	private final static Logger logger = LogManager.getLogger(ACLGuestFilter.class.getName());
@@ -66,11 +66,11 @@ public final class ACLGuestFilter implements Filter{
 			UserRole role = UserRole.GUEST;
 
 			try {
-				boolean issetInACL = acl.get(role).contains(Command.getAction(action) );
+				boolean issetInACL = acl.get(role).contains(CommandFactory.getAction(action) );
 				if ( !issetInACL ) {
 					resp.sendRedirect(PAGE_SHOW_AUTHORIZATION_FORM_URI);
 					return;
-				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(Command.getAction(action).getHTTPMethod().getValue()) ) {
+				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue()) ) {
 					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD);
 					req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
 					return;
@@ -95,9 +95,9 @@ public final class ACLGuestFilter implements Filter{
 	}
 
 	private void setGuestsACL() {
-		guestACL.add(Command.LOGIN);
-		guestACL.add(Command.LOGIN_SHOW_FORM);
-		guestACL.add(Command.PERMISSION_DENIED);
+		guestACL.add(CommandFactory.LOGIN);
+		guestACL.add(CommandFactory.LOGIN_SHOW_FORM);
+		guestACL.add(CommandFactory.PERMISSION_DENIED);
 
 		acl.put(UserRole.GUEST, guestACL);
 	}

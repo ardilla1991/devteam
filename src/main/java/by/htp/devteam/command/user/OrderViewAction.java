@@ -18,15 +18,27 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action for view order.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class OrderViewAction implements CommandAction{
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderViewAction.class.getName());
+	
+	public OrderViewAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		String page = PAGE_ORDER_VIEW;
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
+		
+		String page = PAGE_ORDER_VIEW;
 		String id = request.getParameter(REQUEST_PARAM_ORDER_ID);
 		
 		logging(request, id);

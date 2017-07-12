@@ -13,9 +13,20 @@ import by.htp.devteam.controller.Page;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class LogoutAction implements CommandAction{
+/**
+ * Action for user's logout.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
+public final class LogoutAction implements CommandAction{
 
+	/** logger */
 	private static final Logger logger = LogManager.getLogger(LogoutAction.class.getName());
+	
+	public LogoutAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {

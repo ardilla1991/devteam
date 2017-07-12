@@ -13,9 +13,20 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Action after added project. Only show page with message that all is ok
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ProjectAddMessageAction implements CommandAction{
 
+	/** logger */
 	private static final Logger logger = LogManager.getLogger(ProjectAddMessageAction.class.getName());
+	
+	public ProjectAddMessageAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {

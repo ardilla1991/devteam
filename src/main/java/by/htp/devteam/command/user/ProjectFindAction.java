@@ -19,17 +19,27 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 
 import java.util.List;
 
+/**
+ * Action for find project
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ProjectFindAction implements CommandAction{
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectFindAction.class.getName());
+	
+	public ProjectFindAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		String page = PAGE_PROJECT_FIND_AJAX;
-		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
+		String page = PAGE_PROJECT_FIND_AJAX;
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
 		
 		logging(request, title);

@@ -13,9 +13,20 @@ import by.htp.devteam.controller.Page;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action to show permission denied page.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class PermissionDeniedAction implements CommandAction{
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(PermissionDeniedAction.class.getName());
+	
+	public PermissionDeniedAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {

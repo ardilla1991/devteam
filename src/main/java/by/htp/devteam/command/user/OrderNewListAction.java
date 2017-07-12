@@ -18,19 +18,30 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action for new orders list.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class OrderNewListAction implements CommandAction{
 	
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderNewListAction.class.getName());
+	
+	public OrderNewListAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		String page = PAGE_ORDER_NEW_LIST;
-		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
-		
 		logging(request);
-
+		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
+		
+		String page = PAGE_ORDER_NEW_LIST;
+		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 
 		try {
 			OrderListVo orderListVo = orderService.getNewOrders(currPage);

@@ -18,22 +18,27 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
+/**
+ * Action for add project.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ProjectAddAction implements CommandAction {
 
-	private ProjectService projectService;
-	private OrderService orderService;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectAddAction.class.getName());
 
 	public ProjectAddAction() {
 		super();
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		projectService = serviceFactory.getProjectService();
-		orderService = serviceFactory.getOrderService();
 	}
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		OrderService orderService = serviceFactory.getOrderService();
+		ProjectService projectService = serviceFactory.getProjectService();
+		
 		//String page = PAGE_PROJECT_LIST_URI;
 		String page = PAGE_PROJECT_ADD_MESSAGE_URI;
 		boolean isRedirect = true;

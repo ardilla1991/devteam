@@ -24,21 +24,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Action for add order.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class OrderAddAction implements CommandAction{
 	
-	private OrderService orderService;
+	/** logger */
 	private static final Logger logger = LogManager.getLogger(OrderAddAction.class.getName());
 	
 	public OrderAddAction() {
 		super();
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		orderService = serviceFactory.getOrderService();
 	}
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-		
 		logging(request);
+		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		OrderService orderService = serviceFactory.getOrderService();
 		
 		//String page = PAGE_ORDER_LIST_URI;
 		String page = PAGE_ORDER_ADD_MESSAGE_URI;
@@ -84,6 +90,12 @@ public class OrderAddAction implements CommandAction{
 		return new Page(page, isRedirect);
 	}
 	
+	/*
+	 * Get map of qualifications ids and count hours from request.
+	 * In request we have map such Map (  qualification[id] => count, ... )
+	 * @param request
+	 * @return map of qualifications ids and count hours
+	 */
 	private Map<String, String> getQualificationsFromRequest(HttpServletRequest request) {
 		Map<String, String> assocArray = new HashMap<String, String>();
 

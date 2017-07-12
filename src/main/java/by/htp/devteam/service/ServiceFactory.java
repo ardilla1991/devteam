@@ -9,20 +9,34 @@ import by.htp.devteam.service.impl.UserServiceImpl;
 import by.htp.devteam.service.impl.WorkServiceImpl;
 
 /**
- * Factory for creating Service object
+ * Factory for creating Service object. Implements Singleton pattern
  * @author julia
  *
  */
 public final class ServiceFactory {
 	
+	/** The single factory's object */
 	private static final ServiceFactory serviceFactory = new ServiceFactory();
 	
+	/** The single customer's service object */
 	private static final UserService userService = new UserServiceImpl();
+	
+	/** The single user's service object */
 	private static final CustomerService customerService = new CustomerServiceImpl();
+	
+	/** The single employee's service object */
 	private static final EmployeeService employeeService = new EmployeeServiceImpl();
+	
+	/** The single order's service object */
 	private static final OrderService orderService = new OrderServiceImpl();
+	
+	/** The single project's service object */
 	private static final ProjectService projectService = new ProjectServiceImpl();
+	
+	/** The single qualification's service object */
 	private static final QualificationService qualificationService = new QualificationServiceImpl();
+	
+	/** The single work's service object */
 	private static final WorkService workService = new WorkServiceImpl();
 	
 	private ServiceFactory() {

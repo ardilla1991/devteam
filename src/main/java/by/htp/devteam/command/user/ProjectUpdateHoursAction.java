@@ -16,18 +16,25 @@ import by.htp.devteam.service.ServiceFactory;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action to update hours count for project spending by employee.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ProjectUpdateHoursAction implements CommandAction{
 
-	private ProjectService projectService;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectUpdateHoursAction.class.getName());
 	
 	public ProjectUpdateHoursAction() {
 		super();
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		projectService = serviceFactory.getProjectService();
 	}
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		ProjectService projectService = serviceFactory.getProjectService();
+		
 		String page = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;
 		boolean isRedirect = true;
 

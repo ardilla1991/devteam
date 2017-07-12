@@ -21,14 +21,26 @@ import by.htp.devteam.service.ServiceFactory;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action to show the form for add project.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ProjectShowAddFormAction implements CommandAction{
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectShowAddFormAction.class.getName());
+	
+	public ProjectShowAddFormAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {	
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
+		
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
 		
 		logging(request, orderId);

@@ -16,16 +16,26 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action to show the form for add order.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class OrderShowAddFormAction implements CommandAction{
 	
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderShowAddFormAction.class.getName());
+	
+	public OrderShowAddFormAction() {
+		super();
+	}
 
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
 		logging(request);
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		
 		WorkService workService = serviceFactory.getWorkService();
 		QualificationService qualificationService = serviceFactory.getQualificationService();
 		try {

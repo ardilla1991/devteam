@@ -1,5 +1,9 @@
 package by.htp.devteam.command.util;
-
+/**
+ * constance values for controller layer. Messages for logger, reguest params, pages paths
+ * @author julia
+ *
+ */
 public final class ConstantValue {
 
 	private ConstantValue() {
@@ -26,11 +30,12 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
 	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
 	public static final String MSG_LOGGER_USER_VIEW = "User {}. View user's information";
-	
 	public static final String MSG_LOGGER_USER_LIST = "User {}. User's list";
-	
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
 	public static final String MSG_LOGGER_WRONG_HTTP_METHOD = "User {}. Wrong http method ";
+	
+	public static final String MSG_COMMAND_EMPTY_ACTION = "Action is empty ";
+	public static final String MSG_COMMAND_INVALID_ACTION = "Invalid action: ";
 	
 	public static final String PAGE_DEFAULT = "index.html";
 	
@@ -100,7 +105,6 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_WORK_LIST = "work_list";
 	public static final String REQUEST_PARAM_QUALIFICATION_LIST = "qualification_list";
 	public static final String REQUEST_PARAM_UPLOAD_PATH = "upload_path";
-	
 	
 	public static final String REQUEST_PARAM_ERROR_MSG = "error_message";
 	public static final String REQUEST_PARAM_ERROR_CODE = "error_code";

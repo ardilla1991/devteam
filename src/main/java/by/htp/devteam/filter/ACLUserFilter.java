@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.command.Command;
+import by.htp.devteam.command.CommandFactory;
 import by.htp.devteam.command.CommandExeption;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
@@ -34,31 +34,31 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 public class ACLUserFilter implements Filter{
 
 	/** ACL for users */
-	private final static Map<UserRole, List<Command>> acl = new HashMap<UserRole, List<Command>>();
+	private final static Map<UserRole, List<CommandFactory>> acl = new HashMap<UserRole, List<CommandFactory>>();
 	
 	/** 
 	 * ACL for manager. Contains a actions from Command enum
-	 * @see by.htp.devteam.command.Command
+	 * @see by.htp.devteam.command.CommandFactory
 	 */
-	private final static List<Command> managerACL = new ArrayList<Command>();
+	private final static List<CommandFactory> managerACL = new ArrayList<CommandFactory>();
 	
 	/** 
 	 * ACL for developer. Contains a actions from Command enum
-	 * @see by.htp.devteam.command.Command
+	 * @see by.htp.devteam.command.CommandFactory
 	 */
-	private final static List<Command> developerACL = new ArrayList<Command>();
+	private final static List<CommandFactory> developerACL = new ArrayList<CommandFactory>();
 	
 	/** 
 	 * ACL for customer. Contains a actions from Command enum
-	 * @see by.htp.devteam.command.Command
+	 * @see by.htp.devteam.command.CommandFactory
 	 */
-	private final static List<Command> customerACL = new ArrayList<Command>();
+	private final static List<CommandFactory> customerACL = new ArrayList<CommandFactory>();
 	
 	/** 
 	 * ACL for admin. Contains a actions from Command enum
-	 * @see by.htp.devteam.command.Command
+	 * @see by.htp.devteam.command.CommandFactory
 	 */
-	private final static List<Command> adminACL = new ArrayList<Command>();
+	private final static List<CommandFactory> adminACL = new ArrayList<CommandFactory>();
 	
 	/** logger */
 	private final static Logger logger = LogManager.getLogger(ACLUserFilter.class.getName());
@@ -93,11 +93,11 @@ public class ACLUserFilter implements Filter{
 			UserVo userVO = (UserVo) userObject;
 			role = userVO.getUser().getRole();
 			try {
-				boolean issetInACL = acl.get(role).contains(Command.getAction(action) );
+				boolean issetInACL = acl.get(role).contains(CommandFactory.getAction(action) );
 				if ( !issetInACL ) {
 					resp.sendRedirect(PAGE_PERMISSION_DENIED_URI);
 					return;
-				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(Command.getAction(action).getHTTPMethod().getValue()) ) {
+				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue()) ) {
 					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD, userVO.getUser().getLogin());
 					req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
 					return;
@@ -121,59 +121,59 @@ public class ACLUserFilter implements Filter{
 	}
 	
 	private void setManagersACL() {
-		managerACL.add(Command.LOGIN);
-		managerACL.add(Command.LOGIN_SHOW_FORM);
-		managerACL.add(Command.ORDER_NEW_LIST);
-		managerACL.add(Command.ORDER_VIEW);
-		managerACL.add(Command.PROJECT_SHOW_ADD_FORM);
-		managerACL.add(Command.PROJECT_ADD);
-		managerACL.add(Command.PROJECT_ADD_MESSAGE);
-		managerACL.add(Command.PROJECT_FIND);
-		managerACL.add(Command.PERMISSION_DENIED);
-		managerACL.add(Command.LOGOUT);
-		managerACL.add(Command.PROJECT_LIST);
-		managerACL.add(Command.PROJECT_VIEW);
-		managerACL.add(Command.USER_VIEW);
+		managerACL.add(CommandFactory.LOGIN);
+		managerACL.add(CommandFactory.LOGIN_SHOW_FORM);
+		managerACL.add(CommandFactory.ORDER_NEW_LIST);
+		managerACL.add(CommandFactory.ORDER_VIEW);
+		managerACL.add(CommandFactory.PROJECT_SHOW_ADD_FORM);
+		managerACL.add(CommandFactory.PROJECT_ADD);
+		managerACL.add(CommandFactory.PROJECT_ADD_MESSAGE);
+		managerACL.add(CommandFactory.PROJECT_FIND);
+		managerACL.add(CommandFactory.PERMISSION_DENIED);
+		managerACL.add(CommandFactory.LOGOUT);
+		managerACL.add(CommandFactory.PROJECT_LIST);
+		managerACL.add(CommandFactory.PROJECT_VIEW);
+		managerACL.add(CommandFactory.USER_VIEW);
 		
 		acl.put(UserRole.MANAGER, managerACL);
 	}
 	
 	private void setDevelopersACL() {
-		developerACL.add(Command.LOGIN);
-		developerACL.add(Command.LOGIN_SHOW_FORM);
-		developerACL.add(Command.PERMISSION_DENIED);
-		developerACL.add(Command.LOGOUT);
-		developerACL.add(Command.PROJECT_LIST_BY_EMPLOYEE);
-		developerACL.add(Command.PROJECT_VIEW);
-		developerACL.add(Command.PROJECT_FIND);
-		developerACL.add(Command.PROJECT_UPDATE_HOURS);
-		developerACL.add(Command.USER_VIEW);
+		developerACL.add(CommandFactory.LOGIN);
+		developerACL.add(CommandFactory.LOGIN_SHOW_FORM);
+		developerACL.add(CommandFactory.PERMISSION_DENIED);
+		developerACL.add(CommandFactory.LOGOUT);
+		developerACL.add(CommandFactory.PROJECT_LIST_BY_EMPLOYEE);
+		developerACL.add(CommandFactory.PROJECT_VIEW);
+		developerACL.add(CommandFactory.PROJECT_FIND);
+		developerACL.add(CommandFactory.PROJECT_UPDATE_HOURS);
+		developerACL.add(CommandFactory.USER_VIEW);
 		
 		acl.put(UserRole.DEVELOPER, developerACL);
 	}
 	
 	private void setCustomersACL() {
-		customerACL.add(Command.LOGIN);
-		customerACL.add(Command.LOGIN_SHOW_FORM);
-		customerACL.add(Command.PERMISSION_DENIED);
-		customerACL.add(Command.LOGOUT);
-		customerACL.add(Command.ORDER_LIST);
-		customerACL.add(Command.ORDER_SHOW_ADD_FORM);
-		customerACL.add(Command.ORDER_ADD);
-		customerACL.add(Command.ORDER_ADD_MESSAGE);
-		customerACL.add(Command.ORDER_VIEW);
-		customerACL.add(Command.USER_VIEW);
+		customerACL.add(CommandFactory.LOGIN);
+		customerACL.add(CommandFactory.LOGIN_SHOW_FORM);
+		customerACL.add(CommandFactory.PERMISSION_DENIED);
+		customerACL.add(CommandFactory.LOGOUT);
+		customerACL.add(CommandFactory.ORDER_LIST);
+		customerACL.add(CommandFactory.ORDER_SHOW_ADD_FORM);
+		customerACL.add(CommandFactory.ORDER_ADD);
+		customerACL.add(CommandFactory.ORDER_ADD_MESSAGE);
+		customerACL.add(CommandFactory.ORDER_VIEW);
+		customerACL.add(CommandFactory.USER_VIEW);
 		
 		acl.put(UserRole.CUSTOMER, customerACL);
 	}
 	
 	private void setAdminACL() {
-		adminACL.add(Command.LOGIN);
-		adminACL.add(Command.LOGIN_SHOW_FORM);
-		adminACL.add(Command.PERMISSION_DENIED);
-		adminACL.add(Command.LOGOUT);
-		adminACL.add(Command.USER_LIST);
-		adminACL.add(Command.USER_VIEW);
+		adminACL.add(CommandFactory.LOGIN);
+		adminACL.add(CommandFactory.LOGIN_SHOW_FORM);
+		adminACL.add(CommandFactory.PERMISSION_DENIED);
+		adminACL.add(CommandFactory.LOGOUT);
+		adminACL.add(CommandFactory.USER_LIST);
+		adminACL.add(CommandFactory.USER_VIEW);
 		
 		acl.put(UserRole.ADMIN, adminACL);
 	}

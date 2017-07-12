@@ -17,17 +17,28 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action for order list by customer.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class OrderListAction implements CommandAction{
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderListAction.class.getName());
+	
+	public OrderListAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
-
-		String page = PAGE_ORDER_LIST;
-		boolean isRedirect = false;
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
+		
+		String page = PAGE_ORDER_LIST;
+		boolean isRedirect = false;
 		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);

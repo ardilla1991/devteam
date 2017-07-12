@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import by.htp.devteam.command.CommandFactory;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.command.CommandExeption;
-import by.htp.devteam.command.CommandFactory;
 
 @MultipartConfig(
 	    location="/tmp", 
@@ -51,10 +51,9 @@ public class MainServlet extends HttpServlet{
 		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		Page page = null;
 		
-		CommandFactory commandFactory = CommandFactory.getInstance();
 		CommandAction commandAction = null;
 		try {
-			commandAction = commandFactory.chooseAction(action);
+			commandAction = CommandFactory.getAction(action).chooseAction();
 			page = commandAction.execute(request, response);
 		} catch (CommandExeption e) {
 			page = new Page(PAGE_ERROR_404);

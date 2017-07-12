@@ -91,22 +91,30 @@ public final class TopMenuTag extends TagSupport{
 
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			switch (user.getRole()) {
-				case CUSTOMER:
-					active = currAction.equals("order_list") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_ORDER_LIST_URI + "'>" + rb.getString("menu.top.orders") + "</a></" + itemTag + ">");
-					break;
-				case MANAGER:
-					active = currAction.equals("order_new_list") ? currActionClass : "";
-					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_ORDER_NEW_LIST_URI + "'>" + rb.getString("menu.top.orders.new") + "</a></" + itemTag + ">");
-					break;
-				case DEVELOPER:
-					break;
-				default:
-					break;
+			case CUSTOMER:
+				active = currAction.equals("order_list") ? currActionClass : "";
+				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
+										   + "<a href='" + PAGE_ORDER_LIST_URI + "'>" 
+										   + rb.getString("menu.top.orders") + "</a></" + itemTag + ">");
+				break;
+			case MANAGER:
+				active = currAction.equals("order_new_list") ? currActionClass : "";
+				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
+										   + "<a href='" + PAGE_ORDER_NEW_LIST_URI + "'>"
+										   + rb.getString("menu.top.orders.new") + "</a></" + itemTag + ">");
+				break;
+			case DEVELOPER:
+				break;
+			default:
+				break;
 			}
 			active = currAction.equals("user_view") ? currActionClass : "";
-			pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\"><a href='" + PAGE_USER_VIEW_URI +"'>" + user.getLogin() + "</a></" + itemTag + ">");
-			pageContext.getOut().write("<" + itemTag + "><a href='" + PAGE_LOGOUT +"'>" + rb.getString("menu.top.logout") + "</a></" + itemTag + ">");
+			pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
+									   + "<a href='" + PAGE_USER_VIEW_URI +"'>" + user.getLogin() + "</a>"
+									   + "</" + itemTag + ">");
+			pageContext.getOut().write("<" + itemTag + ">"
+									   + "<a href='" + PAGE_LOGOUT +"'>" + rb.getString("menu.top.logout") + "</a>"
+									   + "</" + itemTag + ">");
 			pageContext.getOut().write("</" +containerTag  + ">");			
 		} catch (IOException e) {
 			throw new JspException(e.getMessage());

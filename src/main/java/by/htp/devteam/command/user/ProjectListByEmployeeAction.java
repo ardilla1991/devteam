@@ -17,9 +17,20 @@ import by.htp.devteam.service.ServiceFactory;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Action for display all projects by employee
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public class ProjectListByEmployeeAction implements CommandAction{
 
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectListByEmployeeAction.class.getName());
+	
+	public ProjectListByEmployeeAction() {
+		super();
+	}
 	
 	@Override
 	public Page execute(HttpServletRequest request, HttpServletResponse response) {
