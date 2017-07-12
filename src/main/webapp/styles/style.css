@@ -34,3 +34,17 @@ background: #d6d6d6;}
 .table td:FIRST-CHILD {width: 200px}
 
 @media screen and (max-width: 767px) {.table-responsive>.table {margin-bottom: 20px}}
+
+.welcome-page .menu { background: #2C3E50; font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif; 
+text-transform: uppercase; font-weight: 700; border: none; min-height: 50px;margin-bottom: 20px;}
+.welcome-page .container{padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto;}
+.welcome-page a{color: #fff; text-decoration: none}
+.welcome-page .site-title{float: left; height: 50px; padding: 15px 15px; font-size: 18px; line-height: 20px;}
+.welcome-page .site-menu{float:right; color: #fff; height: 50px; padding: 15px 15px;}
+.welcome-page .site-menu:hover{background: #18BC9C;}
+.welcome-page .container:after{content:" "; position: absolute; clear:both}
+.welcome-page .welcom-text{text-align: center; font-size: 24px}
+.welcome-page img{width: 100%; max-width: 1800px}
+.copyright{ background: #2C3E50; font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700; border: none; min-height: 50px; }
+.copyright div.text{float: left; height: 50px; padding: 15px 15px; font-size: 16px;  line-height: 20px; color: #fff}

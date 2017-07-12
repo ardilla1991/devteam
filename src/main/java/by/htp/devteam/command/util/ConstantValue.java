@@ -37,7 +37,7 @@ public final class ConstantValue {
 	public static final String MSG_COMMAND_EMPTY_ACTION = "Action is empty ";
 	public static final String MSG_COMMAND_INVALID_ACTION = "Invalid action: ";
 	
-	public static final String PAGE_DEFAULT = "index.html";
+	public static final String PAGE_DEFAULT = "index.jsp";
 	
 	public static final String JSP_FOLDER_PATH = "/WEB-INF/jsp/";
 	public static final String JSP_FOLDER_ERROR = JSP_FOLDER_PATH + "error/";
