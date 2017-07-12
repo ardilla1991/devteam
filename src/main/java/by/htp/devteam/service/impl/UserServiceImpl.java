@@ -1,7 +1,6 @@
 package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.vo.ProjectListVo;
 import by.htp.devteam.bean.vo.UserListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
@@ -10,7 +9,6 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encrypting;
 import by.htp.devteam.service.util.ErrorCode;
-import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.service.validation.UserValidation;
 import by.htp.devteam.util.SettingConstantValue;
 
@@ -19,10 +17,13 @@ import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
-public class UserServiceImpl implements UserService{
+public final class UserServiceImpl implements UserService{
 
-	UserDao userDao;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
+	
+	/** DAO object */
+	private UserDao userDao;
 	
 	public UserServiceImpl() {
 		super();
@@ -62,17 +63,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void logout(User user) {
-		//logger.info(MSG_LOGGER_USER_LOGOUT, user.getLogin());
-	}
-
-	@Override
 	public UserListVo fetchAll(String currPage) throws ServiceException {
 		if ( currPage == null ) {
 			currPage = String.valueOf(SettingConstantValue.START_PAGE);
 		}
 		
-		//ProjectValidation projectValidation = new ProjectValidation();
 		if ( !UserValidation.validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);

@@ -14,10 +14,13 @@ import by.htp.devteam.service.util.ErrorCode;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class WorkServiceImpl implements WorkService{
+public final class WorkServiceImpl implements WorkService{
 	
-	private WorkDao workDao;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(WorkServiceImpl.class.getName());
+	
+	/** DAO object */
+	private WorkDao workDao;
 	
 	public WorkServiceImpl() {
 		super();

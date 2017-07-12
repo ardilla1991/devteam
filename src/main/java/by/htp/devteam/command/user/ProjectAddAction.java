@@ -46,11 +46,11 @@ public class ProjectAddAction implements CommandAction {
 		String[] employees = request.getParameterValues(REQUEST_PARAM_PROJECT_EMPLOYEE);
 		String price = request.getParameter(REQUEST_PARAM_ORDER_PRICE);
 		try {
-			OrderVo orderVo = orderService.getOrderById(orderId);
+			OrderVo orderVo = orderService.getById(orderId);
 			projectService.add(orderVo, title, description, employees, price);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
-			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
+			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
 			request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);
 			request.setAttribute(REQUEST_PARAM_PROJECT_DESCRIPTION, description);
 			request.setAttribute(REQUEST_PARAM_PROJECT_EMPLOYEE, employees);

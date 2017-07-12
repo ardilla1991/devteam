@@ -1,4 +1,6 @@
 hello=Привет!
+header.title.login=Страница авторизации
+header.title.error=Ошибка
 user.login=Логин
 user.password=Пароль
 login.formTitle=Пожалуйста, авторизируйтесь

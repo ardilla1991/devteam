@@ -23,17 +23,19 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCode;
-import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.SettingConstantValue;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class ProjectServiceImpl implements ProjectService{
+public final class ProjectServiceImpl implements ProjectService{
 
-	private ProjectDao projectDao;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectServiceImpl.class.getName());
+	
+	/** DAO object */
+	private ProjectDao projectDao;
 	
 	public ProjectServiceImpl() {
 		super();
@@ -48,7 +50,6 @@ public class ProjectServiceImpl implements ProjectService{
 			currPage = String.valueOf(SettingConstantValue.START_PAGE);
 		}
 		
-		//ProjectValidation projectValidation = new ProjectValidation();
 		if ( !ProjectValidation.validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
@@ -88,8 +89,11 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
-		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsCountByEmployees(employeesIds);
+		// get map of selected employees qualifications and their count 
+		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsIdsAndCountByEmployees(employeesIds);
+		// cteate a map for compare with selected values of qualifications
 		Map<Long, Integer> neededQualifications = getNeededQualifications(orderDto.getQualifications());
+		// compare selected qualificationa and their count with qualifications from order
 		projectValidation.validate(qualificationCountByEmployees, neededQualifications);
 
 		if ( !projectValidation.isValid() ) {
@@ -106,7 +110,7 @@ public class ProjectServiceImpl implements ProjectService{
 		OrderService orderService = serviceFactory.getOrderService();
 		try {
 			connection = projectDao.startTransaction();
-			boolean neededEmployeeeAreFree = employeeService.isEmployeesFreeFroPeriod(connection, employeesIds,
+			boolean neededEmployeeeAreFree = employeeService.isEmployeesNotBusyForPeriod(connection, employeesIds,
 					orderDto.getOrder().getDateStart(), orderDto.getOrder().getDateFinish());
 			if (neededEmployeeeAreFree) {
 				project = projectDao.add(connection, project);
@@ -220,8 +224,8 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public List<Project> findByTitle(String title) throws ServiceException {
 		if ( !ProjectValidation.validateFindedTitle(title) ) {
-			logger.info(MSG_LOGGER_PROJECT_FIND_TITLE_TOO_SHORT, title);
-			throw new ServiceException(ErrorCode.TITLE_SHORT);
+			logger.info(MSG_LOGGER_PROJECT_FIND_TITLE_NOT_CORRECT_LENGTH, title);
+			throw new ServiceException(ErrorCode.TITLE_NOT_CORRECT_LENGTH);
 		}
 		
 		List<Project> project = null;

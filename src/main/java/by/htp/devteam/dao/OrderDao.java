@@ -28,7 +28,7 @@ public interface OrderDao {
 	OrderListVo getNewOrders(int offset, int countPerPage) throws DaoException;
 	
 	/**
-	 * Get order with all information : order rcords plus works list and qualification with count employees 
+	 * Get order with all information : order record plus works list and qualification with count employees 
 	 * @param id id of order
 	 * @return OrderVo order information with checked works and qualifications
 	 * @see by.htp.devteam.bean.vo.OrderVo

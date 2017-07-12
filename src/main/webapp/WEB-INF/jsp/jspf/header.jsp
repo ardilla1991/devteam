@@ -34,14 +34,6 @@
 	          <a class="navbar-brand" href="#"><fmt:message key = "admin.goToMainPage" /></a>
 	        </div>
 	        <div class="navbar-collapse collapse">
-	        
-	          <!--ul class="nav navbar-nav navbar-right">
-	            <li class="active"><a href="#">New Orders</a></li>
-	            <li><a href="#">Settings</a></li>
-	            <li><a href="#">${user.getUser().getLogin()}</a></li>
-	            <li><a href="#">Help</a></li>
-	            <li><a href="Main?action=logout">Exit</a></li>
-	          </ul-->
 			  <tmt:topmenu user="${ user.getUser() }"
 				currAction="${param.action}"  containerTag="ul" containerClass="nav navbar-nav navbar-right" itemTag="li" currActionClass="active" language="${clientLanguage}" country="${clientCountry}"/>
 	          <%@ page import="by.htp.devteam.bean.UserRole" %>

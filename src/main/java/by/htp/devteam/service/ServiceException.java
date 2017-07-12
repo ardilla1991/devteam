@@ -4,11 +4,23 @@ import java.util.List;
 
 import by.htp.devteam.service.util.ErrorCode;
 
+/**
+ * Exception for Service layer. Catch Exceptions from DAO layer
+ * @author julia
+ *
+ */
 public class ServiceException extends Exception{
 
 	private static final long serialVersionUID = 732081448626146873L;
 	private Exception _hidden;
-	private List<String> massages;
+	
+	/** Fields that not valid */
+	private List<String> fields;
+	
+	/**
+	 * Error code
+	 * @see by.htp.devteam.service.util.ErrorCode
+	 */
 	private ErrorCode errorCode;
 	
 	public ServiceException(String s) {
@@ -37,19 +49,19 @@ public class ServiceException extends Exception{
 	
 	public ServiceException(ErrorCode errorCode, List<String> massages) {
 		this.errorCode = errorCode;
-		this.massages = massages;
+		this.fields = massages;
 	}
 	
 	public Exception getCommandExeption() {
 		return _hidden;
 	}
 
-	public List<String> getMassages() {
-		return massages;
+	public List<String> getFields() {
+		return fields;
 	}
 
-	public void setMassages(List<String> massages) {
-		this.massages = massages;
+	public void setFields(List<String> fields) {
+		this.fields = fields;
 	}
 
 	public ErrorCode getErrorCode() {

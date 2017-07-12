@@ -32,7 +32,7 @@ public class OrderViewAction implements CommandAction{
 		logging(request, id);
 
 		try {
-			OrderVo orderVo = orderService.getOrderById(id);
+			OrderVo orderVo = orderService.getById(id);
 			request.setAttribute(REQUEST_PARAM_ORDER_VO, orderVo);
 			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
 		} catch (ServiceException e) {

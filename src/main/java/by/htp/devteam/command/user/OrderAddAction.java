@@ -63,7 +63,7 @@ public class OrderAddAction implements CommandAction{
 		        OrderVo orderVo = orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications, applicationPath);
 			} catch (ServiceException e) {
 				request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
-				request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
+				request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
 				request.setAttribute(REQUEST_PARAM_PROJECT_TITLE, title);
 				request.setAttribute(REQUEST_PARAM_ORDER_DESCRIPTION, description);
 				request.setAttribute(REQUEST_PARAM_ORDER_DATE_START, dateStart);

@@ -16,7 +16,7 @@ public enum ErrorCode {
 	FILE_DELETE(9),
 	NOT_ISSET_FREE_EMPLOYEE(10),
 	VALIDATION_ID(11),
-	TITLE_SHORT(12);
+	TITLE_NOT_CORRECT_LENGTH(12);
 	
 	private int code; 
 	

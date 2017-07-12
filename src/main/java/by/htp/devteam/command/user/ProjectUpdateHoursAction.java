@@ -43,7 +43,7 @@ public class ProjectUpdateHoursAction implements CommandAction{
 			projectService.updateHours(id, userVO.getEmployee(), hours);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
-			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
+			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
 			request.setAttribute(REQUEST_PARAM_PROJECT_ID, id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_HOURS, hours);
 			

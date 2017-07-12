@@ -118,7 +118,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) 
+	public boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) 
 			throws DaoException {
 	
 		StringBuilder qualificationIdsStr = new StringBuilder();

@@ -11,7 +11,7 @@ import by.htp.devteam.bean.User;
 public interface CustomerDao {
 
 	/**
-	 * Get customer records for user loggined in system
+	 * Get customer record for user loggined in system
 	 * @param user User that loggined in system
 	 * @return Customer
 	 * @throws DaoException

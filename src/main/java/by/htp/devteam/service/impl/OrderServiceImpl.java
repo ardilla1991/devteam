@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,10 +33,13 @@ import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
-public class OrderServiceImpl implements OrderService{
+public final class OrderServiceImpl implements OrderService{
 
-	private OrderDao orderDao;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class.getName());
+	
+	/** DAO object */
+	private OrderDao orderDao;
 	
 	public OrderServiceImpl() {
 		super();
@@ -144,7 +146,7 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public OrderVo getOrderById(String orderId) throws ServiceException {
+	public OrderVo getById(String orderId) throws ServiceException {
 
 		OrderValidation orderValidation = new OrderValidation();
 		if ( !orderValidation.validateId(orderId)) {

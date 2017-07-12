@@ -12,10 +12,13 @@ import by.htp.devteam.service.util.ErrorCode;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class CustomerServiceImpl implements CustomerService {
+public final class CustomerServiceImpl implements CustomerService {
 	
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(CustomerServiceImpl.class.getName());
-	CustomerDao customerDao;
+	
+	/** DAO object */
+	private CustomerDao customerDao;
 	
 	public CustomerServiceImpl() {
 		super();

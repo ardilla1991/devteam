@@ -14,10 +14,13 @@ import by.htp.devteam.service.util.ErrorCode;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class QualificationServiceImpl implements QualificationService{
+public final class QualificationServiceImpl implements QualificationService{
 	
-	private QualificationDao qualificationDao;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(QualificationServiceImpl.class.getName());
+	
+	/** DAO object */
+	private QualificationDao qualificationDao;
 	
 	public QualificationServiceImpl() {
 		super();

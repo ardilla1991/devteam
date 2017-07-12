@@ -2,6 +2,7 @@ package by.htp.devteam.dao;
 
 /**
  * Exception for DAO layer
+ * Use when we catch SQLException and other exception that destroy normal system's work
  * @author julia
  *
  */

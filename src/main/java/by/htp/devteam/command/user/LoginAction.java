@@ -69,7 +69,7 @@ public class LoginAction implements CommandAction{
 			
 		} catch (ServiceException e) { 
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
-			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getMassages());
+			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
 			request.setAttribute(REQUEST_PARAM_LOGIN, login);
 			request.setAttribute(REQUEST_PARAM_PASSWORD, password);
 			

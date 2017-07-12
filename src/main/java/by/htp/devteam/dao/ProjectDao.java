@@ -54,10 +54,10 @@ public interface ProjectDao {
 	Project getById(Long id) throws DaoException;
 	
 	/**
-	 * Update hours for project spending by employee
+	 * Update hours for the project spending by employee
 	 * @param project
 	 * @param employee
-	 * @param hours
+	 * @param hours how much time employee spend on the progect
 	 * @throws DaoException
 	 */
 	void updateHours(Project project, Employee employee, int hours) throws DaoException;

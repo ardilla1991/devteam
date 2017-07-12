@@ -34,11 +34,11 @@ public class ProjectShowAddFormAction implements CommandAction{
 		logging(request, orderId);
 		
 		try {
-			OrderVo orderVo = orderService.getOrderById(orderId);
+			OrderVo orderVo = orderService.getById(orderId);
 			request.setAttribute(REQUEST_PARAM_ORDER_VO, orderVo);
 			
 			EmployeeService employeeService = serviceFactory.getEmployeeService();
-			List<Employee> employees = employeeService.getFreeEmployeesForPeriod(orderVo.getOrder().getDateStart(), 
+			List<Employee> employees = employeeService.getNotBusyEmployeesForPeriodByQualifications(orderVo.getOrder().getDateStart(), 
 					orderVo.getOrder().getDateFinish(), orderVo.getQualifications().keySet());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employees);
 		} catch (ServiceException e) {

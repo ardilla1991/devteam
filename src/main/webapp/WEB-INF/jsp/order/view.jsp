@@ -12,8 +12,8 @@
 				<%@include file="jspf/view.jsp"%>
 			</div>
 			<div class="col-sm-7">
-			<c:set var="role">CUSTOMER</c:set>
-				<c:if test="${ user.getUser().getRole()  != role && order_vo.getOrder().getId() > 0}">
+			<%@ page import="by.htp.devteam.bean.UserRole" %>
+				<c:if test="${ user.getUser().getRole()  !=  UserRole.CUSTOMER && order_vo.getOrder().getId() > 0}">
 					<a class="btn btn-default" role="button"
 						href="Main?action=project_show_add_form&order_id=${order_vo.getOrder().getId()}"
 						id="project_add"><fmt:message key="project.button.add" /></a>

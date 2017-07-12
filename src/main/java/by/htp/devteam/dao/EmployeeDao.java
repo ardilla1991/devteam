@@ -48,7 +48,7 @@ public interface EmployeeDao {
 	 * @return if employee is not busy for definite period
 	 * @throws DaoException
 	 */
-	boolean isEmployeesFreeFroPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) 
+	boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] ids, Date dateStart, Date dateFinish) 
 			throws DaoException;
 	
 	/**

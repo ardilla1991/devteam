@@ -8,7 +8,12 @@ import by.htp.devteam.service.impl.QualificationServiceImpl;
 import by.htp.devteam.service.impl.UserServiceImpl;
 import by.htp.devteam.service.impl.WorkServiceImpl;
 
-public class ServiceFactory {
+/**
+ * Factory for creating Service object
+ * @author julia
+ *
+ */
+public final class ServiceFactory {
 	
 	private static final ServiceFactory serviceFactory = new ServiceFactory();
 	
@@ -20,7 +25,9 @@ public class ServiceFactory {
 	private static final QualificationService qualificationService = new QualificationServiceImpl();
 	private static final WorkService workService = new WorkServiceImpl();
 	
-	private ServiceFactory() { }
+	private ServiceFactory() {
+		super();
+	}
 	
 	public static ServiceFactory getInstance() {
 		return serviceFactory;

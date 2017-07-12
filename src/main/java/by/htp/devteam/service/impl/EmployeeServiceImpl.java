@@ -20,12 +20,13 @@ import by.htp.devteam.service.util.ErrorCode;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import static by.htp.devteam.service.util.ConstantValue.*;
+public final class EmployeeServiceImpl implements EmployeeService{
 
-public class EmployeeServiceImpl implements EmployeeService{
-
-	EmployeeDao employeeDao;
+	/** Logger */
 	private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class.getName());
+	
+	/** DAO object */
+	private EmployeeDao employeeDao;
 	
 	public EmployeeServiceImpl() {
 		super();
@@ -46,7 +47,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return employee;
 	}
 	
-	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) throws ServiceException{
+	@Override
+	public List<Employee> getNotBusyEmployeesForPeriodByQualifications(Date dateStart, Date dateFinish, 
+			Set<Qualification> qualifications) throws ServiceException{
 		List<Employee> employees = null;
 		try {
 			employees = employeeDao.getFreeEmployeesForPeriod(dateStart, dateFinish, qualifications);
@@ -72,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public Map<Long, Integer> getQualificationsCountByEmployees(Long[] ids) throws ServiceException {
+	public Map<Long, Integer> getQualificationsIdsAndCountByEmployees(Long[] ids) throws ServiceException {
 		Map<Long, Integer> qualificationCountByEmployees = null;
 		try {
 			qualificationCountByEmployees = employeeDao.getQualificationsIdsAndCountByEmployees(ids);
@@ -84,9 +87,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public boolean isEmployeesFreeFroPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish)
+	public boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish)
 			throws DaoException {
 	
-		return employeeDao.isEmployeesFreeFroPeriod(connection, employeesIds, dateStart, dateFinish);
+		return employeeDao.isEmployeesNotBusyForPeriod(connection, employeesIds, dateStart, dateFinish);
 	}
 }
