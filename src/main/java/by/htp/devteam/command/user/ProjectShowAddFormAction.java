@@ -59,7 +59,7 @@ public class ProjectShowAddFormAction implements CommandAction{
 
 		request.setAttribute(REQUEST_PARAM_ORDER_ID, orderId);
 
-		return new Page(PAGE_PROJECT_EDIT);
+		return new Page(PAGE_PROJECT_ADD);
 	}
 	
 	private void logging(HttpServletRequest request, String orderId ) {

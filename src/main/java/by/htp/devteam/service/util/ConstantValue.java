@@ -40,7 +40,7 @@ public final class ConstantValue {
 	
 	public static final String MSG_LOGGER_PROJECT_FIND_TITLE_NOT_CORRECT_LENGTH = "Project's title {} has not correct length";
 	
-	
+	public static final String MSG_LOGGER_EMPLOYEE_ADD_INCORRECT_FIELD = "Employee add. Incorrect fields values";
 	
 	
 	

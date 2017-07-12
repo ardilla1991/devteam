@@ -1,5 +1,7 @@
 package by.htp.devteam.service.impl;
 
+import static by.htp.devteam.service.util.ConstantValue.*;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
@@ -16,6 +18,8 @@ import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCode;
+import by.htp.devteam.service.util.FileUploadException;
+import by.htp.devteam.service.validation.EmployeeValidation;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -91,5 +95,34 @@ public final class EmployeeServiceImpl implements EmployeeService{
 			throws DaoException {
 	
 		return employeeDao.isEmployeesNotBusyForPeriod(connection, employeesIds, dateStart, dateFinish);
+	}
+
+	@Override
+	public Employee add(String name, String startWork, String qualificationId) throws ServiceException {
+		EmployeeValidation employeeValidation = new EmployeeValidation();
+		employeeValidation.validate(name, startWork, qualificationId);
+		
+		if ( !employeeValidation.isValid() ) {
+			logger.info(MSG_LOGGER_EMPLOYEE_ADD_INCORRECT_FIELD);
+			throw new ServiceException(ErrorCode.VALIDATION, employeeValidation.getNotValidField());
+		} 
+		
+		Employee employee = new Employee();
+		employee.setName(name);
+		employee.setStartWork(Date.valueOf(startWork));
+		
+		Qualification qualification = new Qualification();
+		qualification.setId(Long.valueOf(qualificationId));
+		
+		employee.setQualification(qualification);
+		
+		try {
+			employee = employeeDao.add(employee);
+		} catch ( DaoException e ) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCode.APPLICATION);
+		}
+		
+		return employee;
 	}
 }

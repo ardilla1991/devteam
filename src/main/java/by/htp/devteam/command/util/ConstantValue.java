@@ -13,9 +13,9 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_USER_LOGIN = "User {}. Login action";
 	public static final String MSG_LOGGER_USER_LOGOUT = "User {}. Logout action";
 	public static final String MSG_LOGGER_ORDER_NEW_LIST = "User {}. New orders list";
-	public static final String MSG_LOGGER_ORDER_SWOR_ADD_FORM = "User {}. Show order add form";
+	public static final String MSG_LOGGER_ORDER_SHOW_ADD_FORM = "User {}. Show order add form";
 	public static final String MSG_LOGGER_ORDER_LIST = "User {}. Orders list";
-	public static final String MSG_LOGGER_ORDER_ADD = "User {}. Orders add";
+	public static final String MSG_LOGGER_ORDER_ADD = "User {}. Order add";
 	public static final String MSG_LOGGER_ORDER_ADD_OK_MESSAGE = "User {}. Add order --> OK";
 	public static final String MSG_LOGGER_ORDER_ADD_FILE_UPLOAD = "Orders add. Upload file error";
 	public static final String MSG_LOGGER_ORDER_VIEW = "User {}. Order id {} view";
@@ -31,6 +31,10 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
 	public static final String MSG_LOGGER_USER_VIEW = "User {}. View user's information";
 	public static final String MSG_LOGGER_USER_LIST = "User {}. User's list";
+	public static final String MSG_LOGGER_USER_ADD = "User {}. User add";
+	public static final String MSG_LOGGER_EMPLOYEE_SHOW_ADD_FORM = "User {}. Show employee add form";
+	public static final String MSG_LOGGER_EMPLOYEE_ADD_OK_MESSAGE = "User {}. Employee order --> OK";
+	public static final String MSG_LOGGER_ADD_EMPLOYEE = "User {}. Add employee";
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
 	public static final String MSG_LOGGER_WRONG_HTTP_METHOD = "User {}. Wrong http method ";
 	
@@ -51,13 +55,13 @@ public final class ConstantValue {
 	
 	public static final String PATH_ORDER = JSP_FOLDER_PATH + "order/";
 	public static final String PAGE_ORDER_LIST = PATH_ORDER + "list.jsp";
-	public static final String PAGE_ORDER_EDIT = PATH_ORDER + "add.jsp";
+	public static final String PAGE_ORDER_ADD = PATH_ORDER + "add.jsp";
 	public static final String PAGE_ORDER_VIEW = PATH_ORDER + "view.jsp";
 	public static final String PAGE_ORDER_NEW_LIST = PATH_ORDER + "newList.jsp";
 	public static final String PAGE_ORDER_ADD_MESSAGE = PATH_ORDER + "addMessage.jsp";
 	
 	public static final String PATH_PROJECT = JSP_FOLDER_PATH + "project/";
-	public static final String PAGE_PROJECT_EDIT = PATH_PROJECT + "add.jsp";
+	public static final String PAGE_PROJECT_ADD = PATH_PROJECT + "add.jsp";
 	public static final String PAGE_PROJECT_VIEW = PATH_PROJECT + "view.jsp";
 	public static final String PAGE_PROJECT_LIST = PATH_PROJECT + "list.jsp";
 	public static final String PAGE_PROJECT_ADD_MESSAGE = PATH_PROJECT + "addMessage.jsp";
@@ -67,6 +71,10 @@ public final class ConstantValue {
 	public static final String PATH_USER = JSP_FOLDER_PATH + "user/";
 	public static final String PAGE_USER_VIEW = PATH_USER + "view.jsp";
 	public static final String PAGE_USER_LIST = PATH_USER + "list.jsp";
+	
+	public static final String PATH_EMPLOYEE = JSP_FOLDER_PATH + "employee/";
+	public static final String PAGE_EMPLOYEE_ADD = PATH_EMPLOYEE + "add.jsp";
+	public static final String PAGE_EMPLOYEE_ADD_MESSAGE = PATH_EMPLOYEE + "addMessage.jsp";
 	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	
@@ -87,6 +95,9 @@ public final class ConstantValue {
 	public static final String PAGE_USER_VIEW_URI = "Main?action=user_view";
 	public static final String PAGE_USER_LIST_URI = "Main?action=user_list";
 	public static final String PAGE_LOGOUT = "Main?action=logout";
+	
+	public static final String PAGE_EMPLOYEE_SHOW_ADD_FORM_URI = "Main?action=employee_show_add_form";
+	public static final String PAGE_EMPLOYEE_ADD_MESSAGE_URI = "Main?action=employee_add_message";
 	
 	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=login_show_form";
 	public static final String PAGE_EMPTY_URI = "Main?action=empty";
@@ -140,6 +151,11 @@ public final class ConstantValue {
 	
 	public static final String REQUEST_PARAM_USER_VO = "user_vo";
 	public static final String REQUEST_PARAM_USER_LIST_VO = "user_list_vo";
+	public static final String REQUEST_PARAM_USER_ROLE_ENUM = "role_enum";
+	
+	public static final String REQUEST_PARAM_EMPLOYEE_NAME = "name";
+	public static final String REQUEST_PARAM_EMPLOYEE_START_WORK = "startWork";
+	public static final String REQUEST_PARAM_EMPLOYEE_QUALIFICATION = "qualification";
 	
 	public static final String JSPF_FOLDER = "fragment/";
 	public static final String REQUEST_PARAM_XHR = "xhr";

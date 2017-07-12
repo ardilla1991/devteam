@@ -69,4 +69,6 @@ public interface EmployeeDao {
 	 * @throws DaoException
 	 */
 	Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException;
+	
+	Employee add(Employee employee) throws DaoException;
 }

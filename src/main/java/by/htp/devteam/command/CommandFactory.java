@@ -11,6 +11,9 @@ import by.htp.devteam.command.user.ProjectShowAddFormAction;
 import by.htp.devteam.command.user.ProjectUpdateHoursAction;
 import by.htp.devteam.command.user.ProjectViewAction;
 import by.htp.devteam.command.admin.UserListAction;
+import by.htp.devteam.command.admin.EmployeeAddAction;
+import by.htp.devteam.command.admin.EmployeeAddMessageAction;
+import by.htp.devteam.command.admin.EmployeeShowAddFormAction;
 import by.htp.devteam.command.user.LoginAction;
 import by.htp.devteam.command.user.LogoutAction;
 import by.htp.devteam.command.user.OrderAddAction;
@@ -138,6 +141,24 @@ public enum CommandFactory {
 	USER_LIST { 
 		public CommandAction chooseAction() { 
 			return new UserListAction(); 
+		} 
+	},
+	EMPLOYEE_SHOW_ADD_FORM { 
+		public CommandAction chooseAction() { 
+			return new EmployeeShowAddFormAction(); 
+		} 
+	},
+	EMPLOYEE_ADD { 
+		public CommandAction chooseAction() { 
+			return new EmployeeAddAction(); 
+		} 
+		public HTTPMethod getHTTPMethod() { 
+			return HTTPMethod.POST; 
+		}
+	},
+	EMPLOYEE_ADD_MESSAGE { 
+		public CommandAction chooseAction() { 
+			return new EmployeeAddMessageAction(); 
 		} 
 	},
 	LOGOUT { public CommandAction chooseAction() { 

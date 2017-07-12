@@ -237,4 +237,29 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		return employees;
 	}
 
+	@Override
+	public Employee add(Employee employee) throws DaoException {
+		Employee createdEmployee = employee;
+		try ( Connection connection = ConnectionPool.getConnection();
+				PreparedStatement ps = connection.prepareStatement(SQL_EMPLOYEE_ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
+
+			prepareStatementForEmployee(ps, employee);
+			ps.executeUpdate();
+			try ( ResultSet rs = ps.getGeneratedKeys() ) {
+				if (rs.next()) {
+					createdEmployee.setId(rs.getLong(ID));
+				}
+			}
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_ADD, e);
+		}
+		return createdEmployee;
+	}
+	
+	private void prepareStatementForEmployee(PreparedStatement ps, Employee employee) throws SQLException {
+		ps.setString(1, employee.getName());
+		ps.setDate(2, employee.getStartWork());
+		ps.setLong(3, employee.getQualification().getId());
+	}
+
 }

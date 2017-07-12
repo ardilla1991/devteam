@@ -99,14 +99,16 @@ public final class ConstantValue {
 	
 	public final static String SQL_PROJECT_FIND_BY_TITLE = "SELECT p.* FROM project as p WHERE title LIKE ? ";
 	
-	public final static String SQL_QUALIFICATION_FETCH_ALL = "SELECT q.id, q.title FROM qualification as q WHERE q.service=0 SORTED BY title DESC";
+	public final static String SQL_QUALIFICATION_FETCH_ALL = "SELECT q.id, q.title FROM qualification as q WHERE q.service=0 ORDER BY title DESC";
 	
 	public final static String SQL_USER_FETCH_BY_CREDENTIALS = "SELECT e.* FROM user as e "
 			+ "WHERE e.login=?";
 	
 	public final static String SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER = "SELECT u.*, ec.* FROM user as u "
-			+ "JOIN ( (SELECT e.id, e.name, e.start_work, '' as email, '' as phone, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
-			+ "			UNION (SELECT c.id, c.name, '' as start_work, c.email, c.phone, c.user_id, '' as qualification FROM customer as c ) LIMIT ?,?   )  as ec ON ec.user_id=u.id  ";
+			+ " JOIN ( (SELECT e.id, e.name, e.start_work, '' as email, '' as phone, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
+			+ "			UNION (SELECT c.id, c.name, '' as start_work, c.email, c.phone, c.user_id, '' as qualification FROM customer as c )   )  as ec ON ec.user_id=u.id ORDER BY u.id DESC LIMIT ?,?  ";
+	
+	public final static String SQL_EMPLOYEE_ADD = "INSERT INTO `employee` (name, start_work, qualification_id) VALUES (?, ?, ?)";
 	
 	public final static String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
 	
@@ -148,5 +150,7 @@ public final class ConstantValue {
 	public final static String MSG_ERROR_USER_LIST = "sql error: can't get list of users";
 	
 	public final static String MSG_ERROR_WORK_FETCH_ALL = "sql error: can't get list of works";
+	
+	public final static String MSG_ERROR_EMPLOYEE_ADD = "sql error: can't add employee";
 
 }

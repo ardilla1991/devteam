@@ -174,6 +174,9 @@ public class ACLUserFilter implements Filter{
 		adminACL.add(CommandFactory.LOGOUT);
 		adminACL.add(CommandFactory.USER_LIST);
 		adminACL.add(CommandFactory.USER_VIEW);
+		adminACL.add(CommandFactory.EMPLOYEE_SHOW_ADD_FORM);
+		adminACL.add(CommandFactory.EMPLOYEE_ADD);
+		adminACL.add(CommandFactory.EMPLOYEE_ADD_MESSAGE);
 		
 		acl.put(UserRole.ADMIN, adminACL);
 	}

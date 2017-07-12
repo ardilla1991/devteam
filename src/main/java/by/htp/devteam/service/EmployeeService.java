@@ -72,4 +72,6 @@ public interface EmployeeService {
 	 */
 	boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish) 
 			throws DaoException;
+	
+	Employee add(String name, String startWork, String qualification) throws ServiceException;
 }

@@ -4,7 +4,6 @@ $(document).ready(function() {
 });
 
 function tabs() {
-	console.log("yyyyy");
 	$(".tab-title").click(function() {
 		console.log("jjjj");
 		console.log($(this));
@@ -104,6 +103,11 @@ function checkInput(els, field, blockId) {
 		}
 		if (result && blockId != null)
 			result = checkWithNedeedTypes(blockId, checkboxes);
+		break;
+	case "select":
+		var select = el.getElementsByTagName("select");
+		result = (select[0] != undefined && select[0].value != ""
+			&& select[0].value.length >= 1 ? 1 : 0);
 		break;
 	case "date":
 		var element = el.getElementsByTagName("input")[0];
@@ -261,7 +265,8 @@ function getContent(res_id, url) {
 
 var searchIdField = "projectName";
 var kInput = document.getElementById(searchIdField);
-kInput.onkeyup = handleInput;
+if ( kInput != undefined )
+	kInput.onkeyup = handleInput;
 
 function handleInput(e) {
 
