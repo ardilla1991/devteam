@@ -111,14 +111,17 @@ public final class UserDaoImpl implements UserDao {
 				if ( user.getRole() == UserRole.CUSTOMER ) {
 					Customer customer = new Customer();
 					customer.setName(rs.getString(6));
+					customer.setEmail(rs.getString(8));
+					customer.setPhone(rs.getString(9));
 					
 					userVo.setCustomer(customer);
 				} else {
 					Employee employee = new Employee();
 					employee.setName(rs.getString(6));
+					employee.setStartWork(rs.getDate(7));
 					
 					Qualification qualification = new Qualification();
-					qualification.setTitle(rs.getString(8));
+					qualification.setTitle(rs.getString(11));
 					
 					employee.setQualification(qualification);
 					

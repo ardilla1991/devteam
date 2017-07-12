@@ -15,7 +15,7 @@ import static by.htp.devteam.command.util.ConstantValue.*;
  * @author julia
  *
  */
-public final class TopMenuTag extends TagSupport{
+public final class TopMenuTag extends TagSupport {
 
 	private static final long serialVersionUID = -489716399391515003L;
 	/** User */

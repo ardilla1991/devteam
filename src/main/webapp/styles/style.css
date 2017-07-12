@@ -29,3 +29,8 @@ top: 42px;
 background: #d6d6d6;}
 #projectList a.project_title{display: block; color: #101010}
 #projectList a.project_title:hover{text-decoration: none; color:#555}
+.table tbody{border: 1px solid #ddd; width: 100%}
+.table td{width: 80%}
+.table td:FIRST-CHILD {width: 200px}
+
+@media screen and (max-width: 767px) {.table-responsive>.table {margin-bottom: 20px}}

@@ -2,6 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="messagetag" prefix="msg"%>
+<c:set var="clientLanguage"
+	value="${pageContext.request.locale.language}" />
+<c:set var="clientCountry" value="${pageContext.request.locale.country}" />
+
+<fmt:setLocale value="${clientLanguage}_${clientCountry}" />
+<fmt:setBundle basename="text" />
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,17 +17,6 @@
 		<link rel="stylesheet" type="text/css" href="styles/style.css">
 	</head>
 	<body class="login">
-	
-		<c:set var="clientLanguage"
-			value="${pageContext.request.locale.language}" />
-		<c:set var="clientCountry"
-			value="${pageContext.request.locale.country}" />
-	
-		<fmt:setLocale value="${clientLanguage}_${clientCountry}" />
-		<fmt:setBundle basename="text" />
-	
-	
-	
 		<div class="container">
 			<form class="form-signin" role="form" action="Main" method="POST">
 				<h2 class="form-signin-heading">

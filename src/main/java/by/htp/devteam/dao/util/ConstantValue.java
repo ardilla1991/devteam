@@ -105,8 +105,8 @@ public final class ConstantValue {
 			+ "WHERE e.login=?";
 	
 	public final static String SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER = "SELECT u.*, ec.* FROM user as u "
-			+ "JOIN ( (SELECT e.id, e.name, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
-			+ "			UNION (SELECT c.id, c.name, c.user_id, '' as qualification FROM customer as c ) LIMIT ?,?   )  as ec ON ec.user_id=u.id  ";
+			+ "JOIN ( (SELECT e.id, e.name, e.start_work, '' as email, '' as phone, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
+			+ "			UNION (SELECT c.id, c.name, '' as start_work, c.email, c.phone, c.user_id, '' as qualification FROM customer as c ) LIMIT ?,?   )  as ec ON ec.user_id=u.id  ";
 	
 	public final static String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
 	

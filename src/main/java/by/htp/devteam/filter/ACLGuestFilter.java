@@ -81,7 +81,7 @@ public final class ACLGuestFilter implements Filter{
 				return;
 			}
 		} else if ( action == null ) {
-			logger.info(MSG_LOGGER_NULL_ACTION);
+			//logger.info(MSG_LOGGER_NULL_ACTION);
 			//resp.sendRedirect(PAGE_EMPTY_URI);
 			//return;
 		}
