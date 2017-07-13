@@ -19,5 +19,6 @@ public final class SettingConstantValue {
 	public static final File FILE_UPLOAD_TMP_DIR = new File("/home/yuliana/tmpfiles");
 	public static final int FILE_UPLOAD_MAX_REQUEST_SIZE = 15000;
 	public static final String UPLOAD_DIR = "uploads";
+	public static final String APPLICATION_FULL_PATH = "/home/yuliana/java/devteamneon/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/devteam";
 	
 }

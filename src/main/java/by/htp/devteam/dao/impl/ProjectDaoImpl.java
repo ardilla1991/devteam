@@ -91,9 +91,9 @@ public final class ProjectDaoImpl implements ProjectDao {
 				order.setId(rs.getLong(4));
 				order.setTitle(rs.getString(6));
 				order.setDescription(rs.getString(7));
-				order.setDateCreated(rs.getDate(11));
-				order.setDateStart(rs.getDate(12));
-				order.setDateFinish(rs.getDate(13));
+				order.setDateCreated(rs.getDate(10));
+				order.setDateStart(rs.getDate(11));
+				order.setDateFinish(rs.getDate(12));
 				
 				Project project = new Project();
 				project.setId(rs.getLong(ID));

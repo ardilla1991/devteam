@@ -93,9 +93,9 @@ public final class OrderServiceImpl implements OrderService{
 
 	@Override
 	public OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, String dateFinish,
-			String[] workIds, Map<String, String> qualificationsIdsAndCount, String applicationPath) throws ServiceException {
+			String[] workIds, Map<String, String> qualificationsIdsAndCount) throws ServiceException {
 		
-		UploadFile uploadFile = new UploadFile(applicationPath);
+		UploadFile uploadFile = UploadFile.getInstance();
 		String specificationFileName = uploadFile.getFileName(specification);
 		
 		OrderValidation orderValidation = new OrderValidation();

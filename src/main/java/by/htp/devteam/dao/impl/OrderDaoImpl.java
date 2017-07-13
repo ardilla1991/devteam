@@ -29,10 +29,10 @@ public final class OrderDaoImpl implements OrderDao {
 	private final static int DESCRIPTION = 3;
 	private final static int SPECIFICATION = 4;
 	private final static int CUSTOMER_ID = 5;
-	private final static int DATE_CREATED = 7;
-	private final static int DATE_START = 8;
-	private final static int DATE_FINISH = 9;
-	private final static int PRICE = 10;
+	private final static int DATE_CREATED = 6;
+	private final static int DATE_START = 7;
+	private final static int DATE_FINISH = 8;
+	private final static int PRICE = 9;
 
 	private final static int ORDER_ID = 1;
 	private final static int WORK_ID = 2;
@@ -102,7 +102,7 @@ public final class OrderDaoImpl implements OrderDao {
 		order.setDateFinish(rs.getDate(DATE_FINISH));
 		order.setPrice(rs.getBigDecimal(PRICE));
 		order.setCustomer(customer);
-		
+
 		return order;
 	}
 	

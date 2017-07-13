@@ -65,8 +65,8 @@ public class OrderAddAction implements CommandAction{
 
 			try {
 				// gets absolute path of the web application
-		        String applicationPath = request.getServletContext().getRealPath("");
-		        OrderVo orderVo = orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications, applicationPath);
+		        //String applicationPath = request.getServletContext().getRealPath("");
+		        OrderVo orderVo = orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications);
 			} catch (ServiceException e) {
 				request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 				request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());

@@ -63,8 +63,8 @@ public final class ConstantValue {
 	public final static String SQL_ORDER_GET_LIST_BY_CUSTOMER_ID = "SELECT * FROM `order` "
 			+ "WHERE customer_id=? ORDER BY dateCreated DESC";
 	
-	public final static String SQL_ORDER_ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, status, dateCreated, dateStart, dateFinish, price) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public final static String SQL_ORDER_ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, dateCreated, dateStart, dateFinish, price) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	public final static String SQL_ORDER_ADD_WORK = "INSERT INTO order_work (order_id, work_id) VALUES(?, ?)";
 	
@@ -99,7 +99,7 @@ public final class ConstantValue {
 	
 	public final static String SQL_PROJECT_FIND_BY_TITLE = "SELECT p.* FROM project as p WHERE title LIKE ? ";
 	
-	public final static String SQL_QUALIFICATION_FETCH_ALL = "SELECT q.id, q.title FROM qualification as q WHERE q.service=0 SORTED BY title DESC";
+	public final static String SQL_QUALIFICATION_FETCH_ALL = "SELECT q.id, q.title FROM qualification as q WHERE q.service=0 ORDER BY title DESC";
 	
 	public final static String SQL_USER_FETCH_BY_CREDENTIALS = "SELECT e.* FROM user as e "
 			+ "WHERE e.login=?";
