@@ -1,5 +1,6 @@
 package by.htp.devteam.service;
 
+import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.UserListVo;
 
@@ -32,4 +33,6 @@ public interface UserService {
 	 * @throws ServiceException  after catching DAOException
 	 */
 	UserListVo fetchAll(String currPage) throws ServiceException;
+	
+	User add(String login, String password, String role, Employee employee) throws ServiceException;
 }

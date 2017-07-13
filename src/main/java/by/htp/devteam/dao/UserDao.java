@@ -1,5 +1,7 @@
 package by.htp.devteam.dao;
 
+import java.sql.Connection;
+
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.UserListVo;
 
@@ -28,4 +30,10 @@ public interface UserDao {
 	 * @throws DaoException
 	 */
 	UserListVo fetchAll(int offset, int countPerPage) throws DaoException;
+	
+	User add(Connection connection, User user) throws DaoException;
+	
+	Connection startTransaction() throws DaoException;
+	void rollbackTransaction(Connection connection) throws DaoException;
+	void commitTransaction(Connection connection) throws DaoException;
 }

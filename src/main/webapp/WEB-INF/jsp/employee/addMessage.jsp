@@ -12,6 +12,9 @@
 			<div>
 				<fmt:message key="employee.addOk" />
 			</div>
+			<div>
+				<%@include file="../user/jspf/add.jsp"%>
+			</div>
 		</div>
 	</div>
 </div>

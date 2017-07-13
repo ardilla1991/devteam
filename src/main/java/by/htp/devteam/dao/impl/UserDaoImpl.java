@@ -134,5 +134,43 @@ public final class UserDaoImpl implements UserDao {
 
 		return users;
 	}
+
+	@Override
+	public User add(Connection connection, User user) throws DaoException {
+		
+		
+		return null;
+	}
 	
+	@Override
+	public Connection startTransaction() throws DaoException {
+		Connection dbConnection = null;
+		try {
+			dbConnection = ConnectionPool.getConnection();
+			dbConnection.setAutoCommit(false);
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_CONNECTION, e);
+		}
+		return dbConnection;
+	}
+	
+	@Override
+	public void rollbackTransaction(Connection connection) throws DaoException {
+		try {
+			connection.rollback();
+			ConnectionPool.returnConnection(connection);
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_ROLLBACK, e);
+		}
+	}
+	
+	@Override
+	public void commitTransaction(Connection connection) throws DaoException {
+		try {
+			connection.commit();
+			ConnectionPool.returnConnection(connection);
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_COMMIT, e);
+		}
+	}
 }

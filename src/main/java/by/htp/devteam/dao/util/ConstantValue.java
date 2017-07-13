@@ -110,6 +110,8 @@ public final class ConstantValue {
 	
 	public final static String SQL_EMPLOYEE_ADD = "INSERT INTO `employee` (name, start_work, qualification_id) VALUES (?, ?, ?)";
 	
+	public final static String SQL_EMPLOYEE_GET_BY_ID = "SELECT e.* FROM `employee` JOIN user as u ON e.user_id=u.id WHERE id=?";
+	
 	public final static String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
 	
 	
@@ -152,5 +154,6 @@ public final class ConstantValue {
 	public final static String MSG_ERROR_WORK_FETCH_ALL = "sql error: can't get list of works";
 	
 	public final static String MSG_ERROR_EMPLOYEE_ADD = "sql error: can't add employee";
+	public final static String MSG_ERROR_EMPLOYEE_GET_BY_ID = "sql error: can't get employee by id";
 
 }

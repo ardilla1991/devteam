@@ -18,6 +18,8 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_FILL_LOGIN_OR_PASSWORD = "User cannot fill login or (and) password";
 	public static final String MSG_LOGGER_USER_NOT_FOUND = "User {} not found";
 	public static final String MSG_LOGGER_USER_INCORRECT_PASSWORD = "User {}. Incorrect password";
+	public static final String MSG_LOGGER_USER_ADD_INCORRECT_FIELD = "User add. Incorrect fields values";
+	public static final String MSG_LOGGER_USER_ISSET = "User add. User already exist";
 	
 	public static final String MSG_LOGGER_PAGE_NUMBER_NOT_FOUND = "Cannot page number found";
 	public static final String MSG_LOGGER_ORDER_ADD_INCORRECT_FIELD = "Order add. Incorrect fields values";
@@ -41,6 +43,8 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_PROJECT_FIND_TITLE_NOT_CORRECT_LENGTH = "Project's title {} has not correct length";
 	
 	public static final String MSG_LOGGER_EMPLOYEE_ADD_INCORRECT_FIELD = "Employee add. Incorrect fields values";
+	public static final String MSG_LOGGER_EMPLOYEE_VIEW_INCORRECT_ID = "Employee view. Incorrect id {} value";
+	public static final String MSG_LOGGER_EMPLOYEE_VIEW_NOT_EXIST_ID = "Employee view. Not exist id {} ";
 	
 	
 	

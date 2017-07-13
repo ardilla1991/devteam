@@ -40,6 +40,10 @@ public final class UserValidation extends BeanValidation {
 		}
 	}
 	
+	public void validate(String login, String password, String role) {
+		validate(login, password);
+	}
+	
 	/**
 	 * Check if a page number has a correct value
 	 * @param pageNumber

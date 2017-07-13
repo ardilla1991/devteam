@@ -71,4 +71,6 @@ public interface EmployeeDao {
 	Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException;
 	
 	Employee add(Employee employee) throws DaoException;
+	
+	Employee getById(Long id) throws DaoException;
 }

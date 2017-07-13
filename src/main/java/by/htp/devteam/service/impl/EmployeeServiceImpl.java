@@ -12,6 +12,7 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
+import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
@@ -20,6 +21,7 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.validation.EmployeeValidation;
+import by.htp.devteam.service.validation.OrderValidation;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -121,6 +123,28 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
+		}
+		
+		return employee;
+	}
+
+	@Override
+	public Employee getById(String id) throws ServiceException {
+		EmployeeValidation employeeValidation = new EmployeeValidation();
+		if ( !employeeValidation.validateId(id)) {
+			logger.info(MSG_LOGGER_EMPLOYEE_VIEW_INCORRECT_ID, id);
+			throw new ServiceException(ErrorCode.VALIDATION_ID);
+		} 
+		
+		Employee employee = null;
+		try {
+			employee = employeeDao.getById(Long.valueOf(id));
+		} catch ( DaoException e ) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCode.APPLICATION);
+		} catch ( NullPointerException e ) {
+			logger.info(MSG_LOGGER_EMPLOYEE_VIEW_NOT_EXIST_ID, id);
+			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		}
 		
 		return employee;

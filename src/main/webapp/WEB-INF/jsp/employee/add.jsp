@@ -8,10 +8,10 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header"><fmt:message key = "employee.pageTitle.new" /></h1>
 
-				<form id="order_add" name="order_form" action="Main?action=employee_add" method="post" enctype="multipart/form-data">
+				<form id="order_add" name="order_form" action="Main?action=employee_add" method="post">
 					<div class="error_message">
 						<c:if test="${ error_code > 0}">
-							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="order"/>
+							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="employee"/>
 						</c:if>
 					</div>
 					<script type="text/javascript">

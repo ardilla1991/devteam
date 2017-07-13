@@ -32,6 +32,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_USER_VIEW = "User {}. View user's information";
 	public static final String MSG_LOGGER_USER_LIST = "User {}. User's list";
 	public static final String MSG_LOGGER_USER_ADD = "User {}. User add";
+	public static final String MSG_LOGGER_USER_SHOW_ADD_FORM = "User {}. Show user add form";
 	public static final String MSG_LOGGER_EMPLOYEE_SHOW_ADD_FORM = "User {}. Show employee add form";
 	public static final String MSG_LOGGER_EMPLOYEE_ADD_OK_MESSAGE = "User {}. Employee order --> OK";
 	public static final String MSG_LOGGER_ADD_EMPLOYEE = "User {}. Add employee";
@@ -94,10 +95,12 @@ public final class ConstantValue {
 	
 	public static final String PAGE_USER_VIEW_URI = "Main?action=user_view";
 	public static final String PAGE_USER_LIST_URI = "Main?action=user_list";
+	public static final String PAGE_USER_SHOW_ADD_FORM_URI = "Main?action=user_show_add_form";
+	public static final String PAGE_USER_ADD_MESSAGE_URI = "Main?action=user_add_message";
 	public static final String PAGE_LOGOUT = "Main?action=logout";
 	
 	public static final String PAGE_EMPLOYEE_SHOW_ADD_FORM_URI = "Main?action=employee_show_add_form";
-	public static final String PAGE_EMPLOYEE_ADD_MESSAGE_URI = "Main?action=employee_add_message";
+	public static final String PAGE_EMPLOYEE_ADD_MESSAGE_URI = "Main?action=employee_add_message&employee_id=";
 	
 	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=login_show_form";
 	public static final String PAGE_EMPTY_URI = "Main?action=empty";
@@ -152,7 +155,12 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_USER_VO = "user_vo";
 	public static final String REQUEST_PARAM_USER_LIST_VO = "user_list_vo";
 	public static final String REQUEST_PARAM_USER_ROLE_ENUM = "role_enum";
+	public static final String REQUEST_PARAM_USER_SHOW_ADD_FORM_URI = "user_add_form_uri";
+	public static final String REQUEST_PARAM_USER_LOGIN = "login";
+	public static final String REQUEST_PARAM_USER_PASSWORD = "password";
+	public static final String REQUEST_PARAM_USER_ROLE = "role";
 	
+	public static final String REQUEST_PARAM_EMPLOYEE_ID = "employee_id";
 	public static final String REQUEST_PARAM_EMPLOYEE_NAME = "name";
 	public static final String REQUEST_PARAM_EMPLOYEE_START_WORK = "startWork";
 	public static final String REQUEST_PARAM_EMPLOYEE_QUALIFICATION = "qualification";

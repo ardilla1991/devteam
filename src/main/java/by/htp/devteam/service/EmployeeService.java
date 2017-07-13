@@ -74,4 +74,6 @@ public interface EmployeeService {
 			throws DaoException;
 	
 	Employee add(String name, String startWork, String qualification) throws ServiceException;
+	
+	Employee getById(String id) throws ServiceException;
 }

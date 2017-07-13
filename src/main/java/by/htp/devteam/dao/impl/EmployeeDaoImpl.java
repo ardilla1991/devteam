@@ -11,10 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
+import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -260,6 +263,41 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		ps.setString(1, employee.getName());
 		ps.setDate(2, employee.getStartWork());
 		ps.setLong(3, employee.getQualification().getId());
+	}
+
+	@Override
+	public Employee getById(Long id) throws DaoException {
+		Employee employee = null;
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_ID) ) {
+
+			ps.setLong(ID, id);
+			employee = executeQueryAndGetEmployeeFromResultSet(ps);
+		} catch ( SQLException e ) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_BY_ID, e);
+		}
+		
+		return employee;
+	}
+	
+	private Employee executeQueryAndGetEmployeeFromResultSet(PreparedStatement ps) throws SQLException {
+		Employee employee = new Employee();
+		try ( ResultSet rs = ps.executeQuery() ) {
+			if ( rs.next() ) {
+				employee.setId(rs.getLong(1));
+				employee.setName(rs.getString(2));
+				employee.setStartWork(rs.getDate(3));
+				
+				User user = new User();
+				user.setId(rs.getLong(6));
+				user.setLogin(rs.getString(7));
+				user.setRole(UserRole.valueOf(rs.getString(8)));
+				
+				employee.setUser(user);
+			}
+		}
+		
+		return employee;
 	}
 
 }
