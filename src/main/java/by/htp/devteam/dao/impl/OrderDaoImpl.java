@@ -85,9 +85,9 @@ public final class OrderDaoImpl implements OrderDao {
 	private Customer createCustomerFromResultSet(ResultSet rs) throws SQLException {
 		Customer customer = new Customer();
 		customer.setId(rs.getLong(CUSTOMER_ID));
-		customer.setName(rs.getString(12));
-		customer.setEmail(rs.getString(13));
-		customer.setPhone(rs.getString(14));
+		customer.setName(rs.getString(11));
+		customer.setEmail(rs.getString(12));
+		customer.setPhone(rs.getString(13));
 		return customer;
 	}
 	

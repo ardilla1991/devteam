@@ -29,12 +29,12 @@
 							<tbody>
 								<tr>
 									<td><fmt:message key = "order.title" />*</td>
-									<td id="title"><input type="text" name="title" value="${title}" maxlength="250"/></td>
+									<td id="title"><input type="text" name="title" value="<c:out value="${title}" />" maxlength="250"/></td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.description" />*</td>
 									<td id="description">
-										<textarea name="description" cols="22" rows="5">${description}</textarea>
+										<textarea name="description" cols="22" rows="5"><c:out value="${description}" /></textarea>
 									</td>
 								</tr>
 								<tr>

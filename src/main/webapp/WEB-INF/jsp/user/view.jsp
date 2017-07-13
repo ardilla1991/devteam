@@ -45,7 +45,7 @@
 											value="${user_vo.getEmployee().getName()}" /></td>
 									</tr>
 									<tr>
-										<td><fmt:message key="employee.qualification" /></td>
+										<td><fmt:message key="qualification" /></td>
 										<td><c:out
 											value="${user_vo.getEmployee().getQualification().getTitle()}" /></td>
 									</tr>

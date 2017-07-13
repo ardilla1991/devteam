@@ -90,7 +90,7 @@ public final class ConstantValue {
 	
 	public final static String SQL_PROJECT_ADD = "INSERT INTO `project` (id, title, description, order_id) VALUES (?, ?, ?, ?)";
 	
-	public final static String SQL_PROJECT_ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id, hours) VALUES(?, ?, ?)";
+	public final static String SQL_PROJECT_ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id) VALUES(?, ?)";
 	
 	public final static String SQL_PROJECT_GET_BY_ID = "SELECT p.*, o.specification, o.dateStart, o.dateFinish, c.name, c.email, c.phone "
 			+ "FROM project as p JOIN `order` as o ON p.order_id=o.id JOIN customer as c ON o.customer_id=c.id WHERE p.id=?";
