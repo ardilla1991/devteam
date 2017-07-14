@@ -41,22 +41,28 @@ public final class ConstantValue {
 	
 	public static final String MSG_LOGGER_PROJECT_FIND_TITLE_NOT_CORRECT_LENGTH = "Project's title {} has not correct length";
 	
-	
+	public static final String RESOURCE_CONFIG_BUNDLE = "config";
 	public static final String CONFIG_PAGE_START_PAGE = "page.start_page";
 	public static final String CONFIG_PAGE_COUNT_PER_PAGE = "page.count_per_page";
 	public static final String CONFIG_FILE_UPLOAD_DIR = "file.upload.dir";
 	public static final String CONFIG_APPLICATION_FULL_PATH = "application.full_path";
-	public static final String CONFIG_EMAIL_SMTP_EMAIL = "mail.smtp.email";
-	public static final String CONFIG_EMAIL_SMTP_PASSWORD = "mail.smtp.password";
-	public static final String CONFIG_EMAIL_SMTP_HOST = "mail.smtp.host";
-	public static final String CONFIG_EMAIL_SMTP_PORT = "mail.smtp.port";
-	public static final String CONFIG_EMAIL_SMTP_AUTH = "mail.smtp.auth";
-	public static final String CONFIG_EMAIL_SMTP_SMARTTLS_ENABLE = "mail.smtp.starttls.enable";
-	public static final String CONFIG_EMAIL_SUBJECT = "mail.subject";
-	public static final String CONFIG_EMAIL_SITE_EMAIL = "email.siteemail";
+	public static final String CONFIG_EMAIL_SMTP_EMAIL = "email.smtp.email";
+	public static final String CONFIG_EMAIL_SMTP_PASSWORD = "email.smtp.password";
+	public static final String CONFIG_EMAIL_SMTP_HOST = "email.smtp.host";
+	public static final String CONFIG_EMAIL_SMTP_PORT = "email.smtp.port";
+	public static final String CONFIG_EMAIL_SMTP_AUTH = "email.smtp.auth";
+	public static final String CONFIG_EMAIL_SMTP_SMARTTLS_ENABLE = "email.smtp.starttls.enable";
+	public static final String CONFIG_EMAIL_FROM = "email.from";
 	public static final String CONFIG_EMAIL_CHARSET = "email.charset";
-	
-	
+	public static final String CONFIG_EMAIL_SITENAME = "email.sitename";
+	public static final String MAIL_BODY_NEWLINE = "\n";
+	public static final String RESOURCE_TEXT_BUNDLE = "text";
+	public static final String RESOURCE_MAIL_BODY_FIELD_ORDER_TITLE = "order.bill.title";
+	public static final String RESOURCE_MAIL_BODY_FIELD_ORDER_NAME = "order.bill.orderName";
+	public static final String RESOURCE_MAIL_BODY_FIELD_ORDER_DATESTART = "order.bill.orderDateStart";
+	public static final String RESOURCE_MAIL_BODY_FIELD_ORDER_DATEFINISH = "order.bill.orderDateFinish";
+	public static final String RESOURCE_MAIL_BODY_FIELD_ORDER_PRICE = "order.bill.orderPrice";
+	public static final String RESOURCE_EMAIL_SUBJECT = "email.subject";
 	
 	
 }

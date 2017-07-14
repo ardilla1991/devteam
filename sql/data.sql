@@ -16,7 +16,7 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `customer` (`id`, `name`, `email`, `phone`, `user_id`) VALUES
-(1, 'Васильев Василий Иванович', 'mail@voentv.mil.by', '+375172222222', 1);
+(1, 'Васильев Василий Иванович', 'mail@test.com', '+125172222222', 1);
 
 --
 -- Dumping data for table `employee`

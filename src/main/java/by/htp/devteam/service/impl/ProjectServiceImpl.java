@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
 
 import javax.mail.MessagingException;
 
@@ -257,19 +258,22 @@ public final class ProjectServiceImpl implements ProjectService{
 	 * @param orderVo order information
 	 */
 	private void createAndSendBill(Project project, OrderVo orderVo) {
-		String body = createBill(project, orderVo);
+		StringBuilder body = new StringBuilder();
+		ResourceBundle textBundle = ResourceBundle.getBundle(RESOURCE_TEXT_BUNDLE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_TITLE));
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_NAME) 
+										 + orderVo.getOrder().getTitle() + MAIL_BODY_NEWLINE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_DATESTART) 
+										 + orderVo.getOrder().getDateStart()+ MAIL_BODY_NEWLINE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_DATEFINISH)
+										 + orderVo.getOrder().getDateFinish()+ MAIL_BODY_NEWLINE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_PRICE)
+										 + orderVo.getOrder().getPrice()+ MAIL_BODY_NEWLINE);
 		try {
-			TLSEmail.sendEmail(orderVo.getOrder().getCustomer().getEmail(), body);
+			TLSEmail.sendEmail(orderVo.getOrder().getCustomer().getEmail(), textBundle.getString(RESOURCE_EMAIL_SUBJECT), body.toString());
 		} catch (UnsupportedEncodingException | MessagingException e) {
 			logger.error(MSG_LOGGER_PROJECT_SEND_MAIL, e);
 		}
 	}
 	
-	/*
-	 * Generate bill's body
-	 */
-	private String createBill(Project project, OrderVo orderVo) {
-		return null;
-	}
-
 }

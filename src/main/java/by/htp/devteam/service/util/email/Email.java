@@ -10,6 +10,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import by.htp.devteam.util.ConfigProperty;
+
 import static by.htp.devteam.service.util.ConstantValue.*;
 
 /**
@@ -32,17 +34,18 @@ final class Email {
 
 		MimeMessage msg = new MimeMessage(session);
 		// set message headers
-		msg.addHeader("Content-type", "text/HTML; charset=" + CONFIG_EMAIL_CHARSET);
+		msg.addHeader("Content-type", "text/HTML; charset=" + ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_CHARSET));
 		msg.addHeader("format", "flowed");
 		msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-		msg.setFrom(new InternetAddress(CONFIG_EMAIL_SITE_EMAIL, "NoReply-JD"));
+		msg.setFrom(new InternetAddress(ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_FROM), 
+										ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_SITENAME)));
 
-		msg.setReplyTo(InternetAddress.parse(CONFIG_EMAIL_SITE_EMAIL, false));
+		msg.setReplyTo(InternetAddress.parse(ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_FROM), false));
 
-		msg.setSubject(subject, CONFIG_EMAIL_CHARSET);
+		msg.setSubject(subject, ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_CHARSET));
 
-		msg.setText(body, CONFIG_EMAIL_CHARSET);
+		msg.setText(body, ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_CHARSET));
 
 		msg.setSentDate(new Date());
 

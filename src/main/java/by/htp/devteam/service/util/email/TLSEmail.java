@@ -28,7 +28,7 @@ public final class TLSEmail {
 	 * @throws MessagingException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static void sendEmail(final String toEmail, final String body) throws UnsupportedEncodingException, MessagingException {
+	public static void sendEmail(final String toEmail, final String subject, final String body) throws UnsupportedEncodingException, MessagingException {
 		final String fromEmail = ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_SMTP_EMAIL); //requires valid gmail id
 		final String password = ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_SMTP_PASSWORD); // correct password for gmail id
 		
@@ -47,7 +47,7 @@ public final class TLSEmail {
 		};
 		Session session = Session.getInstance(props, auth);
 		
-		Email.sendEmail(session, toEmail,ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_SUBJECT), body);
+		Email.sendEmail(session, toEmail, subject, body);
 		
 	}
 }
