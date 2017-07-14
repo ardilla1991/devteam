@@ -2,6 +2,7 @@ package by.htp.devteam.service.impl;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
@@ -9,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.mail.MessagingException;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
@@ -25,8 +28,9 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCode;
+import by.htp.devteam.service.util.email.TLSEmail;
 import by.htp.devteam.service.validation.ProjectValidation;
-import by.htp.devteam.util.SettingConstantValue;
+import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +53,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	public ProjectListVo fetchAll(String currPage, Employee employee) throws ServiceException{
 		
 		if ( currPage == null ) {
-			currPage = String.valueOf(SettingConstantValue.START_PAGE);
+			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
 		if ( !ProjectValidation.validatePage(currPage) ) {
@@ -57,7 +61,7 @@ public final class ProjectServiceImpl implements ProjectService{
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
 		
-		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int countPerPage = ConfigProperty.INSTANCE.getIntValue(CONFIG_PAGE_COUNT_PER_PAGE);
 		int currPageValue = Integer.valueOf(currPage);		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
@@ -110,8 +114,6 @@ public final class ProjectServiceImpl implements ProjectService{
 	    Date sqlDate = new Date(utilDate.getTime());
 	    project.setDateCreated(sqlDate);
 		project.setOrder(orderVo.getOrder());
-		
-	    Date orderDateProcessing = sqlDate;
 		
 		Connection connection = null;	
 		OrderService orderService = serviceFactory.getOrderService();
@@ -249,8 +251,25 @@ public final class ProjectServiceImpl implements ProjectService{
 		return project;
 	}
 	
+	/**
+	 * Create bill's body and send email to customer 
+	 * @param project project information
+	 * @param orderVo order information
+	 */
 	private void createAndSendBill(Project project, OrderVo orderVo) {
-		
+		String body = createBill(project, orderVo);
+		try {
+			TLSEmail.sendEmail(orderVo.getOrder().getCustomer().getEmail(), body);
+		} catch (UnsupportedEncodingException | MessagingException e) {
+			logger.error(MSG_LOGGER_PROJECT_SEND_MAIL, e);
+		}
+	}
+	
+	/*
+	 * Generate bill's body
+	 */
+	private String createBill(Project project, OrderVo orderVo) {
+		return null;
 	}
 
 }
