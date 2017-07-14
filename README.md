@@ -29,10 +29,10 @@ For sending email used smtp
 
 
 There are 4 roles in the system.
-Customer has the opportunity to create an order, view order and have a look on all list of orders.\n
-Manager has the opportunity to have a look on all list of new orders, view order and create a project for order if there were not busy developers for period defined in the order, set project's price. Also he can to view list of projects and view all information about project. He can find a project use the search field.\n
-Developer has the opportunity to have a look on all project where he takes a part. And also he can to set the number of hours spent working on the project.\n
-Admin has the opportunity to have a look all employees.
+* Customer has the opportunity to create an order, view order and have a look on all list of orders.
+* Manager has the opportunity to have a look on all list of new orders, view order and create a project for order if there were not busy developers for period defined in the order, set project's price. Also he can to view list of projects and view all information about project. He can find a project use the search field.
+* Developer has the opportunity to have a look on all project where he takes a part. And also he can to set the number of hours spent working on the project.
+* Admin has the opportunity to have a look all employees.
 
 
 Main technologies: Java 1.8, tomcat9, maven, mysql, MVC, javascript, ajax, jsp, Taglib, bootstrap, smtp
