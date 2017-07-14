@@ -24,7 +24,8 @@ public final class ProjectDaoImpl implements ProjectDao {
 	private final static int ID = 1;
 	private final static int TITLE = 2;
 	private final static int DESCRIPTION = 3;
-	private final static int ORDER_ID = 4;
+	private final static int DATE_CREATED = 4;
+	private final static int ORDER_ID = 5;
 	
 	private final static String SQL_LIKE_CONDITION_PERCENT = "%";
 	
@@ -88,17 +89,18 @@ public final class ProjectDaoImpl implements ProjectDao {
 		try ( ResultSet rs = ps.executeQuery() ) {
 			while ( rs.next() ) {
 				Order order = new Order();
-				order.setId(rs.getLong(4));
-				order.setTitle(rs.getString(6));
-				order.setDescription(rs.getString(7));
-				order.setDateCreated(rs.getDate(10));
-				order.setDateStart(rs.getDate(11));
-				order.setDateFinish(rs.getDate(12));
+				order.setId(rs.getLong(5));
+				order.setTitle(rs.getString(7));
+				order.setDescription(rs.getString(8));
+				order.setDateCreated(rs.getDate(11));
+				order.setDateStart(rs.getDate(12));
+				order.setDateFinish(rs.getDate(13));
 				
 				Project project = new Project();
 				project.setId(rs.getLong(ID));
 				project.setTitle(rs.getString(TITLE));
 				project.setDescription(rs.getString(DESCRIPTION));
+				project.setDateCreated(rs.getDate(DATE_CREATED));
 				project.setOrder(order);
 				
 				projects.add(project);
@@ -130,6 +132,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 		ps.setString(ID, null);
 		ps.setString(TITLE, project.getTitle());
 		ps.setString(DESCRIPTION, project.getDescription());
+		ps.setDate(DATE_CREATED, project.getDateCreated());
 		ps.setLong(ORDER_ID, project.getOrder().getId());
 	}
 
@@ -175,17 +178,18 @@ public final class ProjectDaoImpl implements ProjectDao {
 				project.setId(rs.getLong(1));
 				project.setTitle(rs.getString(2));
 				project.setDescription(rs.getString(3));
+				project.setDateCreated(rs.getDate(4));
 				
 				Order order = new Order();
-				order.setId(rs.getLong(4));
-				order.setSpecification(rs.getString(5));
-				order.setDateStart(rs.getDate(6));
-				order.setDateFinish(rs.getDate(7));
+				order.setId(rs.getLong(5));
+				order.setSpecification(rs.getString(6));
+				order.setDateStart(rs.getDate(7));
+				order.setDateFinish(rs.getDate(8));
 
 				Customer customer = new Customer();
-				customer.setName(rs.getString(8));
-				customer.setEmail(rs.getString(9));
-				customer.setPhone(rs.getString(10));
+				customer.setName(rs.getString(9));
+				customer.setEmail(rs.getString(10));
+				customer.setPhone(rs.getString(11));
 				
 				order.setCustomer(customer);
 				project.setOrder(order);
@@ -224,6 +228,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 					project.setId(rs.getLong(ID));
 					project.setTitle(rs.getString(TITLE));
 					project.setDescription(rs.getString(DESCRIPTION));
+					project.setDateCreated(rs.getDate(DATE_CREATED));
 					
 					projects.add(project);
 				}

@@ -7,6 +7,7 @@
 				<th>#</th>
 				<th><fmt:message key="project.title" /></th>
 				<th><fmt:message key="project.description" /></th>
+				<th><fmt:message key="project.dateCreated" /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -17,6 +18,7 @@
 					<td><c:out value="${i.getId()}" /></td>
 					<td><c:out value="${i.getTitle()}" /></td>
 					<td><c:out value="${i.getDescription()}" /></td>
+					<td><c:out value="${i.getDateCreated()}" /></td>
 				</tr>
 			</c:forEach>
 		</tbody>

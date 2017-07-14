@@ -25,6 +25,10 @@
 				<td><c:out value="${order_vo.getOrder().getDateFinish()}" /></td>
 			</tr>
 			<tr>
+				<td><fmt:message key="order.dateProcessing" /></td>
+				<td><c:out value="${order_vo.getOrder().getDateProcessing()}" /></td>
+			</tr>
+			<tr>
 				<td><fmt:message key="order.work" /></td>
 				<td><c:forEach items="${order_vo.getWorks()}" var="i">
 						<c:out value="${i.getTitle()}" />

@@ -32,7 +32,8 @@ public final class OrderDaoImpl implements OrderDao {
 	private final static int DATE_CREATED = 6;
 	private final static int DATE_START = 7;
 	private final static int DATE_FINISH = 8;
-	private final static int PRICE = 9;
+	private final static int DATE_PROCESSING = 9;
+	private final static int PRICE = 10;
 
 	private final static int ORDER_ID = 1;
 	private final static int WORK_ID = 2;
@@ -85,9 +86,9 @@ public final class OrderDaoImpl implements OrderDao {
 	private Customer createCustomerFromResultSet(ResultSet rs) throws SQLException {
 		Customer customer = new Customer();
 		customer.setId(rs.getLong(CUSTOMER_ID));
-		customer.setName(rs.getString(11));
-		customer.setEmail(rs.getString(12));
-		customer.setPhone(rs.getString(13));
+		customer.setName(rs.getString(12));
+		customer.setEmail(rs.getString(13));
+		customer.setPhone(rs.getString(14));
 		return customer;
 	}
 	
@@ -100,6 +101,7 @@ public final class OrderDaoImpl implements OrderDao {
 		order.setDateCreated(rs.getDate(DATE_CREATED));
 		order.setDateStart(rs.getDate(DATE_START));
 		order.setDateFinish(rs.getDate(DATE_FINISH));
+		order.setDateProcessing(rs.getDate(DATE_PROCESSING));
 		order.setPrice(rs.getBigDecimal(PRICE));
 		order.setCustomer(customer);
 
@@ -291,10 +293,11 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	@Override
-	public void setPrice(Connection connection, Order order) throws DaoException {
+	public void setPriceAndDateProcessing(Connection connection, Order order) throws DaoException {
 		try ( PreparedStatement ps = connection.prepareStatement(SQL_ORDER_SET_PRICE) ) {
 			ps.setBigDecimal(1, order.getPrice());
-			ps.setLong(2, order.getId());
+			ps.setDate(2, order.getDateProcessing());
+			ps.setLong(3, order.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_ORDER_SET_PRICE, e);
@@ -345,7 +348,7 @@ public final class OrderDaoImpl implements OrderDao {
 		ps.setDate(DATE_CREATED, order.getDateCreated());
 		ps.setDate(DATE_START, order.getDateStart());
 		ps.setDate(DATE_FINISH, order.getDateFinish());
-		ps.setBigDecimal(PRICE, order.getPrice());
+		ps.setBigDecimal(9, order.getPrice());
 	}
 
 

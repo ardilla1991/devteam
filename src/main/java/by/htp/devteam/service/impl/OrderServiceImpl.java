@@ -195,10 +195,10 @@ public final class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public void setPrice(Connection connection, Order order, String price) throws ServiceException {
+	public void setPriceAndDateProcessing(Connection connection, Order order) 
+			throws ServiceException {
 		try {
-			order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
-			orderDao.setPrice(connection, order);
+			orderDao.setPriceAndDateProcessing(connection, order);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);

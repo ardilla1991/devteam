@@ -17,6 +17,10 @@
 				<td><c:out value="${project_vo.getProject().getDescription()}" /></td>
 			</tr>
 			<tr>
+				<td><fmt:message key="project.dateCreated" /></td>
+				<td><c:out value="${project_vo.getProject().getDateCreated()}" /></td>
+			</tr>
+			<tr>
 				<td><fmt:message key="order.specification" /></td>
 				<td><c:out
 						value="${project_vo.getProject().getOrder().getSpecification()}" /></td>

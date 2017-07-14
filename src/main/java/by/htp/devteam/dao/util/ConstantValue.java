@@ -79,7 +79,7 @@ public final class ConstantValue {
 			+ "FROM qualification as q JOIN order_qualification as oq ON q.id = oq.qualification_id "
 			+ "WHERE oq.order_id=?";
 	
-	public final static String SQL_ORDER_SET_PRICE = "UPDATE `order` SET price=? WHERE id=?";
+	public final static String SQL_ORDER_SET_PRICE = "UPDATE `order` SET price=?,dateProcessing=? WHERE id=?";
 	
 	public final static String SQL_PROJECT_FETCH_ALL = "SELECT p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id LIMIT ?,?";
 	
@@ -88,7 +88,7 @@ public final class ConstantValue {
 			+ "ORDER BY o.dateStart DESC "
 			+ "LIMIT ?,?";
 	
-	public final static String SQL_PROJECT_ADD = "INSERT INTO `project` (id, title, description, order_id) VALUES (?, ?, ?, ?)";
+	public final static String SQL_PROJECT_ADD = "INSERT INTO `project` (id, title, description, dateCreated, order_id) VALUES (?, ?, ?, ?, ?)";
 	
 	public final static String SQL_PROJECT_ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id) VALUES(?, ?)";
 	

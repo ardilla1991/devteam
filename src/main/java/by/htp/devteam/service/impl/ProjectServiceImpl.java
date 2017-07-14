@@ -2,7 +2,9 @@ package by.htp.devteam.service.impl;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +77,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public Project add(OrderVo orderDto, String title, String description, String[] employees, String price) throws ServiceException {
+	public Project add(OrderVo orderVo, String title, String description, String[] employees, String price) throws ServiceException {
 		
 		ProjectValidation projectValidation = new ProjectValidation();
 		projectValidation.validate(title, description, employees, price);
@@ -92,7 +94,7 @@ public final class ProjectServiceImpl implements ProjectService{
 		// get map of selected employees qualifications and their count 
 		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsIdsAndCountByEmployees(employeesIds);
 		// cteate a map for compare with selected values of qualifications
-		Map<Long, Integer> neededQualifications = getNeededQualifications(orderDto.getQualifications());
+		Map<Long, Integer> neededQualifications = getNeededQualifications(orderVo.getQualifications());
 		// compare selected qualificationa and their count with qualifications from order
 		projectValidation.validate(qualificationCountByEmployees, neededQualifications);
 
@@ -104,19 +106,28 @@ public final class ProjectServiceImpl implements ProjectService{
 		Project project = new Project();
 		project.setTitle(title);
 		project.setDescription(description);
-		project.setOrder(orderDto.getOrder());
+		java.util.Date utilDate = new java.util.Date();
+	    Date sqlDate = new Date(utilDate.getTime());
+	    project.setDateCreated(sqlDate);
+		project.setOrder(orderVo.getOrder());
+		
+	    Date orderDateProcessing = sqlDate;
 		
 		Connection connection = null;	
 		OrderService orderService = serviceFactory.getOrderService();
+		
+		orderVo.getOrder().setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
+		orderVo.getOrder().setDateProcessing(sqlDate);
 		try {
 			connection = projectDao.startTransaction();
 			boolean neededEmployeeeAreFree = employeeService.isEmployeesNotBusyForPeriod(connection, employeesIds,
-					orderDto.getOrder().getDateStart(), orderDto.getOrder().getDateFinish());
+					orderVo.getOrder().getDateStart(), orderVo.getOrder().getDateFinish());
 			if (neededEmployeeeAreFree) {
 				project = projectDao.add(connection, project);
 				projectDao.setEmployees(connection, project, employeesIds);
-				orderService.setPrice(connection, orderDto.getOrder(), price);
+				orderService.setPriceAndDateProcessing(connection, orderVo.getOrder());
 				commitTransaction(connection);
+				createAndSendBill(project, orderVo);
 			} else {
 				rollbackTransaction(connection);
 				logger.info(MSG_LOGGER_PROJECT_ADD_NO_ISSET_FREE_EMPLOYEE);
@@ -236,6 +247,10 @@ public final class ProjectServiceImpl implements ProjectService{
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		return project;
+	}
+	
+	private void createAndSendBill(Project project, OrderVo orderVo) {
+		
 	}
 
 }
