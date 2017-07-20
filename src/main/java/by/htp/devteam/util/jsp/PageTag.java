@@ -20,6 +20,18 @@ public final class PageTag extends TagSupport{
 	/** Current page number */
 	private int currPage;
 	
+	/** Container tag for all points */
+	private String containerTag;
+	
+	/** Container class for all points */	
+	private String containerClass;
+	
+	/** Item tag for point */
+	private String itemTag;
+	
+	/** Item tag class for selected points */
+	private String currActionClass;
+	
 	/** Uri for pages */
 	private String uri;
 	
@@ -35,6 +47,22 @@ public final class PageTag extends TagSupport{
 		this.currPage = currPage;
 	}
 	
+	public void setContainerTag(String containerTag) {
+		this.containerTag = containerTag;
+	}
+
+	public void setContainerClass(String containerClass) {
+		this.containerClass = containerClass;
+	}
+
+	public void setItemTag(String itemTag) {
+		this.itemTag = itemTag;
+	}
+
+	public void setCurrActionClass(String currActionClass) {
+		this.currActionClass = currActionClass;
+	}
+	
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
@@ -45,13 +73,14 @@ public final class PageTag extends TagSupport{
 	@Override
 	public int doStartTag() throws JspException {
 		try {
-			String active = "";
-			pageContext.getOut().write("<ul class=\"pagination\">");
+			String active = null;
+			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			for ( int i = 1; i <= countPages; i++ ) {
-				active = (i == currPage ? "class='active'" : "");
-				pageContext.getOut().write("<li "+active+"><a href='"+uri+"&page="+i+"'>"+i+"</a></li>");
+				active = (i == currPage ? "class=\"" + currActionClass + "\"" : "");
+				pageContext.getOut().write("<" + itemTag + " " + active + "><a href=\"" + uri + "&page=" + i + "\">" 
+											+ i + "</a></" + itemTag + ">");
 			}
-			pageContext.getOut().write("</ul>");
+			pageContext.getOut().write("</" + containerTag + ">");
 		} catch (IOException e) {
 			throw new JspException(e.getMessage());
 		}

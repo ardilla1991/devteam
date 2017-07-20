@@ -20,7 +20,7 @@
 				<form id="order_add" name="order_form" action="Main" method="post">
 					<div class="error_message">
 						<c:if test="${ error_code > 0}">
-							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="project"/>
+							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="project"  itemTag="span" containerTag="div"/>
 						</c:if>
 					</div>
 					<script type="text/javascript">

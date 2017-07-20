@@ -95,20 +95,20 @@ public final class LeftMenuTag extends TagSupport{
 				active = currAction.equals("order_show_add_form") ? currActionClass : "";
 				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">" 
 										   + "<a href='" + PAGE_ORDER_SHOW_ADD_FORM_URI + "'>" 
-										   + rb.getString("order.addNew") 
+										   + getString(rb, "order.addNew") 
 										   + "</a></" + itemTag + ">");
 				break;
 			case MANAGER:
 				active = currAction.equals("project_list") ? currActionClass : "";
 				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
 										   + "<a href='" + PAGE_PROJECT_LIST_URI + "'>" 
-										   + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
+										   + getString(rb, "menu.left.projects") + "</a></" + itemTag + ">");
 				break;
 			case DEVELOPER:
 				active = currAction.equals("project_list_by_employee_id") ? currActionClass : "";
 				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
 										   + "<a href='" + PAGE_PROJECT_LIST_BY_EMPLOYEE_URI + "'>" 
-										   + rb.getString("menu.left.projects") + "</a></" + itemTag + ">");
+										   + getString(rb, "menu.left.projects") + "</a></" + itemTag + ">");
 				break;
 			default:
 				break;
@@ -118,5 +118,16 @@ public final class LeftMenuTag extends TagSupport{
 			throw new JspException(e.getMessage());
 		}
 		return SKIP_BODY;
+	}
+	
+	/*
+	 * Check if exist key in bundle and return this value
+	 */
+	private String getString(ResourceBundle rb, String key) {
+		if ( rb.containsKey(key) ) {
+			return rb.getString(key);
+		}
+		
+		return "";
 	}
 }

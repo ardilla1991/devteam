@@ -13,7 +13,7 @@
 <div class="error_message">
 	<c:if test="${ error_code > 0}">
 		<msg:message errorCode="${ error_code }" msgList="${ empty_field }"
-			language="${clientLanguage}" country="${clientCountry}"
+			language="${clientLanguage}" country="${clientCountry}"  itemTag="span" containerTag="div"
 			bean="project" />
 	</c:if>
 </div>

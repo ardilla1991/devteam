@@ -99,12 +99,12 @@ public class ACLUserFilter implements Filter{
 					return;
 				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue()) ) {
 					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD, userVO.getUser().getLogin());
-					req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
+					resp.sendError(404);
 					return;
 				}
 			} catch (CommandExeption e) {
 				logger.info(e.getMessage());
-				req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
+				resp.sendError(404);
 				return;
 			}
 		}

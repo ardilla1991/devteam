@@ -1,7 +1,8 @@
 <%@ taglib uri="messagetag" prefix="msg"%>
 <div class="error_message">
 	<c:if test="${ error_code > 0}">
-		<msg:message errorCode="${ error_code }" language="${clientLanguage}"
+		<msg:message errorCode="${ error_code }" language="${clientLanguage}"  
+			itemTag="span" containerTag="div"
 			country="${clientCountry}" bean="order" />
 	</c:if>
 </div>
@@ -73,7 +74,7 @@
 							<%@ taglib uri="messagetag" prefix="msg"%>
 							<div class="error_message">
 								<c:if test="${ error_code > 0}">
-									<msg:message errorCode="${ error_code }"
+									<msg:message errorCode="${ error_code }"  itemTag="span" containerTag="div"
 										msgList="${ empty_field }" language="${clientLanguage}"
 										country="${clientCountry}" bean="project" />
 								</c:if>

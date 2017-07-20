@@ -93,19 +93,30 @@ public class UserInfoTag extends TagSupport {
 	private void displayUserInformation(UserVo userVo, ResourceBundle rb) throws IOException {
 		User user = userVo.getUser();
 		pageContext.getOut().write("<table class=\"" + tableClass + "\">");
-		pageContext.getOut().write("<tr><td>" + rb.getString("user.login") + "</td><td>" + user.getLogin() + "</td></tr>");
-		pageContext.getOut().write("<tr><td>" + rb.getString("user.role") + "</td><td>" + user.getRole() + "</td></tr>");
+		pageContext.getOut().write("<tr><td>" + getString(rb, "user.login") + "</td><td>" + user.getLogin() + "</td></tr>");
+		pageContext.getOut().write("<tr><td>" + getString(rb, "user.role") + "</td><td>" + user.getRole() + "</td></tr>");
 		if ( user.getRole() == UserRole.CUSTOMER ) {
 			Customer customer = userVo.getCustomer();
-			pageContext.getOut().write("<tr><td>" + rb.getString("user.name") + "</td><td>" + customer.getName() + "</td></tr>");
-			pageContext.getOut().write("<tr><td>" + rb.getString("customer.email") + "</td><td>" + customer.getEmail() + "</td></tr>");
-			pageContext.getOut().write("<tr><td>" + rb.getString("customer.phone") + "</td><td>" + customer.getPhone() + "</td></tr>");
+			pageContext.getOut().write("<tr><td>" + getString(rb, "user.name") + "</td><td>" + customer.getName() + "</td></tr>");
+			pageContext.getOut().write("<tr><td>" + getString(rb, "customer.email") + "</td><td>" + customer.getEmail() + "</td></tr>");
+			pageContext.getOut().write("<tr><td>" + getString(rb, "customer.phone") + "</td><td>" + customer.getPhone() + "</td></tr>");
 		} else {
 			Employee employee = userVo.getEmployee();
-			pageContext.getOut().write("<tr><td>" + rb.getString("user.name") + "</td><td>" + employee.getName() + "</td></tr>");
-			pageContext.getOut().write("<tr><td>" + rb.getString("employee.startWork") + "</td><td>" + employee.getStartWork() + "</td></tr>");
-			pageContext.getOut().write("<tr><td>" + rb.getString("qualification") + "</td><td>" + employee.getQualification().getTitle() + "</td></tr>");
+			pageContext.getOut().write("<tr><td>" + getString(rb, "user.name") + "</td><td>" + employee.getName() + "</td></tr>");
+			pageContext.getOut().write("<tr><td>" + getString(rb, "employee.startWork") + "</td><td>" + employee.getStartWork() + "</td></tr>");
+			pageContext.getOut().write("<tr><td>" + getString(rb, "qualification") + "</td><td>" + employee.getQualification().getTitle() + "</td></tr>");
 		}
 		pageContext.getOut().write("</table>");
-	}			
+	}
+	
+	/*
+	 * Check if exist key in bundle and return this value
+	 */
+	private String getString(ResourceBundle rb, String key) {
+		if ( rb.containsKey(key) ) {
+			return rb.getString(key);
+		}
+		
+		return "";
+	}
 }
