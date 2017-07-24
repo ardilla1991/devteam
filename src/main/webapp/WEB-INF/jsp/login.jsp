@@ -14,7 +14,7 @@
 		<meta charset="UTF-8">
 		<title><fmt:message key = "header.title.login" /></title>
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="styles/style.css">
+		<link rel="stylesheet" type="text/css" href="style/style.css">
 	</head>
 	<body class="login">
 		<div class="container">
