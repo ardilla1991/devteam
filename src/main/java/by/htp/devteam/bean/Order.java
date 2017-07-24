@@ -6,7 +6,8 @@ import java.sql.Date;
 /**
  * Order's object. Has properties <b>id</b>, <b>title</b>, 
  * <b>description</b>, <b>specification</b>, <b>customer</b>,
- * <b>dateCreated</b>, <b>dateStart</b>, <b>dateFinish</b>, <b>price</b>
+ * <b>dateCreated</b>, <b>dateStart</b>, <b>dateFinish</b>, 
+ * <b>dateProcessing</b>, <b>price</b>
  * @author julia
  *
  */
@@ -35,6 +36,9 @@ public class Order {
 	
 	/** Order's date finish */
 	private Date dateFinish;
+	
+	/** Order's processing date */
+	private Date dateProcessing;
 	
 	/** Order's price */
 	private BigDecimal price;
@@ -107,6 +111,14 @@ public class Order {
 		this.dateFinish = dateFinish;
 	}
 	
+	public Date getDateProcessing() {
+		return dateProcessing;
+	}
+
+	public void setDateProcessing(Date dateProcessing) {
+		this.dateProcessing = dateProcessing;
+	}
+	
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -122,6 +134,7 @@ public class Order {
 		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
 		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
 		result = prime * result + ((dateFinish == null) ? 0 : dateFinish.hashCode());
+		result = prime * result + ((dateProcessing == null) ? 0 : dateProcessing.hashCode());
 		result = prime * result + ((dateStart == null) ? 0 : dateStart.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -155,6 +168,11 @@ public class Order {
 				return false;
 		} else if (!dateFinish.equals(other.dateFinish))
 			return false;
+		if (dateProcessing == null) {
+			if (other.dateProcessing != null)
+				return false;
+		} else if (!dateProcessing.equals(other.dateProcessing))
+			return false;
 		if (dateStart == null) {
 			if (other.dateStart != null)
 				return false;
@@ -187,6 +205,5 @@ public class Order {
 			return false;
 		return true;
 	}
-	
 	
 }

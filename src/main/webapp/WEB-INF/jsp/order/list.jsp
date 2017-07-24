@@ -10,7 +10,7 @@
 			</h1>
 			<div class="error_message">
 				<c:if test="${ error_code > 0}">
-					<msg:message errorCode="${ error_code }"
+					<msg:message errorCode="${ error_code }" itemTag="span" containerTag="div"
 						language="${clientLanguage}" country="${clientCountry}"
 						bean="order" />
 				</c:if>

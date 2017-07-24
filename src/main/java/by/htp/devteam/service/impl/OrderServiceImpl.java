@@ -26,7 +26,7 @@ import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.util.UploadFile;
 import by.htp.devteam.service.validation.OrderValidation;
-import by.htp.devteam.util.SettingConstantValue;
+import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +51,7 @@ public final class OrderServiceImpl implements OrderService{
 	public OrderListVo getNewOrders(String currPage) throws ServiceException{
 		
 		if ( currPage == null ) {
-			currPage = String.valueOf(SettingConstantValue.START_PAGE);
+			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
 		OrderValidation orderValidation = new OrderValidation();
@@ -60,7 +60,7 @@ public final class OrderServiceImpl implements OrderService{
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
 		
-		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int countPerPage = ConfigProperty.INSTANCE.getIntValue(CONFIG_PAGE_COUNT_PER_PAGE);
 		int currPageValue = Integer.valueOf(currPage);
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
@@ -93,9 +93,9 @@ public final class OrderServiceImpl implements OrderService{
 
 	@Override
 	public OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, String dateFinish,
-			String[] workIds, Map<String, String> qualificationsIdsAndCount, String applicationPath) throws ServiceException {
+			String[] workIds, Map<String, String> qualificationsIdsAndCount) throws ServiceException {
 		
-		UploadFile uploadFile = new UploadFile(applicationPath);
+		UploadFile uploadFile = UploadFile.getInstance();
 		String specificationFileName = uploadFile.getFileName(specification);
 		
 		OrderValidation orderValidation = new OrderValidation();
@@ -195,10 +195,10 @@ public final class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public void setPrice(Connection connection, Order order, String price) throws ServiceException {
+	public void setPriceAndDateProcessing(Connection connection, Order order) 
+			throws ServiceException {
 		try {
-			order.setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
-			orderDao.setPrice(connection, order);
+			orderDao.setPriceAndDateProcessing(connection, order);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);

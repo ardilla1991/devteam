@@ -23,6 +23,12 @@ public class MessageTag extends TagSupport{
 	 */
 	private int errorCode;
 	
+	/** Container tag for all points */
+	private String containerTag;
+	
+	/** Item tag for point */
+	private String itemTag;
+	
 	/**
 	 * List of incorrect fields
 	 * @see by.htp.devteam.service.ServiceException
@@ -46,6 +52,14 @@ public class MessageTag extends TagSupport{
 		this.errorCode = errorCode;
 	}
 
+	public void setContainerTag(String containerTag) {
+		this.containerTag = containerTag;
+	}
+	
+	public void setItemTag(String itemTag) {
+		this.itemTag = itemTag;
+	}
+	
 	public void setMsgList(List<String> msgList) {
 		this.msgList = msgList;
 	}
@@ -71,16 +85,19 @@ public class MessageTag extends TagSupport{
 			Locale locale = new Locale(language, country);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 			
-			pageContext.getOut().write("<div>");
-			pageContext.getOut().write(rb.getString("error.code." + errorCode) + " ");
+			pageContext.getOut().write("<" + containerTag + ">");
+			pageContext.getOut().write(getString(rb, "error.code." + errorCode) + " ");
 			printMsgList(rb);
-			pageContext.getOut().write("</div>");
+			pageContext.getOut().write("</" + containerTag + ">");
 		} catch (IOException e) {
 			throw new JspException(e.getMessage());
 		}
 		return SKIP_BODY;
 	}
 	
+	/*
+	 * Print fields with not correct values
+	 */
 	private void printMsgList(ResourceBundle rb) throws IOException {
 		if ( msgList == null )
 			return;
@@ -91,8 +108,19 @@ public class MessageTag extends TagSupport{
 		}
 	
 		for ( String msg : msgList) {
-			pageContext.getOut().write("<span>" + rb.getString(bean + "." + msg) + "</span>, ");
+			pageContext.getOut().write("<" + itemTag + ">" + getString(rb, bean + "." + msg) + "</" + itemTag + ">, ");
 		}
+	}
+	
+	/*
+	 * Check if exist key in bundle and return this value
+	 */
+	private String getString(ResourceBundle rb, String key) {
+		if ( rb.containsKey(key) ) {
+			return rb.getString(key);
+		}
+		
+		return "";
 	}
 
 }

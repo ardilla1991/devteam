@@ -15,7 +15,7 @@
 			<div class="error_message">
 				<c:if test="${ error_code > 0}">
 					<msg:message errorCode="${ error_code }"
-						language="${clientLanguage}" country="${clientCountry}"
+						language="${clientLanguage}" country="${clientCountry}" itemTag="span" containerTag="div"
 						bean="project" />
 				</c:if>
 			</div>
@@ -26,7 +26,7 @@
 				
 			</div>
 
-			<ctg:paginator uri="${ uri }"
+			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
 				currPage="${ user_list_vo.getCurrPage() }"
 				countPages="${ user_list_vo.getCountPages() }" />
 		</div>

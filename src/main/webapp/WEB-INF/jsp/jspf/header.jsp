@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="topmenutag" prefix="tmt"%>
+<%@ taglib uri="menutag" prefix="menu"%>
 
 <c:set var="clientLanguage" value="${pageContext.request.locale.language}" scope="request"/>
 <c:set var="clientCountry" value="${pageContext.request.locale.country}" scope="request"/>
@@ -15,7 +15,7 @@
 
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Content-Type">
 		<title><fmt:message key = "admin.sitename" /></title>
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="styles/dashboard.css">
@@ -34,7 +34,7 @@
 	          <a class="navbar-brand" href="#"><fmt:message key = "admin.goToMainPage" /></a>
 	        </div>
 	        <div class="navbar-collapse collapse">
-			  <tmt:topmenu user="${ user.getUser() }"
+			  <menu:top user="${ user.getUser() }"
 				currAction="${param.action}"  containerTag="ul" containerClass="nav navbar-nav navbar-right" itemTag="li" currActionClass="active" language="${clientLanguage}" country="${clientCountry}"/>
 	          <%@ page import="by.htp.devteam.bean.UserRole" %>
 			  <c:if test="${ user.getUser().getRole()  == RoleEnum.DEVELOPER || user.getUser().getRole()  == RoleEnum.MANAGER }">

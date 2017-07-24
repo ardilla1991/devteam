@@ -63,8 +63,8 @@ public final class ConstantValue {
 	public final static String SQL_ORDER_GET_LIST_BY_CUSTOMER_ID = "SELECT * FROM `order` "
 			+ "WHERE customer_id=? ORDER BY dateCreated DESC";
 	
-	public final static String SQL_ORDER_ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, status, dateCreated, dateStart, dateFinish, price) "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public final static String SQL_ORDER_ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, dateCreated, dateStart, dateFinish, price) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	public final static String SQL_ORDER_ADD_WORK = "INSERT INTO order_work (order_id, work_id) VALUES(?, ?)";
 	
@@ -79,7 +79,7 @@ public final class ConstantValue {
 			+ "FROM qualification as q JOIN order_qualification as oq ON q.id = oq.qualification_id "
 			+ "WHERE oq.order_id=?";
 	
-	public final static String SQL_ORDER_SET_PRICE = "UPDATE `order` SET price=? WHERE id=?";
+	public final static String SQL_ORDER_SET_PRICE = "UPDATE `order` SET price=?,dateProcessing=? WHERE id=?";
 	
 	public final static String SQL_PROJECT_FETCH_ALL = "SELECT p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id LIMIT ?,?";
 	
@@ -88,9 +88,9 @@ public final class ConstantValue {
 			+ "ORDER BY o.dateStart DESC "
 			+ "LIMIT ?,?";
 	
-	public final static String SQL_PROJECT_ADD = "INSERT INTO `project` (id, title, description, order_id) VALUES (?, ?, ?, ?)";
+	public final static String SQL_PROJECT_ADD = "INSERT INTO `project` (id, title, description, dateCreated, order_id) VALUES (?, ?, ?, ?, ?)";
 	
-	public final static String SQL_PROJECT_ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id, hours) VALUES(?, ?, ?)";
+	public final static String SQL_PROJECT_ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id) VALUES(?, ?)";
 	
 	public final static String SQL_PROJECT_GET_BY_ID = "SELECT p.*, o.specification, o.dateStart, o.dateFinish, c.name, c.email, c.phone "
 			+ "FROM project as p JOIN `order` as o ON p.order_id=o.id JOIN customer as c ON o.customer_id=c.id WHERE p.id=?";

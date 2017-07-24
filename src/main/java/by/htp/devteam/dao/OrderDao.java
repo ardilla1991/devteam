@@ -54,11 +54,11 @@ public interface OrderDao {
 	OrderVo add(OrderVo orderVo) throws DaoException;
 	
 	/**
-	 * Set price for order. Update after creating project
+	 * Set price and date processing for order. Update after creating project
 	 * @param connection
 	 * @param order
 	 * @throws DaoException
 	 */
-	void setPrice(Connection connection, Order order) throws DaoException;
+	void setPriceAndDateProcessing(Connection connection, Order order) throws DaoException;
 	
 }

@@ -1,6 +1,8 @@
 package by.htp.devteam.service;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +12,6 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.OrderListVo;
 import by.htp.devteam.bean.vo.OrderVo;
-import by.htp.devteam.dao.DaoException;
 
 /**
  * Interface for order's Service layer.
@@ -54,13 +55,12 @@ public interface OrderService {
 	 * @param dateFinish finish date of project
 	 * @param workIds list of works 
 	 * @param qualifications Map of qualification as key and count needed qualification as a value
-	 * @param applicationPath path to file storage
 	 * @return OrdeVo : order information, works' information and needed qualification 
 	 * @see by.htp.devteam.bean.vo.OrderVo#OrderVo()
 	 * @throws ServiceException
 	 */
 	OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, 
-			String dateFinish, String[] workIds, Map<String, String> qualifications, String applicationPath ) throws ServiceException;
+			String dateFinish, String[] workIds, Map<String, String> qualifications) throws ServiceException;
 
 	/**
 	 * Get order with all information : order record plus works list and qualification with count employees.
@@ -73,11 +73,10 @@ public interface OrderService {
 	OrderVo getById(String orderId) throws ServiceException;
 	
 	/**
-	 * Set price for order. Update after creating project
+	 * Set price and date processing for order. Update after creating project
 	 * @param connection
-	 * @param order
-	 * @param price
+	 * @param order With udated price and dateProcessing values
 	 * @throws ServiceException
 	 */
-	void setPrice(Connection connection, Order order, String price) throws ServiceException;
+	void setPriceAndDateProcessing(Connection connection, Order order) throws ServiceException;
 }

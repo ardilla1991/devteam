@@ -20,7 +20,7 @@
 				<form id="order_add" name="order_form" action="Main" method="post">
 					<div class="error_message">
 						<c:if test="${ error_code > 0}">
-							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="project"/>
+							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="project"  itemTag="span" containerTag="div"/>
 						</c:if>
 					</div>
 					<script type="text/javascript">
@@ -34,14 +34,31 @@
 						<table class="table table-striped tab-content tab-active">
 							<tbody>
 								<tr>
-									<td><fmt:message key="project.title" />*</td>
-									<td id="title"><input type="text" name="title" maxlength="250"
-										value="${title}" /></td>
+									<td><fmt:message key="project.title" />*</td>				
+									<c:choose>
+										<c:when test="${ error_code > 0}">
+											<c:set var="title_gen">${title}</c:set>
+										</c:when>
+										<c:otherwise>
+											<c:set var="title_gen">${order_vo.getOrder().getTitle()}</c:set>
+										</c:otherwise>
+									</c:choose>
+									<td id="title">
+										<input type="text" name="title" maxlength="250" value="<c:out value="${title_gen}" />" >
+									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key="project.description" />*</td>
+									<c:choose>
+										<c:when test="${ error_code > 0}">
+											<c:set var="description_gen">${description}</c:set>
+										</c:when>
+										<c:otherwise>
+											<c:set var="description_gen">${order_vo.getOrder().getDescription()}</c:set>
+										</c:otherwise>
+									</c:choose>
 									<td id="description">
-										<textarea name="description" cols="22" rows="5">${description}</textarea>
+										<textarea name="description" cols="22" rows="5"><c:out value="${description_gen}" /></textarea>
 									</td>
 								</tr>
 								<tr>
@@ -54,7 +71,7 @@
 													<c:if test="${jpl:inArray(i.getId(), employee)}">checked="checked"</c:if>
 													value="${i.getId()}"
 													data-id="${i.getQualification().getId() }" />
-												<c:out value="${i.getName()}" />
+												<c:out value="${i.getName()}" /> (<c:out value="${i.getQualification().getTitle()}" />)
 											</div>
 										</c:forEach></td>
 								</tr>

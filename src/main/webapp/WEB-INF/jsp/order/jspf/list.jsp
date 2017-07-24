@@ -10,6 +10,7 @@
 				<th><fmt:message key="order.dateCreated" /></th>
 				<th><fmt:message key="order.dateStart" /></th>
 				<th><fmt:message key="order.dateFinish" /></th>
+				<th><fmt:message key="order.dateProcessing" /></th>
 				<th><fmt:message key="order.price" /></th>
 				<c:if test="${ withCustomer == true }">
 					<th><fmt:message key="order.customerInformation" /></th>
@@ -27,6 +28,7 @@
 					<td><c:out value="${i.getDateCreated()}" /></td>
 					<td><c:out value="${i.getDateStart()}" /></td>
 					<td><c:out value="${i.getDateFinish()}" /></td>
+					<td><c:out value="${i.getDateProcessing()}" /></td>
 					<td><c:out value="${i.getPrice()}" /></td>
 					<c:if test="${ withCustomer == true }">
 						<td><c:out value="${i.getCustomer().getName()}" />, <c:out

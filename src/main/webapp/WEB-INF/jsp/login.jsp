@@ -24,14 +24,14 @@
 				</h2>
 				<input type="text" class="form-control"
 					placeholder="<fmt:message key = "user.login" />" required autofocus
-					name="login" value="${login}" /> 
+					name="login" value="<c:out value="${login}" />" /> 
 				<input type="password" class="form-control"
 					placeholder="<fmt:message key = "user.password" />" required
-					name="pass" value="${password}" />
+					name="pass" value="<c:out value="${password}" />" />
 				<div class="error_message">
 					<c:if test="${ error_code > 0}">
 						<msg:message errorCode="${ error_code }" msgList="${ empty_field }"
-							language="${clientLanguage}" country="${clientCountry}"
+							language="${clientLanguage}" country="${clientCountry}" itemTag="span" containerTag="div"
 							bean="user" />
 					</c:if>
 				</div>

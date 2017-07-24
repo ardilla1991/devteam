@@ -5,7 +5,8 @@ import java.io.IOException;
 
 import javax.servlet.http.Part;
 
-import static by.htp.devteam.util.SettingConstantValue.*;
+import by.htp.devteam.util.ConfigProperty;
+
 import static by.htp.devteam.service.util.ConstantValue.*;
 
 /**
@@ -16,23 +17,23 @@ import static by.htp.devteam.service.util.ConstantValue.*;
  */
 public final class UploadFile {
 	
+	private final static UploadFile instance = new UploadFile();
+	
 	/** Path to save file */
-	public final static String uploadPath = UPLOAD_DIR + File.separator;
+	public final static String uploadPath = ConfigProperty.INSTANCE.getStringValue(CONFIG_FILE_UPLOAD_DIR) + File.separator;
 	
 	/** Applications path */
-	private String applicationPath;
+	private final static String applicationPath = ConfigProperty.INSTANCE.getStringValue(CONFIG_APPLICATION_FULL_PATH);
 	
 	/** Full path to save file */
-	private String fullUploadPath;
+	private final static String fullUploadPath = applicationPath + File.separator + uploadPath;
 
-	public UploadFile() {
+	private UploadFile() {
 		super();
 	}
 	
-	public UploadFile(String applicationPath) {
-		super();
-		this.applicationPath = applicationPath;
-		this.fullUploadPath = this.applicationPath + File.separator + uploadPath ;
+	public static UploadFile getInstance() {
+		return instance;
 	}
 	
     /**

@@ -2,11 +2,17 @@ package by.htp.devteam.service.impl;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
+
+import javax.mail.MessagingException;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
@@ -23,8 +29,9 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCode;
+import by.htp.devteam.service.util.email.TLSEmail;
 import by.htp.devteam.service.validation.ProjectValidation;
-import by.htp.devteam.util.SettingConstantValue;
+import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -47,7 +54,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	public ProjectListVo fetchAll(String currPage, Employee employee) throws ServiceException{
 		
 		if ( currPage == null ) {
-			currPage = String.valueOf(SettingConstantValue.START_PAGE);
+			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
 		if ( !ProjectValidation.validatePage(currPage) ) {
@@ -55,7 +62,7 @@ public final class ProjectServiceImpl implements ProjectService{
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
 		
-		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int countPerPage = ConfigProperty.INSTANCE.getIntValue(CONFIG_PAGE_COUNT_PER_PAGE);
 		int currPageValue = Integer.valueOf(currPage);		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
@@ -75,7 +82,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public Project add(OrderVo orderDto, String title, String description, String[] employees, String price) throws ServiceException {
+	public Project add(OrderVo orderVo, String title, String description, String[] employees, String price) throws ServiceException {
 		
 		ProjectValidation projectValidation = new ProjectValidation();
 		projectValidation.validate(title, description, employees, price);
@@ -92,7 +99,7 @@ public final class ProjectServiceImpl implements ProjectService{
 		// get map of selected employees qualifications and their count 
 		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsIdsAndCountByEmployees(employeesIds);
 		// cteate a map for compare with selected values of qualifications
-		Map<Long, Integer> neededQualifications = getNeededQualifications(orderDto.getQualifications());
+		Map<Long, Integer> neededQualifications = getNeededQualifications(orderVo.getQualifications());
 		// compare selected qualificationa and their count with qualifications from order
 		projectValidation.validate(qualificationCountByEmployees, neededQualifications);
 
@@ -104,19 +111,26 @@ public final class ProjectServiceImpl implements ProjectService{
 		Project project = new Project();
 		project.setTitle(title);
 		project.setDescription(description);
-		project.setOrder(orderDto.getOrder());
+		java.util.Date utilDate = new java.util.Date();
+	    Date sqlDate = new Date(utilDate.getTime());
+	    project.setDateCreated(sqlDate);
+		project.setOrder(orderVo.getOrder());
 		
 		Connection connection = null;	
 		OrderService orderService = serviceFactory.getOrderService();
+		
+		orderVo.getOrder().setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
+		orderVo.getOrder().setDateProcessing(sqlDate);
 		try {
 			connection = projectDao.startTransaction();
 			boolean neededEmployeeeAreFree = employeeService.isEmployeesNotBusyForPeriod(connection, employeesIds,
-					orderDto.getOrder().getDateStart(), orderDto.getOrder().getDateFinish());
+					orderVo.getOrder().getDateStart(), orderVo.getOrder().getDateFinish());
 			if (neededEmployeeeAreFree) {
 				project = projectDao.add(connection, project);
 				projectDao.setEmployees(connection, project, employeesIds);
-				orderService.setPrice(connection, orderDto.getOrder(), price);
+				orderService.setPriceAndDateProcessing(connection, orderVo.getOrder());
 				commitTransaction(connection);
+				createAndSendBill(project, orderVo);
 			} else {
 				rollbackTransaction(connection);
 				logger.info(MSG_LOGGER_PROJECT_ADD_NO_ISSET_FREE_EMPLOYEE);
@@ -237,5 +251,29 @@ public final class ProjectServiceImpl implements ProjectService{
 		}
 		return project;
 	}
-
+	
+	/**
+	 * Create bill's body and send email to customer 
+	 * @param project project information
+	 * @param orderVo order information
+	 */
+	private void createAndSendBill(Project project, OrderVo orderVo) {
+		StringBuilder body = new StringBuilder();
+		ResourceBundle textBundle = ResourceBundle.getBundle(RESOURCE_TEXT_BUNDLE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_TITLE));
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_NAME) 
+										 + orderVo.getOrder().getTitle() + MAIL_BODY_NEWLINE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_DATESTART) 
+										 + orderVo.getOrder().getDateStart()+ MAIL_BODY_NEWLINE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_DATEFINISH)
+										 + orderVo.getOrder().getDateFinish()+ MAIL_BODY_NEWLINE);
+		body.append(textBundle.getString(RESOURCE_MAIL_BODY_FIELD_ORDER_PRICE)
+										 + orderVo.getOrder().getPrice()+ MAIL_BODY_NEWLINE);
+		try {
+			TLSEmail.sendEmail(orderVo.getOrder().getCustomer().getEmail(), textBundle.getString(RESOURCE_EMAIL_SUBJECT), body.toString());
+		} catch (UnsupportedEncodingException | MessagingException e) {
+			logger.error(MSG_LOGGER_PROJECT_SEND_MAIL, e);
+		}
+	}
+	
 }

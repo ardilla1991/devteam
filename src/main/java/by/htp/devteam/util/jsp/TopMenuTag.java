@@ -95,13 +95,13 @@ public final class TopMenuTag extends TagSupport {
 				active = currAction.equals("order_list") ? currActionClass : "";
 				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
 										   + "<a href='" + PAGE_ORDER_LIST_URI + "'>" 
-										   + rb.getString("menu.top.orders") + "</a></" + itemTag + ">");
+										   + getString(rb, "menu.top.orders") + "</a></" + itemTag + ">");
 				break;
 			case MANAGER:
 				active = currAction.equals("order_new_list") ? currActionClass : "";
 				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
 										   + "<a href='" + PAGE_ORDER_NEW_LIST_URI + "'>"
-										   + rb.getString("menu.top.orders.new") + "</a></" + itemTag + ">");
+										   + getString(rb, "menu.top.orders.new") + "</a></" + itemTag + ">");
 				break;
 			case DEVELOPER:
 				break;
@@ -113,13 +113,24 @@ public final class TopMenuTag extends TagSupport {
 									   + "<a href='" + PAGE_USER_VIEW_URI +"'>" + user.getLogin() + "</a>"
 									   + "</" + itemTag + ">");
 			pageContext.getOut().write("<" + itemTag + ">"
-									   + "<a href='" + PAGE_LOGOUT +"'>" + rb.getString("menu.top.logout") + "</a>"
+									   + "<a href='" + PAGE_LOGOUT +"'>" + getString(rb, "menu.top.logout") + "</a>"
 									   + "</" + itemTag + ">");
 			pageContext.getOut().write("</" +containerTag  + ">");			
 		} catch (IOException e) {
 			throw new JspException(e.getMessage());
 		}
 		return SKIP_BODY;
+	}
+	
+	/*
+	 * Check if exist key in bundle and return this value
+	 */
+	private String getString(ResourceBundle rb, String key) {
+		if ( rb.containsKey(key) ) {
+			return rb.getString(key);
+		}
+		
+		return "";
 	}
 
 }

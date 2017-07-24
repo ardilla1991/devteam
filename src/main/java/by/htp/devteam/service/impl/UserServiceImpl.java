@@ -14,7 +14,7 @@ import by.htp.devteam.service.util.Encrypting;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.validation.EmployeeValidation;
 import by.htp.devteam.service.validation.UserValidation;
-import by.htp.devteam.util.SettingConstantValue;
+import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -72,7 +72,7 @@ public final class UserServiceImpl implements UserService{
 	@Override
 	public UserListVo fetchAll(String currPage) throws ServiceException {
 		if ( currPage == null ) {
-			currPage = String.valueOf(SettingConstantValue.START_PAGE);
+			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
 		if ( !UserValidation.validatePage(currPage) ) {
@@ -80,7 +80,7 @@ public final class UserServiceImpl implements UserService{
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
 		
-		int countPerPage = SettingConstantValue.COUNT_PER_PAGE;
+		int countPerPage = ConfigProperty.INSTANCE.getIntValue(CONFIG_PAGE_COUNT_PER_PAGE);
 		int currPageValue = Integer.valueOf(currPage);		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			

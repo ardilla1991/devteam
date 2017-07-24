@@ -72,18 +72,19 @@ public final class ACLGuestFilter implements Filter{
 					return;
 				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue()) ) {
 					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD);
-					req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
+					resp.sendError(404);
 					return;
 				}
 			} catch (CommandExeption e) {
 				logger.info(e.getMessage());
-				req.getRequestDispatcher(PAGE_ERROR_404).forward(req, resp);
+				//resp.sendError(404);
+				resp.sendRedirect(PAGE_SHOW_AUTHORIZATION_FORM_URI);
 				return;
 			}
 		} else if ( action == null ) {
-			//logger.info(MSG_LOGGER_NULL_ACTION);
-			//resp.sendRedirect(PAGE_EMPTY_URI);
-			//return;
+			logger.info(MSG_LOGGER_NULL_ACTION);
+			req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
+			return;
 		}
 		chain.doFilter(request, response);
 	}
