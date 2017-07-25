@@ -34,4 +34,9 @@ public class BeanValidation {
 		return Validator.isLong(id);
 	}
 	
+	protected void setNotValidField(String field) {
+		valid &= false;
+		notValidField.add(field);
+	}
+	
 }

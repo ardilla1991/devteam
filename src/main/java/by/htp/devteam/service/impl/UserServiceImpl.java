@@ -8,7 +8,9 @@ import by.htp.devteam.bean.vo.UserListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
+import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
+import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encrypting;
 import by.htp.devteam.service.util.ErrorCode;
@@ -102,27 +104,35 @@ public final class UserServiceImpl implements UserService{
 	@Override
 	public User add(String login, String password, String role, Employee employee) throws ServiceException {
 		UserValidation userValidation = new UserValidation();
-		userValidation.validate(login, password, role);
-		
-		if ( employee.getUser().getId() != null) {
-			logger.info(MSG_LOGGER_USER_ADD_INCORRECT_FIELD);
-			throw new ServiceException(ErrorCode.VALIDATION, userValidation.getNotValidField());
-		}
+		userValidation.validate(login, password, role, employee);
 		
 		if ( !userValidation.isValid() ) {
 			logger.info(MSG_LOGGER_USER_ADD_INCORRECT_FIELD);
 			throw new ServiceException(ErrorCode.VALIDATION, userValidation.getNotValidField());
-		} 
+		}
 		
 		User user = new User();
 		user.setLogin(login);
 		user.setRole(UserRole.valueOf(role));
 		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		EmployeeService employeeService = serviceFactory.getEmployeeService();
+		
 		Connection connection = null;
 		try {
-			connection = userDao.startTransaction();
-			//employee = userDao.add(connection, employee);
+			boolean isExistUserForEmployee = employeeService.isExistUserForEmployee(connection, employee);
+			if ( isExistUserForEmployee == false ) {
+				connection = userDao.startTransaction();
+				user = userDao.add(connection, user);
+				employeeService.setUserForEmployee(connection, employee, user);
+				commitTransaction(connection);
+			} else {
+				rollbackTransaction(connection);
+				logger.info(MSG_LOGGER_EMPLOYEE_USER_ALREADY_EXIST);
+				throw new ServiceException(ErrorCode.USER_FOR_EMPLOYEE_ALREADY_EXIST);
+			}
 		} catch ( DaoException e ) {
+			rollbackTransaction(connection);
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
@@ -130,4 +140,24 @@ public final class UserServiceImpl implements UserService{
 		return user;
 	}
 
+	/*
+	 * rollback transaction
+	 */
+	private void rollbackTransaction(Connection connection) throws ServiceException {
+		try {
+			userDao.rollbackTransaction(connection);
+		} catch (DaoException e) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCode.APPLICATION);
+		}
+	}
+	
+	/*
+	 * Commit transaction
+	 */
+	private void commitTransaction(Connection connection) throws DaoException {
+		userDao.commitTransaction(connection);
+	}
+
+	
 }

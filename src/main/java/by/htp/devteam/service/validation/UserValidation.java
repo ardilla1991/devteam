@@ -1,11 +1,19 @@
 package by.htp.devteam.service.validation;
 
+import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.UserRole;
+
 /**
  * Validation users fields. Extends {@link BeanValidation}
  * @author julia
  *
  */
 public final class UserValidation extends BeanValidation {
+	
+	private final static String LOGIN = "login";
+	private final static String PASSWORD = "password";
+	private final static String ROLE = "role";
+	private final static String EMPLOYEE = "employee";
 	
 	public UserValidation() {
 		super();
@@ -20,28 +28,39 @@ public final class UserValidation extends BeanValidation {
 		if ( login != null ) {
 			login = login.trim();
 			if ( Validator.isEmpty(login) ) {
-				valid &= false;
-				notValidField.add("login");
+				setNotValidField(LOGIN);
 			}
 		} else {
-			valid &= false;
-			notValidField.add("login");
+			setNotValidField(LOGIN);
 		}
 		
 		if ( password != null ) {
 			password = password.trim();
 			if ( Validator.isEmpty(password) ) {
-				valid &= false;
-				notValidField.add("password");
+				setNotValidField(PASSWORD);
 			}
 		} else {
-			valid &= false;
-			notValidField.add("password");
+			setNotValidField(PASSWORD);
 		}
 	}
 	
-	public void validate(String login, String password, String role) {
+	/**
+	 * check if fields are correct when we try to add new user for employee
+	 * @param login
+	 * @param password
+	 * @param role
+	 * @param employee For validate an employee we check if isset employee in DB and if user already exist for employee.
+	 */
+	public void validate(String login, String password, String role, Employee employee) {
 		validate(login, password);
+		
+		if ( UserRole.lookup(role) == false ) {
+			setNotValidField(ROLE);
+		}
+		
+		if ( employee.getUser().getId() != null || employee == null ) {
+			setNotValidField(EMPLOYEE);
+		}
 	}
 	
 	/**

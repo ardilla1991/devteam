@@ -301,8 +301,7 @@ public final class OrderDaoImpl implements OrderDao {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_ORDER_SET_PRICE, e);
-		}
-		
+		}	
 	}
 	
 	private Order getOrder(Connection dbConnection, Long id) throws SQLException {

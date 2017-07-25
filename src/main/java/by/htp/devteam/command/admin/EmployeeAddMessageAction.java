@@ -31,11 +31,6 @@ public final class EmployeeAddMessageAction implements CommandAction{
 		
 		logger.info(MSG_LOGGER_EMPLOYEE_ADD_OK_MESSAGE, userVO.getUser().getLogin());
 		
-		request.setAttribute(REQUEST_PARAM_USER_SHOW_ADD_FORM_URI, PAGE_USER_SHOW_ADD_FORM_URI);
-		request.setAttribute(REQUEST_PARAM_USER_ROLE_ENUM, UserRole.values());
-		System.out.println("id=" + request.getAttribute(REQUEST_PARAM_EMPLOYEE_ID));
-		request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, request.getParameter(REQUEST_PARAM_EMPLOYEE_ID));
-		
 		return new Page(PAGE_EMPLOYEE_ADD_MESSAGE);
 	}
 	

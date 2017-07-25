@@ -32,7 +32,7 @@ public final class ConstantValue {
 			+ "Incorrect fields values for employee field";
 	
 	public static final String MSG_LOGGER_PROJECT_ADD_NO_ISSET_FREE_EMPLOYEE = "Project add. "
-			+ "No iset free employee";
+			+ "No isset free employee";
 	
 	public static final String MSG_LOGGER_PROJECT_VIEW_INCORRECT_ID = "Project view. Incorrect id {} value";
 	public static final String MSG_LOGGER_PROJECT_ADD_INCORRECT_ORDER_ID = "Project add. Incorrect id {} value for order";
@@ -47,6 +47,8 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_EMPLOYEE_ADD_INCORRECT_FIELD = "Employee add. Incorrect fields values";
 	public static final String MSG_LOGGER_EMPLOYEE_VIEW_INCORRECT_ID = "Employee view. Incorrect id {} value";
 	public static final String MSG_LOGGER_EMPLOYEE_VIEW_NOT_EXIST_ID = "Employee view. Not exist id {} ";
+	public static final String MSG_LOGGER_EMPLOYEE_USER_ALREADY_EXIST = "Set user for employee. "
+			+ "User already exist";
 
 	public static final String RESOURCE_CONFIG_BUNDLE = "config";
 	public static final String CONFIG_PAGE_START_PAGE = "page.start_page";

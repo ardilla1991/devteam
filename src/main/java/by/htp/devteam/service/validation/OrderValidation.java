@@ -12,6 +12,14 @@ import java.util.Map.Entry;
  */
 public final class OrderValidation extends BeanValidation{
 	
+	private final static String TITLE = "title";
+	private final static String DESCRIPTION = "description";
+	private final static String SPECIFICATION = "specification";
+	private final static String QUALIFICATION = "qualification";
+	private final static String WORK = "work";
+	private final static String DATE_START = "dateStart";
+	private final static String DATE_FINISH = "dateFinish";
+	
 	public OrderValidation() {
 		super();
 	}
@@ -33,54 +41,45 @@ public final class OrderValidation extends BeanValidation{
 		if ( title != null ) {
 			title = title.trim();
 			if ( Validator.isEmpty(title) || title.length() > 250 ) {
-				valid &= false;
-				notValidField.add("title");
+				setNotValidField(TITLE);
 			}
 		} else {
-			valid &= false;
-			notValidField.add("title");
+			setNotValidField(TITLE);
 		}
 		
 		if ( description != null ) {
 			description = description.trim();
 			if ( Validator.isEmpty(description) || description.length() > 2000 ) {
-				valid &= false;
-				notValidField.add("description");
+				setNotValidField(DESCRIPTION);
 			}
 		} else {
-			valid &= false;
-			notValidField.add("description");
+			setNotValidField(DESCRIPTION);
 		}
 		
 		if ( !Validator.isCorrectFileExtension(specificationFileName) || specificationFileName.length() > 50) {
-			valid &= false;
-			notValidField.add("specification");
+			setNotValidField(SPECIFICATION);
 		}
 		
 		boolean validDateStart = false;
 		if ( !Validator.isDate(dateStart) ) {
-			valid &= false;
-			notValidField.add("dateStart");
+			setNotValidField(DATE_START);
 		} else {
 			Calendar cal = Calendar.getInstance();
 			Calendar dateStartCal = getCalendarTypeFromString(dateStart);
 			if ( !dateStartCal.after(cal) ) {
-				valid &= false;
-				notValidField.add("dateStart");
+				setNotValidField(DATE_START);
 			} else {
 				validDateStart = true;
 			}
 		}
 		
 		if ( !Validator.isDate(dateFinish) ) {
-			valid &= false;
-			notValidField.add("dateFinish");
+			setNotValidField(DATE_FINISH);
 		} else if ( validDateStart ) {
 			Calendar dateStartCal = getCalendarTypeFromString(dateStart);
 			Calendar dateFinishCal = getCalendarTypeFromString(dateFinish);
 			if ( !dateFinishCal.after(dateStartCal) ) {
-				valid &= false;
-				notValidField.add("dateFinish");
+				setNotValidField(DATE_FINISH);
 			}
 		}
 		
@@ -88,29 +87,25 @@ public final class OrderValidation extends BeanValidation{
 			int workIdsLength = workIds.length;
 			for ( int i = 0; i < workIdsLength; i++ ) {
 				if ( !Validator.isLong(workIds[i]) ) {
-					valid &= false;
-					notValidField.add("work");
+					setNotValidField(WORK);
 					break;
 				}
 			}
 		} else {
-			valid &= false;
-			notValidField.add("work");
+			setNotValidField(WORK);
 		}
 
 		Iterator<Entry<String, String>> it = qualificationsIdsAndCount.entrySet().iterator();
 		if ( it.hasNext() ) {
 			while ( it.hasNext() ) {
-				Map.Entry pair = (Map.Entry) it.next();
+				Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
 				if ( !Validator.isLong( (String) pair.getKey() ) || !Validator.isInt( (String) pair.getValue() ) ) {
-					valid &= false;
-					notValidField.add("qualification");
+					setNotValidField(QUALIFICATION);
 					break;
 				}
 			}	
 		} else {
-			valid &= false;
-			notValidField.add("qualification");
+			setNotValidField(QUALIFICATION);
 		}
 	}
 	

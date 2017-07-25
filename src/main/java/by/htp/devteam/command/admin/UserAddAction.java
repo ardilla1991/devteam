@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -43,10 +42,9 @@ public final class UserAddAction implements CommandAction {
 		String password = request.getParameter(REQUEST_PARAM_USER_PASSWORD);
 		String role = request.getParameter(REQUEST_PARAM_USER_ROLE);
 		String employee_id = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
-		User user = null;
 		try {
 			Employee employee = employeeService.getById(employee_id);
-			user = userService.add(login, password, role, employee);
+			userService.add(login, password, role, employee);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());

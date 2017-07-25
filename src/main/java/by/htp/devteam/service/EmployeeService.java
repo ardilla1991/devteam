@@ -73,7 +73,39 @@ public interface EmployeeService {
 	boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish) 
 			throws DaoException;
 	
+	/**
+	 * Add employee
+	 * @param name
+	 * @param startWork start date of employee's work
+	 * @param qualification
+	 * @return employee
+	 * @throws ServiceException
+	 */
 	Employee add(String name, String startWork, String qualification) throws ServiceException;
 	
+	/**
+	 * Get employee by id
+	 * @param id employee's id
+	 * @return employee
+	 * @throws ServiceException
+	 */
 	Employee getById(String id) throws ServiceException;
+	
+	/**
+	 * Set user for employee
+	 * @param connection
+	 * @param employee
+	 * @param user
+	 * @throws ServiceException
+	 */
+	void setUserForEmployee(Connection connection, Employee employee, User user) throws ServiceException;
+	
+	/**
+	 * Check if exist user for employee. If exist we couldn't set user for employee
+	 * @param connection
+	 * @param employee
+	 * @return boolean
+	 * @throws DaoException
+	 */
+	boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException;
 }

@@ -2,6 +2,7 @@ package by.htp.devteam.dao;
 
 import java.sql.Connection;
 
+import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.UserListVo;
 
@@ -31,9 +32,34 @@ public interface UserDao {
 	 */
 	UserListVo fetchAll(int offset, int countPerPage) throws DaoException;
 	
+	/**
+	 * Save user in storage. 
+	 * @param connection Connection created in service layer because transaction
+	 * @param user user information
+	 * @return
+	 * @throws DaoException
+	 */
 	User add(Connection connection, User user) throws DaoException;
 	
+	/**
+	 * Get connection from pool and start transaction
+	 * @return Connection
+	 * @throws DaoException
+	 */
 	Connection startTransaction() throws DaoException;
+	
+	/**
+	 * Rollback tarnsaction and return connection in pool
+	 * @param connection
+	 * @throws DaoException
+	 */
 	void rollbackTransaction(Connection connection) throws DaoException;
+	
+	/**
+	 * Commit ttansaction and return connection in pool
+	 * @param connection
+	 * @throws DaoException
+	 */
 	void commitTransaction(Connection connection) throws DaoException;
+
 }

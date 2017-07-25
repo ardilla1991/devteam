@@ -99,7 +99,7 @@ public final class ProjectServiceImpl implements ProjectService{
 		// get map of selected employees qualifications and their count 
 		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsIdsAndCountByEmployees(employeesIds);
 		// cteate a map for compare with selected values of qualifications
-		Map<Long, Integer> neededQualifications = getNeededQualifications(orderVo.getQualifications());
+		Map<Long, Integer> neededQualifications = getNeededQualificationsAsIdAndCount(orderVo.getQualifications());
 		// compare selected qualificationa and their count with qualifications from order
 		projectValidation.validate(qualificationCountByEmployees, neededQualifications);
 
@@ -145,7 +145,10 @@ public final class ProjectServiceImpl implements ProjectService{
 		return project;
 	}
 	
-	private Map<Long, Integer> getNeededQualifications(Map<Qualification, Integer> qualifications) {
+	/*
+	 * Form Map with id qualification as Key and count qualifications as value
+	 */
+	private Map<Long, Integer> getNeededQualificationsAsIdAndCount(Map<Qualification, Integer> qualifications) {
 		Map<Long, Integer> neededQualifications = new HashMap<Long, Integer>(qualifications.size());
 		for ( Entry<Qualification, Integer> qualification : qualifications.entrySet() ) {
 		    Map.Entry<Qualification, Integer> entry = (Map.Entry<Qualification, Integer>) qualification;
@@ -155,6 +158,9 @@ public final class ProjectServiceImpl implements ProjectService{
 		return neededQualifications;
 	}
 	
+	/*
+	 * Convert string value to long for array of values
+	 */
 	private Long[] comvertFromStringToLongArray(String[] arrayOfStringValues) {
 		int arrayLength = arrayOfStringValues.length;
 		Long[] longTypeArray = new Long[arrayLength];
@@ -165,6 +171,9 @@ public final class ProjectServiceImpl implements ProjectService{
 		return longTypeArray;
 	}
 	
+	/*
+	 * rollback transaction
+	 */
 	private void rollbackTransaction(Connection connection) throws ServiceException {
 		try {
 			projectDao.rollbackTransaction(connection);
@@ -174,6 +183,9 @@ public final class ProjectServiceImpl implements ProjectService{
 		}
 	}
 	
+	/*
+	 * Commit transaction
+	 */
 	private void commitTransaction(Connection connection) throws DaoException {
 		projectDao.commitTransaction(connection);
 	}

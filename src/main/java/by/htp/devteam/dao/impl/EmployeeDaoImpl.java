@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
@@ -136,8 +134,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		int countFreeEmployees = 0;
 		boolean isFree = false;
 		String query = SQL_EMPLOYEE_GET_COUNT_FREE_FROM_LIST.replace(SQL_IN_CONDITION_MASK, qualificationIdsStr);
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement st = dbConnection.prepareStatement(query) ) {
+		try ( PreparedStatement st = connection.prepareStatement(query) ) {
 			
 			for ( int i = 1; i <= countIds; i++ ) {
 				st.setLong(i, ids[i - 1]);
@@ -298,6 +295,34 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		}
 		
 		return employee;
+	}
+
+	@Override
+	public void setUserForEmployee(Connection connection, Employee employee, User user) throws DaoException {
+		try ( PreparedStatement ps = connection.prepareStatement(SQL_EMPLOYEE_SET_USER) ) {
+			ps.setLong(1, user.getId());
+			ps.setLong(2, employee.getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_SET_USER, e);
+		}		
+	}
+
+	@Override
+	public boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException {
+		boolean isExist = true;
+		try ( PreparedStatement st = connection.prepareStatement(SQL_EMPLOYEE_GET_USER_ID) ) {
+
+			st.setLong(1, employee.getId());
+			try ( ResultSet rs = st.executeQuery() ) {
+				if ( rs.next() && rs.getInt(1) == 0 )
+					isExist = false;
+			}
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_USER, e);
+		}
+
+		return isExist;
 	}
 
 }

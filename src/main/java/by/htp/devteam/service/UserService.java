@@ -34,5 +34,15 @@ public interface UserService {
 	 */
 	UserListVo fetchAll(String currPage) throws ServiceException;
 	
+	/**
+	 * storage user and set use for employee. User will be added if there are not user for employee and employee isset in storage.
+	 * @param login
+	 * @param password
+	 * @param role
+	 * @param employee
+	 * @return User object
+	 * @throws ServiceException
+	 */
 	User add(String login, String password, String role, Employee employee) throws ServiceException;
+
 }

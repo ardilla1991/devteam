@@ -112,6 +112,10 @@ public final class ConstantValue {
 	
 	public final static String SQL_EMPLOYEE_GET_BY_ID = "SELECT e.* FROM `employee` JOIN user as u ON e.user_id=u.id WHERE id=?";
 	
+	public final static String SQL_EMPLOYEE_GET_USER_ID = "SELECT user_id FROM employee WHERE id=?";
+	
+	public final static String SQL_EMPLOYEE_SET_USER = "UPDATE `employee` SET user_id=? WHERE id=?";
+	
 	public final static String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
 	
 	
@@ -131,6 +135,8 @@ public final class ConstantValue {
 	public final static String MSG_ERROR_EMPLOYEE_GET_COUNT_FREE_FROM_LIST = "sql error: can't get count of free employees from list ids";
 	public final static String MSG_ERROR_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "sql error: can't get qualifications with counts by employees ids";
 	public final static String MSG_ERROR_EMPLOYEE_GET_BY_PROJECT = "sql error: can't get employees by project";
+	public final static String MSG_ERROR_EMPLOYEE_GET_USER = "sql error: can't get user for employee";
+	public final static String MSG_ERROR_EMPLOYEE_SET_USER = "sql error: can't set user for employee";
 
 	public final static String MSG_ERROR_ORDER_NEW_RECORDS_LIST = "sql error: can't get list of new orders";
 	public final static String MSG_ERROR_ORDER_GET_LIST_BY_CUSTOMER_ID = "sql error: can't get list of new orders";

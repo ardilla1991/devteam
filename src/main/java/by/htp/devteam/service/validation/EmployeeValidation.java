@@ -1,11 +1,12 @@
 package by.htp.devteam.service.validation;
 
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public final class EmployeeValidation extends BeanValidation {
+	
+	private final static String NAME = "name";
+	private final static String START_WORK = "startWork";
+	private final static String QUALIFICATION = "qualification";
 	
 	public EmployeeValidation() {
 		super();
@@ -27,22 +28,18 @@ public final class EmployeeValidation extends BeanValidation {
 		if ( name != null ) {
 			name = name.trim();
 			if ( Validator.isEmpty(name) || name.length() > 50 ) {
-				valid &= false;
-				notValidField.add("name");
+				setNotValidField(NAME);
 			}
 		} else {
-			valid &= false;
-			notValidField.add("name");
+			setNotValidField(NAME);
 		}
 		
 		if ( !Validator.isDate(startWork) ) {
-			valid &= false;
-			notValidField.add("startWork");
+			setNotValidField(START_WORK);
 		}
 
 		if ( !Validator.isLong(qualification) ) {
-			valid &= false;
-			notValidField.add("qualification");
+			setNotValidField(QUALIFICATION);			
 		}
 	}
 	

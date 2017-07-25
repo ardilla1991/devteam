@@ -137,9 +137,26 @@ public final class UserDaoImpl implements UserDao {
 
 	@Override
 	public User add(Connection connection, User user) throws DaoException {
-		
-		
-		return null;
+		User createdUser = user;
+		try ( PreparedStatement ps = connection.prepareStatement(SQL_EMPLOYEE_ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
+
+			prepareStatementForUser(ps, user);
+			ps.executeUpdate();
+			try ( ResultSet rs = ps.getGeneratedKeys() ) {
+				if (rs.next()) {
+					createdUser.setId(rs.getLong(ID));
+				}
+			}
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_ADD, e);
+		}
+		return createdUser;
+	}
+	
+	private void prepareStatementForUser(PreparedStatement ps, User user) throws SQLException {
+		ps.setString(1, user.getLogin());
+		ps.setString(2, user.getPassword());
+		ps.setString(3, user.getRole().toString());
 	}
 	
 	@Override
@@ -173,4 +190,5 @@ public final class UserDaoImpl implements UserDao {
 			throw new DaoException(MSG_ERROR_COMMIT, e);
 		}
 	}
+
 }

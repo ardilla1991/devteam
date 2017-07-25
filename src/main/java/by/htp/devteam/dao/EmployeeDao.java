@@ -70,7 +70,37 @@ public interface EmployeeDao {
 	 */
 	Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException;
 	
+	/**
+	 * Storage employee in DB
+	 * @param employee
+	 * @return employee
+	 * @throws DaoException
+	 */
 	Employee add(Employee employee) throws DaoException;
 	
+	/**
+	 * Get employee by id
+	 * @param id employee's id
+	 * @return employee
+	 * @throws DaoException
+	 */
 	Employee getById(Long id) throws DaoException;
+	
+	/**
+	 * Set user for employee
+	 * @param connection
+	 * @param employee
+	 * @param user
+	 * @throws DaoException
+	 */
+	void setUserForEmployee(Connection connection, Employee employee, User user) throws DaoException;
+	
+	/**
+	 * Check if exist user for employee. If exist we couldn't set user for employee
+	 * @param connection
+	 * @param employee
+	 * @return boolean
+	 * @throws DaoException
+	 */
+	boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException;
 }

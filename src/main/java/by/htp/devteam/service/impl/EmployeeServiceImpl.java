@@ -149,4 +149,19 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		
 		return employee;
 	}
+
+	@Override
+	public void setUserForEmployee(Connection connection, Employee employee, User user) throws ServiceException {
+		try {
+			employeeDao.setUserForEmployee(connection, employee, user);
+		} catch ( DaoException e ) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCode.APPLICATION);
+		}		
+	}
+
+	@Override
+	public boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException {
+		return employeeDao.isExistUserForEmployee(connection, employee);
+	}
 }

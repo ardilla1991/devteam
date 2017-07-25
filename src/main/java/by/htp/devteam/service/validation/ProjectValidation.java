@@ -7,7 +7,14 @@ import java.util.Map;
  * @author julia
  *
  */
-public final class ProjectValidation extends BeanValidation{
+public final class ProjectValidation extends BeanValidation {
+	
+	private final static String TITLE = "title";
+	private final static String DESCRIPTION = "description";
+	private final static String EMPLOYEE = "employee";
+	private final static String QUALIFICATION = "qualification";
+	private final static String HOURS = "hours";
+	private final static String PRICE = "price";
 	
 	public ProjectValidation() {
 		super();
@@ -25,43 +32,36 @@ public final class ProjectValidation extends BeanValidation{
 		if ( title != null ) {
 			title = title.trim();
 			if ( Validator.isEmpty(title) || title.length() > 250 ) {
-				valid &= false;
-				notValidField.add("title");
+				setNotValidField(TITLE);
 			}
 		} else {
-			valid &= false;
-			notValidField.add("title");
+			setNotValidField(TITLE);
 		}
 		
 		
 		if ( description != null ) {
 			description = description.trim();
 			if ( Validator.isEmpty(description) || description.length() > 2000 ) {
-				valid &= false;
-				notValidField.add("description");
+				setNotValidField(DESCRIPTION);
 			}
 		} else {
-			valid &= false;
-			notValidField.add("description");
+			setNotValidField(DESCRIPTION);
 		}
 		
 		if ( employees != null ) {
 			int employeesIdsLength = employees.length;
 			for ( int i = 0; i < employeesIdsLength; i++ ) {
 				if ( !Validator.isLong(employees[i]) ) {
-					valid &= false;
-					notValidField.add("employee");
+					setNotValidField(EMPLOYEE);
 					break;
 				}
 			}
 		} else {
-			valid &= false;
-			notValidField.add("employee");
+			setNotValidField(EMPLOYEE);
 		}
 		
 		if ( Validator.isEmpty(price) || !Validator.checkBigDecimal(price) || price.length() > 11) {
-			valid &= false;
-			notValidField.add("price");
+			setNotValidField(PRICE);
 		}
 		
 	}
@@ -76,19 +76,17 @@ public final class ProjectValidation extends BeanValidation{
 						 Map<Long, Integer> neededQualifications) {
 		
 		if ( !neededQualifications.equals(qualificationCountBySelectedEmployees) ) {
-			valid &= false;
-			notValidField.add("qualification");
+			setNotValidField(QUALIFICATION);
 		}
 	}
 	
 	/**
-	 * 
+	 * Validate hours field
 	 * @param hours Check if field has a correct type
 	 */
 	public void validate(String hours) {
 		if ( !Validator.isInt(hours) ) {
-			valid &= false;
-			notValidField.add("hours");
+			setNotValidField(HOURS);
 		}
 	}
 	

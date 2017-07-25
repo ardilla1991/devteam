@@ -38,10 +38,9 @@ public final class EmployeeAddAction implements CommandAction{
 		String name = request.getParameter(REQUEST_PARAM_EMPLOYEE_NAME);
 		String startWork = request.getParameter(REQUEST_PARAM_EMPLOYEE_START_WORK);
 		String qualification = request.getParameter(REQUEST_PARAM_EMPLOYEE_QUALIFICATION);
-		Employee employee = null;
 		
 		try {
-			employee = employeeService.add(name, startWork, qualification);
+			employeeService.add(name, startWork, qualification);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
@@ -52,7 +51,7 @@ public final class EmployeeAddAction implements CommandAction{
 			page = PAGE_EMPLOYEE_SHOW_ADD_FORM_URI;
 			isRedirect = false;
 		}
-		return new Page(page + employee.getId(), isRedirect);
+		return new Page(page, isRedirect);
 	}
 	
 	private void logging(HttpServletRequest request ) {
