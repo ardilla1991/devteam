@@ -48,7 +48,6 @@ public final class ConstantValue {
 	public static final String JSP_FOLDER_ERROR = JSP_FOLDER_PATH + "error/";
 	public static final String PATH_AJAX = "ajax/";
 	
-	public static final String PAGE_ERROR = JSP_FOLDER_PATH + "error.jsp";
 	public static final String PAGE_ERROR_500 = JSP_FOLDER_ERROR + "error500.jsp";
 	public static final String PAGE_ERROR_404 = JSP_FOLDER_ERROR + "error404.jsp";
 	

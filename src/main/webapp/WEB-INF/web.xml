@@ -78,12 +78,8 @@
 			<taglib-location>/WEB-INF/tld/page.tld</taglib-location>
 		</taglib>
 		<taglib>
-			<taglib-uri>topmenutag</taglib-uri>
-			<taglib-location>/WEB-INF/tld/topMenu.tld</taglib-location>
-		</taglib>
-		<taglib>
-			<taglib-uri>leftmenutag</taglib-uri>
-			<taglib-location>/WEB-INF/tld/leftMenu.tld</taglib-location>
+			<taglib-uri>menutag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/menu.tld</taglib-location>
 		</taglib>
 		<taglib>
 			<taglib-uri>messagetag</taglib-uri>

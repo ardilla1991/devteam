@@ -1,26 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>404</title>
-</head>
-<body>
-	<c:set var="clientLanguage"
-		value="${pageContext.request.locale.language}" scope="request" />
-	<c:set var="clientCountry"
-		value="${pageContext.request.locale.country}" scope="request" />
+<%@ page isErrorPage="true" %>
+<c:set var="page_title" value="404" scope="request" />
+<%@include file="../jspf/header.jsp"%>
 
-	<c:set var="curLocale" scope="request"
-		value="${clientLanguage}_${clientCountry}" />
+<div class="container-fluid">
+	<div class="row">
 
-	<fmt:setLocale value="${curLocale}" />
-	<fmt:setBundle basename="text" />
-	<h1 class="page-header">
-		<fmt:message key="error.404" />
-	</h1>
-</body>
-</html>
+		<%@include file="../jspf/leftBar.jsp"%>
+
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<h1 class="page-header"><fmt:message key="error.404" /></h1>
+			
+		</div>
+	</div>
+</div>
+
+<%@include file="../jspf/footer.jsp"%>

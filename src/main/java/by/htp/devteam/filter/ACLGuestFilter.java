@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -44,6 +46,9 @@ public final class ACLGuestFilter implements Filter{
 	/** logger */
 	private final static Logger logger = LogManager.getLogger(ACLGuestFilter.class.getName());
 	
+	/** pattern for url */
+	private final static Pattern URL_PATTERN = Pattern.compile("^/devteam/(Main/?)?$");
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -61,7 +66,6 @@ public final class ACLGuestFilter implements Filter{
 
 		HttpSession session = req.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
-
 		if ( !isAuthorised && action != null ) {
 			UserRole role = UserRole.GUEST;
 
@@ -72,7 +76,8 @@ public final class ACLGuestFilter implements Filter{
 					return;
 				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue()) ) {
 					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD);
-					resp.sendError(404);
+					req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
+					//resp.sendError(404);
 					return;
 				}
 			} catch (CommandExeption e) {
@@ -82,10 +87,14 @@ public final class ACLGuestFilter implements Filter{
 				return;
 			}
 		} else if ( action == null ) {
-			logger.info(MSG_LOGGER_NULL_ACTION);
-			req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
-			return;
+			Matcher matcher = URL_PATTERN .matcher(req.getRequestURI());
+			if ( matcher.find() == false ) {
+				logger.info(MSG_LOGGER_NULL_ACTION);
+				req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
+				return;
+			}
 		}
+		
 		chain.doFilter(request, response);
 	}
 

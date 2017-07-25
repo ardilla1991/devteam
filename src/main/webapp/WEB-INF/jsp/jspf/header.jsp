@@ -16,10 +16,18 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type">
-		<title><fmt:message key = "admin.sitename" /></title>
+		<c:choose>
+			<c:when test="${ empty page_title}">
+				<c:set var="p_title" scope="page"><fmt:message key = "admin.sitename" /></c:set>
+			</c:when>
+			<c:otherwise>
+				<c:set var="p_title" scope="page">${page_title}</c:set>
+			</c:otherwise>
+		</c:choose>
+		<title>${p_title }</title>
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="styles/dashboard.css">
-		<link rel="stylesheet" type="text/css" href="styles/style.css">
+		<link rel="stylesheet" type="text/css" href="style/dashboard.css">
+		<link rel="stylesheet" type="text/css" href="style/style.css">
 	</head>
 	<body> 
 	  	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
