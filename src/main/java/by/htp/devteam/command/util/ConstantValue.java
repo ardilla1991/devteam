@@ -71,6 +71,7 @@ public final class ConstantValue {
 	public static final String PATH_USER = JSP_FOLDER_PATH + "user/";
 	public static final String PAGE_USER_VIEW = PATH_USER + "view.jsp";
 	public static final String PAGE_USER_LIST = PATH_USER + "list.jsp";
+	public static final String PAGE_USER_ADD = PATH_USER + "add.jsp";
 	
 	public static final String PATH_EMPLOYEE = JSP_FOLDER_PATH + "employee/";
 	public static final String PAGE_EMPLOYEE_ADD = PATH_EMPLOYEE + "add.jsp";

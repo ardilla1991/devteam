@@ -88,9 +88,10 @@ public final class ACLGuestFilter implements Filter{
 			}
 		} else if ( action == null ) {
 			Matcher matcher = URL_PATTERN .matcher(req.getRequestURI());
-			if ( matcher.find() == false ) {
+			if ( matcher.matches() == false ) {
 				logger.info(MSG_LOGGER_NULL_ACTION);
-				req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
+				//req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
+				resp.sendRedirect("/devteam");
 				return;
 			}
 		}

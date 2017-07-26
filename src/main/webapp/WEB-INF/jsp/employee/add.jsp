@@ -26,7 +26,7 @@
 						<table class="table table-striped tab-content tab-active">
 							<tbody>
 								<tr>
-									<td><fmt:message key = "user.name" />*</td>
+									<td><fmt:message key = "employee.name" />*</td>
 									<td id="name"><input type="text" name="name" value="${name}" maxlength="50"/></td>
 								</tr>
 								<tr>
