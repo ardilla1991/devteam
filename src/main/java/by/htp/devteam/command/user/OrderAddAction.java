@@ -22,7 +22,9 @@ import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Action for add order.
@@ -98,9 +100,12 @@ public class OrderAddAction implements CommandAction{
 	 */
 	private Map<String, String> getQualificationsFromRequest(HttpServletRequest request) {
 		Map<String, String> assocArray = new HashMap<String, String>();
-
-		for(Object obj :request.getParameterMap().entrySet()) {
-		    Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) obj;
+		
+		Set params = request.getParameterMap().entrySet();
+		Iterator it = params.iterator();
+		while (it.hasNext() ) {
+		    @SuppressWarnings("unchecked")
+			Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) it.next();
 		    String name = entry.getKey();
 
 		    if (name.startsWith(REQUEST_PARAM_ORDER_QUALIFICATION + "[")) {

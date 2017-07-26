@@ -11,7 +11,9 @@
 				<form id="order_add" name="order_form" action="Main?action=employee_add" method="post">
 					<div class="error_message">
 						<c:if test="${ error_code > 0}">
-							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="employee"/>
+							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" 
+										 language="${clientLanguage}" country="${clientCountry}" 
+										 bean="employee" itemTag="span" containerTag="div"/>
 						</c:if>
 					</div>
 					<script type="text/javascript">
