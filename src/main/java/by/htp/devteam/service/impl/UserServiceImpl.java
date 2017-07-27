@@ -113,6 +113,7 @@ public final class UserServiceImpl implements UserService{
 		
 		User user = new User();
 		user.setLogin(login);
+		user.setPassword(Encrypting.getCode(password));
 		user.setRole(UserRole.valueOf(role));
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -120,9 +121,9 @@ public final class UserServiceImpl implements UserService{
 		
 		Connection connection = null;
 		try {
+			connection = userDao.startTransaction();
 			boolean isExistUserForEmployee = employeeService.isExistUserForEmployee(connection, employee);
 			if ( isExistUserForEmployee == false ) {
-				connection = userDao.startTransaction();
 				user = userDao.add(connection, user);
 				employeeService.setUserForEmployee(connection, employee, user);
 				commitTransaction(connection);

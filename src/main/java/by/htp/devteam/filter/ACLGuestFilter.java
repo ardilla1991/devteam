@@ -58,12 +58,13 @@ public final class ACLGuestFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
+
 		HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        
+        /*System.out.println(req.getRequestURI());
+		System.out.println(req.getRequestURL());
+		System.out.println(req.getQueryString());*/
 		String action = req.getParameter(REQUEST_PARAM_ACTION);
-
 		HttpSession session = req.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
 		if ( !isAuthorised && action != null ) {
@@ -91,8 +92,8 @@ public final class ACLGuestFilter implements Filter{
 			if ( matcher.matches() == false ) {
 				logger.info(MSG_LOGGER_NULL_ACTION);
 				//req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
-				resp.sendRedirect("/devteam");
-				return;
+				//resp.sendRedirect("/devteam");
+				//return;
 			}
 		}
 		

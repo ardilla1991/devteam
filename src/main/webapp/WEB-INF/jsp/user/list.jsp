@@ -9,6 +9,7 @@
 		<%@include file="../jspf/leftBar.jsp"%>
 
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<%@include file="../employee/jspf/list.jsp"%>
 			<h1 class="page-header">
 				<fmt:message key="user.pageTitle.list" />
 			</h1>

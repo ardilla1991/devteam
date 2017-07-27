@@ -41,10 +41,12 @@ public class UserShowAddFormAction implements CommandAction{
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
 		String employeeId = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
 		try {
+			System.out.println(employeeId);
 			Employee employee = employeeService.getById(employeeId);
+			System.out.println(employee);
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_NAME, employee.getName());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee.getId());
-			request.setAttribute(REQUEST_PARAM_USER_ROLE, UserRole.values());
+			request.setAttribute(REQUEST_PARAM_USER_ROLE_ENUM, UserRole.values());
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

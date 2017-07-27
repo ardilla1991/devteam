@@ -108,18 +108,21 @@ public final class ConstantValue {
 			+ " JOIN ( (SELECT e.id, e.name, e.start_work, '' as email, '' as phone, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
 			+ "			UNION (SELECT c.id, c.name, '' as start_work, c.email, c.phone, c.user_id, '' as qualification FROM customer as c )   )  as ec ON ec.user_id=u.id ORDER BY u.id DESC LIMIT ?,?  ";
 	
+	public final static String SQL_USER_ADD = "INSERT INTO `user` (login, password, role) VALUES (?, ?, ?)";
+	
+	
 	public final static String SQL_EMPLOYEE_ADD = "INSERT INTO `employee` (name, start_work, qualification_id) VALUES (?, ?, ?)";
 	
-	public final static String SQL_EMPLOYEE_GET_BY_ID = "SELECT e.* FROM `employee` JOIN user as u ON e.user_id=u.id WHERE id=?";
+	public final static String SQL_EMPLOYEE_GET_BY_ID = "SELECT e.* FROM `employee` as e LEFT JOIN user as u ON e.user_id=u.id WHERE e.id=?";
 	
 	public final static String SQL_EMPLOYEE_GET_USER_ID = "SELECT user_id FROM employee WHERE id=?";
 	
 	public final static String SQL_EMPLOYEE_SET_USER = "UPDATE `employee` SET user_id=? WHERE id=?";
 	
-	public final static String SQL_EMPLOYEE_FETCH_ALL_WITH_USER = "SELECT e.*, q.title, u.login, u.role "
+	public final static String SQL_EMPLOYEE_FETCH_ALL_WITH_USER = "SELECT SQL_CALC_FOUND_ROWS e.*, q.title, u.login, u.role "
 			+ "FROM employee as e "
 			+ "JOIN qualification as q ON e.qualification_id=q.id "
-			+ "JOIN user as u ON e.user_id=u.id LIMIT ?,?";
+			+ "LEFT JOIN user as u ON e.user_id=u.id ORDER BY e.name LIMIT ?,?";
 	
 	public final static String SQL_EMPLOYEE_FETCH_NO_USER = "SELECT e.*, q.title "
 			+ "FROM employee as e "

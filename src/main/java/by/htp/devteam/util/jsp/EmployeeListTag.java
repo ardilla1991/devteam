@@ -81,20 +81,19 @@ public class EmployeeListTag extends TagSupport {
 		return SKIP_BODY;
 	}
 	
-	/*
-	 * @todo add "add user link" if user have acl
-	 */
 	private void displayEmployeeInformation(Employee employee, ResourceBundle rb) throws IOException {
 		pageContext.getOut().write("<table class=\"" + tableClass + "\">");
 		pageContext.getOut().write("<tr><td>" + getString(rb, "user.name") + "</td><td>" + employee.getName() + "</td>");
 		if ( user != null && user.getRole() == UserRole.ADMIN ) {
-			pageContext.getOut().write("<td><a href=\"" + PAGE_USER_ADD_URI + "\">"  + getString(rb, "user.action.add") + "</a></td>");
+			pageContext.getOut().write("<td><a href=\"" + PAGE_USER_ADD_URI + employee.getId() + "\">"  + getString(rb, "user.action.add") + "</a></td>");
 		}
 		pageContext.getOut().write("</tr>");
 		pageContext.getOut().write("<tr><td>" + getString(rb, "employee.startWork") + "</td><td>" + employee.getStartWork() + "</td></tr>");
 		pageContext.getOut().write("<tr><td>" + getString(rb, "qualification") + "</td><td>" + employee.getQualification().getTitle() + "</td></tr>");
-		pageContext.getOut().write("<tr><td>" + getString(rb, "user.login") + "</td><td>" + employee.getUser().getLogin() + "</td></tr>");
-		pageContext.getOut().write("<tr><td>" + getString(rb, "user.role") + "</td><td>" + employee.getUser().getRole() + "</td></tr>");
+		if ( user != null && user.getRole() != UserRole.ADMIN ) {
+			pageContext.getOut().write("<tr><td>" + getString(rb, "user.login") + "</td><td>" + employee.getUser().getLogin() + "</td></tr>");
+			pageContext.getOut().write("<tr><td>" + getString(rb, "user.role") + "</td><td>" + employee.getUser().getRole() + "</td></tr>");
+		}
 		pageContext.getOut().write("</table>");
 	}
 	

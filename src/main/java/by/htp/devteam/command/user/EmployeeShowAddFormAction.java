@@ -1,4 +1,4 @@
-package by.htp.devteam.command.admin;
+package by.htp.devteam.command.user;
 
 import javax.servlet.http.HttpServletRequest;
 

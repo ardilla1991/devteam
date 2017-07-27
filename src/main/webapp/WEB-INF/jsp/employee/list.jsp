@@ -10,8 +10,17 @@
 
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h1 class="page-header">
-				<fmt:message key="user.pageTitle.list" />
+				<fmt:message key="employee.pageTitle.list" />
 			</h1>
+			
+			<%@ page import="by.htp.devteam.bean.UserRole" %>
+			<br/>
+			<c:if test="${ user.getUser().getRole()  ==  UserRole.MANAGER}">
+				<a class="btn btn-default" role="button" id="employee_add_btn"
+						href="Main?action=employee_show_add_form"
+						><fmt:message key="employee.button.add" /></a>
+			</c:if>
+
 			<div class="error_message">
 				<c:if test="${ error_code > 0}">
 					<msg:message errorCode="${ error_code }"
@@ -21,7 +30,7 @@
 			</div>
 			<div class="table-responsive">
 			
-				<table:employeeList employees="${employee_list}" tableClass="table table-striped tab-content tab-active"
+				<table:employeeList employees="${employee_list.getEmployees()}" tableClass="table table-striped tab-content tab-active"
 							language="${clientLanguage}" country="${clientCountry}" />
 				
 			</div>

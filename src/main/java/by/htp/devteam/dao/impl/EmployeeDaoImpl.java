@@ -288,14 +288,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 			if ( rs.next() ) {
 				employee.setId(rs.getLong(1));
 				employee.setName(rs.getString(2));
-				employee.setStartWork(rs.getDate(3));
-				
-				User user = new User();
-				user.setId(rs.getLong(6));
-				user.setLogin(rs.getString(7));
-				user.setRole(UserRole.valueOf(rs.getString(8)));
-				
-				employee.setUser(user);
+				employee.setStartWork(rs.getDate(3));				
 			}
 		}
 		
@@ -381,7 +374,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 				qualification.setTitle(rs.getString(6));
 				employee.setQualification(qualification);
 				
-				if ( needUser ) {
+				if ( needUser && rs.getLong(5) > 0 ) {
 					User user = new User();
 					user.setId(rs.getLong(5));
 					user.setLogin(rs.getString(7));

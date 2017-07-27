@@ -12,12 +12,11 @@ import by.htp.devteam.command.user.ProjectUpdateHoursAction;
 import by.htp.devteam.command.user.ProjectViewAction;
 import by.htp.devteam.command.admin.UserListAction;
 import by.htp.devteam.command.admin.UserShowAddFormAction;
-import by.htp.devteam.command.admin.EmployeeAddAction;
-import by.htp.devteam.command.admin.EmployeeAddMessageAction;
-import by.htp.devteam.command.admin.EmployeeListNotUserAction;
-import by.htp.devteam.command.admin.EmployeeShowAddFormAction;
 import by.htp.devteam.command.admin.UserAddAction;
+import by.htp.devteam.command.user.EmployeeAddAction;
+import by.htp.devteam.command.user.EmployeeAddMessageAction;
 import by.htp.devteam.command.user.EmployeeListAction;
+import by.htp.devteam.command.user.EmployeeShowAddFormAction;
 import by.htp.devteam.command.user.LoginAction;
 import by.htp.devteam.command.user.LogoutAction;
 import by.htp.devteam.command.user.OrderAddAction;
@@ -156,6 +155,9 @@ public enum CommandFactory {
 		public CommandAction chooseAction() { 
 			return new UserAddAction();
 		} 
+		public HTTPMethod getHTTPMethod() { 
+			return HTTPMethod.POST; 
+		}
 	},
 	EMPLOYEE_SHOW_ADD_FORM { 
 		public CommandAction chooseAction() { 
@@ -178,11 +180,6 @@ public enum CommandFactory {
 	EMPLOYEE_LIST { 
 		public CommandAction chooseAction() { 
 			return new EmployeeListAction(); 
-		} 
-	},
-	EMPLOYEE_LIST_NOT_USER_ACTION { 
-		public CommandAction chooseAction() { 
-			return new EmployeeListNotUserAction(); 
 		} 
 	},
 	LOGOUT { public CommandAction chooseAction() { 

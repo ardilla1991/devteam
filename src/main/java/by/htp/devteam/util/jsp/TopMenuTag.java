@@ -102,6 +102,10 @@ public final class TopMenuTag extends TagSupport {
 				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
 										   + "<a href='" + PAGE_ORDER_NEW_LIST_URI + "'>"
 										   + getString(rb, "menu.top.orders.new") + "</a></" + itemTag + ">");
+				active = currAction.equals("employee_list") ? currActionClass : "";
+				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
+						   + "<a href='" + PAGE_EMPLOYEE_LIST_URI + "'>"
+						   + getString(rb, "menu.top.employee.list") + "</a></" + itemTag + ">");
 				break;
 			case DEVELOPER:
 				break;

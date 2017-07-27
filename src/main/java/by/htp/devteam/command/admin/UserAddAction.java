@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.user.EmployeeAddAction;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
@@ -58,7 +59,7 @@ public final class UserAddAction implements CommandAction {
 			request.setAttribute(REQUEST_PARAM_USER_ROLE, role);
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee_id);
 			
-			page = PAGE_EMPLOYEE_SHOW_ADD_FORM_URI;
+			page = PAGE_USER_SHOW_ADD_FORM_URI;
 			isRedirect = false;
 		}
 		return new Page(page, isRedirect);

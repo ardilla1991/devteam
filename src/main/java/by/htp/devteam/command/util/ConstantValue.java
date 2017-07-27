@@ -33,8 +33,9 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_USER_LIST = "User {}. User's list";
 	public static final String MSG_LOGGER_USER_ADD = "User {}. User add";
 	public static final String MSG_LOGGER_USER_SHOW_ADD_FORM = "User {}. Show user add form";
+	public static final String MSG_LOGGER_USER_ADD_OK_MESSAGE = "User {}. User add --> OK";
 	public static final String MSG_LOGGER_EMPLOYEE_SHOW_ADD_FORM = "User {}. Show employee add form";
-	public static final String MSG_LOGGER_EMPLOYEE_ADD_OK_MESSAGE = "User {}. Employee order --> OK";
+	public static final String MSG_LOGGER_EMPLOYEE_ADD_OK_MESSAGE = "User {}. Employee add --> OK";
 	public static final String MSG_LOGGER_ADD_EMPLOYEE = "User {}. Add employee";
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
 	public static final String MSG_LOGGER_WRONG_HTTP_METHOD = "User {}. Wrong http method ";
@@ -72,6 +73,7 @@ public final class ConstantValue {
 	public static final String PAGE_USER_VIEW = PATH_USER + "view.jsp";
 	public static final String PAGE_USER_LIST = PATH_USER + "list.jsp";
 	public static final String PAGE_USER_ADD = PATH_USER + "add.jsp";
+	public static final String PAGE_USER_ADD_MESSAGE = PATH_USER + "addMessage.jsp";
 	
 	public static final String PATH_EMPLOYEE = JSP_FOLDER_PATH + "employee/";
 	public static final String PAGE_EMPLOYEE_ADD = PATH_EMPLOYEE + "add.jsp";
@@ -98,7 +100,7 @@ public final class ConstantValue {
 	public static final String PAGE_USER_LIST_URI = "Main?action=user_list";
 	public static final String PAGE_USER_SHOW_ADD_FORM_URI = "Main?action=user_show_add_form";
 	public static final String PAGE_USER_ADD_MESSAGE_URI = "Main?action=user_add_message";
-	public static final String PAGE_USER_ADD_URI = "Main?action=user_add";
+	public static final String PAGE_USER_ADD_URI = "Main?action=user_show_add_form&employee_id=";
 	public static final String PAGE_LOGOUT = "Main?action=logout";
 	
 	public static final String PAGE_EMPLOYEE_SHOW_ADD_FORM_URI = "Main?action=employee_show_add_form";

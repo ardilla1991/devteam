@@ -58,7 +58,7 @@ public final class UserValidation extends BeanValidation {
 			setNotValidField(ROLE);
 		}
 		
-		if ( employee.getUser().getId() != null || employee == null ) {
+		if ( (employee.getUser() !=null && employee.getUser().getId() != null) || employee == null ) {
 			setNotValidField(EMPLOYEE);
 		}
 	}

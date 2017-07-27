@@ -138,7 +138,7 @@ public final class UserDaoImpl implements UserDao {
 	@Override
 	public User add(Connection connection, User user) throws DaoException {
 		User createdUser = user;
-		try ( PreparedStatement ps = connection.prepareStatement(SQL_EMPLOYEE_ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
+		try ( PreparedStatement ps = connection.prepareStatement(SQL_USER_ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
 
 			prepareStatementForUser(ps, user);
 			ps.executeUpdate();
@@ -148,6 +148,7 @@ public final class UserDaoImpl implements UserDao {
 				}
 			}
 		} catch (SQLException e) {
+			System.out.println(e);
 			throw new DaoException(MSG_ERROR_EMPLOYEE_ADD, e);
 		}
 		return createdUser;

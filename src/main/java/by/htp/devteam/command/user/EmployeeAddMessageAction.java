@@ -1,4 +1,4 @@
-package by.htp.devteam.command.admin;
+package by.htp.devteam.command.user;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
-import by.htp.devteam.command.user.OrderAddMessageAction;
 import by.htp.devteam.controller.Page;
 
 /**
