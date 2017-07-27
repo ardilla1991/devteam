@@ -13,6 +13,9 @@ public class Page {
 	/** Is needed redirect to display page */
 	private boolean isRedirect;
 	
+	/** Is needed include to display page */
+	private boolean isInclude;	
+	
 	public Page() {
 		super();
 	}
@@ -20,11 +23,19 @@ public class Page {
 	public Page(String page) {
 		this.page = page;
 		this.isRedirect = false;
+		this.isInclude = false;
 	}
 	
 	public Page(String page, boolean isRedirect) {
 		this.page = page;
 		this.isRedirect = isRedirect;
+		this.isInclude = false;
+	}
+	
+	public Page(boolean isInclude, String page) {
+		this.page = page;
+		this.isInclude = isInclude;
+		this.isRedirect = false;
 	}
 	
 	public String getPage() {
@@ -41,5 +52,13 @@ public class Page {
 
 	public void setRedirect(boolean isRedirect) {
 		this.isRedirect = isRedirect;
+	}
+
+	public boolean isInclude() {
+		return isInclude;
+	}
+
+	public void setInclude(boolean isInclude) {
+		this.isInclude = isInclude;
 	}
 }

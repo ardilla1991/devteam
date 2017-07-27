@@ -9,12 +9,17 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.command.user.OrderAddMessageAction;
 import by.htp.devteam.controller.Page;
 
+/**
+ * Action for show page about result of adding employee.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public final class EmployeeAddMessageAction implements CommandAction{
 	
 	/** Logger */

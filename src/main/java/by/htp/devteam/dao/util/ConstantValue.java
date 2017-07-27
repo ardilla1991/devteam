@@ -116,6 +116,15 @@ public final class ConstantValue {
 	
 	public final static String SQL_EMPLOYEE_SET_USER = "UPDATE `employee` SET user_id=? WHERE id=?";
 	
+	public final static String SQL_EMPLOYEE_FETCH_ALL_WITH_USER = "SELECT e.*, q.title, u.login, u.role "
+			+ "FROM employee as e "
+			+ "JOIN qualification as q ON e.qualification_id=q.id "
+			+ "JOIN user as u ON e.user_id=u.id LIMIT ?,?";
+	
+	public final static String SQL_EMPLOYEE_FETCH_NO_USER = "SELECT e.*, q.title "
+			+ "FROM employee as e "
+			+ "JOIN qualification as q ON e.qualification_id=q.id WHERE e.user_id IS NULL";
+	
 	public final static String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
 	
 	
@@ -161,5 +170,7 @@ public final class ConstantValue {
 	
 	public final static String MSG_ERROR_EMPLOYEE_ADD = "sql error: can't add employee";
 	public final static String MSG_ERROR_EMPLOYEE_GET_BY_ID = "sql error: can't get employee by id";
+	public final static String MSG_ERROR_EMPLOYEE_LIST = "sql error: can't get list of employees";
+	public final static String MSG_ERROR_EMPLOYEE_LIST_NOT_USER = "sql error: can't get list of employees without user records";
 
 }

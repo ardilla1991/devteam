@@ -10,6 +10,8 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
+import by.htp.devteam.bean.vo.EmployeeListVo;
+import by.htp.devteam.bean.vo.UserListVo;
 
 /**
  * Interface for employee's DAO layer
@@ -103,4 +105,22 @@ public interface EmployeeDao {
 	 * @throws DaoException
 	 */
 	boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException;
+	
+	/**
+	 * Get list of all employees in system with their user record
+	 * @param offset
+	 * @param countPerPage
+	 * @return Employee list according current page 
+	 * plus page settings (all pages count, current page number)
+	 * @see by.htp.devteam.bean.vo.EmployeeListVo#EmployeeListVo()
+	 * @throws DaoException
+	 */
+	EmployeeListVo fetchAll(int offset, int countPerPage) throws DaoException;
+	
+	/**
+	 * Get list of employees who doesn't have a user record
+	 * @return list of employees with not set user record
+	 * @throws DaoException
+	 */
+	List<Employee> getListWithNotSetUser() throws DaoException;
 }

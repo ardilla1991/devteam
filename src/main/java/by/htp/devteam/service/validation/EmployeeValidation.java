@@ -55,4 +55,13 @@ public final class EmployeeValidation extends BeanValidation {
 		
 		return dateCal;
 	}
+	
+	/**
+	 * Check if a page number has a correct value
+	 * @param pageNumber
+	 * @return if page number is int value
+	 */
+	public static boolean validatePage(String pageNumber) {
+		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
+	}
 }

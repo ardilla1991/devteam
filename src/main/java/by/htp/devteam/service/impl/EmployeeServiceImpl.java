@@ -12,7 +12,9 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
+import by.htp.devteam.bean.vo.EmployeeListVo;
 import by.htp.devteam.bean.vo.OrderVo;
+import by.htp.devteam.bean.vo.UserListVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
@@ -22,6 +24,8 @@ import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.validation.EmployeeValidation;
 import by.htp.devteam.service.validation.OrderValidation;
+import by.htp.devteam.service.validation.UserValidation;
+import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -163,5 +167,48 @@ public final class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException {
 		return employeeDao.isExistUserForEmployee(connection, employee);
+	}
+
+	@Override
+	public EmployeeListVo fetchAll(String currPage) throws ServiceException {
+		if ( currPage == null ) {
+			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
+		}
+		
+		if ( !EmployeeValidation.validatePage(currPage) ) {
+			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
+			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
+		}
+		
+		int countPerPage = ConfigProperty.INSTANCE.getIntValue(CONFIG_PAGE_COUNT_PER_PAGE);
+		int currPageValue = Integer.valueOf(currPage);		
+		int offset = (currPageValue - 1 ) * countPerPage;
+			
+		EmployeeListVo employeeListVo = null;
+		try {
+			employeeListVo = employeeDao.fetchAll(offset, countPerPage);
+			
+			int countPages = (int) Math.ceil(employeeListVo.getCountRecords() * 1.0 / countPerPage);
+			employeeListVo.setCountPages(countPages);
+			employeeListVo.setCurrPage(currPageValue);
+		} catch ( DaoException e ) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCode.APPLICATION);
+		}
+
+		return employeeListVo;
+	}
+
+	@Override
+	public List<Employee> getListWithNotSetUser() throws ServiceException {
+		List<Employee> employeeList = null;
+		try {
+			employeeList = employeeDao.getListWithNotSetUser();
+		} catch ( DaoException e ) {
+			logger.error(e.getMessage(), e);
+			throw new ServiceException(ErrorCode.APPLICATION);
+		}
+
+		return employeeList;
 	}
 }

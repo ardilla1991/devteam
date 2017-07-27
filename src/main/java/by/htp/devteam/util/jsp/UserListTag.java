@@ -19,7 +19,7 @@ import by.htp.devteam.bean.vo.UserVo;
  * @author julia
  *
  */
-public class UserInfoTag extends TagSupport {
+public class UserListTag extends TagSupport {
 
 	private static final long serialVersionUID = -6991559020909290864L;
 
@@ -34,33 +34,21 @@ public class UserInfoTag extends TagSupport {
 	
 	/** Current country */
 	private String country;
-
-	public List<UserVo> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<UserVo> users) {
-		this.users = users;
+	
+	public UserListTag() {
+		super();
 	}
 	
-	public String getTableClass() {
-		return tableClass;
+	public void setUsers(List<UserVo> users) {
+		this.users = users;
 	}
 
 	public void setTableClass(String tableClass) {
 		this.tableClass = tableClass;
 	}
 
-	public String getLanguage() {
-		return language;
-	}
-
 	public void setLanguage(String language) {
 		this.language = language;
-	}
-
-	public String getCountry() {
-		return country;
 	}
 
 	public void setCountry(String country) {

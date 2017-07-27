@@ -16,19 +16,19 @@
 				<c:if test="${ error_code > 0}">
 					<msg:message errorCode="${ error_code }"
 						language="${clientLanguage}" country="${clientCountry}" itemTag="span" containerTag="div"
-						bean="user" />
+						bean="employee" />
 				</c:if>
 			</div>
 			<div class="table-responsive">
 			
-				<table:userList users="${user_list_vo.getUsers()}" tableClass="table table-striped tab-content tab-active"
+				<table:employeeList employees="${employee_list}" tableClass="table table-striped tab-content tab-active"
 							language="${clientLanguage}" country="${clientCountry}" />
 				
 			</div>
 
 			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
-				currPage="${ user_list_vo.getCurrPage() }"
-				countPages="${ user_list_vo.getCountPages() }" />
+				currPage="${ employee_list.getCurrPage() }"
+				countPages="${ employee_list.getCountPages() }" />
 		</div>
 	</div>
 </div>

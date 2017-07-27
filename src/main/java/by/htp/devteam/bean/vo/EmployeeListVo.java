@@ -2,17 +2,19 @@ package by.htp.devteam.bean.vo;
 
 import java.util.List;
 
+import by.htp.devteam.bean.Employee;
+
 /**
- * User's list object. Use for display list of objects with pagings settings.
- * Has properties <b>users</b>, <b>countRecords</b>,
+ * Employee's list object. Use for display list of objects with pagings settings.
+ * Has properties <b>employees</b>, <b>countRecords</b>,
  * <b>countPages</b>, <b>currPage</b>
  * @author julia
  *
  */
-public final class UserListVo {
+public class EmployeeListVo {
 	
 	/** List of users (userVo) on one page for display*/
-	private List<UserVo> users;
+	private List<Employee> employees;
 	
 	/** Count records in full list*/
 	private int countRecords;
@@ -23,16 +25,16 @@ public final class UserListVo {
 	/** Current selected page*/
 	private int currPage;
 	
-	public UserListVo() {
+	public EmployeeListVo() {
 		super();
 	}
 
-	public List<UserVo> getUsers() {
-		return users;
+	public List<Employee> getEmployees() {
+		return employees;
 	}
 
-	public void setUsers(List<UserVo> users) {
-		this.users = users;
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
 	}
 
 	public int getCountRecords() {
@@ -58,5 +60,4 @@ public final class UserListVo {
 	public void setCurrPage(int currPage) {
 		this.currPage = currPage;
 	}
-	
 }

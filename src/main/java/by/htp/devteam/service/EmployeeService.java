@@ -10,6 +10,7 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
+import by.htp.devteam.bean.vo.EmployeeListVo;
 import by.htp.devteam.dao.DaoException;
 
 /**
@@ -108,4 +109,22 @@ public interface EmployeeService {
 	 * @throws DaoException
 	 */
 	boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException;
+	
+	/**
+	 * Get list of all employees in system with their users .
+	 * Rocords are selected according to current page. 
+	 * Method checks if page has a correct value. If not - throw exception. 
+	 * Also set up parameters to select records ( LIMIT )
+	 * @param currPage Current selected page
+	 * @return {@link  by.htp.devteam.bean.vo.EmployeeListVo}
+	 * @throws ServiceException  after catching DAOException
+	 */
+	EmployeeListVo fetchAll(String currPage) throws ServiceException;
+	
+	/**
+	 * Get list of employees who doesn't have a user record
+	 * @return list of employees with not set user record
+	 * @throws ServiceException after catching DAOException
+	 */
+	List<Employee> getListWithNotSetUser() throws ServiceException;
 }

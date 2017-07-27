@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -19,6 +18,12 @@ import static by.htp.devteam.command.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Add user for employee.
+ * Logging information about who does action
+ * @author julia
+ *
+ */
 public final class UserAddAction implements CommandAction {
 
 	/** Logger */

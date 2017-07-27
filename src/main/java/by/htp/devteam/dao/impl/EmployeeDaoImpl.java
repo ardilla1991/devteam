@@ -5,17 +5,22 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
+import by.htp.devteam.bean.vo.EmployeeListVo;
+import by.htp.devteam.bean.vo.UserListVo;
+import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -323,6 +328,84 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		}
 
 		return isExist;
+	}
+
+	@Override
+	public EmployeeListVo fetchAll(int offset, int countPerPage) throws DaoException {
+		EmployeeListVo employeeListVo = new EmployeeListVo();
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_FETCH_ALL_WITH_USER) ) {
+
+			ps.setInt(1, offset);
+			ps.setInt(2, countPerPage);
+
+			employeeListVo = executeQueryAndCreateEmployeeListVoObject(dbConnection, ps);
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_LIST, e);
+		}
+		
+		return employeeListVo;
+	}
+	
+	/*
+	 * execute query and get total count of employees
+	 */
+	private EmployeeListVo executeQueryAndCreateEmployeeListVoObject(Connection dbConnection, PreparedStatement ps) 
+			throws SQLException{
+		EmployeeListVo employeeListVo = new EmployeeListVo();
+		employeeListVo.setEmployees(getEmployeeListFromResultSet(ps, true));
+		try ( Statement st = dbConnection.createStatement();
+				ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
+			if (rsNumebr.next()) {
+				employeeListVo.setCountRecords(rsNumebr.getInt(1));
+			}
+		}
+		
+		return employeeListVo;
+	}
+	
+	/*
+	 * Create employee list with user and qualification information
+	 */
+	private List<Employee> getEmployeeListFromResultSet(PreparedStatement ps, boolean needUser) throws SQLException {
+		List<Employee> employees = new ArrayList<Employee>();
+		try ( ResultSet rs = ps.executeQuery() ) {
+			while ( rs.next() ) {
+				Employee employee = new Employee();
+				employee.setId(rs.getLong(ID));
+				employee.setName(rs.getString(NAME));
+				employee.setStartWork(rs.getDate(START_WORK));
+				
+				Qualification qualification = new Qualification();
+				qualification.setId(rs.getLong(4));
+				qualification.setTitle(rs.getString(6));
+				employee.setQualification(qualification);
+				
+				if ( needUser ) {
+					User user = new User();
+					user.setId(rs.getLong(5));
+					user.setLogin(rs.getString(7));
+					user.setRole(UserRole.valueOf(rs.getString(8)));
+				}
+				
+				employees.add(employee);
+			}
+		}
+
+		return employees;
+	}
+
+	@Override
+	public List<Employee> getListWithNotSetUser() throws DaoException {
+		List<Employee> employeeList = new ArrayList<Employee>();
+		try ( Connection dbConnection = ConnectionPool.getConnection();
+				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_FETCH_NO_USER) ) {
+			employeeList = getEmployeeListFromResultSet(ps, false);
+		} catch (SQLException e) {
+			throw new DaoException(MSG_ERROR_EMPLOYEE_LIST_NOT_USER, e);
+		}
+		
+		return employeeList;
 	}
 
 }

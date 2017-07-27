@@ -14,7 +14,7 @@
 <fmt:setBundle basename="text"/>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type">
 		<title>DevTeam</title>
 		<!-- script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>   -->
 		<!-- script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>   -->
@@ -34,6 +34,6 @@
 		    <div class="welcom-text"><fmt:message key = "welcome.text" /></div>
 			<div class="big-img"><img src="image/website-build.jpg" /></div>
 		</div>
-	<div class="copyright"><div class="container"><div class="text"><fmt:message key = "welcome.copyright" /></div></div><div>
+	<div class="copyright"><div class="container"><div class="text"><fmt:message key = "welcome.copyright" /></div></div></div>
 	</body>
 </html>
