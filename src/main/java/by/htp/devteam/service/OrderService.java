@@ -1,8 +1,6 @@
 package by.htp.devteam.service;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +8,7 @@ import javax.servlet.http.Part;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
-import by.htp.devteam.bean.vo.OrderListVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.OrderVo;
 
 /**
@@ -29,10 +27,10 @@ public interface OrderService {
 	 * Method checks if page has a correct value. If not - throw exception. 
 	 * Also set up parameters to select records ( LIMIT )
 	 * @param currPage Current selected page
-	 * @return {@link  by.htp.devteam.bean.vo.OrderListVo}
+	 * @return {@link  by.htp.devteam.bean.vo.PagingVo}
 	 * @throws ServiceException  after catching DAOException
 	 */
-	OrderListVo getNewOrders(String currPage) throws ServiceException;
+	PagingVo<Order> getNewOrders(String currPage) throws ServiceException;
 	
 	/**
 	 * Get list of orders by customer

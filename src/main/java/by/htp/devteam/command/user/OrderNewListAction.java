@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.vo.OrderListVo;
+import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -44,11 +45,12 @@ public class OrderNewListAction implements CommandAction{
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 
 		try {
-			OrderListVo orderListVo = orderService.getNewOrders(currPage);
+			PagingVo<Order> pagingVo = orderService.getNewOrders(currPage);
 			
-			request.setAttribute(REQUEST_PARAM_ORDER_LIST, orderListVo.getOrders());
-			request.setAttribute(REQUEST_PARAM_CURR_PAGE, orderListVo.getCurrPage());
-			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, orderListVo.getCountPages());
+			request.setAttribute(REQUEST_PARAM_URI, PAGE_ORDER_NEW_LIST_URI);
+			request.setAttribute(REQUEST_PARAM_ORDER_LIST, pagingVo.getRecords());
+			request.setAttribute(REQUEST_PARAM_CURR_PAGE, pagingVo.getCurrPage());
+			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, pagingVo.getCountPages());
 			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
 
 		} catch (ServiceException e) {

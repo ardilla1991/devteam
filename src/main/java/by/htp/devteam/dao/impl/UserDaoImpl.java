@@ -12,7 +12,7 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.UserRole;
-import by.htp.devteam.bean.vo.UserListVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.DaoException;
@@ -63,36 +63,36 @@ public final class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public UserListVo fetchAll(int offset, int countPerPage) throws DaoException {
-		UserListVo userListVo = new UserListVo();
+	public PagingVo<UserVo> fetchAll(int offset, int countPerPage) throws DaoException {
+		PagingVo<UserVo> pagingVo = new PagingVo<UserVo>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER); ) {
 
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
 
-			userListVo = executeQueryAndCreateUserListVoObject(dbConnection, ps);
+			pagingVo = executeQueryAndCreatePagingVoObject(dbConnection, ps);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_USER_LIST, e);
 		}
-		return userListVo;
+		return pagingVo;
 	}
 	
 	/*
 	 * execute query and get total count of users
 	 */
-	private UserListVo executeQueryAndCreateUserListVoObject(Connection dbConnection, PreparedStatement ps) 
+	private PagingVo<UserVo> executeQueryAndCreatePagingVoObject(Connection dbConnection, PreparedStatement ps) 
 			throws SQLException{
-		UserListVo userListVo = new UserListVo();
-		userListVo.setUsers(getUserListFromResultSet(ps));
+		PagingVo<UserVo> pagingVo = new PagingVo<UserVo>();
+		pagingVo.setRecords(getUserListFromResultSet(ps));
 		try ( Statement st = dbConnection.createStatement();
 				ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
 			if (rsNumebr.next()) {
-				userListVo.setCountRecords(rsNumebr.getInt(1));
+				pagingVo.setCountAllRecords(rsNumebr.getInt(1));
 			}
 		}
 		
-		return userListVo;
+		return pagingVo;
 	}
 	
 	/*

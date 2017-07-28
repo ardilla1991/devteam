@@ -1,6 +1,5 @@
 package by.htp.devteam.service.impl;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
-import by.htp.devteam.bean.vo.OrderListVo;
 import by.htp.devteam.bean.vo.OrderVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
@@ -48,7 +47,7 @@ public final class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
-	public OrderListVo getNewOrders(String currPage) throws ServiceException{
+	public PagingVo<Order> getNewOrders(String currPage) throws ServiceException{
 		
 		if ( currPage == null ) {
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
@@ -64,18 +63,18 @@ public final class OrderServiceImpl implements OrderService{
 		int currPageValue = Integer.valueOf(currPage);
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
-		OrderListVo orderListVo = new OrderListVo();
+		PagingVo<Order> pagingVo = new PagingVo<Order>();
 		try {
-			orderListVo = orderDao.getNewOrders(offset, countPerPage);
-			int countPages = (int) Math.ceil(orderListVo.getCountRecords() * 1.0 / countPerPage);
-			orderListVo.setCountPages(countPages);
-			orderListVo.setCurrPage(currPageValue);
+			pagingVo = orderDao.getNewOrders(offset, countPerPage);
+			int countPages = (int) Math.ceil(pagingVo.getCountAllRecords() * 1.0 / countPerPage);
+			pagingVo.setCountPages(countPages);
+			pagingVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 	
-		return orderListVo;
+		return pagingVo;
 	}
 	
 	@Override

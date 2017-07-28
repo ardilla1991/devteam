@@ -30,14 +30,14 @@
 			</div>
 			<div class="table-responsive">
 			
-				<table:employeeList employees="${employee_list.getEmployees()}" tableClass="table table-striped tab-content tab-active"
+				<table:employeeList employees="${employee_list}" tableClass="table table-striped tab-content tab-active"
 							language="${clientLanguage}" country="${clientCountry}" />
 				
 			</div>
 
 			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
-				currPage="${ employee_list.getCurrPage() }"
-				countPages="${ employee_list.getCountPages() }" />
+				currPage="${ currPage }"
+				countPages="${ countPages }" />
 		</div>
 	</div>
 </div>

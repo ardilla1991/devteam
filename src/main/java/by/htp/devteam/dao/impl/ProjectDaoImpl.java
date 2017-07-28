@@ -12,7 +12,7 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.ProjectDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -34,54 +34,54 @@ public final class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
-	public ProjectListVo fetchAll(int offset, int countPerPage, Employee employee) throws DaoException {
+	public PagingVo<Project> fetchAll(int offset, int countPerPage, Employee employee) throws DaoException {
 		if ( employee == null )
 			return fetchAll(offset, countPerPage);
 		
-		ProjectListVo projectListVo = new ProjectListVo();
+		PagingVo<Project> pagingVo = new PagingVo<Project>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_PROJECT_LIST_BY_EMPLOYEE); ) {
 
 			ps.setLong(1, employee.getId());
 			ps.setInt(2, offset);
 			ps.setInt(3, countPerPage);
-			projectListVo = executeQueryandCreateProjectListVoObject(dbConnection, ps);
+			pagingVo = executeQueryAndCreatePagingVoObject(dbConnection, ps);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_PROJECT_LIST_BY_EMPLOYEE, e);
 		}
-		return projectListVo;
+		return pagingVo;
 	}
 	
 	/*
 	 * Get all list of projects 
 	 */
-	private ProjectListVo fetchAll(int offset, int countPerPage) throws DaoException {
-		ProjectListVo projectListVo = new ProjectListVo();
+	private PagingVo<Project> fetchAll(int offset, int countPerPage) throws DaoException {
+		PagingVo<Project> pagingVo = new PagingVo<Project>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_PROJECT_FETCH_ALL); ) {
 
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
-			projectListVo = executeQueryandCreateProjectListVoObject(dbConnection, ps);
+			pagingVo = executeQueryAndCreatePagingVoObject(dbConnection, ps);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_PROJECT_FETCH_ALL, e);
 		}
-		return projectListVo;
+		return pagingVo;
 	}
 	
-	private ProjectListVo executeQueryandCreateProjectListVoObject(Connection dbConnection, PreparedStatement ps) 
+	private PagingVo<Project> executeQueryAndCreatePagingVoObject(Connection dbConnection, PreparedStatement ps) 
 			throws SQLException {
-		ProjectListVo projectListVo = new ProjectListVo();
-		projectListVo.setProjects(executeQueryAndGetProjectListFromResultSet(ps));
+		PagingVo<Project> pagingVo = new PagingVo<Project>();
+		pagingVo.setRecords(executeQueryAndGetProjectListFromResultSet(ps));
 		
 		try ( Statement st = dbConnection.createStatement();
 				ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
 			if ( rsNumebr.next() ) {
-				projectListVo.setCountRecords(rsNumebr.getInt(1));
+				pagingVo.setCountAllRecords(rsNumebr.getInt(1));
 			}
 		}
 		
-		return projectListVo;
+		return pagingVo;
 	}
 	
 	private List<Project> executeQueryAndGetProjectListFromResultSet(PreparedStatement ps) throws SQLException {

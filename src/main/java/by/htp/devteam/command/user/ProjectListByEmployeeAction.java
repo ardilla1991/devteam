@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -45,10 +46,12 @@ public class ProjectListByEmployeeAction implements CommandAction{
 		logger.info(MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE, userVO.getUser().getLogin(), currPage);
 		
 		try {
-			ProjectListVo projectListVo = projectService.fetchAll(currPage, userVO.getEmployee());
+			PagingVo<Project> pagingVo = projectService.fetchAll(currPage, userVO.getEmployee());
 
 			request.setAttribute(REQUEST_PARAM_URI, PAGE_DEFAULT_DEVELOPER);
-			request.setAttribute(REQUEST_PARAM_PROJECT_LIST_VO, projectListVo);
+			request.setAttribute(REQUEST_PARAM_PROJECT_LIST, pagingVo.getRecords());
+			request.setAttribute(REQUEST_PARAM_CURR_PAGE, pagingVo.getCurrPage());
+			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, pagingVo.getCountPages());
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

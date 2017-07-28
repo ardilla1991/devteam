@@ -1,10 +1,10 @@
 package by.htp.devteam.service.impl;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
-import by.htp.devteam.bean.vo.UserListVo;
+import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
@@ -14,7 +14,6 @@ import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encrypting;
 import by.htp.devteam.service.util.ErrorCode;
-import by.htp.devteam.service.validation.EmployeeValidation;
 import by.htp.devteam.service.validation.UserValidation;
 import by.htp.devteam.util.ConfigProperty;
 
@@ -24,7 +23,6 @@ import org.apache.logging.log4j.LogManager;
 import static by.htp.devteam.service.util.ConstantValue.*;
 
 import java.sql.Connection;
-import java.sql.Date;
 
 public final class UserServiceImpl implements UserService{
 
@@ -72,7 +70,7 @@ public final class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserListVo fetchAll(String currPage) throws ServiceException {
+	public PagingVo<UserVo> fetchAll(String currPage) throws ServiceException {
 		if ( currPage == null ) {
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
@@ -86,19 +84,19 @@ public final class UserServiceImpl implements UserService{
 		int currPageValue = Integer.valueOf(currPage);		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
-		UserListVo userListVo = null;
+		PagingVo<UserVo> pagingVo = null;
 		try {
-			userListVo = userDao.fetchAll(offset, countPerPage);
+			pagingVo = userDao.fetchAll(offset, countPerPage);
 			
-			int countPages = (int) Math.ceil(userListVo.getCountRecords() * 1.0 / countPerPage);
-			userListVo.setCountPages(countPages);
-			userListVo.setCurrPage(currPageValue);
+			int countPages = (int) Math.ceil(pagingVo.getCountAllRecords() * 1.0 / countPerPage);
+			pagingVo.setCountPages(countPages);
+			pagingVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 
-		return userListVo;
+		return pagingVo;
 	}
 
 	@Override

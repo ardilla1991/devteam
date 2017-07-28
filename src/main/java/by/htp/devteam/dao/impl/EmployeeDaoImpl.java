@@ -12,15 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
-import by.htp.devteam.bean.vo.EmployeeListVo;
-import by.htp.devteam.bean.vo.UserListVo;
-import by.htp.devteam.bean.vo.UserVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -324,37 +321,37 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public EmployeeListVo fetchAll(int offset, int countPerPage) throws DaoException {
-		EmployeeListVo employeeListVo = new EmployeeListVo();
+	public PagingVo<Employee> fetchAll(int offset, int countPerPage) throws DaoException {
+		PagingVo<Employee> pagingVo = new PagingVo<Employee>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_FETCH_ALL_WITH_USER) ) {
 
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
 
-			employeeListVo = executeQueryAndCreateEmployeeListVoObject(dbConnection, ps);
+			pagingVo = executeQueryAndCreateEmployeeListVoObject(dbConnection, ps);
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_EMPLOYEE_LIST, e);
 		}
 		
-		return employeeListVo;
+		return pagingVo;
 	}
 	
 	/*
 	 * execute query and get total count of employees
 	 */
-	private EmployeeListVo executeQueryAndCreateEmployeeListVoObject(Connection dbConnection, PreparedStatement ps) 
+	private PagingVo<Employee> executeQueryAndCreateEmployeeListVoObject(Connection dbConnection, PreparedStatement ps) 
 			throws SQLException{
-		EmployeeListVo employeeListVo = new EmployeeListVo();
-		employeeListVo.setEmployees(getEmployeeListFromResultSet(ps, true));
+		PagingVo<Employee> pagingVo = new PagingVo<Employee>();
+		pagingVo.setRecords(getEmployeeListFromResultSet(ps, true));
 		try ( Statement st = dbConnection.createStatement();
 				ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
 			if (rsNumebr.next()) {
-				employeeListVo.setCountRecords(rsNumebr.getInt(1));
+				pagingVo.setCountAllRecords(rsNumebr.getInt(1));
 			}
 		}
 		
-		return employeeListVo;
+		return pagingVo;
 	}
 	
 	/*

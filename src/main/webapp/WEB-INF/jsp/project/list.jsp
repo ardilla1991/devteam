@@ -18,12 +18,12 @@
 						bean="project" />
 				</c:if>
 			</div>
-			<c:set var="project_list" value="${project_list_vo.getProjects()}" scope="request" />
+
 			<%@include file="jspf/list.jsp"%>
 			
 			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
-				currPage="${ project_list_vo.getCurrPage() }"
-				countPages="${ project_list_vo.getCountPages() }" />
+				currPage="${ currPage }"
+				countPages="${ countPages }" />
 		</div>
 	</div>
 </div>

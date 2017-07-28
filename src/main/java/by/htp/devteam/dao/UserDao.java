@@ -4,7 +4,8 @@ import java.sql.Connection;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.vo.UserListVo;
+import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.bean.vo.UserVo;
 
 /**
  * Interface for user's DAO layer
@@ -27,10 +28,10 @@ public interface UserDao {
 	 * @param countPerPage
 	 * @return Users list according current page 
 	 * plus page settings (all pages count, current page number)
-	 * @see by.htp.devteam.bean.vo.UserListVo#UserListVo()
+	 * @see by.htp.devteam.bean.vo.PagingVo#PagingVo()
 	 * @throws DaoException
 	 */
-	UserListVo fetchAll(int offset, int countPerPage) throws DaoException;
+	PagingVo<UserVo> fetchAll(int offset, int countPerPage) throws DaoException;
 	
 	/**
 	 * Save user in storage. 

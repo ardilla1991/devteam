@@ -14,8 +14,8 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
-import by.htp.devteam.bean.vo.OrderListVo;
 import by.htp.devteam.bean.vo.OrderVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -50,24 +50,24 @@ public final class OrderDaoImpl implements OrderDao {
 	 * @see by.htp.devteam.dao.OrderDao#getNewOrders(int, int)
 	 */
 	@Override
-	public OrderListVo getNewOrders(int offset, int countPerPage) throws DaoException {
-		OrderListVo orderListVo = new OrderListVo();
+	public PagingVo<Order> getNewOrders(int offset, int countPerPage) throws DaoException {
+		PagingVo<Order> pagingVo = new PagingVo<Order>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 			  PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_NEW_RECORDS_LIST);
 			  Statement st = dbConnection.createStatement()) {
 			
 			ps.setInt(1, offset);
 			ps.setInt(2, countPerPage);
-			orderListVo.setOrders(executeQueryAndGetOrderListFromResultSet(ps));
+			pagingVo.setRecords(executeQueryAndGetOrderListFromResultSet(ps));
 			try ( ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
 				if ( rsNumebr.next() )
-					orderListVo.setCountRecords(rsNumebr.getInt(1));
+					pagingVo.setCountAllRecords(rsNumebr.getInt(1));
 			}
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_ORDER_NEW_RECORDS_LIST, e);
 		}
 
-		return orderListVo;
+		return pagingVo;
 	}
 	
 	private List<Order> executeQueryAndGetOrderListFromResultSet(PreparedStatement ps) throws SQLException {

@@ -22,14 +22,14 @@
 			</div>
 			<div class="table-responsive">
 			
-				<table:userList users="${user_list_vo.getUsers()}" tableClass="table table-striped tab-content tab-active"
+				<table:userList users="${ user_list }" tableClass="table table-striped tab-content tab-active"
 							language="${clientLanguage}" country="${clientCountry}" />
 				
 			</div>
 
 			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
-				currPage="${ user_list_vo.getCurrPage() }"
-				countPages="${ user_list_vo.getCountPages() }" />
+				currPage="${ currPage }"
+				countPages="${ countPages }" />
 		</div>
 	</div>
 </div>

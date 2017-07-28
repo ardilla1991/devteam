@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.vo.EmployeeListVo;
+import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -44,10 +45,12 @@ public class EmployeeListAction implements CommandAction {
 		
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 		try {
-			EmployeeListVo employeeList = employeeService.fetchAll(currPage);
+			PagingVo<Employee> pagingVo = employeeService.fetchAll(currPage);
 			
 			request.setAttribute(REQUEST_PARAM_URI, PAGE_EMPLOYEE_LIST_URI);
-			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employeeList);
+			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, pagingVo.getRecords());
+			request.setAttribute(REQUEST_PARAM_CURR_PAGE, pagingVo.getCurrPage());
+			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, pagingVo.getCountPages());
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

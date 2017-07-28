@@ -148,7 +148,6 @@ public final class ConstantValue {
 	
 	public static final String REQUEST_PARAM_PROJECT_ID = "project_id";
 	public static final String REQUEST_PARAM_PROJECT_VO = "project_vo";
-	public static final String REQUEST_PARAM_PROJECT_LIST_VO = "project_list_vo";
 	
 	public static final String REQUEST_PARAM_PROJECT_TITLE = "title";
 	public static final String REQUEST_PARAM_PROJECT_DESCRIPTION = "description";
@@ -158,7 +157,7 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_EMPLOYEE_LIST = "employee_list";
 	
 	public static final String REQUEST_PARAM_USER_VO = "user_vo";
-	public static final String REQUEST_PARAM_USER_LIST_VO = "user_list_vo";
+	public static final String REQUEST_PARAM_USER_LIST = "user_list";
 	public static final String REQUEST_PARAM_USER_ROLE_ENUM = "role_enum";
 	public static final String REQUEST_PARAM_USER_SHOW_ADD_FORM_URI = "user_add_form_uri";
 	public static final String REQUEST_PARAM_USER_LOGIN = "login";

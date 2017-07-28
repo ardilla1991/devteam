@@ -18,7 +18,7 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.vo.OrderVo;
-import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.ProjectVo;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
@@ -51,7 +51,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public ProjectListVo fetchAll(String currPage, Employee employee) throws ServiceException{
+	public PagingVo<Project> fetchAll(String currPage, Employee employee) throws ServiceException{
 		
 		if ( currPage == null ) {
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
@@ -66,19 +66,19 @@ public final class ProjectServiceImpl implements ProjectService{
 		int currPageValue = Integer.valueOf(currPage);		
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
-		ProjectListVo projectListVo = null;
+		PagingVo<Project> pagingVo = null;
 		try {
-			projectListVo = projectDao.fetchAll(offset, countPerPage, employee);
+			pagingVo = projectDao.fetchAll(offset, countPerPage, employee);
 			
-			int countPages = (int) Math.ceil(projectListVo.getCountRecords() * 1.0 / countPerPage);
-			projectListVo.setCountPages(countPages);
-			projectListVo.setCurrPage(currPageValue);
+			int countPages = (int) Math.ceil(pagingVo.getCountAllRecords() * 1.0 / countPerPage);
+			pagingVo.setCountPages(countPages);
+			pagingVo.setCurrPage(currPageValue);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 
-		return projectListVo;
+		return pagingVo;
 	}
 
 	@Override

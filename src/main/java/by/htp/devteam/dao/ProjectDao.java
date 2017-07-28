@@ -5,7 +5,7 @@ import java.util.List;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
-import by.htp.devteam.bean.vo.ProjectListVo;
+import by.htp.devteam.bean.vo.PagingVo;
 
 /**
  * Interface for project's DAO layer
@@ -22,10 +22,10 @@ public interface ProjectDao {
 	 * Could be null if we get all projects (manager role)
 	 * @return Projects list according current page 
 	 * plus page settings (all pages count, current page number)
-	 * @see by.htp.devteam.bean.vo.ProjectListVo#ProjectListVo()
+	 * @see by.htp.devteam.bean.vo.PagingVo#PagingVo()
 	 * @throws DaoException
 	 */
-	ProjectListVo fetchAll(int offset, int countPerPage, Employee employee) throws DaoException;
+	PagingVo<Project> fetchAll(int offset, int countPerPage, Employee employee) throws DaoException;
 	
 	/**
 	 * Add project.

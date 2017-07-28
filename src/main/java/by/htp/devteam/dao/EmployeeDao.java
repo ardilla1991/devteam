@@ -10,8 +10,7 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.vo.EmployeeListVo;
-import by.htp.devteam.bean.vo.UserListVo;
+import by.htp.devteam.bean.vo.PagingVo;
 
 /**
  * Interface for employee's DAO layer
@@ -112,10 +111,10 @@ public interface EmployeeDao {
 	 * @param countPerPage
 	 * @return Employee list according current page 
 	 * plus page settings (all pages count, current page number)
-	 * @see by.htp.devteam.bean.vo.EmployeeListVo#EmployeeListVo()
+	 * @see by.htp.devteam.bean.vo.PagingVo#PagingVo()
 	 * @throws DaoException
 	 */
-	EmployeeListVo fetchAll(int offset, int countPerPage) throws DaoException;
+	PagingVo<Employee> fetchAll(int offset, int countPerPage) throws DaoException;
 	
 	/**
 	 * Get list of employees who doesn't have a user record

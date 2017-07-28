@@ -19,7 +19,7 @@
 			<c:set var="withCustomer" value="true" scope="page" />
 			<%@include file="jspf/list.jsp"%>
 
-			<ctg:paginator uri="Main?action=order_new_list" 
+			<ctg:paginator uri="${ uri }" 
 				itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
 				currPage="${ currPage }" countPages="${ countPages }" />
 		</div>

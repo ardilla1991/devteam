@@ -2,7 +2,8 @@ package by.htp.devteam.service;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
-import by.htp.devteam.bean.vo.UserListVo;
+import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.bean.vo.UserVo;
 
 /**
  * Interface for user's Service layer.
@@ -29,10 +30,10 @@ public interface UserService {
 	 * Method checks if page has a correct value. If not - throw exception. 
 	 * Also set up parameters to select records ( LIMIT )
 	 * @param currPage Current selected page
-	 * @return {@link  by.htp.devteam.bean.vo.UserListVo}
+	 * @return {@link  by.htp.devteam.bean.vo.PagingVo}
 	 * @throws ServiceException  after catching DAOException
 	 */
-	UserListVo fetchAll(String currPage) throws ServiceException;
+	PagingVo<UserVo> fetchAll(String currPage) throws ServiceException;
 	
 	/**
 	 * storage user and set use for employee. User will be added if there are not user for employee and employee isset in storage.

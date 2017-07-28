@@ -3,19 +3,19 @@ package by.htp.devteam.bean.vo;
 import java.util.List;
 
 /**
- * User's list object. Use for display list of objects with pagings settings.
- * Has properties <b>users</b>, <b>countRecords</b>,
+ * List of objects. Use for display list of objects with pagings settings.
+ * Has properties <b>records</b>, <b>countRecords</b>,
  * <b>countPages</b>, <b>currPage</b>
  * @author julia
  *
  */
-public final class UserListVo {
+public class PagingVo<T> {
 	
-	/** List of users (userVo) on one page for display*/
-	private List<UserVo> users;
+	/** List of records on one page for display*/
+	private List<T> records;
 	
 	/** Count records in full list*/
-	private int countRecords;
+	private int countAllRecords;
 	
 	/** Count pages for dysplay in paging*/
 	private int countPages;
@@ -23,24 +23,24 @@ public final class UserListVo {
 	/** Current selected page*/
 	private int currPage;
 	
-	public UserListVo() {
+	public PagingVo() {
 		super();
 	}
 
-	public List<UserVo> getUsers() {
-		return users;
+	public List<T> getRecords() {
+		return records;
 	}
 
-	public void setUsers(List<UserVo> users) {
-		this.users = users;
+	public void setRecords(List<T> records) {
+		this.records = records;
 	}
 
-	public int getCountRecords() {
-		return countRecords;
+	public int getCountAllRecords() {
+		return countAllRecords;
 	}
 
-	public void setCountRecords(int countRecords) {
-		this.countRecords = countRecords;
+	public void setCountAllRecords(int countAllRecords) {
+		this.countAllRecords = countAllRecords;
 	}
 
 	public int getCountPages() {
@@ -58,5 +58,4 @@ public final class UserListVo {
 	public void setCurrPage(int currPage) {
 		this.currPage = currPage;
 	}
-	
 }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.OrderVo;
-import by.htp.devteam.bean.vo.ProjectListVo;
 import by.htp.devteam.bean.vo.ProjectVo;
 
 /**
@@ -24,11 +24,11 @@ public interface ProjectService {
 	 * Also set up parameters to select records ( LIMIT )
 	 * @param currPage Current selected page
 	 * @param employee Parameter to get all projects by employee. 
-	 * Elso this parameter can be null. In this case method retrun all list of projects
-	 * @return {@link  by.htp.devteam.bean.vo.ProjectListVo}
+	 * Also this parameter can be null. In this case method retrun all list of projects
+	 * @return {@link  by.htp.devteam.bean.vo.PagingVo}
 	 * @throws ServiceException  after catching DAOException
 	 */
-	ProjectListVo fetchAll(String currPage, Employee employee) throws ServiceException;
+	PagingVo<Project> fetchAll(String currPage, Employee employee) throws ServiceException;
 	
 	/**
 	 * Add project in storage.

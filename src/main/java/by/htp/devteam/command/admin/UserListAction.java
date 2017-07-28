@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.vo.UserListVo;
+import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.controller.Page;
@@ -49,11 +49,12 @@ public final class UserListAction implements CommandAction{
 		
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 		try {
-			UserListVo userListVo = userService.fetchAll(currPage);
+			PagingVo<UserVo> pagingVo = userService.fetchAll(currPage);
 			
 			request.setAttribute(REQUEST_PARAM_URI, PAGE_USER_LIST_URI);
-			request.setAttribute(REQUEST_PARAM_USER_LIST_VO, userListVo);
-			
+			request.setAttribute(REQUEST_PARAM_USER_LIST, pagingVo.getRecords());
+			request.setAttribute(REQUEST_PARAM_CURR_PAGE, pagingVo.getCurrPage());
+			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, pagingVo.getCountPages());
 			List<Employee> employeeList = employeeService.getListWithNotSetUser();
 			
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employeeList);

@@ -5,8 +5,8 @@ import java.util.List;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
-import by.htp.devteam.bean.vo.OrderListVo;
 import by.htp.devteam.bean.vo.OrderVo;
+import by.htp.devteam.bean.vo.PagingVo;
 
 /**
  * Interface for order's DAO layer
@@ -22,10 +22,10 @@ public interface OrderDao {
 	 * @param countPerPage
 	 * @return orders list according current page 
 	 * plus page settings (all pages count, current page number)
-	 * @see by.htp.devteam.bean.vo.OrderListVo#OrderListVo()
+	 * @see by.htp.devteam.bean.vo.PagingVo#PagingVo()
 	 * @throws DaoException
 	 */
-	OrderListVo getNewOrders(int offset, int countPerPage) throws DaoException;
+	PagingVo<Order> getNewOrders(int offset, int countPerPage) throws DaoException;
 	
 	/**
 	 * Get order with all information : order record plus works list and qualification with count employees 
