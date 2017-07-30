@@ -49,6 +49,9 @@ public class ShowAuthorizationFormAction implements CommandAction {
 			case DEVELOPER:
 				page = PAGE_DEFAULT_DEVELOPER;
 				break;
+			case ADMIN:
+				page = PAGE_DEFAULT_ADMIN;
+				break;
 			default:
 				break;
 			}

@@ -13,6 +13,7 @@ import by.htp.devteam.command.user.ProjectViewAction;
 import by.htp.devteam.command.admin.UserListAction;
 import by.htp.devteam.command.admin.UserShowAddFormAction;
 import by.htp.devteam.command.admin.UserAddAction;
+import by.htp.devteam.command.admin.UserAddMessageAction;
 import by.htp.devteam.command.user.EmployeeAddAction;
 import by.htp.devteam.command.user.EmployeeAddMessageAction;
 import by.htp.devteam.command.user.EmployeeListAction;
@@ -157,6 +158,11 @@ public enum CommandFactory {
 		} 
 		public HTTPMethod getHTTPMethod() { 
 			return HTTPMethod.POST; 
+		}
+	},
+	USER_ADD_MESSAGE { 
+		public CommandAction chooseAction() { 
+			return new UserAddMessageAction();
 		}
 	},
 	EMPLOYEE_SHOW_ADD_FORM { 

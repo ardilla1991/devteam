@@ -6,6 +6,7 @@ user.password=Пароль
 user.pageTitle.new=Новый пользователь
 user.button.add=Создать
 user.action.add=Добавить пользователя
+user.addOk=Пользователь создан
 login.formTitle=Пожалуйста, авторизируйтесь
 login.signin=Войти
 admin.sitename=DevTeam

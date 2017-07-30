@@ -107,9 +107,13 @@ public class MessageTag extends TagSupport{
 			return;
 		}
 	
+		StringBuilder wr = new StringBuilder();
+		String delimiter = "";
 		for ( String msg : msgList) {
-			pageContext.getOut().write("<" + itemTag + ">" + getString(rb, bean + "." + msg) + "</" + itemTag + ">, ");
+			wr.append(delimiter + "<" + itemTag + ">" + getString(rb, bean + "." + msg) + "</" + itemTag + ">");
+			delimiter = ", ";
 		}
+		pageContext.getOut().write(wr.toString());
 	}
 	
 	/*

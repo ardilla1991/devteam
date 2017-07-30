@@ -1,5 +1,7 @@
 package by.htp.devteam.service.validation;
 
+import java.util.regex.Pattern;
+
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.UserRole;
 
@@ -15,6 +17,12 @@ public final class UserValidation extends BeanValidation {
 	private final static String ROLE = "role";
 	private final static String EMPLOYEE = "employee";
 	
+	/** Regular expression for login */
+	private static final Pattern LOGIN_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{5,50}$");
+	
+	/** Regular expression for password */
+	private static final Pattern PASSWORD_PATTERN = Pattern.compile("^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,50})$");
+	
 	public UserValidation() {
 		super();
 	}
@@ -27,7 +35,7 @@ public final class UserValidation extends BeanValidation {
 	public void validate(String login, String password) {
 		if ( login != null ) {
 			login = login.trim();
-			if ( Validator.isEmpty(login) ) {
+			if ( Validator.isEmpty(login) || !LOGIN_PATTERN.matcher(login).find() ) {
 				setNotValidField(LOGIN);
 			}
 		} else {
@@ -36,7 +44,7 @@ public final class UserValidation extends BeanValidation {
 		
 		if ( password != null ) {
 			password = password.trim();
-			if ( Validator.isEmpty(password) ) {
+			if ( Validator.isEmpty(password) || !PASSWORD_PATTERN.matcher(password).find() ) {
 				setNotValidField(PASSWORD);
 			}
 		} else {

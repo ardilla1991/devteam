@@ -32,7 +32,7 @@ function checkInput(els, field, blockId) {
 		var inputs = el.getElementsByTagName("input");
 		for (var i = 0; i < inputs.length; i++) {
 			result |= (inputs[i].value != "" && inputs[i].value != undefined
-					&& /\b\d{1,2}\b/.test(inputs[i].value) ? 1 : 0);
+					&& /^\d{1,2}$/.test(inputs[i].value) ? 1 : 0);
 		}
 		break;
 	case "file":
@@ -63,7 +63,7 @@ function checkInput(els, field, blockId) {
 		break;
 	case "date":
 		var element = el.getElementsByTagName("input")[0];
-		result = /\b\d{4}-\d{2}-\d{2}\b/.test(element.value);
+		result = /^\d{4}-\d{2}-\d{2}$/.test(element.value);
 		break;
 	case "bigdecimal":
 		var element = el.getElementsByTagName("input")[0];
@@ -71,10 +71,20 @@ function checkInput(els, field, blockId) {
 		break;
 	case "number":
 		var element = el.getElementsByTagName("input")[0];
-		result = /\b\d+\b/.test(element.value);
+		result = /^\d+$/.test(element.value);
+		break;
+	case "login":
+		var element = el.getElementsByTagName("input")[0];
+		result = (element.value != undefined && element.value != ""
+			&& element.value.length <= 50 && /^[a-zA-Z0-9_]{5,}$/.test(element.value) ? 1 : 0);
+		break;
+	case "password":
+		var element = el.getElementsByTagName("input")[0];
+		result = (element.value != undefined && element.value != ""
+			&& element.value.length <= 50 && /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,})$/.test(element.value) ? 1 : 0);
 		break;
 	}
-
+	
 	if (result) {
 		el.style.border = '1px';
 		return true;

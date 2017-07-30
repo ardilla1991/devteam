@@ -22,12 +22,17 @@
 				<h2 class="form-signin-heading">
 					<fmt:message key="login.formTitle" />
 				</h2>
-				<input type="text" class="form-control"
+				<script type="text/javascript">
+					var formElements = {};
+					formElements["login"] = "text";
+					formElements["password"] = "text";
+				</script>
+				<div id="login"><input type="text" class="form-control" maxlength="50"
 					placeholder="<fmt:message key = "user.login" />" required autofocus
-					name="login" value="<c:out value="${login}" />" /> 
-				<input type="password" class="form-control"
+					name="login" value="<c:out value="${login}" />" /> </div>
+				<div id="password"><input type="password" class="form-control" maxlength="50" 
 					placeholder="<fmt:message key = "user.password" />" required
-					name="pass" value="<c:out value="${password}" />" />
+					name="pass" value="<c:out value="${password}" />" /></div>
 				<div class="error_message">
 					<c:if test="${ error_code > 0}">
 						<msg:message errorCode="${ error_code }" msgList="${ empty_field }"
@@ -36,11 +41,13 @@
 					</c:if>
 				</div>
 				<input type="hidden" name="action" value="login" />
-				<button class="btn btn-lg btn-primary btn-block" type="submit">
+				<button class="btn btn-lg btn-primary btn-block login" 
+						onclick="return checkFBForm(formElements);"
+						type="submit">
 					<fmt:message key="login.signin" />
 				</button>
 			</form>
 		</div>
-	
+		<script src="js/script.js"></script>	
 	</body>
 </html>

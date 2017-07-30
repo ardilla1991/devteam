@@ -180,6 +180,7 @@ public class ACLUserFilter implements Filter{
 		adminACL.add(CommandFactory.USER_VIEW);
 		adminACL.add(CommandFactory.USER_SHOW_ADD_FORM);
 		adminACL.add(CommandFactory.USER_ADD);
+		adminACL.add(CommandFactory.USER_ADD_MESSAGE);
 		
 		acl.put(UserRole.ADMIN, adminACL);
 	}

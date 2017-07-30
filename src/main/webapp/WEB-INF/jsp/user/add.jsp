@@ -10,7 +10,7 @@
 				<fmt:message key="user.pageTitle.new" />
 			</h1>
 
-			<form name="user_form" action="Main?action=user_add" method="post"">
+			<form name="user_form" action="Main?action=user_add" method="post">
 				<div class="error_message">
 					<c:if test="${ error_code > 0}">
 						<msg:message errorCode="${ error_code }"
@@ -20,8 +20,8 @@
 				</div>
 				<script type="text/javascript">
 					var formElements = {};
-					formElements["login"] = "text";
-					formElements["password"] = "text";
+					formElements["login"] = "login";
+					formElements["password"] = "password";
 					formElements["role"] = "select";
 				</script>
 				<div class="table-responsive">
@@ -30,12 +30,12 @@
 							<tr>
 								<td><fmt:message key="user.login" />*</td>
 								<td id="login"><input type="text" name="login"
-									value="${login}" maxlength="250" /></td>
+									value="${login}" maxlength="50" /></td>
 							</tr>
 							<tr>
 								<td><fmt:message key="user.password" />*</td>
 								<td id="password"><input type="text" name="password"
-									value="${password}" maxlength="10" /></td>
+									value="${password}" maxlength="50" /></td>
 							</tr>
 							<tr>
 								<%@ page import="by.htp.devteam.bean.UserRole"%>
