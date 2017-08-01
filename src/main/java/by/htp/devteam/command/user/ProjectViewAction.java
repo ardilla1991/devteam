@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import by.htp.devteam.bean.vo.ProjectVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
@@ -18,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 /**
- * Action to view project.
+ * Action to view project. And in jsp you cat set hours for project by employee
  * Logging information about who does action
  * @author julia
  *
@@ -41,7 +42,7 @@ public class ProjectViewAction implements CommandAction{
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
 		
 		logging(request, id);
-		
+		CSRFToken.setToken(request);
 		try {
 			ProjectVo projectVo = projectService.getById(id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_VO, projectVo);

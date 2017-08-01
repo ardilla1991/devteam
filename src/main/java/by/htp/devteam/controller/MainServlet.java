@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.command.CommandFactory;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.command.CommandExeption;
 
@@ -36,14 +37,14 @@ public class MainServlet extends HttpServlet{
 			throws ServletException, IOException {
 		Page page = processRequest(request, response);
 	
-		displayPage(request, response, page);
+		displayPage(request, response, page, HTTPMethod.GET);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		Page page = processRequest(request, response);
 
-		displayPage(request, response, page);
+		displayPage(request, response, page, HTTPMethod.POST);
 	}
 	
 	private Page processRequest(HttpServletRequest request, HttpServletResponse response) 
@@ -56,8 +57,12 @@ public class MainServlet extends HttpServlet{
 			commandAction = CommandFactory.getAction(action).chooseAction();
 			page = commandAction.execute(request, response);
 		} catch (CommandExeption e) {
-			page = new Page(PAGE_ERROR_404);
-		}	
+			//page = new Page(PAGE_ERROR_404);
+			response.sendError(404);
+			return null; ///////// спорный момент!!! 
+		} catch (SecurityException e) {
+			page = new Page(PAGE_OBJECT_NOT_FOUND_URI, true);
+		}
 		
 		return page;
 	}
@@ -70,11 +75,20 @@ public class MainServlet extends HttpServlet{
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private void displayPage(HttpServletRequest request, HttpServletResponse response, Page page) 
+	private void displayPage(HttpServletRequest request, HttpServletResponse response, Page page, HTTPMethod httpMethod) 
 			throws ServletException, IOException {
+		if ( page == null )
+			return;
 		
-		if ( page.isRedirect() )
-			response.sendRedirect(page.getPage());
+		if ( page.isRedirect() ) {
+			if (httpMethod == HTTPMethod.POST) {
+				response.setStatus(HttpServletResponse.SC_SEE_OTHER);
+				response.setHeader("Location", page.getPage());
+			} else {
+				//response.setHeader("cache-control", "private, max-age=0, no-cache, no-store");
+				response.sendRedirect(page.getPage());
+			}
+		}
 		else {
 			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
 			disp.forward(request, response);

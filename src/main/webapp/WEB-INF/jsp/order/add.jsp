@@ -93,6 +93,7 @@
 						<sup>*</sup> - <fmt:message key = "required" />
 					</div>
 					<input type="hidden" name="action" value="order_add" /> 
+					<input type="hidden" name="token" value="${ token }" /> 
 					<input type="submit" class="btn btn-primary"
 						onclick="return checkFBForm(formElements);" name="submitted"
 						value="<fmt:message key = "order.button.add" />" />

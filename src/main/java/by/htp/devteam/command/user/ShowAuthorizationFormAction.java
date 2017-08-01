@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.controller.Page;
 
 import static by.htp.devteam.command.util.ConstantValue.*;

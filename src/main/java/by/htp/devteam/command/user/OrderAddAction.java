@@ -9,6 +9,8 @@ import javax.servlet.http.Part;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
@@ -42,8 +44,10 @@ public class OrderAddAction implements CommandAction{
 	}
 
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		logging(request);
+		
+		CSRFToken.validationToken(request);
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();

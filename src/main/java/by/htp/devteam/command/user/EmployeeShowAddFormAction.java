@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
@@ -40,6 +41,8 @@ public final class EmployeeShowAddFormAction implements CommandAction{
 		QualificationService qualificationService = serviceFactory.getQualificationService();
 		try {
 			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
+			
+			CSRFToken.setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
@@ -53,4 +56,5 @@ public final class EmployeeShowAddFormAction implements CommandAction{
 		
 		logger.info(MSG_LOGGER_EMPLOYEE_SHOW_ADD_FORM, userVO.getUser().getLogin());
 	}
+
 }

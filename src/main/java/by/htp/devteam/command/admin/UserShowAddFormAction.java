@@ -8,6 +8,7 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
@@ -41,12 +42,12 @@ public class UserShowAddFormAction implements CommandAction{
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
 		String employeeId = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
 		try {
-			System.out.println(employeeId);
 			Employee employee = employeeService.getById(employeeId);
-			System.out.println(employee);
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_NAME, employee.getName());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee.getId());
 			request.setAttribute(REQUEST_PARAM_USER_ROLE_ENUM, UserRole.values());
+			
+			CSRFToken.setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
