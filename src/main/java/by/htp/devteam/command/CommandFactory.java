@@ -218,22 +218,24 @@ public enum CommandFactory {
 		if ( action == null )
 			throw new CommandExeption(MSG_COMMAND_EMPTY_ACTION);
 		
-		String enumAction = action.toUpperCase();
 		boolean found = lookup(action);
         if ( !found ) 
         	throw new CommandExeption(MSG_COMMAND_INVALID_ACTION + action);
         
-        return CommandFactory.valueOf(enumAction);
+        return CommandFactory.valueOf(action.toUpperCase());
        }
 	
 	/**
 	 * Find action in enam
 	 * @param action
-	 * @return boolean
+	 * @return boolean True - if action was found, or false - if action is null or don't isset
 	 */
 	public static boolean lookup(String action) {
-		String enumAction = action.toUpperCase();
 		boolean found = false;
+		if ( action == null )
+			return found;
+		
+		String enumAction = action.toUpperCase();
         for ( CommandFactory enumElement: values() ){
            if ( enumElement.toString().equals(enumAction) ) 
         	   found = true;
