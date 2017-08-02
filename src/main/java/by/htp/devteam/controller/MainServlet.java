@@ -35,19 +35,19 @@ public class MainServlet extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		Page page = processRequest(request, response);
+		Page page = processRequest(request, response, HTTPMethod.GET);
 	
 		displayPage(request, response, page, HTTPMethod.GET);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		Page page = processRequest(request, response);
+		Page page = processRequest(request, response, HTTPMethod.POST);
 
 		displayPage(request, response, page, HTTPMethod.POST);
 	}
 	
-	private Page processRequest(HttpServletRequest request, HttpServletResponse response) 
+	private Page processRequest(HttpServletRequest request, HttpServletResponse response, HTTPMethod httpMethod) 
 			throws ServletException, IOException {
 		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		Page page = null;
@@ -55,7 +55,11 @@ public class MainServlet extends HttpServlet{
 		CommandAction commandAction = null;
 		try {
 			commandAction = CommandFactory.getAction(action).chooseAction();
-			page = commandAction.execute(request, response);
+			if ( httpMethod.equals(HTTPMethod.POST ) )
+				page = commandAction.executePOST(request, response);
+			else if ( httpMethod.equals(HTTPMethod.GET) )
+				page = commandAction.executeGET(request, response);
+			///////Yyyy.class.getMethod("methodName").invoke(someArgs)
 		} catch (CommandExeption e) {
 			//page = new Page(PAGE_ERROR_404);
 			response.sendError(404);

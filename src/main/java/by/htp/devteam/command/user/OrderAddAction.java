@@ -13,8 +13,10 @@ import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
+import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
+import by.htp.devteam.service.WorkService;
 import by.htp.devteam.service.util.ErrorCode;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
@@ -44,8 +46,7 @@ public class OrderAddAction implements CommandAction{
 	}
 
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
-		logging(request);
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		
 		CSRFToken.validationToken(request);
 		
@@ -122,11 +123,22 @@ public class OrderAddAction implements CommandAction{
 		return assocArray;
 	}
 	
-	private void logging(HttpServletRequest request ) {
-		HttpSession session = request.getSession(false);
-		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
+	@Override
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
+
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		WorkService workService = serviceFactory.getWorkService();
+		QualificationService qualificationService = serviceFactory.getQualificationService();
+		try {
+			request.setAttribute(REQUEST_PARAM_WORK_LIST, workService.fetchAll());
+			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
+			
+			CSRFToken.setToken(request);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+		}
 		
-		logger.info(MSG_LOGGER_ORDER_ADD, userVO.getUser().getLogin());
+		return new Page(PAGE_ORDER_ADD);
 	}
 
 

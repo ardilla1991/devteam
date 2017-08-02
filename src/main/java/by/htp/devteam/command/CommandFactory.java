@@ -7,25 +7,20 @@ import by.htp.devteam.command.user.ProjectAddMessageAction;
 import by.htp.devteam.command.user.ProjectFindAction;
 import by.htp.devteam.command.user.ProjectListAction;
 import by.htp.devteam.command.user.ProjectListByEmployeeAction;
-import by.htp.devteam.command.user.ProjectShowAddFormAction;
 import by.htp.devteam.command.user.ProjectUpdateHoursAction;
 import by.htp.devteam.command.user.ProjectViewAction;
 import by.htp.devteam.command.admin.UserListAction;
-import by.htp.devteam.command.admin.UserShowAddFormAction;
 import by.htp.devteam.command.admin.UserAddAction;
 import by.htp.devteam.command.admin.UserAddMessageAction;
 import by.htp.devteam.command.user.EmployeeAddAction;
 import by.htp.devteam.command.user.EmployeeAddMessageAction;
 import by.htp.devteam.command.user.EmployeeListAction;
-import by.htp.devteam.command.user.EmployeeShowAddFormAction;
 import by.htp.devteam.command.user.LoginAction;
 import by.htp.devteam.command.user.LogoutAction;
 import by.htp.devteam.command.user.OrderAddAction;
 import by.htp.devteam.command.user.OrderAddMessageAction;
 import by.htp.devteam.command.user.OrderListAction;
-import by.htp.devteam.command.user.OrderShowAddFormAction;
 import by.htp.devteam.command.user.OrderViewAction;
-import by.htp.devteam.command.user.ShowAuthorizationFormAction;
 import by.htp.devteam.command.user.UserViewAction;
 import by.htp.devteam.controller.HTTPMethod;
 
@@ -46,11 +41,6 @@ public enum CommandFactory {
 			return HTTPMethod.POST; 
 		} 
 	},  
-	LOGIN_SHOW_FORM { 
-		public CommandAction chooseAction() { 
-			return new ShowAuthorizationFormAction(); 
-		} 
-	},
 	PERMISSION_DENIED { 
 		public CommandAction chooseAction() { 
 			return new PermissionDeniedAction(); 
@@ -59,11 +49,6 @@ public enum CommandFactory {
 	ORDER_LIST { 
 		public CommandAction chooseAction() { 
 			return new OrderListAction(); 
-		} 
-	},
-	ORDER_SHOW_ADD_FORM { 
-		public CommandAction chooseAction() { 
-			return new OrderShowAddFormAction(); 
 		} 
 	},
 	ORDER_ADD { 
@@ -88,12 +73,6 @@ public enum CommandFactory {
 	ORDER_ADD_MESSAGE { 
 		public CommandAction chooseAction() { 
 			return new OrderAddMessageAction(); 
-		} 
-	},
-	
-	PROJECT_SHOW_ADD_FORM { 
-		public CommandAction chooseAction() { 
-			return new ProjectShowAddFormAction(); 
 		} 
 	},
 	PROJECT_ADD { 
@@ -147,11 +126,6 @@ public enum CommandFactory {
 			return new UserListAction(); 
 		} 
 	},
-	USER_SHOW_ADD_FORM { 
-		public CommandAction chooseAction() { 
-			return new UserShowAddFormAction();
-		} 
-	},
 	USER_ADD { 
 		public CommandAction chooseAction() { 
 			return new UserAddAction();
@@ -164,11 +138,6 @@ public enum CommandFactory {
 		public CommandAction chooseAction() { 
 			return new UserAddMessageAction();
 		}
-	},
-	EMPLOYEE_SHOW_ADD_FORM { 
-		public CommandAction chooseAction() { 
-			return new EmployeeShowAddFormAction();
-		} 
 	},
 	EMPLOYEE_ADD { 
 		public CommandAction chooseAction() { 

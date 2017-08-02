@@ -10,13 +10,11 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 /**
  * Action for display all projects by employee
@@ -25,16 +23,13 @@ import org.apache.logging.log4j.LogManager;
  *
  */
 public class ProjectListByEmployeeAction implements CommandAction{
-
-	/** Logger */
-	private static final Logger logger = LogManager.getLogger(ProjectListByEmployeeAction.class.getName());
 	
 	public ProjectListByEmployeeAction() {
 		super();
 	}
 	
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
@@ -42,8 +37,6 @@ public class ProjectListByEmployeeAction implements CommandAction{
 		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
-		
-		logger.info(MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE, userVO.getUser().getLogin(), currPage);
 		
 		try {
 			PagingVo<Project> pagingVo = projectService.fetchAll(currPage, userVO.getEmployee());
@@ -57,6 +50,12 @@ public class ProjectListByEmployeeAction implements CommandAction{
 		}
 		
 		return new Page(PAGE_PROJECT_LIST);
+	}
+
+	@Override
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

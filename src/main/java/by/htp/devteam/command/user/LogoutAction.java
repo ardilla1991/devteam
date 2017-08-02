@@ -8,10 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 /**
  * Action for user's logout.
@@ -20,30 +18,29 @@ import org.apache.logging.log4j.LogManager;
  *
  */
 public final class LogoutAction implements CommandAction{
-
-	/** logger */
-	private static final Logger logger = LogManager.getLogger(LogoutAction.class.getName());
 	
 	public LogoutAction() {
 		super();
 	}
 	
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
 		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
-		if ( userVO != null ) {			
-			logger.info(MSG_LOGGER_USER_LOGOUT, userVO.getUser().getLogin());
-			
+		if ( userVO != null ) {
 			request.getSession().removeAttribute(SESSION_PARAM_USER);
 			request.getSession().invalidate();
-		} else {
-			logger.info(MSG_LOGGER_USER_LOGOUT);
 		}
 		
 		return new Page(PAGE_SHOW_AUTHORIZATION_FORM_URI, true);
+	}
+
+	@Override
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

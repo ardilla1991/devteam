@@ -133,7 +133,6 @@ public final class ACLGuestFilter implements Filter{
 
 	private void setGuestsACL() {
 		guestACL.add(CommandFactory.LOGIN);
-		guestACL.add(CommandFactory.LOGIN_SHOW_FORM);
 		guestACL.add(CommandFactory.PERMISSION_DENIED);
 
 		acl.put(UserRole.GUEST, guestACL);

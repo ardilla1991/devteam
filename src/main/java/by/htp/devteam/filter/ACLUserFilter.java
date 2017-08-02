@@ -142,10 +142,8 @@ public class ACLUserFilter implements Filter{
 	
 	private void setManagersACL() {
 		managerACL.add(CommandFactory.LOGIN);
-		managerACL.add(CommandFactory.LOGIN_SHOW_FORM);
 		managerACL.add(CommandFactory.ORDER_NEW_LIST);
 		managerACL.add(CommandFactory.ORDER_VIEW);
-		managerACL.add(CommandFactory.PROJECT_SHOW_ADD_FORM);
 		managerACL.add(CommandFactory.PROJECT_ADD);
 		managerACL.add(CommandFactory.PROJECT_ADD_MESSAGE);
 		managerACL.add(CommandFactory.PROJECT_FIND);
@@ -155,7 +153,6 @@ public class ACLUserFilter implements Filter{
 		managerACL.add(CommandFactory.PROJECT_VIEW);
 		managerACL.add(CommandFactory.USER_VIEW);
 		managerACL.add(CommandFactory.EMPLOYEE_LIST);
-		managerACL.add(CommandFactory.EMPLOYEE_SHOW_ADD_FORM);
 		managerACL.add(CommandFactory.EMPLOYEE_ADD);
 		managerACL.add(CommandFactory.EMPLOYEE_ADD_MESSAGE);
 		
@@ -164,7 +161,6 @@ public class ACLUserFilter implements Filter{
 	
 	private void setDevelopersACL() {
 		developerACL.add(CommandFactory.LOGIN);
-		developerACL.add(CommandFactory.LOGIN_SHOW_FORM);
 		developerACL.add(CommandFactory.PERMISSION_DENIED);
 		developerACL.add(CommandFactory.LOGOUT);
 		developerACL.add(CommandFactory.PROJECT_LIST_BY_EMPLOYEE);
@@ -178,11 +174,9 @@ public class ACLUserFilter implements Filter{
 	
 	private void setCustomersACL() {
 		customerACL.add(CommandFactory.LOGIN);
-		customerACL.add(CommandFactory.LOGIN_SHOW_FORM);
 		customerACL.add(CommandFactory.PERMISSION_DENIED);
 		customerACL.add(CommandFactory.LOGOUT);
 		customerACL.add(CommandFactory.ORDER_LIST);
-		customerACL.add(CommandFactory.ORDER_SHOW_ADD_FORM);
 		customerACL.add(CommandFactory.ORDER_ADD);
 		customerACL.add(CommandFactory.ORDER_ADD_MESSAGE);
 		customerACL.add(CommandFactory.ORDER_VIEW);
@@ -193,12 +187,10 @@ public class ACLUserFilter implements Filter{
 	
 	private void setAdminACL() {
 		adminACL.add(CommandFactory.LOGIN);
-		adminACL.add(CommandFactory.LOGIN_SHOW_FORM);
 		adminACL.add(CommandFactory.PERMISSION_DENIED);
 		adminACL.add(CommandFactory.LOGOUT);
 		adminACL.add(CommandFactory.USER_LIST);
 		adminACL.add(CommandFactory.USER_VIEW);
-		adminACL.add(CommandFactory.USER_SHOW_ADD_FORM);
 		adminACL.add(CommandFactory.USER_ADD);
 		adminACL.add(CommandFactory.USER_ADD_MESSAGE);
 		

@@ -2,12 +2,10 @@ package by.htp.devteam.command.admin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.vo.UserVo;
+import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.command.CommandAction;
-import by.htp.devteam.command.user.EmployeeAddAction;
 import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
@@ -18,9 +16,6 @@ import by.htp.devteam.service.UserService;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 /**
  * Add user for employee.
  * Logging information about who does action
@@ -28,17 +23,16 @@ import org.apache.logging.log4j.LogManager;
  *
  */
 public final class UserAddAction implements CommandAction {
-
-	/** Logger */
-	private static final Logger logger = LogManager.getLogger(EmployeeAddAction.class.getName());
 	
 	public UserAddAction() {
 		super();
 	}
 	
+	/**
+	 * Add user for employee.
+	 */
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
-		logging(request);
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		UserService userService = serviceFactory.getUserService();
@@ -69,11 +63,27 @@ public final class UserAddAction implements CommandAction {
 		return new Page(page, isRedirect);
 	}
 	
-	private void logging(HttpServletRequest request ) {
-		HttpSession session = request.getSession(false);
-		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
+	/**
+	 * Action for user show form.
+	 */
+	@Override
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
+
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		EmployeeService employeeService = serviceFactory.getEmployeeService();
+		String employeeId = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
+		try {
+			Employee employee = employeeService.getById(employeeId);
+			request.setAttribute(REQUEST_PARAM_EMPLOYEE_NAME, employee.getName());
+			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee.getId());
+			request.setAttribute(REQUEST_PARAM_USER_ROLE_ENUM, UserRole.values());
+			
+			CSRFToken.setToken(request);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+		}
 		
-		logger.info(MSG_LOGGER_USER_SHOW_ADD_FORM, userVO.getUser().getLogin());
+		return new Page(PAGE_USER_ADD);
 	}
 	
 }

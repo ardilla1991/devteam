@@ -22,5 +22,7 @@ public interface CommandAction {
 	 * @return {@link by.htp.devteam.controller.Page} object.
 	 * @throws SecurityException 
 	 */
-	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException;
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException;
+	
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) throws SecurityException;
 }

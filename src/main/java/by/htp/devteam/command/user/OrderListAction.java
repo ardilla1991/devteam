@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
@@ -14,9 +15,6 @@ import by.htp.devteam.service.util.UploadFile;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 /**
  * Action for order list by customer.
  * Logging information about who does action
@@ -24,16 +22,13 @@ import org.apache.logging.log4j.LogManager;
  *
  */
 public class OrderListAction implements CommandAction{
-
-	/** Logger */
-	private static final Logger logger = LogManager.getLogger(OrderListAction.class.getName());
 	
 	public OrderListAction() {
 		super();
 	}
 	
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		
@@ -42,8 +37,6 @@ public class OrderListAction implements CommandAction{
 		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
-		
-		logger.info(MSG_LOGGER_ORDER_LIST, userVO.getUser().getLogin());
 
 		try {
 			request.setAttribute(REQUEST_PARAM_ORDER_LIST, orderService.geOrdersByCustomer(userVO.getCustomer()));	
@@ -53,6 +46,12 @@ public class OrderListAction implements CommandAction{
 		}
 		
 		return new Page(page, isRedirect);
+	}
+
+	@Override
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

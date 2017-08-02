@@ -15,9 +15,6 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 /**
  * Action to update hours count for project spending by employee.
  * Logging information about who does action
@@ -25,15 +22,12 @@ import org.apache.logging.log4j.LogManager;
  *
  */
 public class ProjectUpdateHoursAction implements CommandAction{
-
-	/** Logger */
-	private static final Logger logger = LogManager.getLogger(ProjectUpdateHoursAction.class.getName());
 	
 	public ProjectUpdateHoursAction() {
 		super();
 	}
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
@@ -46,7 +40,6 @@ public class ProjectUpdateHoursAction implements CommandAction{
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
-		logger.info(MSG_LOGGER_PROJECT_UPDATE_HOURS, userVO.getUser().getLogin(), id);
 		CSRFToken.validationToken(request);
 		
 		try {
@@ -62,6 +55,11 @@ public class ProjectUpdateHoursAction implements CommandAction{
 		}
 		
 		return new Page(page, isRedirect);
+	}
+	@Override
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

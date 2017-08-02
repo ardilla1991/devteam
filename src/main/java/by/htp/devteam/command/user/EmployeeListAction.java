@@ -2,21 +2,17 @@ package by.htp.devteam.command.user;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 /**
  * Action for getting all employees. 
@@ -25,23 +21,15 @@ import org.apache.logging.log4j.LogManager;
  *
  */
 public class EmployeeListAction implements CommandAction {
-
-	/** Logger */
-	private static final Logger logger = LogManager.getLogger(EmployeeListAction.class.getName());
 	
 	public EmployeeListAction() {
 		super();
 	}
 	
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
-		
-		HttpSession session = request.getSession(false);
-		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
-		
-		logger.info(MSG_LOGGER_USER_LIST, userVO.getUser().getLogin());
 		
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 		try {
@@ -56,6 +44,12 @@ public class EmployeeListAction implements CommandAction {
 		}
 		
 		return new Page(PAGE_EMPLOYEE_LIST);
+	}
+
+	@Override
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

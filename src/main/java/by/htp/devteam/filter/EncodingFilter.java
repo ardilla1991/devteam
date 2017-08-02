@@ -14,7 +14,7 @@ import javax.servlet.ServletResponse;
  * @author julia
  *
  */
-public class EncodingFilter implements Filter{
+public class EncodingFilter implements Filter {
 
 	/** Encoding from web.xml */
 	private String encoding;

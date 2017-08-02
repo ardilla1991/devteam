@@ -10,6 +10,8 @@ public final class ConstantValue {
 		super();
 	}
 	
+	public static final String MSG_LOGGER_REQUEST = "Request {}";
+	
 	public static final String MSG_LOGGER_USER_LOGIN = "User {}. Login action";
 	public static final String MSG_LOGGER_USER_LOGOUT = "User {}. Logout action";
 	public static final String MSG_LOGGER_ORDER_NEW_LIST = "User {}. New orders list";

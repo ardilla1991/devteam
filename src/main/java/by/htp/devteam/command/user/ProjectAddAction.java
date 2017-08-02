@@ -2,19 +2,18 @@ package by.htp.devteam.command.user;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.vo.OrderVo;
-import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
+import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
@@ -22,21 +21,20 @@ import by.htp.devteam.service.ServiceFactory;
 
 /**
  * Action for add project.
- * Logging information about who does action
  * @author julia
  *
  */
 public class ProjectAddAction implements CommandAction {
 
-	/** Logger */
-	private static final Logger logger = LogManager.getLogger(ProjectAddAction.class.getName());
-
 	public ProjectAddAction() {
 		super();
 	}
 
+	/**
+	 * Action for add project.
+	 */
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		ProjectService projectService = serviceFactory.getProjectService();
@@ -45,8 +43,6 @@ public class ProjectAddAction implements CommandAction {
 		String page = PAGE_PROJECT_ADD_MESSAGE_URI;
 		boolean isRedirect = true;
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
-		
-		logging(request, orderId);
 
 		CSRFToken.validationToken(request);
 		
@@ -72,11 +68,33 @@ public class ProjectAddAction implements CommandAction {
 		return new Page(page, isRedirect);
 	}
 	
-	private void logging(HttpServletRequest request, String orderId) {
-		HttpSession session = request.getSession(false);
-		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
+	/**
+	 * Action to show the form for add project.
+	 */
+	@Override
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {	
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		OrderService orderService = serviceFactory.getOrderService();
 		
-		logger.info(MSG_LOGGER_PROJECT_ADD, userVO.getUser().getLogin(), orderId);
+		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
+
+		try {
+			OrderVo orderVo = orderService.getById(orderId);
+			request.setAttribute(REQUEST_PARAM_ORDER_VO, orderVo);
+			
+			EmployeeService employeeService = serviceFactory.getEmployeeService();
+			List<Employee> employees = employeeService.getNotBusyEmployeesForPeriodByQualifications(orderVo.getOrder().getDateStart(), 
+					orderVo.getOrder().getDateFinish(), orderVo.getQualifications().keySet());
+			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employees);
+			
+			CSRFToken.setToken(request);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+		}
+
+		request.setAttribute(REQUEST_PARAM_ORDER_ID, orderId);
+
+		return new Page(PAGE_PROJECT_ADD);
 	}
 
 }

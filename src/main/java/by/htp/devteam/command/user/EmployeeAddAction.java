@@ -2,40 +2,34 @@ package by.htp.devteam.command.user;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
 import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.EmployeeService;
+import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
 import static by.htp.devteam.command.util.ConstantValue.*;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 /**
- * Action add employee.
- * Logging information about who does action
+ * Action add employee
  * @author julia
  *
  */
 public final class EmployeeAddAction implements CommandAction{
-
-	/** Logger */
-	private static final Logger logger = LogManager.getLogger(EmployeeAddAction.class.getName());
 	
 	public EmployeeAddAction() {
 		super();
 	}
 	
+	/**
+	 * Action for add employee.
+	 */
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
-		logging(request);
+	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		
 		CSRFToken.validationToken(request);
 		
@@ -64,11 +58,23 @@ public final class EmployeeAddAction implements CommandAction{
 		return new Page(page, isRedirect);
 	}
 	
-	private void logging(HttpServletRequest request ) {
-		HttpSession session = request.getSession(false);
-		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
+	/**
+	 * Action for employee show form.
+	 */
+	@Override
+	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
 		
-		logger.info(MSG_LOGGER_ADD_EMPLOYEE, userVO.getUser().getLogin());
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		QualificationService qualificationService = serviceFactory.getQualificationService();
+		try {
+			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
+			
+			CSRFToken.setToken(request);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+		}
+		
+		return new Page(PAGE_EMPLOYEE_ADD);
 	}
 
 }
