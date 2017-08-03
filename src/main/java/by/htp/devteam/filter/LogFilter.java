@@ -1,6 +1,6 @@
 package by.htp.devteam.filter;
 
-import static by.htp.devteam.command.util.ConstantValue.*;
+import static by.htp.devteam.module.util.ConstantValue.*;
 
 import java.io.IOException;
 

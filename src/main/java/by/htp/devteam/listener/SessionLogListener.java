@@ -1,6 +1,6 @@
 package by.htp.devteam.listener;
 
-import static by.htp.devteam.command.util.ConstantValue.MSG_LOGGER_REQUEST;
+import static by.htp.devteam.module.util.ConstantValue.MSG_LOGGER_REQUEST;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;

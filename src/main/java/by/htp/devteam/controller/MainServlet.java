@@ -1,11 +1,11 @@
 package by.htp.devteam.controller;
 
+import static by.htp.devteam.module.util.ConstantValue.*;
+
 /**
  * Main point for application
  */
 import java.io.IOException;
-
-import static by.htp.devteam.command.util.ConstantValue.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import by.htp.devteam.command.CommandFactory;
-import by.htp.devteam.command.util.SecurityException;
-import by.htp.devteam.command.CommandAction;
-import by.htp.devteam.command.CommandExeption;
+import by.htp.devteam.module.ControllerFactory;
+import by.htp.devteam.module.Controller;
+import by.htp.devteam.module.ControllerExeption;
+import by.htp.devteam.module.util.SecurityException;
 
 @MultipartConfig(
 	    location="/tmp", 
@@ -52,20 +52,16 @@ public class MainServlet extends HttpServlet{
 		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		Page page = null;
 		
-		CommandAction commandAction = null;
+		Controller moduleController = null;
 		try {
-			commandAction = CommandFactory.getAction(action).chooseAction();
-			if ( httpMethod.equals(HTTPMethod.POST ) )
-				page = commandAction.executePOST(request, response);
-			else if ( httpMethod.equals(HTTPMethod.GET) )
-				page = commandAction.executeGET(request, response);
-			///////Yyyy.class.getMethod("methodName").invoke(someArgs)
-		} catch (CommandExeption e) {
+			Router route = new Router();
+			route.getRoute(request.getRequestURI());
+			
+			//moduleController.class.getMethod("methodName" + request.getMethod()).invoke(request, response);
+		} catch (ControllerExeption e) {
 			//page = new Page(PAGE_ERROR_404);
 			response.sendError(404);
 			return null; ///////// спорный момент!!! 
-		} catch (SecurityException e) {
-			page = new Page(PAGE_OBJECT_NOT_FOUND_URI, true);
 		}
 		
 		return page;

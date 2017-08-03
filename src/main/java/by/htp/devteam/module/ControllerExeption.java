@@ -1,20 +1,20 @@
-package by.htp.devteam.command;
+package by.htp.devteam.module;
 
 /**
  * Exception for Controller layer. Catch Exceptions when user select not valid action
  * @author julia
  *
  */
-public class CommandExeption extends Exception {
+public class ControllerExeption extends Exception {
 	
 	private static final long serialVersionUID = 2879996083995167679L;
 	private Exception _hidden;
 	
-	public CommandExeption(String s) {
+	public ControllerExeption(String s) {
 		super(s);
 	}
 	
-	public CommandExeption(String s, Exception e) {
+	public ControllerExeption(String s, Exception e) {
 		super(s);
 		_hidden = e;
 	}

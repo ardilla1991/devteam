@@ -1,28 +1,6 @@
-package by.htp.devteam.command.user;
+package by.htp.devteam.module.controller;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-
-import by.htp.devteam.bean.vo.OrderVo;
-import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.command.CommandAction;
-import by.htp.devteam.command.util.CSRFToken;
-import by.htp.devteam.command.util.SecurityException;
-import by.htp.devteam.controller.Page;
-import by.htp.devteam.service.OrderService;
-import by.htp.devteam.service.QualificationService;
-import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
-import by.htp.devteam.service.WorkService;
-import by.htp.devteam.service.util.ErrorCode;
-
-import static by.htp.devteam.command.util.ConstantValue.*;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import static by.htp.devteam.module.util.ConstantValue.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,23 +8,44 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Action for add order.
- * Logging information about who does action
- * @author julia
- *
- */
-public class OrderAddAction implements CommandAction{
-	
-	/** logger */
-	private static final Logger logger = LogManager.getLogger(OrderAddAction.class.getName());
-	
-	public OrderAddAction() {
-		super();
-	}
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
-	@Override
-	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.vo.OrderVo;
+import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.bean.vo.UserVo;
+import by.htp.devteam.controller.Page;
+import by.htp.devteam.module.Controller;
+import by.htp.devteam.module.util.CSRFToken;
+import by.htp.devteam.module.util.SecurityException;
+import by.htp.devteam.service.OrderService;
+import by.htp.devteam.service.QualificationService;
+import by.htp.devteam.service.ServiceException;
+import by.htp.devteam.service.ServiceFactory;
+import by.htp.devteam.service.WorkService;
+import by.htp.devteam.service.util.ErrorCode;
+import by.htp.devteam.service.util.UploadFile;
+
+public class OrderController implements Controller {
+
+	/** Logger */
+	private static final Logger logger = LogManager.getLogger(OrderController.class);
+	
+	/**
+	 * Action for add order.
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws SecurityException
+	 */
+	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		
 		CSRFToken.validationToken(request);
 		
@@ -123,8 +122,7 @@ public class OrderAddAction implements CommandAction{
 		return assocArray;
 	}
 	
-	@Override
-	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
+	public Page addGET(HttpServletRequest request, HttpServletResponse response) {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		WorkService workService = serviceFactory.getWorkService();
@@ -140,6 +138,96 @@ public class OrderAddAction implements CommandAction{
 		
 		return new Page(PAGE_ORDER_ADD);
 	}
+	
+	/**
+	 * Action after added order. Only show page with message that all is ok
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Page messageGET(HttpServletRequest request, HttpServletResponse response) {
+		
+		return new Page(PAGE_ORDER_ADD_MESSAGE);
+	}
+	
+	/**
+	 * Action for order list by customer.
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Page listGET(HttpServletRequest request, HttpServletResponse response) {
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		OrderService orderService = serviceFactory.getOrderService();
+		
+		String page = PAGE_ORDER_LIST;
+		boolean isRedirect = false;
+		
+		HttpSession session = request.getSession(false);
+		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 
+		try {
+			request.setAttribute(REQUEST_PARAM_ORDER_LIST, orderService.geOrdersByCustomer(userVO.getCustomer()));	
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+		}
+		
+		return new Page(page, isRedirect);
+	}
+	
+	/**
+	 * Action for new orders list.
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Page newListGET(HttpServletRequest request, HttpServletResponse response) {
+		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		OrderService orderService = serviceFactory.getOrderService();
+		
+		String page = PAGE_ORDER_NEW_LIST;
+		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 
+		try {
+			PagingVo<Order> pagingVo = orderService.getNewOrders(currPage);
+			
+			request.setAttribute(REQUEST_PARAM_URI, PAGE_ORDER_NEW_LIST_URI);
+			request.setAttribute(REQUEST_PARAM_ORDER_LIST, pagingVo.getRecords());
+			request.setAttribute(REQUEST_PARAM_CURR_PAGE, pagingVo.getCurrPage());
+			request.setAttribute(REQUEST_PARAM_COUNT_PAGES, pagingVo.getCountPages());
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
+
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+		}
+		
+		return new Page(page);
+	}
+	
+	/**
+	 * Action for view order.
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Page viewGET(HttpServletRequest request, HttpServletResponse response) {
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		OrderService orderService = serviceFactory.getOrderService();
+		
+		String page = PAGE_ORDER_VIEW;
+		String id = request.getParameter(REQUEST_PARAM_ORDER_ID);
+		
+		try {
+			OrderVo orderVo = orderService.getById(id);
+			request.setAttribute(REQUEST_PARAM_ORDER_VO, orderVo);
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+			page = PAGE_ERROR_404;
+		}
+
+		return new Page(page);
+	}
 }

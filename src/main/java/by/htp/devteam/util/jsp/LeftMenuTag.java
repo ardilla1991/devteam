@@ -1,5 +1,7 @@
 package by.htp.devteam.util.jsp;
 
+import static by.htp.devteam.module.util.ConstantValue.*;
+
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -8,7 +10,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import by.htp.devteam.bean.User;
-import static by.htp.devteam.command.util.ConstantValue.*;
 
 /**
  * Display left bar for user

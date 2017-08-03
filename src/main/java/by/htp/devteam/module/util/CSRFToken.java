@@ -1,6 +1,6 @@
-package by.htp.devteam.command.util;
+package by.htp.devteam.module.util;
 
-import static by.htp.devteam.command.util.ConstantValue.*;
+import static by.htp.devteam.module.util.ConstantValue.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

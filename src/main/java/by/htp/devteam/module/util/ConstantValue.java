@@ -1,4 +1,4 @@
-package by.htp.devteam.command.util;
+package by.htp.devteam.module.util;
 /**
  * constance values for controller layer. Messages for logger, reguest params, pages paths
  * @author julia
@@ -11,40 +11,14 @@ public final class ConstantValue {
 	}
 	
 	public static final String MSG_LOGGER_REQUEST = "Request {}";
-	
-	public static final String MSG_LOGGER_USER_LOGIN = "User {}. Login action";
-	public static final String MSG_LOGGER_USER_LOGOUT = "User {}. Logout action";
-	public static final String MSG_LOGGER_ORDER_NEW_LIST = "User {}. New orders list";
-	public static final String MSG_LOGGER_ORDER_SHOW_ADD_FORM = "User {}. Show order add form";
-	public static final String MSG_LOGGER_ORDER_LIST = "User {}. Orders list";
-	public static final String MSG_LOGGER_ORDER_ADD = "User {}. Order add";
-	public static final String MSG_LOGGER_ORDER_ADD_OK_MESSAGE = "User {}. Add order --> OK";
 	public static final String MSG_LOGGER_ORDER_ADD_FILE_UPLOAD = "Orders add. Upload file error";
-	public static final String MSG_LOGGER_ORDER_VIEW = "User {}. Order id {} view";
+
 	public static final String MSG_LOGGER_PERMISSION_DENIED = "User {}. Permission denied";
-	public static final String MSG_LOGGER_OBJECT_NOT_FOUND = "User {}. Object not found";
-	public static final String MSG_LOGGER_PROJECT_ADD = "User {}. Add project for order {}";
-	public static final String MSG_LOGGER_PROJECT_ADD_OK_MESSAGE = "User {}. Add project --> OK";
-	public static final String MSG_LOGGER_PROJECT_LIST = "User {}. Projects list";
-	public static final String MSG_LOGGER_PROJECT_LIST_BY_EMPLOYEE = "User {}. Projects list by employee. Page {}";
-	public static final String MSG_LOGGER_PROJECT_FIND = "User {}. Find project by name {}";
-	public static final String MSG_LOGGER_PROJECT_SWOR_ADD_FORM = "User {}. Show project add form for order {}";
-	public static final String MSG_LOGGER_PROJECT_UPDATE_HOURS = "User {}. Project {} . Update hours";
-	public static final String MSG_LOGGER_PROJECT_VIEW = "User {}. Project {} view";
-	public static final String MSG_LOGGER_SHOW_AUTHORIZATION_FORM = "User {}. Show authorization form";
-	public static final String MSG_LOGGER_USER_VIEW = "User {}. View user's information";
-	public static final String MSG_LOGGER_USER_LIST = "User {}. User's list";
-	public static final String MSG_LOGGER_USER_ADD = "User {}. User add";
-	public static final String MSG_LOGGER_USER_SHOW_ADD_FORM = "User {}. Show user add form";
-	public static final String MSG_LOGGER_USER_ADD_OK_MESSAGE = "User {}. User add --> OK";
-	public static final String MSG_LOGGER_EMPLOYEE_SHOW_ADD_FORM = "User {}. Show employee add form";
-	public static final String MSG_LOGGER_EMPLOYEE_ADD_OK_MESSAGE = "User {}. Employee add --> OK";
-	public static final String MSG_LOGGER_ADD_EMPLOYEE = "User {}. Add employee";
+
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
-	public static final String MSG_LOGGER_WRONG_HTTP_METHOD = "User {}. Wrong http method ";
 	
-	public static final String MSG_COMMAND_EMPTY_ACTION = "Action is empty ";
-	public static final String MSG_COMMAND_INVALID_ACTION = "Invalid action: ";
+	public static final String MSG_COMMAND_EMPTY_MODULE = "Module is empty ";
+	public static final String MSG_COMMAND_INVALID_MODULE = "Invalid module: ";
 	
 	public static final String PAGE_DEFAULT = "index.jsp";
 	
@@ -92,9 +66,6 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = "Main?action=project_update_hours";
 	public static final String PAGE_PROJECT_VIEW_BY_ID_URI = "Main?action=project_view&project_id=";
 	public static final String PAGE_PROJECT_ADD_MESSAGE_URI = "Main?action=project_add_message";
-	
-	public static final String PAGE_PERMISSION_DENIED_URI = "Main?action=permission_denied";
-	public static final String PAGE_OBJECT_NOT_FOUND_URI = "Main?action=object_not_found";
 	
 	public static final String PAGE_ORDER_LIST_URI = "Main?action=order_list";
 	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";

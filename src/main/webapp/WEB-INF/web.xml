@@ -46,22 +46,12 @@
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	<filter>
-		<display-name>ACLUserFilter</display-name>
-		<filter-name>ACLUserFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLUserFilter</filter-class>
+		<display-name>ACLFilter</display-name>
+		<filter-name>ACLFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.ACLFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>ACLUserFilter</filter-name>
-		<url-pattern>/Main/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-	</filter-mapping>
-	<filter>
-		<display-name>ACLGuestFilter</display-name>
-		<filter-name>ACLGuestFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLGuestFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>ACLGuestFilter</filter-name>
+		<filter-name>ACLFilter</filter-name>
 		<url-pattern>/Main/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>

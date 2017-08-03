@@ -1,5 +1,7 @@
 package by.htp.devteam.util.jsp;
 
+import static by.htp.devteam.module.util.ConstantValue.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -11,8 +13,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
-
-import static by.htp.devteam.command.util.ConstantValue.*;
 
 public class EmployeeListTag extends TagSupport {
 
