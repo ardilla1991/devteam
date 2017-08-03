@@ -34,7 +34,7 @@
 							</tr>
 							<tr>
 								<td><fmt:message key="user.password" />*</td>
-								<td id="password"><input type="text" name="password"
+								<td id="password"><input type="password" name="password"
 									value="${password}" maxlength="50" /></td>
 							</tr>
 							<tr>

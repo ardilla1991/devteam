@@ -44,7 +44,9 @@ public class OrderShowAddFormAction implements CommandAction{
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
-		
+		/*response.setHeader("Pragma", "No-cache"); 
+		response.setHeader("Cache-Control", "no-cache"); 
+		response.setDateHeader("Expires", 1);*/
 		return new Page(PAGE_ORDER_ADD);
 	}
 	
