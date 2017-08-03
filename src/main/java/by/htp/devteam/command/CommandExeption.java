@@ -5,7 +5,7 @@ package by.htp.devteam.command;
  * @author julia
  *
  */
-public class CommandExeption extends Exception{
+public class CommandExeption extends Exception {
 	
 	private static final long serialVersionUID = 2879996083995167679L;
 	private Exception _hidden;

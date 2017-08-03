@@ -83,6 +83,7 @@
 								name="action" value="project_update_hours" /> 
 							<input type="hidden" name="project_id"
 								value="${project_vo.getProject().getId() }" /> 
+							<input type="hidden" name="token" value="${ token }" />
 							<input type="submit" class="btn btn-primary"
 								onclick="return checkFBForm(formElements);" name="submitted"
 								value="<fmt:message key = "project.button.addHours" />" />

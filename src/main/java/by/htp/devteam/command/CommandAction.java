@@ -3,6 +3,7 @@ package by.htp.devteam.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 
 /**
@@ -19,6 +20,7 @@ public interface CommandAction {
 	 * @param request
 	 * @param response
 	 * @return {@link by.htp.devteam.controller.Page} object.
+	 * @throws SecurityException 
 	 */
-	public Page execute(HttpServletRequest request, HttpServletResponse response);
+	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException;
 }

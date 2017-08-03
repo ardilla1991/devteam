@@ -88,7 +88,9 @@
 						<fmt:message key="required" />
 					</div>
 					<input type="hidden" name="order_id" value="${order_id}" /> 
-					<input type="hidden" name="action" value="project_add" /> <input
+					<input type="hidden" name="action" value="project_add" /> 
+					<input type="hidden" name="token" value="${ token }" /> 
+					<input
 						type="submit" class="btn btn-primary"
 						onclick="return checkFBForm(formElements, 'qualification_list_count');"
 						name="submitted"

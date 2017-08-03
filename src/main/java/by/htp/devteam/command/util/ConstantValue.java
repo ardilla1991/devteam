@@ -20,6 +20,7 @@ public final class ConstantValue {
 	public static final String MSG_LOGGER_ORDER_ADD_FILE_UPLOAD = "Orders add. Upload file error";
 	public static final String MSG_LOGGER_ORDER_VIEW = "User {}. Order id {} view";
 	public static final String MSG_LOGGER_PERMISSION_DENIED = "User {}. Permission denied";
+	public static final String MSG_LOGGER_OBJECT_NOT_FOUND = "User {}. Object not found";
 	public static final String MSG_LOGGER_PROJECT_ADD = "User {}. Add project for order {}";
 	public static final String MSG_LOGGER_PROJECT_ADD_OK_MESSAGE = "User {}. Add project --> OK";
 	public static final String MSG_LOGGER_PROJECT_LIST = "User {}. Projects list";
@@ -81,6 +82,7 @@ public final class ConstantValue {
 	public static final String PAGE_EMPLOYEE_ADD_MESSAGE = PATH_EMPLOYEE + "addMessage.jsp";
 	
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
+	public static final String PAGE_OBJECT_NOT_FOUND = JSP_FOLDER_PATH + "objectNotFound.jsp";
 	
 	public static final String PAGE_PROJECT_LIST_URI = "Main?action=project_list";
 	public static final String PAGE_PROJECT_SHOW_ADD_FORM_URI = "Main?action=project_show_add_form&order_id=";
@@ -90,6 +92,7 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_ADD_MESSAGE_URI = "Main?action=project_add_message";
 	
 	public static final String PAGE_PERMISSION_DENIED_URI = "Main?action=permission_denied";
+	public static final String PAGE_OBJECT_NOT_FOUND_URI = "Main?action=object_not_found";
 	
 	public static final String PAGE_ORDER_LIST_URI = "Main?action=order_list";
 	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";
@@ -177,5 +180,8 @@ public final class ConstantValue {
 	
 	public static final String REQUEST_PARAM_URI = "uri";
 	
+	public static final String REQUEST_PARAM_FORM_TOKEN = "token";
+	
 	public static final String SESSION_PARAM_USER = "user";
+	public static final String SESSION_PARAM_FORM_TOKEN = "CSRFToken";
 }

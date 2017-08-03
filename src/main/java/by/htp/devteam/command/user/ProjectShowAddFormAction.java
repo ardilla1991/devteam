@@ -12,6 +12,7 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
@@ -53,6 +54,8 @@ public class ProjectShowAddFormAction implements CommandAction{
 			List<Employee> employees = employeeService.getNotBusyEmployeesForPeriodByQualifications(orderVo.getOrder().getDateStart(), 
 					orderVo.getOrder().getDateFinish(), orderVo.getQualifications().keySet());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employees);
+			
+			CSRFToken.setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

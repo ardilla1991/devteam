@@ -70,23 +70,23 @@ public final class ACLGuestFilter implements Filter{
 		if ( !isAuthorised && action != null ) {
 			UserRole role = UserRole.GUEST;
 
-			try {
-				boolean issetInACL = acl.get(role).contains(CommandFactory.getAction(action) );
+			//try {
+				boolean issetInACL = issetInACL(role, action);
 				if ( !issetInACL ) {
 					resp.sendRedirect(PAGE_SHOW_AUTHORIZATION_FORM_URI);
 					return;
-				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue()) ) {
+				} else if ( issetInACL && !isHTTPMethodForActionValid(req, action) ) {
 					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD);
 					req.getRequestDispatcher(PAGE_DEFAULT).forward(req, resp);
 					//resp.sendError(404);
 					return;
 				}
-			} catch (CommandExeption e) {
+			/*} catch (CommandExeption e) {
 				logger.info(e.getMessage());
 				//resp.sendError(404);
 				resp.sendRedirect(PAGE_SHOW_AUTHORIZATION_FORM_URI);
 				return;
-			}
+			}*/
 		} else if ( action == null ) {
 			Matcher matcher = URL_PATTERN .matcher(req.getRequestURI());
 			if ( matcher.matches() == false ) {
@@ -98,6 +98,31 @@ public final class ACLGuestFilter implements Filter{
 		}
 		
 		chain.doFilter(request, response);
+	}
+	
+	private boolean issetInACL(UserRole role, String action) {
+		boolean issetInACL = false;
+		try {
+			issetInACL = acl.get(role).contains(CommandFactory.getAction(action) );
+		} catch (CommandExeption e) {
+			//// processing in controller
+			/*logger.info(e.getMessage());
+			resp.sendError(404);
+			return;*/
+		}
+		
+		return issetInACL;
+	}
+	
+	private boolean isHTTPMethodForActionValid(HttpServletRequest req, String action) {
+		boolean isValid = false;
+		try {
+			req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue());
+		} catch (CommandExeption e) {
+			//// processing in controller
+		}
+		
+		return isValid;
 	}
 
 	@Override

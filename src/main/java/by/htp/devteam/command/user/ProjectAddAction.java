@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
@@ -34,7 +36,7 @@ public class ProjectAddAction implements CommandAction {
 	}
 
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		ProjectService projectService = serviceFactory.getProjectService();
@@ -46,6 +48,8 @@ public class ProjectAddAction implements CommandAction {
 		
 		logging(request, orderId);
 
+		CSRFToken.validationToken(request);
+		
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_PROJECT_DESCRIPTION);
 		String[] employees = request.getParameterValues(REQUEST_PARAM_PROJECT_EMPLOYEE);

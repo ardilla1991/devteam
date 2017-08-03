@@ -87,28 +87,48 @@ public class ACLUserFilter implements Filter{
 		HttpSession session = req.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
 		
-		UserRole role;
-		if ( isAuthorised && action != null) {
-			Object userObject = session.getAttribute(SESSION_PARAM_USER);
-			UserVo userVO = (UserVo) userObject;
-			role = userVO.getUser().getRole();
-			try {
-				boolean issetInACL = acl.get(role).contains(CommandFactory.getAction(action) );
-				if ( !issetInACL ) {
-					resp.sendRedirect(PAGE_PERMISSION_DENIED_URI);
-					return;
-				} else if ( issetInACL && !req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue()) ) {
-					logger.info(MSG_LOGGER_WRONG_HTTP_METHOD, userVO.getUser().getLogin());
-					resp.sendError(404);
-					return;
-				}
-			} catch (CommandExeption e) {
-				logger.info(e.getMessage());
+		if ( isAuthorised ) {
+			UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
+			UserRole role = userVO.getUser().getRole();
+
+			boolean issetInACL = issetInACL(role, action);
+			if ( !issetInACL ) {
+				resp.sendRedirect(PAGE_PERMISSION_DENIED_URI);
+				return;
+			} else if ( issetInACL && !isHTTPMethodForActionValid(req, action) ) {
+				logger.info(MSG_LOGGER_WRONG_HTTP_METHOD, userVO.getUser().getLogin());
 				resp.sendError(404);
 				return;
 			}
+
 		}
+		
 		chain.doFilter(request, response);	
+	}
+	
+	private boolean issetInACL(UserRole role, String action) {
+		boolean issetInACL = false;
+		try {
+			issetInACL = acl.get(role).contains(CommandFactory.getAction(action) );
+		} catch (CommandExeption e) {
+			//// processing in controller
+			/*logger.info(e.getMessage());
+			resp.sendError(404);
+			return;*/
+		}
+		
+		return issetInACL;
+	}
+	
+	private boolean isHTTPMethodForActionValid(HttpServletRequest req, String action) {
+		boolean isValid = false;
+		try {
+			req.getMethod().equalsIgnoreCase(CommandFactory.getAction(action).getHTTPMethod().getValue());
+		} catch (CommandExeption e) {
+			//// processing in controller
+		}
+		
+		return isValid;
 	}
 
 	@Override

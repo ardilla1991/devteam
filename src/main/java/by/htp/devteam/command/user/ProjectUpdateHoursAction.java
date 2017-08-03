@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.command.CommandAction;
+import by.htp.devteam.command.util.CSRFToken;
+import by.htp.devteam.command.util.SecurityException;
 import by.htp.devteam.controller.Page;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
@@ -31,7 +33,7 @@ public class ProjectUpdateHoursAction implements CommandAction{
 		super();
 	}
 	@Override
-	public Page execute(HttpServletRequest request, HttpServletResponse response) {
+	public Page execute(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
@@ -45,6 +47,7 @@ public class ProjectUpdateHoursAction implements CommandAction{
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
 		logger.info(MSG_LOGGER_PROJECT_UPDATE_HOURS, userVO.getUser().getLogin(), id);
+		CSRFToken.validationToken(request);
 		
 		try {
 			projectService.updateHours(id, userVO.getEmployee(), hours);
