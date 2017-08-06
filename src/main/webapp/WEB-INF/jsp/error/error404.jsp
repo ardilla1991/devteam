@@ -23,5 +23,7 @@
 	<h1 class="page-header">
 		<fmt:message key="error.404" />
 	</h1>
+	<fmt:message key="gohome" var="gohome"/>
+	<a href="${ appPath }" title="${ gohome }" >${ gohome }</a>
 </body>
 </html>

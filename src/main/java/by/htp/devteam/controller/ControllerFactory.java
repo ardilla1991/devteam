@@ -1,14 +1,14 @@
-package by.htp.devteam.module;
+package by.htp.devteam.controller;
 
-import static by.htp.devteam.module.util.ConstantValue.*;
+import static by.htp.devteam.controller.util.ConstantValue.*;
 
-import by.htp.devteam.module.controller.EmployeeController;
-import by.htp.devteam.module.controller.OrderController;
-import by.htp.devteam.module.controller.ProjectController;
-import by.htp.devteam.module.controller.UserController;
+import by.htp.devteam.controller.module.EmployeeController;
+import by.htp.devteam.controller.module.OrderController;
+import by.htp.devteam.controller.module.ProjectController;
+import by.htp.devteam.controller.module.UserController;
 
 /**
- * Factory for creating Action object
+ * Factory for creating Module object
  * ENUM of all modules in system
  * @author julia
  *
@@ -41,16 +41,16 @@ public enum ControllerFactory {
 	};
 
 	/**
-	 * Select action for command
+	 * Select module for command
 	 * @return Object with CommandAction type
 	 */
 	public abstract Controller chooseController();
 	
 	
 	/**
-	 * Get command in system according to selected action
-	 * Validate if action is null. Find action in enum and throw exceptiom if action not found
-	 * @param action from request
+	 * Get module controller in system according to selected module
+	 * Validate if module is null. Find module in enum and throw exceptiom if module not found
+	 * @param module from request
 	 * @return CommandFactory object
 	 * @throws ControllerExeption
 	 */

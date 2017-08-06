@@ -59,7 +59,7 @@ public final class ProjectValidation extends BeanValidation {
 		} else {
 			setNotValidField(EMPLOYEE);
 		}
-		
+
 		if ( Validator.isEmpty(price) || !Validator.checkBigDecimal(price) || price.length() > 11) {
 			setNotValidField(PRICE);
 		}

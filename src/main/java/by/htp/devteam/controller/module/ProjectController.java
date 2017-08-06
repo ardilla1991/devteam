@@ -1,6 +1,6 @@
-package by.htp.devteam.module.controller;
+package by.htp.devteam.controller.module;
 
-import static by.htp.devteam.module.util.ConstantValue.*;
+import static by.htp.devteam.controller.util.ConstantValue.*;
 
 import java.util.List;
 
@@ -14,16 +14,22 @@ import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.ProjectVo;
 import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.controller.Page;
-import by.htp.devteam.module.Controller;
-import by.htp.devteam.module.util.CSRFToken;
-import by.htp.devteam.module.util.SecurityException;
+import by.htp.devteam.controller.Controller;
+import by.htp.devteam.controller.main.Page;
+import by.htp.devteam.controller.util.CSRFToken;
+import by.htp.devteam.controller.util.SecurityException;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
+import by.htp.devteam.service.util.UploadFile;
 
+/**
+ * Controller for project module.
+ * @author julia
+ *
+ */
 public class ProjectController implements Controller {
 	
 	/**
@@ -43,7 +49,7 @@ public class ProjectController implements Controller {
 		boolean isRedirect = true;
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
 
-		CSRFToken.validationToken(request);
+		CSRFToken.getInstance().validationToken(request);
 		
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_PROJECT_DESCRIPTION);
@@ -59,8 +65,9 @@ public class ProjectController implements Controller {
 			request.setAttribute(REQUEST_PARAM_PROJECT_DESCRIPTION, description);
 			request.setAttribute(REQUEST_PARAM_PROJECT_EMPLOYEE, employees);
 			request.setAttribute(REQUEST_PARAM_ORDER_PRICE, price);
-			
-			page = PAGE_PROJECT_SHOW_ADD_FORM_URI + orderId;
+			request.setAttribute(REQUEST_PARAM_ORDER_ID, orderId);
+
+			page = PAGE_PROJECT_ADD;
 			isRedirect = false;
 		}
 
@@ -85,7 +92,7 @@ public class ProjectController implements Controller {
 					orderVo.getOrder().getDateFinish(), orderVo.getQualifications().keySet());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employees);
 			
-			CSRFToken.setToken(request);
+			CSRFToken.getInstance().setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
@@ -162,6 +169,25 @@ public class ProjectController implements Controller {
 		return new Page(PAGE_PROJECT_LIST);
 	}
 	
+	public Page updateHoursGET(HttpServletRequest request, HttpServletResponse response) throws SecurityException {		
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		ProjectService projectService = serviceFactory.getProjectService();
+		
+		String page = PAGE_PROJECT_UPDATE_HOURS;
+		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
+		
+		CSRFToken.getInstance().setToken(request);
+		try {
+			ProjectVo projectVo = projectService.getById(id);
+			request.setAttribute(REQUEST_PARAM_PROJECT_VO, projectVo);
+		} catch (ServiceException e) {
+			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
+			page = PAGE_ERROR_404;
+		}
+		
+		return new Page(page);
+	}
+	
 	/**
 	 * Action to update hours count for project spending by employee.
 	 * @param request
@@ -169,7 +195,7 @@ public class ProjectController implements Controller {
 	 * @return
 	 * @throws SecurityException
 	 */
-	public Page executePOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
@@ -182,7 +208,7 @@ public class ProjectController implements Controller {
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 		
-		CSRFToken.validationToken(request);
+		CSRFToken.getInstance().validationToken(request);
 		
 		try {
 			projectService.updateHours(id, userVO.getEmployee(), hours);
@@ -192,7 +218,7 @@ public class ProjectController implements Controller {
 			request.setAttribute(REQUEST_PARAM_PROJECT_ID, id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_HOURS, hours);
 			
-			page = PAGE_PROJECT_VIEW_BY_ID_URI + id;
+			page = PAGE_PROJECT_VIEW_URI + id;
 			isRedirect = false;			
 		}
 		
@@ -212,10 +238,10 @@ public class ProjectController implements Controller {
 		String page = PAGE_PROJECT_VIEW;
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
 
-		CSRFToken.setToken(request);
 		try {
 			ProjectVo projectVo = projectService.getById(id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_VO, projectVo);
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 			page = PAGE_ERROR_404;
@@ -230,7 +256,7 @@ public class ProjectController implements Controller {
 	 * @param response
 	 * @return
 	 */
-	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
+	public Page findGET(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		

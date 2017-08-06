@@ -1,6 +1,6 @@
-package by.htp.devteam.module.controller;
+package by.htp.devteam.controller.module;
 
-import static by.htp.devteam.module.util.ConstantValue.*;
+import static by.htp.devteam.controller.util.ConstantValue.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,10 +21,10 @@ import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.controller.Page;
-import by.htp.devteam.module.Controller;
-import by.htp.devteam.module.util.CSRFToken;
-import by.htp.devteam.module.util.SecurityException;
+import by.htp.devteam.controller.Controller;
+import by.htp.devteam.controller.main.Page;
+import by.htp.devteam.controller.util.CSRFToken;
+import by.htp.devteam.controller.util.SecurityException;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
@@ -33,6 +33,11 @@ import by.htp.devteam.service.WorkService;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.UploadFile;
 
+/**
+ * Controller for order module.
+ * @author julia
+ *
+ */
 public class OrderController implements Controller {
 
 	/** Logger */
@@ -47,7 +52,7 @@ public class OrderController implements Controller {
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		
-		CSRFToken.validationToken(request);
+		CSRFToken.getInstance().validationToken(request);
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
@@ -83,13 +88,13 @@ public class OrderController implements Controller {
 				request.setAttribute(REQUEST_PARAM_ORDER_WORK, workIds);
 				request.setAttribute(REQUEST_PARAM_ORDER_QUALIFICATION, qualifications);
 				
-				page = PAGE_ORDER_SHOW_ADD_FORM_URI;
+				page = PAGE_ORDER_ADD_URI;
 				isRedirect = false;
 			}			
 		} catch (IOException | ServletException | IllegalStateException e) {
 			logger.info(MSG_LOGGER_ORDER_ADD_FILE_UPLOAD, e);
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, ErrorCode.FILE_UPLOAD.getValue());
-			page = PAGE_ORDER_SHOW_ADD_FORM_URI;
+			page = PAGE_ORDER_ADD_URI;
 			isRedirect = false;
 		}
 
@@ -131,7 +136,7 @@ public class OrderController implements Controller {
 			request.setAttribute(REQUEST_PARAM_WORK_LIST, workService.fetchAll());
 			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
 			
-			CSRFToken.setToken(request);
+			CSRFToken.getInstance().setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

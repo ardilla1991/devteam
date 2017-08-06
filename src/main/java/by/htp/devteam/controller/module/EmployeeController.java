@@ -1,28 +1,32 @@
-package by.htp.devteam.module.controller;
+package by.htp.devteam.controller.module;
 
-import static by.htp.devteam.module.util.ConstantValue.*;
+import static by.htp.devteam.controller.util.ConstantValue.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.controller.Page;
-import by.htp.devteam.module.Controller;
-import by.htp.devteam.module.util.CSRFToken;
-import by.htp.devteam.module.util.SecurityException;
+import by.htp.devteam.controller.Controller;
+import by.htp.devteam.controller.main.Page;
+import by.htp.devteam.controller.util.CSRFToken;
+import by.htp.devteam.controller.util.SecurityException;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 
+/**
+ * Controller for employee module.
+ * @author julia
+ *
+ */
 public class EmployeeController implements Controller {
 	/**
 	 * Action for add employee.
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
-		
-		CSRFToken.validationToken(request);
+		CSRFToken.getInstance().validationToken(request);
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
@@ -42,7 +46,7 @@ public class EmployeeController implements Controller {
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_START_WORK, startWork);
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_QUALIFICATION, qualification);
 			
-			page = PAGE_EMPLOYEE_SHOW_ADD_FORM_URI;
+			page = PAGE_EMPLOYEE_ADD_URI;
 			isRedirect = false;
 		}
 		
@@ -59,7 +63,7 @@ public class EmployeeController implements Controller {
 		try {
 			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
 			
-			CSRFToken.setToken(request);
+			CSRFToken.getInstance().setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

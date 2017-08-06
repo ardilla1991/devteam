@@ -13,7 +13,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @author julia
  *
  */
-public class MessageTag extends TagSupport{
+public class ErrorMessageTag extends TagSupport{
 	
 	private static final long serialVersionUID = 6316769356559277444L;
 	
@@ -25,6 +25,9 @@ public class MessageTag extends TagSupport{
 	
 	/** Container tag for all points */
 	private String containerTag;
+	
+	/** Container class */
+	private String containerClass;
 	
 	/** Item tag for point */
 	private String itemTag;
@@ -44,7 +47,7 @@ public class MessageTag extends TagSupport{
 	/** Current country */
 	private String country;
 	
-	public MessageTag() {
+	public ErrorMessageTag() {
 		super();
 	}
 
@@ -54,6 +57,10 @@ public class MessageTag extends TagSupport{
 
 	public void setContainerTag(String containerTag) {
 		this.containerTag = containerTag;
+	}
+	
+	public void setContainerClass(String containerClass) {
+		this.containerClass = containerClass;
 	}
 	
 	public void setItemTag(String itemTag) {
@@ -81,11 +88,15 @@ public class MessageTag extends TagSupport{
 	 */
 	@Override
 	public int doStartTag() throws JspException {
+		if ( errorCode == 0 ) {
+			return SKIP_BODY;
+		}
+		
 		try {
 			Locale locale = new Locale(language, country);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 			
-			pageContext.getOut().write("<" + containerTag + ">");
+			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			pageContext.getOut().write(getString(rb, "error.code." + errorCode) + " ");
 			printMsgList(rb);
 			pageContext.getOut().write("</" + containerTag + ">");

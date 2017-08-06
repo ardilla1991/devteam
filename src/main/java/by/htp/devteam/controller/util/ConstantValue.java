@@ -1,4 +1,4 @@
-package by.htp.devteam.module.util;
+package by.htp.devteam.controller.util;
 /**
  * constance values for controller layer. Messages for logger, reguest params, pages paths
  * @author julia
@@ -10,10 +10,22 @@ public final class ConstantValue {
 		super();
 	}
 	
+	public static final String URL_DELIMITER = "/";
+	public static final String APP_NAME = "devteam";
+	public static final String SERVLET_NAME = "";
+	public static final String MODULE = "module";
+	public static final String ACTION = "action";
+	public static final String URI_START = "?";
+	public static final String URI_EQUAL = "=";
+	public static final String URI_PARAM_DELIMITER = "&";
+	public static final String URL_METHOD_DELIMITER = "_";
+	
+	public static final String SYSTEM_PATH = URL_DELIMITER + APP_NAME + URL_DELIMITER;
+	
 	public static final String MSG_LOGGER_REQUEST = "Request {}";
 	public static final String MSG_LOGGER_ORDER_ADD_FILE_UPLOAD = "Orders add. Upload file error";
 
-	public static final String MSG_LOGGER_PERMISSION_DENIED = "User {}. Permission denied";
+	public static final String MSG_LOGGER_PERMISSION_DENIED = "Permission denied";
 
 	public static final String MSG_LOGGER_NULL_ACTION = "Action is null. Redirect to page with action=empty";
 	
@@ -43,6 +55,7 @@ public final class ConstantValue {
 	public static final String PAGE_PROJECT_VIEW = PATH_PROJECT + "view.jsp";
 	public static final String PAGE_PROJECT_LIST = PATH_PROJECT + "list.jsp";
 	public static final String PAGE_PROJECT_ADD_MESSAGE = PATH_PROJECT + "addMessage.jsp";
+	public static final String PAGE_PROJECT_UPDATE_HOURS = PATH_PROJECT + "updateHours.jsp";
 	public static final String PAGE_PROJECT_FIND = PATH_PROJECT + "find.jsp";
 	public static final String PAGE_PROJECT_FIND_AJAX = PATH_PROJECT + PATH_AJAX + "find.jsp";
 	
@@ -60,38 +73,39 @@ public final class ConstantValue {
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	public static final String PAGE_OBJECT_NOT_FOUND = JSP_FOLDER_PATH + "objectNotFound.jsp";
 	
-	public static final String PAGE_PROJECT_LIST_URI = "Main?action=project_list";
-	public static final String PAGE_PROJECT_SHOW_ADD_FORM_URI = "Main?action=project_show_add_form&order_id=";
-	public static final String PAGE_PROJECT_LIST_BY_EMPLOYEE_URI = "Main?action=project_list_by_employee";
-	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = "Main?action=project_update_hours";
-	public static final String PAGE_PROJECT_VIEW_BY_ID_URI = "Main?action=project_view&project_id=";
-	public static final String PAGE_PROJECT_ADD_MESSAGE_URI = "Main?action=project_add_message";
+	public static final String PAGE_PROJECT_LIST_URI = SYSTEM_PATH + "project/list";
+	public static final String PAGE_PROJECT_ADD_URI = SYSTEM_PATH + "project/add/order_id/";
+	public static final String PAGE_PROJECT_LIST_BY_EMPLOYEE_URI = SYSTEM_PATH + "project/list_by_employee";
+	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = SYSTEM_PATH + "project/update_hours/project_id/";
+	public static final String PAGE_PROJECT_VIEW_URI = SYSTEM_PATH + "project/view/project_id/";
+	public static final String PAGE_PROJECT_ADD_MESSAGE_URI = SYSTEM_PATH + "project/message";
 	
-	public static final String PAGE_ORDER_LIST_URI = "Main?action=order_list";
-	public static final String PAGE_ORDER_NEW_LIST_URI = "Main?action=order_new_list";
-	public static final String PAGE_ORDER_SHOW_ADD_FORM_URI = "Main?action=order_show_add_form";
-	public static final String PAGE_ORDER_ADD_MESSAGE_URI = "Main?action=order_add_message";
+	public static final String PAGE_ORDER_LIST_URI = SYSTEM_PATH + "order/list";
+	public static final String PAGE_ORDER_NEW_LIST_URI = SYSTEM_PATH + "order/new_list";
+	public static final String PAGE_ORDER_ADD_URI = SYSTEM_PATH + "order/add";
+	public static final String PAGE_ORDER_ADD_MESSAGE_URI = SYSTEM_PATH + "order/message";
+	public static final String PAGE_ORDER_VIEW_URI = SYSTEM_PATH + "order/view/order_id/";
 	
-	public static final String PAGE_USER_VIEW_URI = "Main?action=user_view";
-	public static final String PAGE_USER_LIST_URI = "Main?action=user_list";
-	public static final String PAGE_USER_SHOW_ADD_FORM_URI = "Main?action=user_show_add_form";
-	public static final String PAGE_USER_ADD_MESSAGE_URI = "Main?action=user_add_message";
-	public static final String PAGE_USER_ADD_URI = "Main?action=user_show_add_form&employee_id=";
-	public static final String PAGE_LOGOUT = "Main?action=logout";
+	public static final String PAGE_USER_VIEW_URI = SYSTEM_PATH + "user/view";
+	public static final String PAGE_USER_LIST_URI = SYSTEM_PATH + "user/list";
+	public static final String PAGE_USER_ADD_MESSAGE_URI = SYSTEM_PATH + "user/message";
+	public static final String PAGE_USER_ADD_URI = SYSTEM_PATH + "user/add/employee_id/";
+	public static final String PAGE_LOGOUT = SYSTEM_PATH + "user/logout";
 	
-	public static final String PAGE_EMPLOYEE_SHOW_ADD_FORM_URI = "Main?action=employee_show_add_form";
-	public static final String PAGE_EMPLOYEE_ADD_MESSAGE_URI = "Main?action=employee_add_message";
-	public static final String PAGE_EMPLOYEE_LIST_URI = "Main?action=employee_list";
+	public static final String PAGE_EMPLOYEE_ADD_URI = SYSTEM_PATH + "employee/add";
+	public static final String PAGE_EMPLOYEE_ADD_MESSAGE_URI = SYSTEM_PATH + "employee/message";
+	public static final String PAGE_EMPLOYEE_LIST_URI = SYSTEM_PATH + "employee/list";
 	
-	public static final String PAGE_SHOW_AUTHORIZATION_FORM_URI = "Main?action=login_show_form";
-	public static final String PAGE_EMPTY_URI = "Main?action=empty";
+	public static final String PAGE_USER_LOGIN_URI = SYSTEM_PATH + "user/login";
 	
 	public static final String PAGE_DEFAULT_MANAGER = PAGE_ORDER_NEW_LIST_URI;
 	public static final String PAGE_DEFAULT_DEVELOPER = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;
 	public static final String PAGE_DEFAULT_CUSTOMER = PAGE_ORDER_LIST_URI;
 	public static final String PAGE_DEFAULT_ADMIN = PAGE_USER_LIST_URI;
 	
+	public static final String REQUEST_PARAM_MODULE = "module";
 	public static final String REQUEST_PARAM_ACTION = "action";
+	public static final String REQUEST_PARAM_APP_PATH = "appPath";
 	
 	public static final String REQUEST_PARAM_LOGIN = "login";
 	public static final String REQUEST_PARAM_PASSWORD = "pass";

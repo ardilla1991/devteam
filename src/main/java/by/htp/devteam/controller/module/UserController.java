@@ -1,6 +1,6 @@
-package by.htp.devteam.module.controller;
+package by.htp.devteam.controller.module;
 
-import static by.htp.devteam.module.util.ConstantValue.*;
+import static by.htp.devteam.controller.util.ConstantValue.*;
 
 import java.util.List;
 
@@ -13,16 +13,21 @@ import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.controller.Page;
-import by.htp.devteam.module.Controller;
-import by.htp.devteam.module.util.CSRFToken;
-import by.htp.devteam.module.util.SecurityException;
+import by.htp.devteam.controller.Controller;
+import by.htp.devteam.controller.main.Page;
+import by.htp.devteam.controller.util.CSRFToken;
+import by.htp.devteam.controller.util.SecurityException;
 import by.htp.devteam.service.CustomerService;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 
+/**
+ * Controller for user module.
+ * @author julia
+ *
+ */
 public class UserController implements Controller {
 
 	public UserController() {
@@ -45,7 +50,7 @@ public class UserController implements Controller {
 		String role = request.getParameter(REQUEST_PARAM_USER_ROLE);
 		String employee_id = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
 		try {
-			CSRFToken.validationToken(request);
+			CSRFToken.getInstance().validationToken(request);
 			Employee employee = employeeService.getById(employee_id);
 			userService.add(login, password, role, employee);
 		} catch (ServiceException e) {
@@ -56,7 +61,7 @@ public class UserController implements Controller {
 			request.setAttribute(REQUEST_PARAM_USER_ROLE, role);
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee_id);
 
-			page = PAGE_USER_SHOW_ADD_FORM_URI;
+			page = PAGE_USER_ADD_URI + employee_id;
 			isRedirect = false;
 		}
 
@@ -77,7 +82,7 @@ public class UserController implements Controller {
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee.getId());
 			request.setAttribute(REQUEST_PARAM_USER_ROLE_ENUM, UserRole.values());
 
-			CSRFToken.setToken(request);
+			CSRFToken.getInstance().setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
@@ -236,7 +241,7 @@ public class UserController implements Controller {
 	 * @param response
 	 * @return
 	 */
-	public Page executeGET(HttpServletRequest request, HttpServletResponse response) {
+	public Page logoutGET(HttpServletRequest request, HttpServletResponse response) {
 		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
@@ -246,6 +251,6 @@ public class UserController implements Controller {
 			request.getSession().invalidate();
 		}
 		
-		return new Page(PAGE_SHOW_AUTHORIZATION_FORM_URI, true);
+		return new Page(PAGE_USER_LOGIN_URI, true);
 	}
 }

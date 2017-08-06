@@ -1,4 +1,4 @@
-package by.htp.devteam.module.util;
+package by.htp.devteam.controller.util;
 
 /**
  * Exception for Sequrity layer. Catch Exceptions when form token is not valid

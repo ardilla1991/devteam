@@ -13,7 +13,7 @@
 		<tbody>
 			<c:forEach items="${project_list}" var="i">
 				<tr>
-					<td><a href="Main?action=project_view&project_id=${i.getId()}"><fmt:message
+					<td><a href="${ ConstantValue.PAGE_PROJECT_VIEW_URI }${i.getId()}"><fmt:message
 								key="project.action.view" /></a></td>
 					<td><c:out value="${i.getId()}" /></td>
 					<td><c:out value="${i.getTitle()}" /></td>

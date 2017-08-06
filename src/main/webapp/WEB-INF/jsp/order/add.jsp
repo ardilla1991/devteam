@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
-<%@ taglib uri="messagetag" prefix="msg"%>
+<%@ taglib uri="errormessagetag" prefix="msg"%>
 
 	<div class="container-fluid">
 		<div class="row">
@@ -8,14 +8,10 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header"><fmt:message key = "order.pageTitle.new" /></h1>
 
-				<form id="order_add" name="order_form" action="Main?action=order_add" method="post" enctype="multipart/form-data">
-					<div class="error_message">
-						<c:if test="${ error_code > 0}">
-							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" 
+				<form id="order_add" name="order_form" action="${ ConstantValue.PAGE_ORDER_ADD_URI }" method="post" enctype="multipart/form-data">
+					<msg:error errorCode="${ error_code }" msgList="${ empty_field }" 
 							language="${clientLanguage}" country="${clientCountry}" bean="order"
-							itemTag="span" containerTag="div" />
-						</c:if>
-					</div>
+							itemTag="span" containerTag="div" containerClass="error_message"/>
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
@@ -92,7 +88,6 @@
 					<div class="el_obr_warn">
 						<sup>*</sup> - <fmt:message key = "required" />
 					</div>
-					<input type="hidden" name="action" value="order_add" /> 
 					<input type="hidden" name="token" value="${ token }" /> 
 					<input type="submit" class="btn btn-primary"
 						onclick="return checkFBForm(formElements);" name="submitted"

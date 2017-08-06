@@ -1,6 +1,4 @@
 <%@include file="../jspf/header.jsp"%>
-<%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
-<%@ taglib uri="messagetag" prefix="msg"%>
 
 <div class="container-fluid">
 	<div class="row">

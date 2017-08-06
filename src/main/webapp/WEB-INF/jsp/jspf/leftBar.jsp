@@ -2,7 +2,8 @@
 
 <div class="col-sm-3 col-md-2 sidebar">
 	<menu:left user="${ user.getUser() }"
-				currAction="${param.action}"  containerTag="ul" containerClass="nav nav-sidebar" itemTag="li" currActionClass="active" 
+				currUrl="${requestScope['javax.servlet.forward.request_uri']}"  containerTag="ul" containerClass="nav nav-sidebar" 
+				itemTag="li" currUrlClass="active" 
 				language="${clientLanguage}" country="${clientCountry}"/>
 
 </div>

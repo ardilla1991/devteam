@@ -1,4 +1,4 @@
-package by.htp.devteam.controller;
+package by.htp.devteam.controller.main;
 
 /**
  * Page object for view layer

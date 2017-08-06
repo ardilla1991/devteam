@@ -1,7 +1,7 @@
 <%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="messagetag" prefix="msg"%>
+<%@ taglib uri="errormessagetag" prefix="msg"%>
 <div class="container-fluid">
 	<div class="row">
 		<%@include file="../jspf/leftBar.jsp"%>
@@ -17,18 +17,17 @@
 					<fmt:message key="project.pageTitle.new" />
 				</h1>
 
-				<form id="order_add" name="order_form" action="Main" method="post">
-					<div class="error_message">
-						<c:if test="${ error_code > 0}">
-							<msg:message errorCode="${ error_code }" msgList="${ empty_field }" language="${clientLanguage}" country="${clientCountry}" bean="project"  itemTag="span" containerTag="div"/>
-						</c:if>
-					</div>
+				<form id="order_add" name="order_form" action="${ ConstantValue.PAGE_PROJECT_ADD_URI }${order_id}" method="post">		
+					<msg:error errorCode="${ error_code }" msgList="${ empty_field }" 
+							   language="${clientLanguage}" country="${clientCountry}" 
+							   bean="project"  itemTag="span" 
+							   containerTag="div" containerClass="error_message"/>
 					<script type="text/javascript">
 						var formElements = {};
 						formElements["title"] = "text";
 						formElements["description"] = "textarea";
 						formElements["employee"] = "checkbox";
-						formElements["price"] = "bigdecimal";
+						formElements["price"] = "text";
 					</script>
 					<div class="table-responsive">
 						<table class="table table-striped tab-content tab-active">
@@ -87,8 +86,6 @@
 						<sup>*</sup> -
 						<fmt:message key="required" />
 					</div>
-					<input type="hidden" name="order_id" value="${order_id}" /> 
-					<input type="hidden" name="action" value="project_add" /> 
 					<input type="hidden" name="token" value="${ token }" /> 
 					<input
 						type="submit" class="btn btn-primary"

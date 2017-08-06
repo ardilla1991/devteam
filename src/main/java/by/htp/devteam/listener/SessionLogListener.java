@@ -1,8 +1,5 @@
 package by.htp.devteam.listener;
 
-import static by.htp.devteam.module.util.ConstantValue.MSG_LOGGER_REQUEST;
-
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -10,6 +7,11 @@ import javax.servlet.http.HttpSessionListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Listener for create session logging
+ * @author julia
+ *
+ */
 public class SessionLogListener implements HttpSessionListener  {
 
 	/** Logger */

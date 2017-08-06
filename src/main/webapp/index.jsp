@@ -26,7 +26,8 @@
 			<div class="menu">
 		        <div class="container">
 		            <a class="site-title" href="#">DevTeam</a>
-		            <a class="site-menu" href="Main?action=login_show_form"><fmt:message key = "welcome.enter" /></a>
+		            <%@ page import="by.htp.devteam.controller.util.ConstantValue" %>
+		            <a class="site-menu" href="${ ConstantValue.PAGE_USER_LOGIN_URI }"><fmt:message key = "welcome.enter" /></a>
 		            <!-- /.navbar-collapse -->
 		        </div>
 		        <!-- /.container-fluid -->

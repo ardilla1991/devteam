@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @author julia
  *
  */
-public final class PageTag extends TagSupport{
+public final class PageTag extends TagSupport {
 	
 	private static final long serialVersionUID = 7633809780473295006L;
 	
@@ -77,13 +77,14 @@ public final class PageTag extends TagSupport{
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			for ( int i = 1; i <= countPages; i++ ) {
 				active = (i == currPage ? "class=\"" + currActionClass + "\"" : "");
-				pageContext.getOut().write("<" + itemTag + " " + active + "><a href=\"" + uri + "&page=" + i + "\">" 
+				pageContext.getOut().write("<" + itemTag + " " + active + "><a href=\"" + uri + "?page=" + i + "\">" 
 											+ i + "</a></" + itemTag + ">");
 			}
 			pageContext.getOut().write("</" + containerTag + ">");
 		} catch (IOException e) {
 			throw new JspException(e.getMessage());
 		}
+		
 		return SKIP_BODY;
 	}
 }

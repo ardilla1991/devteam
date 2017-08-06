@@ -13,7 +13,7 @@
 			<tr>
 				<td><fmt:message key="order.specification" /></td>
 				<td><a
-					href="${upload_path}${order_vo.getOrder().getSpecification()}"><c:out
+					href="${ appPath }${upload_path}${order_vo.getOrder().getSpecification()}"><c:out
 							value="${order_vo.getOrder().getSpecification()}" /></a></td>
 			</tr>
 			<tr>
