@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.htp.devteam.controller.Controller;
 import by.htp.devteam.controller.ControllerExeption;
 import by.htp.devteam.controller.ControllerFactory;
+import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.controller.util.SecurityException;
 
 /**
@@ -41,64 +42,38 @@ public class MainServlet extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		Page page = processRequest(request, response, HTTPMethod.GET);
+		Page page = processRequest(request, response);
 	
 		displayPage(request, response, page, HTTPMethod.GET);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		Page page = processRequest(request, response, HTTPMethod.POST);
+		Page page = processRequest(request, response);
 
 		displayPage(request, response, page, HTTPMethod.POST);
 	}
 	
-	private Page processRequest(HttpServletRequest request, HttpServletResponse response, HTTPMethod httpMethod) 
+	private Page processRequest(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {		
-		String module = request.getParameter(REQUEST_PARAM_MODULE);
-		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		
 		request.setAttribute(REQUEST_PARAM_APP_PATH, SYSTEM_PATH);
 		Page page = null;
-		Controller moduleController = null;
 		try {
-			moduleController = ControllerFactory.getController(module).chooseController();
-			page = (Page) moduleController.getClass()
-			.getMethod(generateMethodName(action) + request.getMethod(), HttpServletRequest.class, HttpServletResponse.class)
-			.invoke(moduleController, request, response);
-		} catch (ControllerExeption e) {
-			//page = new Page(PAGE_ERROR_404);
+			page = Runner.run(request, response);
+		} catch (ControllerExeption | InvocationTargetException | IllegalAccessException 
+				| IllegalArgumentException | NoSuchMethodException | java.lang.SecurityException e) {
 			response.sendError(404);
-			return null; ///////// спорный момент!!! 
-		} catch (InvocationTargetException e) {
-			//if (e.getCause() instanceof SecurityException) {
-				response.sendError(404);
-				return null; ///////// спорный момент!!!
-			//}
-		} catch (IllegalAccessException | IllegalArgumentException
-				| NoSuchMethodException | java.lang.SecurityException e) {
-			//e.printStackTrace();
-			response.sendError(404);
-			return null; ///////// спорный момент!!! 
-		} 
+		}
 		
 		return page;
 	}
 	
-	private String generateMethodName(String action) {
-		StringBuilder method = new StringBuilder();
-		String[] actionParts = action.split(URL_METHOD_DELIMITER);
-		int actionPartLength = actionParts.length;
-		method.append(actionParts[0]);
-		for ( int i = 1; i < actionPartLength; i++ ) {
-			method.append(actionParts[i].substring(0, 1).toUpperCase() + actionParts[i].substring(1));
-		}
-		
-		return method.toString();
-	}
-	
 	/**
-	 * Display page with way chosen in Page (is redirect or not)
+	 * Display page with way chosen in Page (is redirect or not)ю
+	 * System show page with 303 status If page is redirected after post submit data.
+	 * System show redirected page after redirect in code to other page.
+	 * System forwards page by default.
 	 * @param request
 	 * @param response
 	 * @param page Page object

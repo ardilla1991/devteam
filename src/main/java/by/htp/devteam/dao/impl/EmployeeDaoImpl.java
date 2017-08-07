@@ -18,6 +18,7 @@ import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -265,7 +266,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public Employee getById(Long id) throws DaoException {
+	public Employee getById(Long id) throws DaoException, ObjectNotFoundExeption {
 		Employee employee = null;
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_ID) ) {
@@ -279,13 +280,16 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		return employee;
 	}
 	
-	private Employee executeQueryAndGetEmployeeFromResultSet(PreparedStatement ps) throws SQLException {
+	private Employee executeQueryAndGetEmployeeFromResultSet(PreparedStatement ps) 
+			throws SQLException, ObjectNotFoundExeption {
 		Employee employee = new Employee();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			if ( rs.next() ) {
 				employee.setId(rs.getLong(1));
 				employee.setName(rs.getString(2));
 				employee.setStartWork(rs.getDate(3));				
+			} else {
+				throw new ObjectNotFoundExeption(MSG_EMPLOYEE_NOT_FOUND);
 			}
 		}
 		

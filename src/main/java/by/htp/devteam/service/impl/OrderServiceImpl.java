@@ -16,6 +16,7 @@ import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
@@ -145,7 +146,7 @@ public final class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public OrderVo getById(String orderId) throws ServiceException {
+	public OrderVo getById(String orderId) throws ServiceException, ObjectNotFoundExeption {
 
 		OrderValidation orderValidation = new OrderValidation();
 		if ( !orderValidation.validateId(orderId)) {
@@ -162,6 +163,9 @@ public final class OrderServiceImpl implements OrderService{
 		} catch ( NullPointerException e ) {
 			logger.info(MSG_LOGGER_ORDER_VIEW_NOT_EXIST_ID, orderId);
 			throw new ServiceException(ErrorCode.VALIDATION_ID);
+		} catch (ObjectNotFoundExeption e) {
+			logger.info(e.getMessage());
+			throw new ObjectNotFoundExeption(e.getMessage());
 		}
 		
 		return orderVo;

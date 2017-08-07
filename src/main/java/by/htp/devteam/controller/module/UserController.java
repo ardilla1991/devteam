@@ -14,6 +14,7 @@ import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.controller.Controller;
+import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.util.CSRFToken;
 import by.htp.devteam.controller.util.SecurityException;
@@ -35,16 +36,20 @@ public class UserController implements Controller {
 	}
 
 	/**
-	 * Add user for employee.
+	 * Action for add user for employee. If add user was success - redirect to message page.
+	 * If add user wasn't success - forward to form page.
+	 * @param request
+	 * @param response
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
+	 * @throws SecurityException If csrf token is not valid.
+	 * @throws ObjectNotFoundExeption 
 	 */
-	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
+	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException, ObjectNotFoundExeption {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		UserService userService = serviceFactory.getUserService();
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
 
-		String page = PAGE_USER_ADD_MESSAGE_URI;
-		boolean isRedirect = true;
 		String login = request.getParameter(REQUEST_PARAM_USER_LOGIN);
 		String password = request.getParameter(REQUEST_PARAM_USER_PASSWORD);
 		String role = request.getParameter(REQUEST_PARAM_USER_ROLE);
@@ -61,17 +66,19 @@ public class UserController implements Controller {
 			request.setAttribute(REQUEST_PARAM_USER_ROLE, role);
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee_id);
 
-			page = PAGE_USER_ADD_URI + employee_id;
-			isRedirect = false;
+			return addGET(request, response);
 		}
 
-		return new Page(page, isRedirect);
+		return new Page(PAGE_USER_ADD_MESSAGE_URI, true);
 	}
 
 	/**
-	 * Action for user show form.
+	 * Show form for add user.
+	 * @param request
+	 * @param response
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
-	public Page addGET(HttpServletRequest request, HttpServletResponse response) {
+	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
@@ -91,7 +98,7 @@ public class UserController implements Controller {
 	}
 
 	/**
-	 * Show message
+	 * Show message after add user. Only show page with message that all is ok.
 	 * @param request
 	 * @param response
 	 * @return
@@ -105,7 +112,7 @@ public class UserController implements Controller {
 	 * Action for getting all users. 
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page listGET(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -134,7 +141,7 @@ public class UserController implements Controller {
 	 * Action to display user information.
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page viewGET(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
@@ -147,10 +154,10 @@ public class UserController implements Controller {
 	
 	/**
 	 * Action for guest's login. Also get information who is user - employee or customer. 
-	 * Return page according to role
+	 * Return page according to role.
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page loginPOST(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -204,6 +211,12 @@ public class UserController implements Controller {
 		return new Page(page, isRedirect);
 	}
 	
+	/**
+	 * Show form for login.
+	 * @param request
+	 * @param response
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
+	 */
 	public Page loginGET(HttpServletRequest request, HttpServletResponse response) {
 
 		String page = PAGE_LOGIN;
@@ -239,7 +252,7 @@ public class UserController implements Controller {
 	 * Action for user's logout.
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page logoutGET(HttpServletRequest request, HttpServletResponse response) {
 		

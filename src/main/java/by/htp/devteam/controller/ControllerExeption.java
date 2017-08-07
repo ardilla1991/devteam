@@ -1,7 +1,7 @@
 package by.htp.devteam.controller;
 
 /**
- * Exception for Controller layer. Catch Exceptions when user select not valid module
+ * Exception for Controller layer. Catch Exceptions when user select not valid module.
  * @author julia
  *
  */

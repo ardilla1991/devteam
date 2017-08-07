@@ -41,7 +41,7 @@ public class LogFilter implements Filter {
 
         //Log the IP address and current timestamp.
         logger.info(MSG_LOGGER_REQUEST, " IP "+ ipAddress 
-        		+ " - resourse: " + req.getRequestURL() 
+        		+ " - resourse: " + req.getMethod() + " " + req.getRequestURL() 
         		+ " is requested by: " + request.getRemoteHost());
         
         chain.doFilter(request, response);

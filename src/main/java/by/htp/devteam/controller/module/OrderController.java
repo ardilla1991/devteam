@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.controller.Controller;
+import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.util.CSRFToken;
 import by.htp.devteam.controller.util.SecurityException;
@@ -44,11 +46,12 @@ public class OrderController implements Controller {
 	private static final Logger logger = LogManager.getLogger(OrderController.class);
 	
 	/**
-	 * Action for add order.
+	 * Action for add order. If add order was success - redirect to message page.
+	 * If add order wasn't success - forward to form page.
 	 * @param request
 	 * @param response
-	 * @return
-	 * @throws SecurityException
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
+	 * @throws SecurityException If csrf token is not valid.
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		
@@ -57,9 +60,6 @@ public class OrderController implements Controller {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		
-		//String page = PAGE_ORDER_LIST_URI;
-		String page = PAGE_ORDER_ADD_MESSAGE_URI;
-		boolean isRedirect = true;
 		String title = request.getParameter(REQUEST_PARAM_ORDER_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_ORDER_DESCRIPTION);
 		String dateStart = request.getParameter(REQUEST_PARAM_ORDER_DATE_START);
@@ -67,9 +67,8 @@ public class OrderController implements Controller {
 		String[] workIds = request.getParameterValues(REQUEST_PARAM_ORDER_WORK);
 		Map<String, String> qualifications = getQualificationsFromRequest(request);
 		
-		Part specification = null;
 		try {
-			specification = request.getPart(REQUEST_PARAM_ORDER_SPECIFICATION);
+			Part specification = request.getPart(REQUEST_PARAM_ORDER_SPECIFICATION);
 			
 			HttpSession session = request.getSession(false);
 			UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
@@ -77,7 +76,7 @@ public class OrderController implements Controller {
 			try {
 				// gets absolute path of the web application
 		        //String applicationPath = request.getServletContext().getRealPath("");
-		        OrderVo orderVo = orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications);
+		        orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications);
 			} catch (ServiceException e) {
 				request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 				request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
@@ -88,17 +87,16 @@ public class OrderController implements Controller {
 				request.setAttribute(REQUEST_PARAM_ORDER_WORK, workIds);
 				request.setAttribute(REQUEST_PARAM_ORDER_QUALIFICATION, qualifications);
 				
-				page = PAGE_ORDER_ADD_URI;
-				isRedirect = false;
+				return addGET(request, response);
 			}			
 		} catch (IOException | ServletException | IllegalStateException e) {
 			logger.info(MSG_LOGGER_ORDER_ADD_FILE_UPLOAD, e);
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, ErrorCode.FILE_UPLOAD.getValue());
-			page = PAGE_ORDER_ADD_URI;
-			isRedirect = false;
+
+			return addGET(request, response);
 		}
 
-		return new Page(page, isRedirect);
+		return new Page(PAGE_ORDER_ADD_MESSAGE_URI, true);
 	}
 	
 	/*
@@ -110,10 +108,9 @@ public class OrderController implements Controller {
 	private Map<String, String> getQualificationsFromRequest(HttpServletRequest request) {
 		Map<String, String> assocArray = new HashMap<String, String>();
 		
-		Set params = request.getParameterMap().entrySet();
-		Iterator it = params.iterator();
+		Set<Entry<String, String[]>> params = request.getParameterMap().entrySet();
+		Iterator<Entry<String, String[]>> it = params.iterator();
 		while (it.hasNext() ) {
-		    @SuppressWarnings("unchecked")
 			Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) it.next();
 		    String name = entry.getKey();
 
@@ -127,6 +124,12 @@ public class OrderController implements Controller {
 		return assocArray;
 	}
 	
+	/**
+	 * Action for order show form.
+	 * @param request
+	 * @param response
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
+	 */
 	public Page addGET(HttpServletRequest request, HttpServletResponse response) {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -145,10 +148,10 @@ public class OrderController implements Controller {
 	}
 	
 	/**
-	 * Action after added order. Only show page with message that all is ok
+	 * Action after added order. Only show page with message that all is ok.
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page messageGET(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -159,14 +162,11 @@ public class OrderController implements Controller {
 	 * Action for order list by customer.
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page listGET(HttpServletRequest request, HttpServletResponse response) {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
-		
-		String page = PAGE_ORDER_LIST;
-		boolean isRedirect = false;
 		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
@@ -178,21 +178,20 @@ public class OrderController implements Controller {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
 		
-		return new Page(page, isRedirect);
+		return new Page(PAGE_ORDER_LIST);
 	}
 	
 	/**
 	 * Action for new orders list.
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page newListGET(HttpServletRequest request, HttpServletResponse response) {
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
-		
-		String page = PAGE_ORDER_NEW_LIST;
+
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 
 		try {
@@ -208,20 +207,20 @@ public class OrderController implements Controller {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
 		
-		return new Page(page);
+		return new Page(PAGE_ORDER_NEW_LIST);
 	}
 	
 	/**
 	 * Action for view order.
 	 * @param request
 	 * @param response
-	 * @return
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
+	 * @throws ObjectNotFoundExeption If object not found in system.
 	 */
-	public Page viewGET(HttpServletRequest request, HttpServletResponse response) {
+	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		
-		String page = PAGE_ORDER_VIEW;
 		String id = request.getParameter(REQUEST_PARAM_ORDER_ID);
 		
 		try {
@@ -230,9 +229,8 @@ public class OrderController implements Controller {
 			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
-			page = PAGE_ERROR_404;
 		}
 
-		return new Page(page);
+		return new Page(PAGE_ORDER_VIEW);
 	}
 }

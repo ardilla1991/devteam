@@ -9,6 +9,7 @@ import javax.servlet.http.Part;
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.bean.vo.OrderVo;
 
 /**
@@ -67,8 +68,9 @@ public interface OrderService {
 	 * @return OrderVo order information with checked works and qualifications
 	 * @see by.htp.devteam.bean.vo.OrderVo
 	 * @throws ServiceException
+	 * @throws ObjectNotFoundExeption
 	 */
-	OrderVo getById(String orderId) throws ServiceException;
+	OrderVo getById(String orderId) throws ServiceException, ObjectNotFoundExeption;
 	
 	/**
 	 * Set price and date processing for order. Update after creating project

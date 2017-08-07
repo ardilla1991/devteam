@@ -22,8 +22,14 @@ import by.htp.devteam.service.ServiceFactory;
  *
  */
 public class EmployeeController implements Controller {
+	
 	/**
-	 * Action for add employee.
+	 * Action for add employee. If add employee was success - redirect to message page.
+	 * If add employee wasn't success - forward to form page.
+	 * @param request
+	 * @param response
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
+	 * @throws SecurityException If csrf token is not valid.
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
 		CSRFToken.getInstance().validationToken(request);
@@ -32,7 +38,6 @@ public class EmployeeController implements Controller {
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
 		
 		String page = PAGE_EMPLOYEE_ADD_MESSAGE_URI;
-		boolean isRedirect = true;
 		String name = request.getParameter(REQUEST_PARAM_EMPLOYEE_NAME);
 		String startWork = request.getParameter(REQUEST_PARAM_EMPLOYEE_START_WORK);
 		String qualification = request.getParameter(REQUEST_PARAM_EMPLOYEE_QUALIFICATION);
@@ -46,15 +51,17 @@ public class EmployeeController implements Controller {
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_START_WORK, startWork);
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_QUALIFICATION, qualification);
 			
-			page = PAGE_EMPLOYEE_ADD_URI;
-			isRedirect = false;
+			return addGET(request, response);
 		}
 		
-		return new Page(page, isRedirect);
+		return new Page(page, true);
 	}
 	
 	/**
 	 * Action for employee show form.
+	 * @param request
+	 * @param response
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page addGET(HttpServletRequest request, HttpServletResponse response) {
 		

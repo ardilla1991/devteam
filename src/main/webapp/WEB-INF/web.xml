@@ -26,6 +26,10 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.js</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
 	<listener>
         <description>ServletContextListener</description>
         <listener-class>by.htp.devteam.listener.SessionLogListener</listener-class>
