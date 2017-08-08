@@ -24,7 +24,6 @@ public final class PermissionUri {
 	public static PermissionUri getInstance() {
 		return instance;
 	}
-	
 
 	/**
 	 * Check if user has permission for url like module/action

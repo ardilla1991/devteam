@@ -17,9 +17,8 @@
 
 			<%@include file="jspf/list.jsp"%>
 			
-			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
-				currPage="${ currPage }"
-				countPages="${ countPages }" />
+			<ctg:paginator pagingVo="${ paging_vo }" itemTag="li" containerTag="ul" 
+				currActionClass="active" containerClass="pagination" />
 		</div>
 	</div>
 </div>

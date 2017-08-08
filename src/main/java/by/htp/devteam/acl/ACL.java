@@ -16,6 +16,17 @@ import by.htp.devteam.controller.ControllerFactory;
  *
  */
 public final class ACL {
+	
+	private final static String ACTION_LOGIN = "login";
+	private final static String ACTION_LOGOUT = "logout";
+	private final static String ACTION_VIEW = "view";
+	private final static String ACTION_ADD = "add";
+	private final static String ACTION_LIST = "list";
+	private final static String ACTION_MESSAGE = "message";
+	private final static String ACTION_FIND = "find";
+	private final static String ACTION_NEW_LIST = "new_list";
+	private final static String ACTION_LIST_BY_EMPLOYEE = "list_by_employee";
+	private final static String ACTION_UPDATE_HOURS = "update_hours";
 
 	/** ACL for users */
 	private final static Map<UserRole, Map<ControllerFactory, List<String>>> acl = new HashMap<UserRole, Map<ControllerFactory, List<String>>>();
@@ -71,8 +82,8 @@ public final class ACL {
 	
 	private void setGuestsACL() {
 		List<String> userActions = new ArrayList<String>(5);
-		userActions.add("login");
-		userActions.add("message");
+		userActions.add(ACTION_LOGIN);
+		userActions.add(ACTION_MESSAGE);
 		guestACL.put(ControllerFactory.USER, userActions);
 
 		acl.put(UserRole.GUEST, guestACL);
@@ -80,28 +91,28 @@ public final class ACL {
 	
 	private void setManagersACL() {
 		List<String> userActions = new ArrayList<String>(5);
-		userActions.add("login");
-		userActions.add("logout");
-		userActions.add("view");
+		userActions.add(ACTION_LOGIN);
+		userActions.add(ACTION_LOGOUT);
+		userActions.add(ACTION_VIEW);
 		managerACL.put(ControllerFactory.USER, userActions);
 		
 		List<String> employeeActions = new ArrayList<String>(5);
-		employeeActions.add("list");
-		employeeActions.add("add");
-		employeeActions.add("message");
+		employeeActions.add(ACTION_LIST);
+		employeeActions.add(ACTION_ADD);
+		employeeActions.add(ACTION_MESSAGE);
 		managerACL.put(ControllerFactory.EMPLOYEE, employeeActions);
 		
 		List<String> orderActions = new ArrayList<String>(5);
-		orderActions.add("new_list");
-		orderActions.add("view");
+		orderActions.add(ACTION_NEW_LIST);
+		orderActions.add(ACTION_VIEW);
 		managerACL.put(ControllerFactory.ORDER, orderActions);
 		
 		List<String> projectActions = new ArrayList<String>(5);
-		projectActions.add("list");
-		projectActions.add("add");
-		projectActions.add("message");
-		projectActions.add("find");
-		projectActions.add("view");
+		projectActions.add(ACTION_LIST);
+		projectActions.add(ACTION_ADD);
+		projectActions.add(ACTION_MESSAGE);
+		projectActions.add(ACTION_FIND);
+		projectActions.add(ACTION_VIEW);
 		managerACL.put(ControllerFactory.PROJECT, projectActions);
 		
 		acl.put(UserRole.MANAGER, managerACL);
@@ -109,17 +120,17 @@ public final class ACL {
 	
 	private void setDevelopersACL() {
 		List<String> userActions = new ArrayList<String>(5);
-		userActions.add("login");
-		userActions.add("logout");
-		userActions.add("view");
+		userActions.add(ACTION_LOGIN);
+		userActions.add(ACTION_LOGOUT);
+		userActions.add(ACTION_VIEW);
 		developerACL.put(ControllerFactory.USER, userActions);
 
 		List<String> projectActions = new ArrayList<String>(5);
-		projectActions.add("list_by_employee");
-		projectActions.add("update_hours");
-		projectActions.add("message");
-		projectActions.add("find");
-		projectActions.add("view");
+		projectActions.add(ACTION_LIST_BY_EMPLOYEE);
+		projectActions.add(ACTION_UPDATE_HOURS);
+		projectActions.add(ACTION_MESSAGE);
+		projectActions.add(ACTION_FIND);
+		projectActions.add(ACTION_VIEW);
 		developerACL.put(ControllerFactory.PROJECT, projectActions);
 		
 		acl.put(UserRole.DEVELOPER, developerACL);
@@ -127,16 +138,16 @@ public final class ACL {
 	
 	private void setCustomersACL() {
 		List<String> userActions = new ArrayList<String>(5);
-		userActions.add("login");
-		userActions.add("logout");
-		userActions.add("view");
+		userActions.add(ACTION_LOGIN);
+		userActions.add(ACTION_LOGOUT);
+		userActions.add(ACTION_VIEW);
 		customerACL.put(ControllerFactory.USER, userActions);
 		
 		List<String> orderActions = new ArrayList<String>(5);
-		orderActions.add("list");
-		orderActions.add("add");
-		orderActions.add("message");
-		orderActions.add("view");
+		orderActions.add(ACTION_LIST);
+		orderActions.add(ACTION_ADD);
+		orderActions.add(ACTION_MESSAGE);
+		orderActions.add(ACTION_VIEW);
 		customerACL.put(ControllerFactory.ORDER, orderActions);
 		
 		acl.put(UserRole.CUSTOMER, customerACL);
@@ -144,12 +155,12 @@ public final class ACL {
 	
 	private void setAdminACL() {
 		List<String> userActions = new ArrayList<String>(5);
-		userActions.add("login");
-		userActions.add("logout");
-		userActions.add("view");
-		userActions.add("list");
-		userActions.add("add");
-		userActions.add("message");
+		userActions.add(ACTION_LOGIN);
+		userActions.add(ACTION_LOGOUT);
+		userActions.add(ACTION_VIEW);
+		userActions.add(ACTION_LIST);
+		userActions.add(ACTION_ADD);
+		userActions.add(ACTION_MESSAGE);
 		adminACL.put(ControllerFactory.USER, userActions);
 		
 		acl.put(UserRole.ADMIN, adminACL);

@@ -1,6 +1,9 @@
 package by.htp.devteam.controller;
 
-import by.htp.devteam.controller.util.SecurityException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import by.htp.devteam.controller.main.Page;
 
 /**
  * Interface for all module's controller. 
@@ -14,4 +17,19 @@ import by.htp.devteam.controller.util.SecurityException;
  */
 public interface Controller {
 
+	/**
+	 * Show message after add record. Only show page with message that all is ok.
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Page messageGET(HttpServletRequest request, HttpServletResponse response);
+	
+	/**
+	 * Action for getting all records. 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public Page listGET(HttpServletRequest request, HttpServletResponse response);
 }

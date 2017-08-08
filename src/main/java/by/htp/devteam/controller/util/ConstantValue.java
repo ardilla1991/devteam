@@ -106,6 +106,7 @@ public final class ConstantValue {
 	public static final String REQUEST_PARAM_MODULE = "module";
 	public static final String REQUEST_PARAM_ACTION = "action";
 	public static final String REQUEST_PARAM_APP_PATH = "appPath";
+	public static final String REQUEST_PARAM_PAGING_VO = "paging_vo";
 	
 	public static final String REQUEST_PARAM_LOGIN = "login";
 	public static final String REQUEST_PARAM_PASSWORD = "pass";

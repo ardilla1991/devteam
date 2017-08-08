@@ -2,10 +2,10 @@ package by.htp.devteam.controller;
 
 import static by.htp.devteam.controller.util.ConstantValue.*;
 
-import by.htp.devteam.controller.module.EmployeeController;
-import by.htp.devteam.controller.module.OrderController;
-import by.htp.devteam.controller.module.ProjectController;
-import by.htp.devteam.controller.module.UserController;
+import by.htp.devteam.controller.module.impl.EmployeeControllerImpl;
+import by.htp.devteam.controller.module.impl.OrderControllerImpl;
+import by.htp.devteam.controller.module.impl.ProjectControllerImpl;
+import by.htp.devteam.controller.module.impl.UserControllerImpl;
 
 /**
  * Factory for creating Module object
@@ -18,25 +18,25 @@ public enum ControllerFactory {
 	USER {
 		@Override
 		public Controller chooseController() {
-			return new UserController();
+			return new UserControllerImpl();
 		}
 	},
 	EMPLOYEE {
 		@Override
 		public Controller chooseController() {
-			return new EmployeeController();
+			return new EmployeeControllerImpl();
 		}
 	},
 	ORDER {
 		@Override
 		public Controller chooseController() {
-			return new OrderController();
+			return new OrderControllerImpl();
 		}
 	},
 	PROJECT {
 		@Override
 		public Controller chooseController() {
-			return new ProjectController();
+			return new ProjectControllerImpl();
 		}
 	};
 

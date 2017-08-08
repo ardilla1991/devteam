@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * List of objects. Use for display list of objects with pagings settings.
  * Has properties <b>records</b>, <b>countRecords</b>,
- * <b>countPages</b>, <b>currPage</b>
+ * <b>countPages</b>, <b>currPage</b>, <b>uri</b>
  * @author julia
  *
  */
@@ -22,6 +22,9 @@ public class PagingVo<T> {
 	
 	/** Current selected page*/
 	private int currPage;
+	
+	/** Uri for navigation */
+	private String uri;
 	
 	public PagingVo() {
 		super();
@@ -57,5 +60,13 @@ public class PagingVo<T> {
 
 	public void setCurrPage(int currPage) {
 		this.currPage = currPage;
+	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 }
