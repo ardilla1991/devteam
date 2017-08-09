@@ -16,8 +16,6 @@ import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.module.UserController;
-import by.htp.devteam.controller.util.CSRFToken;
-import by.htp.devteam.controller.util.SecurityException;
 import by.htp.devteam.service.CustomerService;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
@@ -32,7 +30,7 @@ public final class UserControllerImpl implements UserController {
 
 	@Override
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) 
-			throws SecurityException, ObjectNotFoundExeption {
+			throws ObjectNotFoundExeption {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		UserService userService = serviceFactory.getUserService();
@@ -43,7 +41,6 @@ public final class UserControllerImpl implements UserController {
 		String role = request.getParameter(REQUEST_PARAM_USER_ROLE);
 		String employee_id = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
 		try {
-			CSRFToken.getInstance().validationToken(request);
 			Employee employee = employeeService.getById(employee_id);
 			userService.add(login, password, role, employee);
 		} catch (ServiceException e) {
@@ -71,8 +68,6 @@ public final class UserControllerImpl implements UserController {
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_NAME, employee.getName());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee.getId());
 			request.setAttribute(REQUEST_PARAM_USER_ROLE_ENUM, UserRole.values());
-
-			CSRFToken.getInstance().setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

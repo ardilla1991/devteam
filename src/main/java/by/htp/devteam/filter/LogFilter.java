@@ -1,6 +1,6 @@
 package by.htp.devteam.filter;
 
-import static by.htp.devteam.controller.util.ConstantValue.*;
+import static by.htp.devteam.filter.util.ConstantValue.*;
 
 import java.io.IOException;
 
@@ -38,7 +38,6 @@ public class LogFilter implements Filter {
 
         //Get the IP address of client machine.
         String ipAddress = req.getRemoteAddr();  
-
         //Log the IP address and current timestamp.
         logger.info(MSG_LOGGER_REQUEST, " IP "+ ipAddress 
         		+ " - resourse: " + req.getMethod() + " " + req.getRequestURL() 

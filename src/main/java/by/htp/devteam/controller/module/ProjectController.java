@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import by.htp.devteam.controller.Controller;
 import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.controller.main.Page;
-import by.htp.devteam.controller.util.SecurityException;
 
 /**
  * Controller for project module.
@@ -21,11 +20,10 @@ public interface ProjectController extends Controller {
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws SecurityException If csrf token is not valid.
 	 * @throws ObjectNotFoundExeption 
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) 
-			throws SecurityException, ObjectNotFoundExeption;
+			throws ObjectNotFoundExeption;
 	
 	/**
 	 * Action to show the form for add project.
@@ -61,10 +59,9 @@ public interface ProjectController extends Controller {
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws SecurityException If csrf token is not valid.
 	 * @throws ObjectNotFoundExeption If object not found in system.
 	 */
-	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException, ObjectNotFoundExeption;
+	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption;
 	
 	/**
 	 * Action to view project. And in jsp you cat set hours for project by employee

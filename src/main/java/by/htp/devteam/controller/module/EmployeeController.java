@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.controller.Controller;
 import by.htp.devteam.controller.main.Page;
-import by.htp.devteam.controller.util.SecurityException;
 
 /**
  * Controller for employee module.
@@ -20,9 +19,8 @@ public interface EmployeeController extends Controller{
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws SecurityException If csrf token is not valid.
 	 */
-	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException;
+	public Page addPOST(HttpServletRequest request, HttpServletResponse response);
 	
 	/**
 	 * Action for employee show form.

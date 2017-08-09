@@ -1,9 +1,9 @@
 package by.htp.devteam.filter;
 
 import static by.htp.devteam.controller.util.ConstantValue.*;
+import static by.htp.devteam.filter.util.ConstantValue.*;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

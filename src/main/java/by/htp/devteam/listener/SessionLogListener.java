@@ -20,7 +20,6 @@ public class SessionLogListener implements HttpSessionListener  {
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 		HttpSession session = se.getSession();
-        
         logger.info("Session with id = " + session.getId() + " is started");
 	}
 

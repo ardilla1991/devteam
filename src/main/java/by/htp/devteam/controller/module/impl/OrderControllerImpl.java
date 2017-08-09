@@ -25,8 +25,6 @@ import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.module.OrderController;
-import by.htp.devteam.controller.util.CSRFToken;
-import by.htp.devteam.controller.util.SecurityException;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
@@ -45,9 +43,7 @@ public final class OrderControllerImpl implements OrderController {
 	}
 	
 	@Override
-	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException {
-		
-		CSRFToken.getInstance().validationToken(request);
+	public Page addPOST(HttpServletRequest request, HttpServletResponse response) {
 		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
@@ -125,8 +121,6 @@ public final class OrderControllerImpl implements OrderController {
 		try {
 			request.setAttribute(REQUEST_PARAM_WORK_LIST, workService.fetchAll());
 			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
-			
-			CSRFToken.getInstance().setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

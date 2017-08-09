@@ -21,8 +21,7 @@ public final class ConstantValue {
 	public static final String URL_METHOD_DELIMITER = "_";
 	
 	public static final String SYSTEM_PATH = URL_DELIMITER + APP_NAME + URL_DELIMITER;
-	
-	public static final String MSG_LOGGER_REQUEST = "Request {}";
+
 	public static final String MSG_LOGGER_ORDER_ADD_FILE_UPLOAD = "Orders add. Upload file error";
 
 	public static final String MSG_LOGGER_PERMISSION_DENIED = "Permission denied";
@@ -168,8 +167,5 @@ public final class ConstantValue {
 	
 	public static final String REQUEST_PARAM_URI = "uri";
 	
-	public static final String REQUEST_PARAM_FORM_TOKEN = "token";
-	
 	public static final String SESSION_PARAM_USER = "user";
-	public static final String SESSION_PARAM_FORM_TOKEN = "CSRFToken";
 }

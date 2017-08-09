@@ -17,8 +17,6 @@ import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.controller.ObjectNotFoundExeption;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.module.ProjectController;
-import by.htp.devteam.controller.util.CSRFToken;
-import by.htp.devteam.controller.util.SecurityException;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
@@ -33,15 +31,12 @@ public final class ProjectControllerImpl implements ProjectController {
 	}
 	
 	@Override
-	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws SecurityException, ObjectNotFoundExeption {
+	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
-
-		CSRFToken.getInstance().validationToken(request);
-		
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_PROJECT_DESCRIPTION);
 		String[] employees = request.getParameterValues(REQUEST_PARAM_PROJECT_EMPLOYEE);
@@ -79,8 +74,6 @@ public final class ProjectControllerImpl implements ProjectController {
 			List<Employee> employees = employeeService.getNotBusyEmployeesForPeriodByQualifications(orderVo.getOrder().getDateStart(), 
 					orderVo.getOrder().getDateFinish(), orderVo.getQualifications().keySet());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employees);
-			
-			CSRFToken.getInstance().setToken(request);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
@@ -144,8 +137,6 @@ public final class ProjectControllerImpl implements ProjectController {
 		ProjectService projectService = serviceFactory.getProjectService();
 		
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
-		
-		CSRFToken.getInstance().setToken(request);
 		try {
 			ProjectVo projectVo = projectService.getById(id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_VO, projectVo);
@@ -158,7 +149,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	
 	@Override
 	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) 
-			throws SecurityException, ObjectNotFoundExeption {
+			throws ObjectNotFoundExeption {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 
@@ -167,8 +158,6 @@ public final class ProjectControllerImpl implements ProjectController {
 
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
-		
-		CSRFToken.getInstance().validationToken(request);
 		
 		try {
 			projectService.updateHours(id, userVO.getEmployee(), hours);
