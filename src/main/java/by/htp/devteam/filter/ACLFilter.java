@@ -64,7 +64,7 @@ public final class ACLFilter implements Filter{
 			String ipAddress = req.getRemoteAddr();
 			logger.info(MSG_LOGGER_REQUEST, " IP "+ ipAddress 
 	        		+ " - resourse: " + req.getRequestURL() 
-	        		+ " is requested by: " + request.getRemoteHost() + MSG_LOGGER_PERMISSION_DENIED);
+	        		+ " is requested by: " + request.getRemoteHost() + " " + MSG_LOGGER_PERMISSION_DENIED);
 			if ( isAuthorised ) {
 				resp.sendError(403);
 			} else {

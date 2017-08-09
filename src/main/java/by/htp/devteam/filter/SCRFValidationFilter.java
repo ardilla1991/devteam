@@ -1,6 +1,7 @@
 package by.htp.devteam.filter;
 
 import static by.htp.devteam.filter.util.ConstantValue.*;
+import static by.htp.devteam.controller.util.ConstantValue.*;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -48,7 +49,8 @@ public class SCRFValidationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp =(HttpServletResponse) response;
 
-		if ( HTTPMethod.valueOf(req.getMethod()) != HTTPMethod.POST ) {
+		if ( HTTPMethod.valueOf(req.getMethod()) != HTTPMethod.POST 
+				|| req.getSession(false).getAttribute(SESSION_PARAM_USER) == null ) {
         	chain.doFilter(request, response);
         	return;
 		}
@@ -56,9 +58,7 @@ public class SCRFValidationFilter implements Filter {
         // Get the token sent with the request
         String requestToken = (String) req.getParameter(REQUEST_PARAM_FORM_TOKEN);
         // Validate that the token is in the session
-        String sessionToken = req.getSession(false) != null 
-        					? (String) req.getSession(false).getAttribute(SESSION_PARAM_FORM_TOKEN)
-        					: null;
+        String sessionToken = (String) req.getSession(false).getAttribute(SESSION_PARAM_FORM_TOKEN);
 
         if ( sessionToken != null && sessionToken.equals(requestToken) ){
             // If the token is in the session, we move on
