@@ -35,7 +35,7 @@ public final class UserValidation extends BeanValidation {
 	public void validate(String login, String password) {
 		if ( login != null ) {
 			login = login.trim();
-			if ( Validator.isEmpty(login) /*|| !LOGIN_PATTERN.matcher(login).find()*/ ) {
+			if ( Validator.isEmpty(login) || !LOGIN_PATTERN.matcher(login).find() ) {
 				setNotValidField(LOGIN);
 			}
 		} else {
@@ -44,7 +44,7 @@ public final class UserValidation extends BeanValidation {
 		
 		if ( password != null ) {
 			password = password.trim();
-			if ( Validator.isEmpty(password) /*|| !PASSWORD_PATTERN.matcher(password).find()*/ ) {
+			if ( Validator.isEmpty(password) || !PASSWORD_PATTERN.matcher(password).find() ) {
 				setNotValidField(PASSWORD);
 			}
 		} else {
