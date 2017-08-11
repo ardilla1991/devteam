@@ -27,18 +27,23 @@
 							<tbody>
 								<tr>
 									<td><fmt:message key = "order.title" />*</td>
-									<td id="title"><input type="text" name="title" value="<c:out value="${title}" />" maxlength="250"/></td>
+									<td id="title">
+										<input type="text" name="title" value="<c:out value="${title}" />" maxlength="250"/>
+										<div><fmt:message key = "order.title.requirements" /></div>
+									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.description" />*</td>
 									<td id="description">
 										<textarea name="description" cols="22" rows="5"><c:out value="${description}" /></textarea>
+										<div><fmt:message key = "order.description.requirements" /></div>
 									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "order.specification" />*</td>
 									<td id="specification">
 										<input type="file" name="specification" value="${specification}" />
+										<div><fmt:message key = "order.specification.requirements" /></div>
 									</td>
 								</tr>
 								<tr>
@@ -47,6 +52,7 @@
 										<jsp:useBean id="now" class="java.util.Date"/> 
 										<input type="date" name="dateStart" value="${dateStart}"  
 											min="<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />"/>
+										<div><fmt:message key = "order.dateStart.requirements" /></div>
 									</td>
 								</tr>
 								<tr>
@@ -54,6 +60,7 @@
 									<td id="dateFinish">
 										<input type="date" name="dateFinish" value="${dateFinish}" 
 											min="<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" />"/>
+										<div><fmt:message key = "order.dateFinish.requirements" /></div>
 									</td>
 								</tr>
 								<tr>

@@ -26,6 +26,7 @@ import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.util.UploadFile;
 import by.htp.devteam.service.validation.OrderValidation;
+import by.htp.devteam.service.validation.PagingValidation;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
@@ -54,8 +55,7 @@ public final class OrderServiceImpl implements OrderService{
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
-		OrderValidation orderValidation = new OrderValidation();
-		if ( !orderValidation.validatePage(currPage) ) {
+		if ( !PagingValidation.getInstance().validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}

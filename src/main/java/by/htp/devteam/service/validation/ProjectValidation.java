@@ -91,15 +91,6 @@ public final class ProjectValidation extends BeanValidation {
 	}
 	
 	/**
-	 * Check if a page number has a correct value
-	 * @param pageNumber
-	 * @return if page number is int value
-	 */
-	public static boolean validatePage(String pageNumber) {
-		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
-	}
-	
-	/**
 	 * Check if searched title has a correct length
 	 * @param title Check if field has a correct length
 	 * @return

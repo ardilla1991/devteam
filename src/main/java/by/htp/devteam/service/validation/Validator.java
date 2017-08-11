@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Validator of common types.
  * @author julia
- *
+ * @todo validate int bound
  */
 public final class Validator {
 

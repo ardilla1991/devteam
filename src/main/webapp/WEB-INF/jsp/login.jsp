@@ -26,7 +26,7 @@
 				<script type="text/javascript">
 					var formElements = {};
 					formElements["login"] = "text";
-					formElements["password"] = "text";
+					formElements["password"] = "password";
 				</script>
 				<div id="login"><input type="text" class="form-control" maxlength="50"
 					placeholder="<fmt:message key = "user.login" />" required autofocus

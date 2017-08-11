@@ -22,13 +22,17 @@
 							<tbody>
 								<tr>
 									<td><fmt:message key = "employee.name" />*</td>
-									<td id="name"><input type="text" name="name" value="${name}" maxlength="50"/></td>
+									<td id="name">
+										<input type="text" name="name" value="${name}" maxlength="50"/>
+										<div><fmt:message key = "employee.name.requirements" /></div>
+									</td>
 								</tr>
 								<tr>
 									<td><fmt:message key = "employee.startWork" />*</td>
 									<td id="startWork">
 										<jsp:useBean id="now" class="java.util.Date"/> 
 										<input type="date" name="startWork" value="${startWork}" value="${now}" pattern="yyyy-MM-dd"/>
+										<div><fmt:message key = "employee.startWork.requirements" /></div>
 									</td>
 								</tr>
 								<tr>

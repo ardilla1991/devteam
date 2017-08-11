@@ -44,6 +44,7 @@
 									</c:choose>
 									<td id="title">
 										<input type="text" name="title" maxlength="250" value="<c:out value="${title_gen}" />" >
+										<div><fmt:message key = "project.title.requirements" /></div>
 									</td>
 								</tr>
 								<tr>
@@ -58,6 +59,7 @@
 									</c:choose>
 									<td id="description">
 										<textarea name="description" cols="22" rows="5"><c:out value="${description_gen}" /></textarea>
+										<div><fmt:message key = "project.description.requirements" /></div>
 									</td>
 								</tr>
 								<tr>
@@ -76,8 +78,10 @@
 								</tr>
 								<tr>
 									<td><fmt:message key="order.price" />*</td>
-									<td id="price"><input type="text" name="price"
-										value="${price}" maxlength="11" /></td>
+									<td id="price">
+										<input type="text" name="price" value="${price}" maxlength="11" />
+										<div><fmt:message key = "order.price.requirements" /></div>
+									</td>
 								</tr>
 							</tbody>
 						</table>

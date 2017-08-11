@@ -31,6 +31,7 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.email.TLSEmail;
+import by.htp.devteam.service.validation.PagingValidation;
 import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.ConfigProperty;
 
@@ -58,7 +59,7 @@ public final class ProjectServiceImpl implements ProjectService{
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
-		if ( !ProjectValidation.validatePage(currPage) ) {
+		if ( !PagingValidation.getInstance().validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}

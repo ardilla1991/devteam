@@ -26,13 +26,17 @@
 						<tbody>
 							<tr>
 								<td><fmt:message key="user.login" />*</td>
-								<td id="login"><input type="text" name="login"
-									value="${login}" maxlength="50" /></td>
+								<td id="login">
+									<input type="text" name="login" value="${login}" maxlength="50" />
+									<div><fmt:message key = "user.login.requirements" /></div>
+								</td>
 							</tr>
 							<tr>
 								<td><fmt:message key="user.password" />*</td>
-								<td id="password"><input type="password" name="password"
-									value="${password}" maxlength="50" /></td>
+								<td id="password">
+									<input type="password" name="password" value="${password}" maxlength="50" />
+									<div><fmt:message key = "user.password.requirements" /></div>
+								</td>
 							</tr>
 							<tr>
 								<%@ page import="by.htp.devteam.bean.UserRole"%>
