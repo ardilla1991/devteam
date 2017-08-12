@@ -20,7 +20,7 @@ public final class Validator {
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	
 	/** Regular expression for file extension */
-	private static final Pattern FILE_EXTENSION_PATTERN = Pattern.compile("([^\\s]+(\\.(?i)(rar|zip|doc|docx|odt|txt))$)");
+	private static final Pattern FILE_EXTENSION_PATTERN = Pattern.compile("([^\\s]+(\\.(?i)(rar|zip|doc|docx|odt|txt|pdf))$)");
 	
 	private Validator() {
 		super();

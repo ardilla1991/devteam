@@ -14,7 +14,7 @@ import by.htp.devteam.bean.vo.OrderVo;
 
 /**
  * Interface for order's Service layer.
- * Do business logic including validation and loggin exceptions.
+ * Do business logic including validation and dao exceptions.
  * Select data from storage using DAO object
  * @author julia
  *

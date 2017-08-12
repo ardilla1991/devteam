@@ -184,7 +184,7 @@ public final class ProjectControllerImpl implements ProjectController {
 		try {
 			ProjectVo projectVo = projectService.getById(id);
 			request.setAttribute(REQUEST_PARAM_PROJECT_VO, projectVo);
-			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.UPLOAD_PATH);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}

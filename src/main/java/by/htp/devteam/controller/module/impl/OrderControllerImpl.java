@@ -144,7 +144,7 @@ public final class OrderControllerImpl implements OrderController {
 
 		try {
 			request.setAttribute(REQUEST_PARAM_ORDER_LIST, orderService.geOrdersByCustomer(userVO.getCustomer()));	
-			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.UPLOAD_PATH);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
@@ -166,7 +166,7 @@ public final class OrderControllerImpl implements OrderController {
 			request.setAttribute(REQUEST_PARAM_PAGING_VO, pagingVo);
 
 			request.setAttribute(REQUEST_PARAM_ORDER_LIST, pagingVo.getRecords());
-			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.UPLOAD_PATH);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
@@ -184,7 +184,7 @@ public final class OrderControllerImpl implements OrderController {
 		try {
 			OrderVo orderVo = orderService.getById(id);
 			request.setAttribute(REQUEST_PARAM_ORDER_VO, orderVo);
-			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.uploadPath);
+			request.setAttribute(REQUEST_PARAM_UPLOAD_PATH, UploadFile.UPLOAD_PATH);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 		}
