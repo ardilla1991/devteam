@@ -11,11 +11,12 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 
 /**
  * Interface for employee's Service layer.
- * Do business logic including validation and loggin exceptions.
+ * Do business logic including validation and dao exceptions.
  * Select data from storage using DAO object
  * @author julia
  *
@@ -89,8 +90,9 @@ public interface EmployeeService {
 	 * @param id employee's id
 	 * @return employee
 	 * @throws ServiceException
+	 * @throws ObjectNotFoundException
 	 */
-	Employee getById(String id) throws ServiceException;
+	Employee getById(String id) throws ServiceException, ObjectNotFoundException;
 	
 	/**
 	 * Set user for employee

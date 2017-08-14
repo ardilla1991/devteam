@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="/WEB-INF/tld/jspPlugin.tld" prefix="jpl"%>
-<%@ taglib uri="messagetag" prefix="msg"%>
+<%@ taglib uri="errormessagetag" prefix="msg"%>
 
 <div class="container-fluid">
 	<div class="row">
@@ -10,14 +10,11 @@
 				<fmt:message key="user.pageTitle.new" />
 			</h1>
 
-			<form name="user_form" action="Main?action=user_add" method="post">
-				<div class="error_message">
-					<c:if test="${ error_code > 0}">
-						<msg:message errorCode="${ error_code }"
+			<form name="user_form" action="${ ConstantValue.PAGE_USER_ADD_URI }${ employee_id }" method="post">
+				<msg:error errorCode="${ error_code }"
 							msgList="${ empty_field }" language="${clientLanguage}"
-							country="${clientCountry}" bean="user" itemTag="span" containerTag="div" />
-					</c:if>
-				</div>
+							country="${clientCountry}" bean="user" itemTag="span" 
+							containerTag="div" containerClass="error_message"/>
 				<script type="text/javascript">
 					var formElements = {};
 					formElements["login"] = "login";
@@ -29,13 +26,17 @@
 						<tbody>
 							<tr>
 								<td><fmt:message key="user.login" />*</td>
-								<td id="login"><input type="text" name="login"
-									value="${login}" maxlength="50" /></td>
+								<td id="login">
+									<input type="text" name="login" value="${login}" maxlength="50" />
+									<div><fmt:message key = "user.login.requirements" /></div>
+								</td>
 							</tr>
 							<tr>
 								<td><fmt:message key="user.password" />*</td>
-								<td id="password"><input type="password" name="password"
-									value="${password}" maxlength="50" /></td>
+								<td id="password">
+									<input type="password" name="password" value="${password}" maxlength="50" />
+									<div><fmt:message key = "user.password.requirements" /></div>
+								</td>
 							</tr>
 							<tr>
 								<%@ page import="by.htp.devteam.bean.UserRole"%>
@@ -55,8 +56,6 @@
 					<sup>*</sup> -
 					<fmt:message key="required" />
 				</div>
-				<input type="hidden" name="employee_id" value="${ employee_id }" />
-				<input type="hidden" name="action" value="user_add" /> 
 				<input type="hidden" name="token" value="${ token }" /> 
 				<input
 					type="submit" class="btn btn-primary"

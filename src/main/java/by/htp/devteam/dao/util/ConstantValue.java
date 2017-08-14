@@ -81,9 +81,9 @@ public final class ConstantValue {
 	
 	public final static String SQL_ORDER_SET_PRICE = "UPDATE `order` SET price=?,dateProcessing=? WHERE id=?";
 	
-	public final static String SQL_PROJECT_FETCH_ALL = "SELECT p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id LIMIT ?,?";
+	public final static String SQL_PROJECT_FETCH_ALL = "SELECT SQL_CALC_FOUND_ROWS p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id LIMIT ?,?";
 	
-	public final static String SQL_PROJECT_LIST_BY_EMPLOYEE = "SELECT p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id "
+	public final static String SQL_PROJECT_LIST_BY_EMPLOYEE = "SELECT SQL_CALC_FOUND_ROWS p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id "
 			+ "JOIN  (SELECT project_id FROM project_employee WHERE employee_id=?) as pew ON p.id=pew.project_id "
 			+ "ORDER BY o.dateStart DESC "
 			+ "LIMIT ?,?";
@@ -141,6 +141,9 @@ public final class ConstantValue {
 	
 	public final static String MSG_ERROR_CUSTOMER_GET_BY_USER = "sql error: can't get customer by user";
 	public final static String MSG_CUSTOMER_NOT_FOUND = "Customer id={} not found ";
+	public final static String MSG_EMPLOYEE_NOT_FOUND = "Employee not found ";
+	public final static String MSG_PROJECT_NOT_FOUND = "Project not found ";
+	public final static String MSG_ORDER_NOT_FOUND = "Order not found ";
 
 	public final static String MSG_ERROR_EMPLOYEE_GET_BY_USER = "sql error: can't get employee by user";
 	public final static String MSG_ERROR_EMPLOYEE_GET_FREE_FOR_PERIOD = "sql error: can't get free employee for period";

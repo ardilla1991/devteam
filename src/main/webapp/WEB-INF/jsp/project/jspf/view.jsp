@@ -1,11 +1,8 @@
-<%@ taglib uri="messagetag" prefix="msg"%>
-<div class="error_message">
-	<c:if test="${ error_code > 0}">
-		<msg:message errorCode="${ error_code }" language="${clientLanguage}"  
+<%@ taglib uri="errormessagetag" prefix="msg"%>
+<msg:error errorCode="${ error_code }" language="${clientLanguage}"  
 			itemTag="span" containerTag="div"
-			country="${clientCountry}" bean="order" />
-	</c:if>
-</div>
+			country="${clientCountry}" bean="order" containerClass="error_message" />
+
 <div class="table-responsive">
 	<table class="table table-striped tab-content tab-active">
 		<tbody>
@@ -23,8 +20,10 @@
 			</tr>
 			<tr>
 				<td><fmt:message key="order.specification" /></td>
-				<td><c:out
-						value="${project_vo.getProject().getOrder().getSpecification()}" /></td>
+				<td><a
+					href="${ appPath }${upload_path}${project_vo.getProject().getOrder().getSpecification()}"><c:out
+							value="${project_vo.getProject().getOrder().getSpecification()}" /></a>
+				</td>
 			</tr>
 			<tr>
 				<td><fmt:message key="order.dateStart" /></td>
@@ -61,38 +60,6 @@
 						</div>
 					</c:forEach></td>
 			</tr>
-			<c:set var="role">DEVELOPER</c:set>
-			<c:if test="${ user.getUser().getRole()  == role }">
-				<tr>
-					<td><fmt:message key="project.hours" /></td>
-					<td id="hours">
-						<form method="POST" action="Main">
-							<script type="text/javascript">
-								var formElements = {};
-								formElements["hours"] = "number";
-							</script>
-							<%@ taglib uri="messagetag" prefix="msg"%>
-							<div class="error_message">
-								<c:if test="${ error_code > 0}">
-									<msg:message errorCode="${ error_code }"  itemTag="span" containerTag="div"
-										msgList="${ empty_field }" language="${clientLanguage}"
-										country="${clientCountry}" bean="project" />
-								</c:if>
-							</div>
-							<input type="text" value="" name="hours" /> <input type="hidden"
-								name="action" value="project_update_hours" /> 
-							<input type="hidden" name="project_id"
-								value="${project_vo.getProject().getId() }" /> 
-							<input type="hidden" name="token" value="${ token }" />
-							<input type="submit" class="btn btn-primary"
-								onclick="return checkFBForm(formElements);" name="submitted"
-								value="<fmt:message key = "project.button.addHours" />" />
-						</form>
-					</td>
-				</tr>
-			</c:if>
-
-
 		</tbody>
 	</table>
 </div>

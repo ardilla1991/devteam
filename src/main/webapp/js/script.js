@@ -36,7 +36,7 @@ function checkInput(els, field, blockId) {
 		}
 		break;
 	case "file":
-		var filesExt = [ 'rar', 'zip', 'doc', 'docx', 'odt', 'txt' ];
+		var filesExt = [ 'rar', 'zip', 'doc', 'docx', 'odt', 'txt', 'pdf'];
 		var element = el.getElementsByTagName("input")[0];
 		var fileName = element.value;
 		result = (element.value != undefined && element.value != ""

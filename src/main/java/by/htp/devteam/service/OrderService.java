@@ -9,11 +9,12 @@ import javax.servlet.http.Part;
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.bean.vo.OrderVo;
 
 /**
  * Interface for order's Service layer.
- * Do business logic including validation and loggin exceptions.
+ * Do business logic including validation and dao exceptions.
  * Select data from storage using DAO object
  * @author julia
  *
@@ -67,8 +68,9 @@ public interface OrderService {
 	 * @return OrderVo order information with checked works and qualifications
 	 * @see by.htp.devteam.bean.vo.OrderVo
 	 * @throws ServiceException
+	 * @throws ObjectNotFoundException
 	 */
-	OrderVo getById(String orderId) throws ServiceException;
+	OrderVo getById(String orderId) throws ServiceException, ObjectNotFoundException;
 	
 	/**
 	 * Set price and date processing for order. Update after creating project

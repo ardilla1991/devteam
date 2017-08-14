@@ -10,14 +10,43 @@
 	<servlet>
 		<display-name>MainServlet</display-name>
 		<servlet-name>MainServlet</servlet-name>
-		<servlet-class>by.htp.devteam.controller.MainServlet</servlet-class>
+		<servlet-class>by.htp.devteam.controller.main.MainServlet</servlet-class>
 		<!--multipart-config> <max-file-size>10</max-file-size> <max-request-size>20971520</max-request-size> 
 			<file-size-threshold>5242880</file-size-threshold> </multipart-config -->
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MainServlet</servlet-name>
-		<url-pattern>/Main</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/uploads/*</url-pattern>
+	</servlet-mapping>
+	<listener>
+        <description>ServletContextListener</description>
+        <listener-class>by.htp.devteam.listener.SessionLogListener</listener-class>
+    </listener>
+	<filter>
+		<display-name>LogFilter</display-name>
+		<filter-name>LogFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.LogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LogFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
+	</filter-mapping>
 	<filter>
 		<display-name>EncodingFilter</display-name>
 		<filter-name>EncodingFilter</filter-name>
@@ -29,28 +58,47 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
+		<servlet-name>MainServlet</servlet-name>
 	</filter-mapping>
 	<filter>
-		<display-name>ACLUserFilter</display-name>
-		<filter-name>ACLUserFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLUserFilter</filter-class>
+		<description></description>
+		<display-name>SCRFValidationFilter</display-name>
+		<filter-name>SCRFValidationFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.SCRFValidationFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>ACLUserFilter</filter-name>
-		<url-pattern>/Main/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
+		<filter-name>SCRFValidationFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
 	</filter-mapping>
 	<filter>
-		<display-name>ACLGuestFilter</display-name>
-		<filter-name>ACLGuestFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.ACLGuestFilter</filter-class>
+		<description></description>
+		<display-name>SCRFGenerateTokenFilter</display-name>
+		<filter-name>SCRFGenerateTokenFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.SCRFGenerateTokenFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>ACLGuestFilter</filter-name>
-		<url-pattern>/Main/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
+		<filter-name>SCRFGenerateTokenFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
+	</filter-mapping>
+	<filter>
+		<description>Rewrite urls</description>
+		<display-name>UrlRewriteFilter</display-name>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.UrlRewriteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
+	</filter-mapping>
+	<filter>
+		<display-name>ACLFilter</display-name>
+		<filter-name>ACLFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.ACLFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ACLFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
+		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 	<error-page>
 		<!-- Uncaught exception -->
@@ -82,8 +130,12 @@
 			<taglib-location>/WEB-INF/tld/menu.tld</taglib-location>
 		</taglib>
 		<taglib>
-			<taglib-uri>messagetag</taglib-uri>
-			<taglib-location>/WEB-INF/tld/message.tld</taglib-location>
+			<taglib-uri>errormessagetag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/errorMessage.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>actiontag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/action.tld</taglib-location>
 		</taglib>
 		<jsp-property-group>
 			<url-pattern>*.jsp</url-pattern>

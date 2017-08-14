@@ -20,6 +20,7 @@ import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.ProjectVo;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.ProjectDao;
@@ -30,6 +31,7 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.email.TLSEmail;
+import by.htp.devteam.service.validation.PagingValidation;
 import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.ConfigProperty;
 
@@ -57,7 +59,7 @@ public final class ProjectServiceImpl implements ProjectService{
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
-		if ( !ProjectValidation.validatePage(currPage) ) {
+		if ( !PagingValidation.getInstance().validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
@@ -191,7 +193,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public ProjectVo getById(String id) throws ServiceException {
+	public ProjectVo getById(String id) throws ServiceException, ObjectNotFoundException {
 
 		ProjectValidation projectValidation = new ProjectValidation();
 		if ( !projectValidation.validateId(id)) {
@@ -214,6 +216,9 @@ public final class ProjectServiceImpl implements ProjectService{
 		} catch (NullPointerException e) {
 			logger.info(MSG_LOGGER_PROJECT_VIEW_NOT_EXIST_ID, id);
 			throw new ServiceException(ErrorCode.VALIDATION_ID);
+		} catch (ObjectNotFoundException e) {
+			logger.info(e.getMessage());
+			throw new ObjectNotFoundException(e.getMessage());
 		}
 		
 		return projectDto;

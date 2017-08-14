@@ -16,6 +16,7 @@ import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
@@ -25,6 +26,7 @@ import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.util.UploadFile;
 import by.htp.devteam.service.validation.OrderValidation;
+import by.htp.devteam.service.validation.PagingValidation;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
@@ -53,8 +55,7 @@ public final class OrderServiceImpl implements OrderService{
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
-		OrderValidation orderValidation = new OrderValidation();
-		if ( !orderValidation.validatePage(currPage) ) {
+		if ( !PagingValidation.getInstance().validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}
@@ -145,7 +146,7 @@ public final class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public OrderVo getById(String orderId) throws ServiceException {
+	public OrderVo getById(String orderId) throws ServiceException, ObjectNotFoundException {
 
 		OrderValidation orderValidation = new OrderValidation();
 		if ( !orderValidation.validateId(orderId)) {
@@ -162,6 +163,9 @@ public final class OrderServiceImpl implements OrderService{
 		} catch ( NullPointerException e ) {
 			logger.info(MSG_LOGGER_ORDER_VIEW_NOT_EXIST_ID, orderId);
 			throw new ServiceException(ErrorCode.VALIDATION_ID);
+		} catch (ObjectNotFoundException e) {
+			logger.info(e.getMessage());
+			throw new ObjectNotFoundException(e.getMessage());
 		}
 		
 		return orderVo;

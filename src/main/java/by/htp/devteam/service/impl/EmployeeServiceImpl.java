@@ -13,6 +13,7 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
@@ -20,6 +21,7 @@ import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.validation.EmployeeValidation;
+import by.htp.devteam.service.validation.PagingValidation;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
@@ -128,7 +130,7 @@ public final class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public Employee getById(String id) throws ServiceException {
+	public Employee getById(String id) throws ServiceException, ObjectNotFoundException {
 		EmployeeValidation employeeValidation = new EmployeeValidation();
 		if ( !employeeValidation.validateId(id)) {
 			logger.info(MSG_LOGGER_EMPLOYEE_VIEW_INCORRECT_ID, id);
@@ -144,6 +146,9 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		} catch ( NullPointerException e ) {
 			logger.info(MSG_LOGGER_EMPLOYEE_VIEW_NOT_EXIST_ID, id);
 			throw new ServiceException(ErrorCode.VALIDATION_ID);
+		} catch (ObjectNotFoundException e) {
+			logger.info(e.getMessage());
+			throw new ObjectNotFoundException(e.getMessage());
 		}
 		
 		return employee;
@@ -170,7 +175,7 @@ public final class EmployeeServiceImpl implements EmployeeService{
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
-		if ( !EmployeeValidation.validatePage(currPage) ) {
+		if ( !PagingValidation.getInstance().validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}

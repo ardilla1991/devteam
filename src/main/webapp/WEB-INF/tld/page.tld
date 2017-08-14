@@ -11,16 +11,6 @@
 		<tag-class>by.htp.devteam.util.jsp.PageTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
-			<name>countPages</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>currPage</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<name>containerTag</name>
 			<required>true</required>
 			<rtexprvalue>false</rtexprvalue>
@@ -41,7 +31,7 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>uri</name>
+			<name>pagingVo</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

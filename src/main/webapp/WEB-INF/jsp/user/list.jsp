@@ -1,6 +1,6 @@
 <%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="pagetag" prefix="ctg"%>
-<%@ taglib uri="messagetag" prefix="msg"%>
+<%@ taglib uri="errormessagetag" prefix="msg"%>
 <%@ taglib uri="listAsTable" prefix="table"%>
 
 <div class="container-fluid">
@@ -13,13 +13,9 @@
 			<h1 class="page-header">
 				<fmt:message key="user.pageTitle.list" />
 			</h1>
-			<div class="error_message">
-				<c:if test="${ error_code > 0}">
-					<msg:message errorCode="${ error_code }"
+			<msg:error errorCode="${ error_code }"
 						language="${clientLanguage}" country="${clientCountry}" itemTag="span" containerTag="div"
-						bean="user" />
-				</c:if>
-			</div>
+						bean="user" containerClass="error_message"/>
 			<div class="table-responsive">
 			
 				<table:userList users="${ user_list }" tableClass="table table-striped tab-content tab-active"
@@ -27,9 +23,8 @@
 				
 			</div>
 
-			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
-				currPage="${ currPage }"
-				countPages="${ countPages }" />
+			<ctg:paginator pagingVo="${ paging_vo }" itemTag="li" containerTag="ul" 
+				currActionClass="active" containerClass="pagination" />
 		</div>
 	</div>
 </div>

@@ -23,5 +23,8 @@
 	<h1 class="page-header">
 		<fmt:message key="error.403" />
 	</h1>
+	<fmt:message key="gohome" var="gohome"/>
+	<%@ page import="by.htp.devteam.controller.util.ConstantValue" %>
+	<a href="${ ConstantValue.URL_DELIMITER }${ ConstantValue.APP_NAME }" title="${ gohome }" >${ gohome }</a>
 </body>
 </html>

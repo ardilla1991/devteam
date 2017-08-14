@@ -59,7 +59,7 @@ public final class ProjectValidation extends BeanValidation {
 		} else {
 			setNotValidField(EMPLOYEE);
 		}
-		
+
 		if ( Validator.isEmpty(price) || !Validator.checkBigDecimal(price) || price.length() > 11) {
 			setNotValidField(PRICE);
 		}
@@ -88,15 +88,6 @@ public final class ProjectValidation extends BeanValidation {
 		if ( !Validator.isInt(hours) ) {
 			setNotValidField(HOURS);
 		}
-	}
-	
-	/**
-	 * Check if a page number has a correct value
-	 * @param pageNumber
-	 * @return if page number is int value
-	 */
-	public static boolean validatePage(String pageNumber) {
-		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
 	}
 	
 	/**

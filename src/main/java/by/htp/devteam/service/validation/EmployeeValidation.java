@@ -1,12 +1,15 @@
 package by.htp.devteam.service.validation;
 
-import java.util.Calendar;
+import java.util.regex.Pattern;
 
 public final class EmployeeValidation extends BeanValidation {
 	
 	private final static String NAME = "name";
 	private final static String START_WORK = "startWork";
 	private final static String QUALIFICATION = "qualification";
+	
+	/** Regular expression for name */
+	private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z- ]{5,50}$");
 	
 	public EmployeeValidation() {
 		super();
@@ -27,7 +30,7 @@ public final class EmployeeValidation extends BeanValidation {
 
 		if ( name != null ) {
 			name = name.trim();
-			if ( Validator.isEmpty(name) || name.length() > 50 ) {
+			if ( Validator.isEmpty(name) || name.length() > 50 || !NAME_PATTERN.matcher(name).matches() ) {
 				setNotValidField(NAME);
 			}
 		} else {
@@ -43,25 +46,4 @@ public final class EmployeeValidation extends BeanValidation {
 		}
 	}
 	
-	/*
-	 * Create Calendar object for date from form
-	 */
-	private Calendar getCalendarTypeFromString(String date) {
-		String[] dateSplit = date.split("-");
-		Calendar dateCal = Calendar.getInstance();
-		dateCal.set(Calendar.YEAR, Integer.valueOf(dateSplit[0]));
-		dateCal.set(Calendar.MONTH, Integer.valueOf(dateSplit[1]));
-		dateCal.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dateSplit[2]));
-		
-		return dateCal;
-	}
-	
-	/**
-	 * Check if a page number has a correct value
-	 * @param pageNumber
-	 * @return if page number is int value
-	 */
-	public static boolean validatePage(String pageNumber) {
-		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
-	}
 }

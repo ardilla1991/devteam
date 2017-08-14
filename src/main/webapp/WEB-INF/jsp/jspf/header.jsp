@@ -25,11 +25,12 @@
 			</c:otherwise>
 		</c:choose>
 		<title>${p_title }</title>
-		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="style/dashboard.css">
-		<link rel="stylesheet" type="text/css" href="style/style.css">
+		<link href="${ appPath }bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="${ appPath }style/dashboard.css">
+		<link rel="stylesheet" type="text/css" href="${ appPath }style/style.css">
 	</head>
-	<body> 
+	<body>
+		<%@ page import="by.htp.devteam.controller.util.ConstantValue" %>
 	  	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	      <div class="container-fluid">
 	        <div class="navbar-header">
@@ -43,7 +44,9 @@
 	        </div>
 	        <div class="navbar-collapse collapse">
 			  <menu:top user="${ user.getUser() }"
-				currAction="${param.action}"  containerTag="ul" containerClass="nav navbar-nav navbar-right" itemTag="li" currActionClass="active" language="${clientLanguage}" country="${clientCountry}"/>
+				currUrl="${requestScope['javax.servlet.forward.request_uri']}"  containerTag="ul" 
+				containerClass="nav navbar-nav navbar-right" itemTag="li" 
+				currUrlClass="active" language="${clientLanguage}" country="${clientCountry}"/>
 	          <%@ page import="by.htp.devteam.bean.UserRole" %>
 			  <c:if test="${ user.getUser().getRole()  == RoleEnum.DEVELOPER || user.getUser().getRole()  == RoleEnum.MANAGER }">
 		          <form class="navbar-form navbar-right" action="Main" method="GET">

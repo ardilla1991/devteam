@@ -1,4 +1,5 @@
 <%@include file="../jspf/header.jsp"%>
+<%@ taglib uri="actiontag" prefix="acl"%>
 
 <div class="container-fluid">
 	<div class="row">
@@ -12,11 +13,13 @@
 				<%@include file="jspf/view.jsp"%>
 			</div>
 			<div class="col-sm-7">
-				<%@ page import="by.htp.devteam.bean.UserRole" %>
-				<c:if test="${ user.getUser().getRole()  !=  UserRole.CUSTOMER && order_vo.getOrder().getId() > 0}">
-					<a class="btn btn-default" role="button"
-						href="Main?action=project_show_add_form&order_id=${order_vo.getOrder().getId()}"
-						id="project_add"><fmt:message key="project.button.add" /></a>
+				<c:if test="${ order_vo.getOrder().getId() > 0}">
+					<fmt:message key="project.button.add" var="linkTitle"/>
+					<acl:action user="${ user.getUser() }" 
+							href="${ ConstantValue.PAGE_PROJECT_ADD_URI }${order_vo.getOrder().getId()}" 
+							title="${ linkTitle }" 
+							className="btn btn-default" buttonRole="button" 
+							id="project_add" />
 					<div id="project_edit"></div>
 				</c:if>
 			</div>

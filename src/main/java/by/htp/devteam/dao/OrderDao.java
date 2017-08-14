@@ -7,6 +7,7 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
+import by.htp.devteam.controller.ObjectNotFoundException;
 
 /**
  * Interface for order's DAO layer
@@ -33,8 +34,9 @@ public interface OrderDao {
 	 * @return OrderVo order information with checked works and qualifications
 	 * @see by.htp.devteam.bean.vo.OrderVo
 	 * @throws DaoException
+	 * @throws ObjectNotFoundException
 	 */
-	OrderVo getById(long id) throws DaoException;
+	OrderVo getById(long id) throws DaoException, ObjectNotFoundException;
 	
 	/**
 	 * Get list of orders by customer

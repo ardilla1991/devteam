@@ -109,15 +109,6 @@ public final class OrderValidation extends BeanValidation{
 		}
 	}
 	
-	/**
-	 * Check if a page number has a correct value
-	 * @param pageNumber
-	 * @return if page number is int value
-	 */
-	public boolean validatePage(String pageNumber) {
-		return Validator.isInt(pageNumber) && Integer.valueOf(pageNumber) > 0;
-	}
-	
 	/*
 	 * Create Calendar object for date from form
 	 */

@@ -1,5 +1,5 @@
 <%@include file="../jspf/header.jsp"%>
-<%@ taglib uri="messagetag" prefix="msg"%>
+<%@ taglib uri="errormessagetag" prefix="msg"%>
 
 <div class="container-fluid">
 	<div class="row">
@@ -8,13 +8,9 @@
 			<h1 class="page-header">
 				<fmt:message key="order.pageTitle.list" />
 			</h1>
-			<div class="error_message">
-				<c:if test="${ error_code > 0}">
-					<msg:message errorCode="${ error_code }" itemTag="span" containerTag="div"
+			<msg:error errorCode="${ error_code }" itemTag="span" containerTag="div"
 						language="${clientLanguage}" country="${clientCountry}"
-						bean="order" />
-				</c:if>
-			</div>
+						bean="order" containerClass="error_message"/>
 			<c:set var="withCustomer" value="false" scope="page" />
 			<%@include file="jspf/list.jsp"%>
 		</div>

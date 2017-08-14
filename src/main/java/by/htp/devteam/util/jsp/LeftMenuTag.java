@@ -1,29 +1,45 @@
 package by.htp.devteam.util.jsp;
 
+import static by.htp.devteam.controller.util.ConstantValue.*;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import by.htp.devteam.acl.PermissionUri;
 import by.htp.devteam.bean.User;
-import static by.htp.devteam.command.util.ConstantValue.*;
+import by.htp.devteam.bean.UserRole;
 
 /**
- * Display left bar for user
+ * Display left bar for user. Item is showed if user has permission
  * @author julia
  *
  */
 public final class LeftMenuTag extends TagSupport{
+	
+	private static final long serialVersionUID = -8395756013256603658L;
 
-	private static final long serialVersionUID = -5906908027211026605L;
+	/** Items to display */
+	private final static Map<String, String> items = new HashMap<String, String>(10);
+	
+	{
+		items.put(PAGE_ORDER_ADD_URI, "order.addNew");
+		items.put(PAGE_PROJECT_LIST_URI, "menu.left.projects");
+		items.put(PAGE_PROJECT_LIST_BY_EMPLOYEE_URI, "menu.left.projects");
+	}
 	
 	/** User */
 	private User user;
 	
-	/** Current action. Use for set active class for selected action */
-	private String currAction;
+	/** Current action. Use for set active class for selected url */
+	private String currUrl;
 	
 	/** Container tag for all points */
 	private String containerTag;
@@ -35,7 +51,7 @@ public final class LeftMenuTag extends TagSupport{
 	private String itemTag;
 	
 	/** Item tag class for selected points */
-	private String currActionClass;
+	private String currUrlClass;
 	
 	/** Current language */
 	private String language;
@@ -51,8 +67,8 @@ public final class LeftMenuTag extends TagSupport{
 		this.user = user;
 	}
 	
-	public void setCurrAction(String currAction) {
-		this.currAction = currAction;
+	public void setCurrUrl(String currUrl) {
+		this.currUrl = currUrl;
 	}
 
 	public void setContainerTag(String containerTag) {
@@ -67,8 +83,8 @@ public final class LeftMenuTag extends TagSupport{
 		this.itemTag = itemTag;
 	}
 
-	public void setCurrActionClass(String currActionClass) {
-		this.currActionClass = currActionClass;
+	public void setCurrUrlClass(String currUrlClass) {
+		this.currUrlClass = currUrlClass;
 	}
 	
 	public void setLanguage(String language) {
@@ -88,30 +104,19 @@ public final class LeftMenuTag extends TagSupport{
 			Locale locale = new Locale(language, country);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 			
+			UserRole userRole = user.getRole();
 			String active = "";
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
-			switch (user.getRole()) {
-			case CUSTOMER:
-				active = currAction.equals("order_show_add_form") ? currActionClass : "";
-				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">" 
-										   + "<a href='" + PAGE_ORDER_SHOW_ADD_FORM_URI + "'>" 
-										   + getString(rb, "order.addNew") 
-										   + "</a></" + itemTag + ">");
-				break;
-			case MANAGER:
-				active = currAction.equals("project_list") ? currActionClass : "";
-				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
-										   + "<a href='" + PAGE_PROJECT_LIST_URI + "'>" 
-										   + getString(rb, "menu.left.projects") + "</a></" + itemTag + ">");
-				break;
-			case DEVELOPER:
-				active = currAction.equals("project_list_by_employee_id") ? currActionClass : "";
-				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
-										   + "<a href='" + PAGE_PROJECT_LIST_BY_EMPLOYEE_URI + "'>" 
-										   + getString(rb, "menu.left.projects") + "</a></" + itemTag + ">");
-				break;
-			default:
-				break;
+			Iterator<Entry<String, String>> it = items.entrySet().iterator();
+			while ( it.hasNext() ) {
+				Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+				if ( PermissionUri.getInstance().checkPermissionForUri(userRole, pair.getKey()) ) {
+					active = currUrl.equals(pair.getKey()) ? currUrlClass : "";
+					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">" 
+											   + "<a href=\"" + pair.getKey() + "\">" 
+											   + getString(rb, pair.getValue()) 
+											   + "</a></" + itemTag + ">");
+				}
 			}
 			pageContext.getOut().write("</" +containerTag  + ">");			
 		} catch (IOException e) {

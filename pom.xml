@@ -4,7 +4,7 @@
 	<groupId>by.htp</groupId>
 	<artifactId>devteam</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>devteam Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -67,8 +67,14 @@
 			<artifactId>javax.mail</artifactId>
 			<version>1.5.5</version>
 		</dependency>
+		<dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		    <version>2.6</version>
+		</dependency>
 	</dependencies>
 	<build>
+		<finalName>devteam</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -77,6 +83,24 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<outputDirectory>C:\apache\tomcat9\webapps\</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/devteam</url>
+					<server>localhost</server>
+					<path>/</path>
+					<warSourceDirectory>C:\apache\tomcat9\webapps\devteam</warSourceDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

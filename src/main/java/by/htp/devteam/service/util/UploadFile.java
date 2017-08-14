@@ -20,13 +20,13 @@ public final class UploadFile {
 	private final static UploadFile instance = new UploadFile();
 	
 	/** Path to save file */
-	public final static String uploadPath = ConfigProperty.INSTANCE.getStringValue(CONFIG_FILE_UPLOAD_DIR) + File.separator;
+	public final static String UPLOAD_PATH = ConfigProperty.INSTANCE.getStringValue(CONFIG_FILE_UPLOAD_DIR) + File.separator;
 	
 	/** Applications path */
-	private final static String applicationPath = ConfigProperty.INSTANCE.getStringValue(CONFIG_APPLICATION_FULL_PATH);
+	private final static String APPLICATION_PATH = ConfigProperty.INSTANCE.getStringValue(CONFIG_APPLICATION_FULL_PATH);
 	
 	/** Full path to save file */
-	private final static String fullUploadPath = applicationPath + File.separator + uploadPath;
+	private final static String FULL_UPLOAD_PATH = APPLICATION_PATH + File.separator + UPLOAD_PATH;
 
 	private UploadFile() {
 		super();
@@ -61,7 +61,7 @@ public final class UploadFile {
 		//System.out.println("fileName="+getFileName(part));
         // constructs path of the directory to save uploaded file
 		// creates the save directory if it does not exists
-        File fileSaveDir = new File(fullUploadPath);
+        File fileSaveDir = new File(FULL_UPLOAD_PATH);
         if ( !fileSaveDir.exists() ) {
             fileSaveDir.mkdirs();
         }
@@ -69,7 +69,7 @@ public final class UploadFile {
         //System.out.println("Upload File Directory=" + fileSaveDir.getAbsolutePath());
  
         try {
-            part.write(fullUploadPath + fileName);
+            part.write(FULL_UPLOAD_PATH + fileName);
         } catch (IOException e) {
         	throw new FileUploadException(MSG_ERROR_UPLOAD_FILE);
         }
@@ -83,7 +83,7 @@ public final class UploadFile {
 	 * @throws FileUploadException
 	 */
 	public void delete(String fileName) throws FileUploadException {		
-		File file = new File(fullUploadPath + fileName);
+		File file = new File(FULL_UPLOAD_PATH + fileName);
 
 		if ( !file.delete()) {
 			throw new FileUploadException(MSG_ERROR_DELETE_FILE);

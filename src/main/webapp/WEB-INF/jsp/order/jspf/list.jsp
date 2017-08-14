@@ -1,3 +1,5 @@
+<%@ taglib uri="actiontag" prefix="acl"%>
+
 <div class="table-responsive">
 	<table class="table table-striped tab-content tab-active">
 		<thead>
@@ -20,11 +22,17 @@
 		<tbody>
 			<c:forEach items="${order_list}" var="i">
 				<tr>
-					<td><a href="Main?action=order_view&order_id=${i.getId()}"><fmt:message key = "order.action.view" /></a></td>
+					<td>
+						<fmt:message key="order.action.view" var="linkTitle"/>
+						<acl:action user="${ user.getUser() }" 
+						href="${ ConstantValue.PAGE_ORDER_VIEW_URI }${i.getId()}" 
+						title="${ linkTitle }" 
+						/>
+					</td>
 					<td><c:out value="${i.getId()}" /></td>
 					<td><c:out value="${i.getTitle()}" /></td>
 					<td><c:out value="${i.getDescription()}" /></td>
-					<td><a href="${upload_path}${i.getSpecification()}" ><c:out value="${i.getSpecification()}" /></a></td>
+					<td><a href="${ appPath }${upload_path}${i.getSpecification()}" ><c:out value="${i.getSpecification()}" /></a></td>
 					<td><c:out value="${i.getDateCreated()}" /></td>
 					<td><c:out value="${i.getDateStart()}" /></td>
 					<td><c:out value="${i.getDateFinish()}" /></td>

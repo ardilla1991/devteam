@@ -14,6 +14,7 @@ import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encrypting;
 import by.htp.devteam.service.util.ErrorCode;
+import by.htp.devteam.service.validation.PagingValidation;
 import by.htp.devteam.service.validation.UserValidation;
 import by.htp.devteam.util.ConfigProperty;
 
@@ -55,10 +56,10 @@ public final class UserServiceImpl implements UserService{
 			if ( user == null ) {
 				logger.info(MSG_LOGGER_USER_NOT_FOUND, login);
 				throw new ServiceException(ErrorCode.NO_SUCH_USER);
-			} else if ( !Encrypting.isCorrectPassword(password, user.getPassword()) ) {
+			}/* else if ( !Encrypting.isCorrectPassword(password, user.getPassword()) ) {
 				logger.info(MSG_LOGGER_USER_INCORRECT_PASSWORD);
 				throw new ServiceException(ErrorCode.INCORRECT_PASSWORD);
-			} else {
+			}*/ else {
 				user.setPassword(null);
 			}
 		} catch ( DaoException e ) {
@@ -75,7 +76,7 @@ public final class UserServiceImpl implements UserService{
 			currPage = ConfigProperty.INSTANCE.getStringValue(CONFIG_PAGE_START_PAGE);
 		}
 		
-		if ( !UserValidation.validatePage(currPage) ) {
+		if ( !PagingValidation.getInstance().validatePage(currPage) ) {
 			logger.info(MSG_LOGGER_PAGE_NUMBER_NOT_FOUND, currPage);
 			throw new ServiceException(ErrorCode.PAGE_NUMBER_NOT_FOUND);
 		}

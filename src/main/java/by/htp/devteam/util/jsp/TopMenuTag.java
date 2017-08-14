@@ -1,28 +1,48 @@
 package by.htp.devteam.util.jsp;
 
+import static by.htp.devteam.controller.util.ConstantValue.*;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Map.Entry;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import by.htp.devteam.acl.PermissionUri;
 import by.htp.devteam.bean.User;
-import static by.htp.devteam.command.util.ConstantValue.*;
+import by.htp.devteam.bean.UserRole;
 
 /**
- * Display top menu for user
+ * Display top menu for user. Item is showed if user has permission
  * @author julia
  *
  */
 public final class TopMenuTag extends TagSupport {
 
-	private static final long serialVersionUID = -489716399391515003L;
+	private static final long serialVersionUID = -6330452373340715942L;
+
+	/** Items to display */
+	private final static Map<String, String> items = new HashMap<String, String>(10);
+	
+	{
+		items.put(PAGE_ORDER_LIST_URI, "menu.top.orders");
+		items.put(PAGE_ORDER_NEW_LIST_URI, "menu.top.orders.new");
+		items.put(PAGE_EMPLOYEE_LIST_URI, "menu.top.employee.list");
+		items.put(PAGE_USER_LIST_URI, "menu.top.user.list");
+		items.put(PAGE_USER_VIEW_URI, "");
+		items.put(PAGE_LOGOUT, "menu.top.logout");
+	}
+	
 	/** User */
 	private User user;
 	
-	/** Current action. Use for set active class for selected action */
-	private String currAction;
+	/** Current action. Use for set active class for selected url */
+	private String currUrl;
 	
 	/** Container tag for all points */
 	private String containerTag;
@@ -34,7 +54,7 @@ public final class TopMenuTag extends TagSupport {
 	private String itemTag;
 	
 	/** Item tag class for selected points */
-	private String currActionClass;
+	private String currUrlClass;
 	
 	/** Current language */
 	private String language;
@@ -50,8 +70,8 @@ public final class TopMenuTag extends TagSupport {
 		this.user = user;
 	}
 	
-	public void setCurrAction(String currAction) {
-		this.currAction = currAction;
+	public void setCurrUrl(String currUrl) {
+		this.currUrl = currUrl;
 	}
 
 	public void setContainerTag(String containerTag) {
@@ -66,8 +86,8 @@ public final class TopMenuTag extends TagSupport {
 		this.itemTag = itemTag;
 	}
 
-	public void setCurrActionClass(String currActionClass) {
-		this.currActionClass = currActionClass;
+	public void setCurrUrlClass(String currUrlClass) {
+		this.currUrlClass = currUrlClass;
 	}
 
 	public void setLanguage(String language) {
@@ -83,42 +103,25 @@ public final class TopMenuTag extends TagSupport {
 	 */
 	@Override
 	public int doStartTag() throws JspException {
-		String active = "";
 		try {
-
 			Locale locale = new Locale(language, country);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 
+			UserRole userRole = user.getRole();
+			String active = "";
+			
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
-			switch (user.getRole()) {
-			case CUSTOMER:
-				active = currAction.equals("order_list") ? currActionClass : "";
-				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
-										   + "<a href='" + PAGE_ORDER_LIST_URI + "'>" 
-										   + getString(rb, "menu.top.orders") + "</a></" + itemTag + ">");
-				break;
-			case MANAGER:
-				active = currAction.equals("order_new_list") ? currActionClass : "";
-				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
-										   + "<a href='" + PAGE_ORDER_NEW_LIST_URI + "'>"
-										   + getString(rb, "menu.top.orders.new") + "</a></" + itemTag + ">");
-				active = currAction.equals("employee_list") ? currActionClass : "";
-				pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
-						   + "<a href='" + PAGE_EMPLOYEE_LIST_URI + "'>"
-						   + getString(rb, "menu.top.employee.list") + "</a></" + itemTag + ">");
-				break;
-			case DEVELOPER:
-				break;
-			default:
-				break;
+			Iterator<Entry<String, String>> it = items.entrySet().iterator();
+			while ( it.hasNext() ) {
+				Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+				if ( PermissionUri.getInstance().checkPermissionForUri(userRole, pair.getKey()) ) {
+					active = currUrl.equals(pair.getKey()) ? currUrlClass : "";
+					pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">" 
+							   + "<a href=\"" + pair.getKey() + "\">" 
+							   + ( pair.getValue() == "" ? user.getLogin() : getString(rb, pair.getValue()) )
+							   + "</a></" + itemTag + ">");
+				}
 			}
-			active = currAction.equals("user_view") ? currActionClass : "";
-			pageContext.getOut().write("<" + itemTag + " class=\"" + active + "\">"
-									   + "<a href='" + PAGE_USER_VIEW_URI +"'>" + user.getLogin() + "</a>"
-									   + "</" + itemTag + ">");
-			pageContext.getOut().write("<" + itemTag + ">"
-									   + "<a href='" + PAGE_LOGOUT +"'>" + getString(rb, "menu.top.logout") + "</a>"
-									   + "</" + itemTag + ">");
 			pageContext.getOut().write("</" +containerTag  + ">");			
 		} catch (IOException e) {
 			throw new JspException(e.getMessage());

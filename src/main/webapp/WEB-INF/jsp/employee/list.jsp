@@ -1,7 +1,8 @@
 <%@include file="../jspf/header.jsp"%>
 <%@ taglib uri="pagetag" prefix="ctg"%>
-<%@ taglib uri="messagetag" prefix="msg"%>
+<%@ taglib uri="errormessagetag" prefix="msg"%>
 <%@ taglib uri="listAsTable" prefix="table"%>
+<%@ taglib uri="actiontag" prefix="acl"%>
 
 <div class="container-fluid">
 	<div class="row">
@@ -12,22 +13,20 @@
 			<h1 class="page-header">
 				<fmt:message key="employee.pageTitle.list" />
 			</h1>
-			
-			<%@ page import="by.htp.devteam.bean.UserRole" %>
 			<br/>
-			<c:if test="${ user.getUser().getRole()  ==  UserRole.MANAGER}">
-				<a class="btn btn-default" role="button" id="employee_add_btn"
-						href="Main?action=employee_show_add_form"
-						><fmt:message key="employee.button.add" /></a>
-			</c:if>
+			<fmt:message key="employee.button.add" var="linkTitle"/>
+			<acl:action user="${ user.getUser() }" 
+						href="${ ConstantValue.PAGE_EMPLOYEE_ADD_URI }" 
+						title="${ linkTitle }" 
+						className="btn btn-default" buttonRole="button" 
+						id="employee_add_btn" />
 
-			<div class="error_message">
-				<c:if test="${ error_code > 0}">
-					<msg:message errorCode="${ error_code }"
-						language="${clientLanguage}" country="${clientCountry}" itemTag="span" containerTag="div"
-						bean="employee" />
-				</c:if>
-			</div>
+
+			<msg:error errorCode="${ error_code }"
+						language="${clientLanguage}" country="${clientCountry}" 
+						itemTag="span" containerTag="div"
+						bean="employee" containerClass="error_message"/>
+
 			<div class="table-responsive">
 			
 				<table:employeeList employees="${employee_list}" tableClass="table table-striped tab-content tab-active"
@@ -35,9 +34,8 @@
 				
 			</div>
 
-			<ctg:paginator uri="${ uri }" itemTag="li" containerTag="ul" currActionClass="active" containerClass="pagination"
-				currPage="${ currPage }"
-				countPages="${ countPages }" />
+			<ctg:paginator pagingVo="${ paging_vo }" itemTag="li" containerTag="ul" 
+				currActionClass="active" containerClass="pagination" />
 		</div>
 	</div>
 </div>
