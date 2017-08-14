@@ -3,3 +3,11 @@
 [INFO ] 2017-08-14 14:31:22.017 [http-nio-8080-exec-7] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: POST http://localhost:8080/devteam/user/login is requested by: 0:0:0:0:0:0:0:1
 [INFO ] 2017-08-14 14:31:22.440 [http-nio-8080-exec-7] CustomerDaoImpl - Customer id=2 not found 
 [INFO ] 2017-08-14 14:31:22.456 [http-nio-8080-exec-5] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: GET http://localhost:8080/devteam/order/new_list is requested by: 0:0:0:0:0:0:0:1
+[INFO ] 2017-08-14 14:39:47.183 [http-nio-8080-exec-9] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: GET http://localhost:8080/devteam/order/new_list is requested by: 0:0:0:0:0:0:0:1
+[INFO ] 2017-08-14 14:39:47.206 [http-nio-8080-exec-9] ACLFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: http://localhost:8080/devteam/order/ is requested by: 0:0:0:0:0:0:0:1 Permission denied
+[INFO ] 2017-08-14 14:39:47.215 [http-nio-8080-exec-6] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: GET http://localhost:8080/devteam/user/login is requested by: 0:0:0:0:0:0:0:1
+[INFO ] 2017-08-14 14:39:48.466 [http-nio-8080-exec-6] SessionLogListener - Session with id = 13460310B4D43B2D746BDF986BF04140 is started
+[INFO ] 2017-08-14 14:39:55.486 [http-nio-8080-exec-7] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: POST http://localhost:8080/devteam/user/login is requested by: 0:0:0:0:0:0:0:1
+[INFO ] 2017-08-14 14:39:56.001 [http-nio-8080-exec-7] CustomerDaoImpl - Customer id=2 not found 
+[INFO ] 2017-08-14 14:39:56.022 [http-nio-8080-exec-5] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: GET http://localhost:8080/devteam/order/new_list is requested by: 0:0:0:0:0:0:0:1
+[INFO ] 2017-08-14 14:39:58.567 [http-nio-8080-exec-4] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: GET http://localhost:8080/devteam/order/view/order_id/86 is requested by: 0:0:0:0:0:0:0:1
