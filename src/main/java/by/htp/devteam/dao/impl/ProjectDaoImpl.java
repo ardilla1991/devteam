@@ -13,7 +13,7 @@ import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.ProjectDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -158,7 +158,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 	}
 
 	@Override
-	public Project getById(Long id) throws DaoException, ObjectNotFoundExeption {
+	public Project getById(Long id) throws DaoException, ObjectNotFoundException {
 		Project project = null;
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_PROJECT_GET_BY_ID) ) {
@@ -172,7 +172,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 		return project;
 	}
 	
-	private Project executeQueryAndGetProjectFromResultSet(PreparedStatement ps) throws SQLException, ObjectNotFoundExeption {
+	private Project executeQueryAndGetProjectFromResultSet(PreparedStatement ps) throws SQLException, ObjectNotFoundException {
 		Project project = new Project();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			if ( rs.next() ) {
@@ -195,7 +195,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 				order.setCustomer(customer);
 				project.setOrder(order);
 			} else {
-				throw new ObjectNotFoundExeption(MSG_PROJECT_NOT_FOUND);
+				throw new ObjectNotFoundException(MSG_PROJECT_NOT_FOUND);
 			}
 		}
 		

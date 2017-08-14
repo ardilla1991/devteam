@@ -7,7 +7,7 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.ProjectVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 
 /**
  * Interface for project's Service layer.
@@ -57,9 +57,9 @@ public interface ProjectService {
 	 * @return ProjectVo project information with employees that work (works) on this project
 	 * @see by.htp.devteam.bean.vo.ProjectVo
 	 * @throws ServiceException
-	 * @throws ObjectNotFoundExeption
+	 * @throws ObjectNotFoundException
 	 */
-	ProjectVo getById(String id) throws ServiceException, ObjectNotFoundExeption;
+	ProjectVo getById(String id) throws ServiceException, ObjectNotFoundException;
 	
 	/**
 	 * Update hours count spending by employee on the project.

@@ -52,15 +52,15 @@ public enum ControllerFactory {
 	 * Validate if module is null. Find module in enum and throw exceptiom if module not found
 	 * @param module from request
 	 * @return CommandFactory object
-	 * @throws ControllerExeption
+	 * @throws ControllerException
 	 */
-	public static ControllerFactory getController(String name) throws ControllerExeption {
+	public static ControllerFactory getController(String name) throws ControllerException {
 		if ( name == null )
-			throw new ControllerExeption(MSG_COMMAND_EMPTY_MODULE);
+			throw new ControllerException(MSG_COMMAND_EMPTY_MODULE);
 		
 		boolean found = lookup(name);
         if ( !found ) 
-        	throw new ControllerExeption(MSG_COMMAND_INVALID_MODULE + name);
+        	throw new ControllerException(MSG_COMMAND_INVALID_MODULE + name);
         
         return ControllerFactory.valueOf(name.toUpperCase());
        }

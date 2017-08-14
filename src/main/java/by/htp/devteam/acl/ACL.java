@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import by.htp.devteam.bean.UserRole;
-import by.htp.devteam.controller.ControllerExeption;
+import by.htp.devteam.controller.ControllerException;
 import by.htp.devteam.controller.ControllerFactory;
 
 /**
@@ -182,7 +182,7 @@ public final class ACL {
 			issetInACL = ControllerFactory.lookup(module) 
 					&& acl.get(role).containsKey(ControllerFactory.getController(module)) 
 					&& acl.get(role).get(ControllerFactory.getController(module)).contains(action);
-		} catch (ControllerExeption e) {
+		} catch (ControllerException e) {
 			issetInACL = false;
 		}
 

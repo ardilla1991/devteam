@@ -5,16 +5,16 @@ package by.htp.devteam.controller;
  * @author julia
  *
  */
-public class ControllerExeption extends Exception {
+public class ControllerException extends Exception {
 	
 	private static final long serialVersionUID = 2879996083995167679L;
 	private Exception _hidden;
 	
-	public ControllerExeption(String s) {
+	public ControllerException(String s) {
 		super(s);
 	}
 	
-	public ControllerExeption(String s, Exception e) {
+	public ControllerException(String s, Exception e) {
 		super(s);
 		_hidden = e;
 	}

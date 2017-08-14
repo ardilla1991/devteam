@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.controller.Controller;
-import by.htp.devteam.controller.ControllerExeption;
+import by.htp.devteam.controller.ControllerException;
 import by.htp.devteam.controller.ControllerFactory;
 
 public final class Runner {
@@ -32,7 +32,7 @@ public final class Runner {
 	}
 	
 	public static Page run(HttpServletRequest request, HttpServletResponse response) 
-			throws ControllerExeption, IllegalAccessException, IllegalArgumentException, 
+			throws ControllerException, IllegalAccessException, IllegalArgumentException, 
 			InvocationTargetException, NoSuchMethodException, SecurityException {
 		
 		String module = request.getParameter(REQUEST_PARAM_MODULE);

@@ -11,7 +11,7 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 
 /**
@@ -90,9 +90,9 @@ public interface EmployeeService {
 	 * @param id employee's id
 	 * @return employee
 	 * @throws ServiceException
-	 * @throws ObjectNotFoundExeption
+	 * @throws ObjectNotFoundException
 	 */
-	Employee getById(String id) throws ServiceException, ObjectNotFoundExeption;
+	Employee getById(String id) throws ServiceException, ObjectNotFoundException;
 	
 	/**
 	 * Set user for employee

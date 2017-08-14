@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.controller.Controller;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.controller.main.Page;
 
 /**
@@ -44,7 +44,7 @@ public interface OrderController extends Controller {
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws ObjectNotFoundExeption If object not found in system.
+	 * @throws ObjectNotFoundException If object not found in system.
 	 */
-	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption;
+	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException;
 }

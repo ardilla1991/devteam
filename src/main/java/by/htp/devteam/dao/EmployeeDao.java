@@ -11,7 +11,7 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 
 /**
  * Interface for employee's DAO layer
@@ -85,9 +85,9 @@ public interface EmployeeDao {
 	 * @param id employee's id
 	 * @return employee
 	 * @throws DaoException
-	 * @throws ObjectNotFoundExeption
+	 * @throws ObjectNotFoundException
 	 */
-	Employee getById(Long id) throws DaoException, ObjectNotFoundExeption;
+	Employee getById(Long id) throws DaoException, ObjectNotFoundException;
 	
 	/**
 	 * Set user for employee

@@ -13,7 +13,7 @@ import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.module.UserController;
 import by.htp.devteam.service.CustomerService;
@@ -30,7 +30,7 @@ public final class UserControllerImpl implements UserController {
 
 	@Override
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) 
-			throws ObjectNotFoundExeption {
+			throws ObjectNotFoundException {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		UserService userService = serviceFactory.getUserService();
@@ -58,7 +58,7 @@ public final class UserControllerImpl implements UserController {
 	}
 
 	@Override
-	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {
+	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		EmployeeService employeeService = serviceFactory.getEmployeeService();

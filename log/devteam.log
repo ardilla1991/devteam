@@ -1,0 +1,5 @@
+[INFO ] 2017-08-14 14:31:07.050 [http-nio-8080-exec-1] SessionLogListener - Session with id = 7F6502B8F02DC97A550E394C4F31201A is started
+[INFO ] 2017-08-14 14:31:08.311 [http-nio-8080-exec-10] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: GET http://localhost:8080/devteam/user/login is requested by: 0:0:0:0:0:0:0:1
+[INFO ] 2017-08-14 14:31:22.017 [http-nio-8080-exec-7] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: POST http://localhost:8080/devteam/user/login is requested by: 0:0:0:0:0:0:0:1
+[INFO ] 2017-08-14 14:31:22.440 [http-nio-8080-exec-7] CustomerDaoImpl - Customer id=2 not found 
+[INFO ] 2017-08-14 14:31:22.456 [http-nio-8080-exec-5] LogFilter - Request  IP 0:0:0:0:0:0:0:1 - resourse: GET http://localhost:8080/devteam/order/new_list is requested by: 0:0:0:0:0:0:0:1

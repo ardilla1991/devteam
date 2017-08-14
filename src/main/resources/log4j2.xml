@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
     <Properties>
-        <Property name="basePath">D:\\logs\</Property>
+        <Property name="basePath">D:\\java\\JD1\\devteam\\log\\</Property>
     </Properties>
  
     <Appenders>

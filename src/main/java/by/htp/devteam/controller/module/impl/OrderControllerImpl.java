@@ -22,7 +22,7 @@ import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.module.OrderController;
 import by.htp.devteam.service.OrderService;
@@ -175,7 +175,7 @@ public final class OrderControllerImpl implements OrderController {
 	}
 	
 	@Override
-	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {
+	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.controller.Controller;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.controller.main.Page;
 
 /**
@@ -20,19 +20,19 @@ public interface ProjectController extends Controller {
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws ObjectNotFoundExeption 
+	 * @throws ObjectNotFoundException 
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) 
-			throws ObjectNotFoundExeption;
+			throws ObjectNotFoundException;
 	
 	/**
 	 * Action to show the form for add project.
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws ObjectNotFoundExeption 
+	 * @throws ObjectNotFoundException 
 	 */
-	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption;
+	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException;
 	
 	/**
 	 * Action for display all projects by employee.
@@ -48,9 +48,9 @@ public interface ProjectController extends Controller {
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws ObjectNotFoundExeption If object not found.
+	 * @throws ObjectNotFoundException If object not found.
 	 */
-	public Page updateHoursGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption;
+	public Page updateHoursGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException;
 	
 	/**
 	 * Action for updating hours spending by employee on project. 
@@ -59,18 +59,18 @@ public interface ProjectController extends Controller {
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws ObjectNotFoundExeption If object not found in system.
+	 * @throws ObjectNotFoundException If object not found in system.
 	 */
-	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption;
+	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException;
 	
 	/**
 	 * Action to view project. And in jsp you cat set hours for project by employee
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws ObjectNotFoundExeption If object not found in system.
+	 * @throws ObjectNotFoundException If object not found in system.
 	 */
-	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption;
+	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException;
 	
 	/**
 	 * Action for find project.

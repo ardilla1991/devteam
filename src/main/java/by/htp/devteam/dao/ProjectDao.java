@@ -6,7 +6,7 @@ import java.util.List;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 
 /**
  * Interface for project's DAO layer
@@ -51,9 +51,9 @@ public interface ProjectDao {
 	 * @param id project id
 	 * @return project information
 	 * @throws DaoException
-	 * @throws ObjectNotFoundExeption
+	 * @throws ObjectNotFoundException
 	 */
-	Project getById(Long id) throws DaoException, ObjectNotFoundExeption;
+	Project getById(Long id) throws DaoException, ObjectNotFoundException;
 	
 	/**
 	 * Update hours for the project spending by employee

@@ -81,13 +81,13 @@
 		<servlet-name>MainServlet</servlet-name>
 	</filter-mapping>
 	<filter>
-		<description>Routing urls</description>
-		<display-name>RouterFilter</display-name>
-		<filter-name>RouterFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.RouterFilter</filter-class>
+		<description>Rewrite urls</description>
+		<display-name>UrlRewriteFilter</display-name>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.UrlRewriteFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>RouterFilter</filter-name>
+		<filter-name>UrlRewriteFilter</filter-name>
 		<servlet-name>MainServlet</servlet-name>
 	</filter-mapping>
 	<filter>

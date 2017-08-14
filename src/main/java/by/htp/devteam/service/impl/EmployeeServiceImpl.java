@@ -13,7 +13,7 @@ import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
@@ -130,7 +130,7 @@ public final class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public Employee getById(String id) throws ServiceException, ObjectNotFoundExeption {
+	public Employee getById(String id) throws ServiceException, ObjectNotFoundException {
 		EmployeeValidation employeeValidation = new EmployeeValidation();
 		if ( !employeeValidation.validateId(id)) {
 			logger.info(MSG_LOGGER_EMPLOYEE_VIEW_INCORRECT_ID, id);
@@ -146,9 +146,9 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		} catch ( NullPointerException e ) {
 			logger.info(MSG_LOGGER_EMPLOYEE_VIEW_NOT_EXIST_ID, id);
 			throw new ServiceException(ErrorCode.VALIDATION_ID);
-		} catch (ObjectNotFoundExeption e) {
+		} catch (ObjectNotFoundException e) {
 			logger.info(e.getMessage());
-			throw new ObjectNotFoundExeption(e.getMessage());
+			throw new ObjectNotFoundException(e.getMessage());
 		}
 		
 		return employee;

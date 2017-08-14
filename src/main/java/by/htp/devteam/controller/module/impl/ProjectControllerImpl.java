@@ -14,7 +14,7 @@ import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.ProjectVo;
 import by.htp.devteam.bean.vo.UserVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.controller.main.Page;
 import by.htp.devteam.controller.module.ProjectController;
 import by.htp.devteam.service.EmployeeService;
@@ -31,7 +31,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	}
 	
 	@Override
-	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {
+	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		ProjectService projectService = serviceFactory.getProjectService();
@@ -60,7 +60,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	}
 	
 	@Override
-	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {	
+	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {	
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		OrderService orderService = serviceFactory.getOrderService();
 		
@@ -132,7 +132,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	}
 	
 	@Override
-	public Page updateHoursGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {		
+	public Page updateHoursGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {		
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		
@@ -149,7 +149,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	
 	@Override
 	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) 
-			throws ObjectNotFoundExeption {
+			throws ObjectNotFoundException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 
@@ -174,7 +174,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	}
 	
 	@Override
-	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption {
+	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		ProjectService projectService = serviceFactory.getProjectService();
 		

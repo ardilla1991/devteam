@@ -16,7 +16,7 @@ import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.dao.util.ConnectionPool;
@@ -110,7 +110,7 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	@Override
-	public OrderVo getById(long id) throws DaoException, ObjectNotFoundExeption {
+	public OrderVo getById(long id) throws DaoException, ObjectNotFoundException {
 		OrderVo orderVo = new OrderVo();
 		try ( Connection dbConnection = ConnectionPool.getConnection()) {
 			Order order = getOrder(dbConnection, id);
@@ -305,7 +305,7 @@ public final class OrderDaoImpl implements OrderDao {
 		}	
 	}
 	
-	private Order getOrder(Connection dbConnection, Long id) throws SQLException, ObjectNotFoundExeption {
+	private Order getOrder(Connection dbConnection, Long id) throws SQLException, ObjectNotFoundException {
 		Order order = new Order();
 		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_BY_ID) ) {
 
@@ -327,14 +327,14 @@ public final class OrderDaoImpl implements OrderDao {
 		}
 	}
 	
-	private Order executeQueryAndGetOrderFromResultSet(PreparedStatement ps) throws SQLException, ObjectNotFoundExeption {
+	private Order executeQueryAndGetOrderFromResultSet(PreparedStatement ps) throws SQLException, ObjectNotFoundException {
 		Order order = new Order();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			if ( rs.next() ) {
 				Customer customer = createCustomerFromResultSet(rs);
 				order = createOrderFromResultSet(rs, customer);
 			} else {
-				throw new ObjectNotFoundExeption(MSG_ORDER_NOT_FOUND);
+				throw new ObjectNotFoundException(MSG_ORDER_NOT_FOUND);
 			}
 		}
 		

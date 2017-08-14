@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.devteam.controller.Controller;
-import by.htp.devteam.controller.ObjectNotFoundExeption;
+import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.controller.main.Page;
 
 /**
@@ -20,10 +20,10 @@ public interface UserController extends Controller {
 	 * @param request
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
-	 * @throws ObjectNotFoundExeption 
+	 * @throws ObjectNotFoundException 
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) 
-			throws ObjectNotFoundExeption;
+			throws ObjectNotFoundException;
 	
 	/**
 	 * Show form for add user.
@@ -31,7 +31,7 @@ public interface UserController extends Controller {
 	 * @param response
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
-	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundExeption;
+	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException;
 	
 	/**
 	 * Action to display user information.

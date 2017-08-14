@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import by.htp.devteam.controller.ControllerExeption;
+import by.htp.devteam.controller.ControllerException;
 
 /**
  * Start module controller and method using Reflection.
@@ -57,7 +57,7 @@ public class MainServlet extends HttpServlet{
 		Page page = null;
 		try {
 			page = Runner.run(request, response);
-		} catch (ControllerExeption | InvocationTargetException | IllegalAccessException 
+		} catch (ControllerException | InvocationTargetException | IllegalAccessException 
 				| IllegalArgumentException | NoSuchMethodException | java.lang.SecurityException e) {
 			response.sendError(404);
 		}

@@ -10,19 +10,19 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import by.htp.devteam.router.Router;
+import by.htp.devteam.util.UrlRewriter;
 
 import static by.htp.devteam.controller.util.ConstantValue.*;
 
 /**
- * Servlet Filter implementation class RouterFilter
+ * Servlet Filter implementation class UrlRewriterFilter
  */
-public class RouterFilter implements Filter {
+public class UrlRewriteFilter implements Filter {
     
     /**
      * Default constructor. 
      */
-    public RouterFilter() {
+    public UrlRewriteFilter() {
         super();
     }
     
@@ -36,10 +36,11 @@ public class RouterFilter implements Filter {
     /**
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
      */
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+    		throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 		
-		String forwardPath = Router.getInstance().buildRouterPath(req.getRequestURI(), true);
+		String forwardPath = UrlRewriter.getInstance().urlRewrite(req.getRequestURI(), true);
 		
 		if ( forwardPath.length() > 0 )
 			req.getRequestDispatcher(SERVLET_NAME + forwardPath).forward(request, response);

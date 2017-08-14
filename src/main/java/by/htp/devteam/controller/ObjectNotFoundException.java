@@ -5,16 +5,16 @@ package by.htp.devteam.controller;
  * @author julia
  *
  */
-public class ObjectNotFoundExeption extends Exception {
+public class ObjectNotFoundException extends Exception {
 
 	private static final long serialVersionUID = -8518688757532469757L;
 	private Exception _hidden;
 	
-	public ObjectNotFoundExeption(String s) {
+	public ObjectNotFoundException(String s) {
 		super(s);
 	}
 	
-	public ObjectNotFoundExeption(String s, Exception e) {
+	public ObjectNotFoundException(String s, Exception e) {
 		super(s);
 		_hidden = e;
 	}

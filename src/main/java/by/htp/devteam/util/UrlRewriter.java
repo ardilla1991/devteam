@@ -1,4 +1,4 @@
-package by.htp.devteam.router;
+package by.htp.devteam.util;
 
 import static by.htp.devteam.controller.util.ConstantValue.*;
 
@@ -7,16 +7,16 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * Router class. Class for create router path from request url.
+ * Url rewriter class. Class for create path from request url.
  * It create from /appName/ServletName/module/action/param1/value1 path 
  * to /appName/ServletName?module=module&action=action&param1=value1.
  * Singleton class.
  * @author julia
  *
  */
-public final class Router {
+public final class UrlRewriter {
 
-	private final static Router instance = new Router();
+	private final static UrlRewriter instance = new UrlRewriter();
 	
 	/** Pattern for module name */
     private static final Pattern MODULE_NAME_PATTERN = Pattern.compile("^[a-z]+$");
@@ -27,21 +27,21 @@ public final class Router {
     /** Pattern for parameter name */
     private static final Pattern PARAM_NAME_PATTERN = Pattern.compile("^[a-z_]+$");
 	
-	private Router() {
+	private UrlRewriter() {
 		super();
 	}
 	
-	public static Router getInstance() {
+	public static UrlRewriter getInstance() {
 		return instance;
 	}
 	
 	/**
-	 * Create router path by url from request
+	 * Create path by url from request
 	 * @param uri
 	 * @param withAdditionalParams
 	 * @return
 	 */
-    public String buildRouterPath(final String uri, boolean withAdditionalParams) {	
+    public String urlRewrite(final String uri, boolean withAdditionalParams) {	
     	StringBuilder forwardPath = new StringBuilder();
     	
     	String[] urlParts = getUriParts(uri);

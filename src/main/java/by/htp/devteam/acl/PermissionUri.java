@@ -5,7 +5,7 @@ import static by.htp.devteam.controller.util.ConstantValue.*;
 import java.util.Map;
 
 import by.htp.devteam.bean.UserRole;
-import by.htp.devteam.router.Router;
+import by.htp.devteam.util.UrlRewriter;
 
 /**
  * Class to check if user has permission for uri
@@ -33,7 +33,7 @@ public final class PermissionUri {
 	 */
 	public boolean checkPermissionForUri(UserRole role, String uri) {
 		//from module/action to module
-		 Map<String, String> mainParams = Router.getInstance().getMainParametersFromUri(uri);
+		 Map<String, String> mainParams = UrlRewriter.getInstance().getMainParametersFromUri(uri);
 		 if ( mainParams.isEmpty() )
 			 return false;
 		 
