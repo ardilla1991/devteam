@@ -6,20 +6,18 @@ package by.htp.devteam.controller;
  *
  */
 public class ControllerException extends Exception {
-	
-	private static final long serialVersionUID = 2879996083995167679L;
-	private Exception _hidden;
-	
-	public ControllerException(String s) {
-		super(s);
+
+	private static final long serialVersionUID = 1390775581343738448L;
+
+	public ControllerException(String message) {
+		super(message);
 	}
 	
-	public ControllerException(String s, Exception e) {
-		super(s);
-		_hidden = e;
+	public ControllerException(String message, Exception e) {
+		super(message, e);
 	}
 	
-	public Exception getCommandExeption() {
-		return _hidden;
+	public ControllerException(Exception e) {
+		super(e);
 	}
 }

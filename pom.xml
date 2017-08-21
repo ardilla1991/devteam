@@ -92,17 +92,6 @@
 					<outputDirectory>C:\apache\tomcat9\webapps\</outputDirectory>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<url>http://localhost:8080/devteam</url>
-					<server>localhost</server>
-					<path>/</path>
-					<warSourceDirectory>C:\apache\tomcat9\webapps\devteam</warSourceDirectory>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 </project>

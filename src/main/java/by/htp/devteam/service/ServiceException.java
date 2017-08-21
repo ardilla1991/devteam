@@ -11,9 +11,8 @@ import by.htp.devteam.service.util.ErrorCode;
  */
 public class ServiceException extends Exception{
 
-	private static final long serialVersionUID = 732081448626146873L;
-	private Exception _hidden;
-	
+	private static final long serialVersionUID = 1423465744460310398L;
+
 	/** Fields that not valid */
 	private List<String> fields;
 	
@@ -23,37 +22,35 @@ public class ServiceException extends Exception{
 	 */
 	private ErrorCode errorCode;
 	
-	public ServiceException(String s) {
-		super(s);
+	public ServiceException(String message) {
+		super(message);
 	}
 	
-	public ServiceException(String s, Exception e) {
-		super(s);
-		_hidden = e;
+	public ServiceException(String message, Exception e) {
+		super(message, e);
+	}
+	
+	public ServiceException(Exception e) {
+		super(e);
 	}
 	
 	public ServiceException(ErrorCode errorCode) {
 		this.errorCode = errorCode;
 	}
 	
-	public ServiceException(String s, ErrorCode errorCode) {
-		super(s);
+	public ServiceException(String message, ErrorCode errorCode) {
+		super(message);
 		this.errorCode = errorCode;
 	}
 	
-	public ServiceException(String s, ErrorCode errorCode, Exception e) {
-		super(s);
+	public ServiceException(String message, ErrorCode errorCode, Exception e) {
+		super(message, e);
 		this.errorCode = errorCode;
-		_hidden = e;
 	}
 	
-	public ServiceException(ErrorCode errorCode, List<String> massages) {
+	public ServiceException(ErrorCode errorCode, List<String> fields) {
 		this.errorCode = errorCode;
-		this.fields = massages;
-	}
-	
-	public Exception getCommandExeption() {
-		return _hidden;
+		this.fields = fields;
 	}
 
 	public List<String> getFields() {

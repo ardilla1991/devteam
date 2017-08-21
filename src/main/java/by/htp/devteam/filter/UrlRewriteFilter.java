@@ -18,7 +18,7 @@ import static by.htp.devteam.controller.util.ConstantValue.*;
  * Servlet Filter implementation class UrlRewriterFilter
  */
 public class UrlRewriteFilter implements Filter {
-    
+	
     /**
      * Default constructor. 
      */
@@ -30,7 +30,7 @@ public class UrlRewriteFilter implements Filter {
      * @see Filter#init(FilterConfig)
      */
     public void init(FilterConfig fConfig) throws ServletException {
-        // TODO Auto-generated method stub
+
     }
 
     /**
@@ -38,10 +38,10 @@ public class UrlRewriteFilter implements Filter {
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
     		throws IOException, ServletException {
+    	
         HttpServletRequest req = (HttpServletRequest) request;
 		
 		String forwardPath = UrlRewriter.getInstance().urlRewrite(req.getRequestURI(), true);
-		
 		if ( forwardPath.length() > 0 )
 			req.getRequestDispatcher(SERVLET_NAME + forwardPath).forward(request, response);
 		else
@@ -52,7 +52,7 @@ public class UrlRewriteFilter implements Filter {
      * @see Filter#destroy()
      */
     public void destroy() {
-        // TODO Auto-generated method stub
+
     }
 
 }

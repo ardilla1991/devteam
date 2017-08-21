@@ -56,10 +56,10 @@ public final class UserServiceImpl implements UserService{
 			if ( user == null ) {
 				logger.info(MSG_LOGGER_USER_NOT_FOUND, login);
 				throw new ServiceException(ErrorCode.NO_SUCH_USER);
-			}/* else if ( !Encrypting.isCorrectPassword(password, user.getPassword()) ) {
+			} else if ( !Encrypting.isCorrectPassword(password, user.getPassword()) ) {
 				logger.info(MSG_LOGGER_USER_INCORRECT_PASSWORD);
 				throw new ServiceException(ErrorCode.INCORRECT_PASSWORD);
-			}*/ else {
+			} else {
 				user.setPassword(null);
 			}
 		} catch ( DaoException e ) {

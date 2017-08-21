@@ -32,7 +32,7 @@ public final class CustomerServiceImpl implements CustomerService {
 		try {
 			customer = customerDao.getCustomerByUser(user);
 		} catch ( DaoException e ) {
-			logger.error(e);
+			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
 		

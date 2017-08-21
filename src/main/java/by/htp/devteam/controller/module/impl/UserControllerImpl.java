@@ -92,7 +92,6 @@ public final class UserControllerImpl implements UserController {
 			PagingVo<UserVo> pagingVo = userService.fetchAll(currPage);
 			pagingVo.setUri(PAGE_USER_LIST_URI);
 			request.setAttribute(REQUEST_PARAM_PAGING_VO, pagingVo);
-			
 			request.setAttribute(REQUEST_PARAM_USER_LIST, pagingVo.getRecords());
 			List<Employee> employeeList = employeeService.getListWithNotSetUser();
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employeeList);
@@ -121,7 +120,7 @@ public final class UserControllerImpl implements UserController {
 		HttpSession session = request.getSession();
 		String login = request.getParameter(REQUEST_PARAM_LOGIN);
 		String password = request.getParameter(REQUEST_PARAM_PASSWORD);
-		String page = PAGE_DEFAULT;
+		String page = PAGE_LOGIN;
 		
 		boolean isRedirect = false;
 		try {
@@ -129,11 +128,13 @@ public final class UserControllerImpl implements UserController {
 			User user = userService.authorise(login, password);
 			userVO.setUser(user);
 			
-			CustomerService customerService = serviceFactory.getCustomerService();
-			userVO.setCustomer(customerService.getByUser(user));
-			
-			EmployeeService employeeService = serviceFactory.getEmployeeService();
-			userVO.setEmployee(employeeService.getByUser(user));
+			if ( user.getRole() == UserRole.CUSTOMER ) {
+				CustomerService customerService = serviceFactory.getCustomerService();
+				userVO.setCustomer(customerService.getByUser(user));
+			} else {
+				EmployeeService employeeService = serviceFactory.getEmployeeService();
+				userVO.setEmployee(employeeService.getByUser(user));
+			}
 			
 			session.setAttribute(SESSION_PARAM_USER, userVO);
 			isRedirect = true;
@@ -144,8 +145,6 @@ public final class UserControllerImpl implements UserController {
 			request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
 			request.setAttribute(REQUEST_PARAM_LOGIN, login);
 			request.setAttribute(REQUEST_PARAM_PASSWORD, password);
-			
-			page = PAGE_LOGIN;
 		}
 		
 		return new Page(page, isRedirect);
@@ -169,7 +168,7 @@ public final class UserControllerImpl implements UserController {
 	}
 	
 	/*
-	 * Get dufault page fpr user.
+	 * Get default page for user.
 	 * @param userRole
 	 */
 	private String getUserPage(UserRole userRole) {

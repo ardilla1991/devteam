@@ -34,10 +34,10 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>/uploads/*</url-pattern>
 	</servlet-mapping>
-	<listener>
-        <description>ServletContextListener</description>
-        <listener-class>by.htp.devteam.listener.SessionLogListener</listener-class>
-    </listener>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/bootstrap/*</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<display-name>LogFilter</display-name>
 		<filter-name>LogFilter</filter-name>

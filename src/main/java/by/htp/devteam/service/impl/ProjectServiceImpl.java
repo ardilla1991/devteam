@@ -100,7 +100,7 @@ public final class ProjectServiceImpl implements ProjectService{
 		EmployeeService employeeService = serviceFactory.getEmployeeService();
 		// get map of selected employees qualifications and their count 
 		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsIdsAndCountByEmployees(employeesIds);
-		// cteate a map for compare with selected values of qualifications
+		// create a map for compare with selected values of qualifications
 		Map<Long, Integer> neededQualifications = getNeededQualificationsAsIdAndCount(orderVo.getQualifications());
 		// compare selected qualificationa and their count with qualifications from order
 		projectValidation.validate(qualificationCountByEmployees, neededQualifications);

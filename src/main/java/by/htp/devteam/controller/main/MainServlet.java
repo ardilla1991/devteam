@@ -38,6 +38,7 @@ public class MainServlet extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		
 		Page page = processRequest(request, response);
 	
 		displayPage(request, response, page, HTTPMethod.GET);
@@ -80,6 +81,11 @@ public class MainServlet extends HttpServlet{
 			throws ServletException, IOException {
 		if ( page == null )
 			return;
+		
+		if ( page.getPage().isEmpty() ) {
+			response.sendError(404);
+			return;
+		}
 		
 		if ( page.isRedirect() ) {
 			if (httpMethod == HTTPMethod.POST) {
