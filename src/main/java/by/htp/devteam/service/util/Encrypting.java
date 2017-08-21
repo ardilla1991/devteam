@@ -7,7 +7,11 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author julia
  *
  */
-public class Encrypting {
+public final class Encrypting {
+	
+	private Encrypting() {
+		super();
+	}
 	
 	/**
 	 * Password encrypting

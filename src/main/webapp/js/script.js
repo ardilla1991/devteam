@@ -36,17 +36,14 @@ function checkInput(els, field, blockId) {
 		}
 		break;
 	case "file":
-		var filesExt = [ 'rar', 'zip', 'doc', 'docx', 'odt', 'txt', 'pdf'];
+		var filesExt = [ 'application/x-rar-compressed', 
+						 'application/zip', 'application/msword', 
+						 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+						 'application/vnd.oasis.opendocument.text', 
+						 'text/plain', 
+						 'application/pdf'];
 		var element = el.getElementsByTagName("input")[0];
-		var fileName = element.value;
-		result = (element.value != undefined && element.value != ""
-				&& element.value.length <= 50 ? 1 : 0);
-		if (result) {
-			var parts = fileName.split('.');
-			result = (filesExt.join().search(parts[parts.length - 1]) != -1) ? 1
-					: 0;
-			result &= validateFileSize(element);
-		}
+		result = validateFileInformation(element, filesExt);
 		break;
 	case "checkbox":
 		var checkboxes = el.getElementsByTagName("input");
@@ -94,8 +91,8 @@ function checkInput(els, field, blockId) {
 	}
 }
 
-function validateFileSize(fileInput) {
-	var fileObj, size;
+function validateFileInformation(fileInput, filesExt) {
+	var fileObj, size, name, type;
 	if (typeof ActiveXObject == "function") { // IE
 		fileObj = (new ActiveXObject("Scripting.FileSystemObject"))
 				.getFile(fileInput.value);
@@ -104,8 +101,12 @@ function validateFileSize(fileInput) {
 	}
 
 	size = fileObj.size; // Size returned in bytes.
-
-	return size <= 5 * 1024 * 1024;
+	name = fileObj.name;
+	type = fileObj.type;
+	
+	return ((name.length <= 50 ? 1 : 0) 
+			&& (size <= 5 * 1024 * 1024) 
+			&& ((filesExt.join().search(type) != -1) ? 1 : 0 ));
 }
 
 function checkWithNedeedTypes(blockId, checkboxes) {

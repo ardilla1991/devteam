@@ -12,12 +12,9 @@ import static by.htp.devteam.service.util.ConstantValue.*;
 /**
  * Upload file. Save file in projects directory
  * @author julia
- * @todo Must by a static! If we don't pass the applicationPath each time
  *
  */
 public final class UploadFile {
-	
-	private final static UploadFile instance = new UploadFile();
 	
 	/** Path to save file */
 	public final static String UPLOAD_PATH = ConfigProperty.INSTANCE.getStringValue(CONFIG_FILE_UPLOAD_DIR) + File.separator;
@@ -32,8 +29,17 @@ public final class UploadFile {
 		super();
 	}
 	
+	/**
+	 * Lazy-load initialization for singleton
+	 * @author julia
+	 *
+	 */
+	private static class UploadFileHolder {
+		private static final UploadFile INSTANCE = new UploadFile();
+	}
+	
 	public static UploadFile getInstance() {
-		return instance;
+		return UploadFileHolder.INSTANCE;
 	}
 	
     /**

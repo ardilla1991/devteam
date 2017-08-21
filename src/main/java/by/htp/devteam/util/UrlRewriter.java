@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
  *
  */
 public final class UrlRewriter {
-
-	private final static UrlRewriter instance = new UrlRewriter();
 	
 	/** Pattern for module name */
     private static final Pattern MODULE_NAME_PATTERN = Pattern.compile("^[a-z]+$");
@@ -26,6 +24,8 @@ public final class UrlRewriter {
     
     /** Pattern for parameter name */
     private static final Pattern PARAM_NAME_PATTERN = Pattern.compile("^[a-z_]+$");
+    
+	private final static UrlRewriter instance = new UrlRewriter();
 	
 	private UrlRewriter() {
 		super();
