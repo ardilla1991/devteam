@@ -21,7 +21,7 @@ The developer has the opportunity to set the number of hours spent working on th
 
 --------------------------------------------
 Description of the realized functional:
-DB MySQL are used. For access use The JDBC API a standart connection pool are used.
+DB MySQL are used. For access used The JDBC API with standard connection pool.
 The system can upload files (for order's specification) and validate parameters from GET and POST http-query (used JS validation and java validation): text fields, checkboxes, selectes, files.
 AJAX are used to search projects.
 For checking the right for all actions ACLFilter are used.
@@ -35,4 +35,4 @@ There are 4 roles in the system.
 * Admin has the opportunity to have a look all employees.
 
 
-Main technologies: Java 1.8, tomcat9, maven, mysql, MVC, javascript, ajax, jsp, Taglib, bootstrap, smtp
+Main technologies: Java 8, tomcat9, maven, mysql, MVC, javascript, ajax, jsp, Taglib, bootstrap, smtp
