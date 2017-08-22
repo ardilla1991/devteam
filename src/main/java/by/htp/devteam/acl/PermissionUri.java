@@ -27,9 +27,9 @@ public final class PermissionUri {
 
 	/**
 	 * Check if user has permission for url like module/action
-	 * @param role
-	 * @param uri
-	 * @return boolean
+	 * @param role User's role
+	 * @param uri Uri from query
+	 * @return boolean If isset permission
 	 */
 	public boolean checkPermissionForUri(UserRole role, String uri) {
 		//from module/action to module

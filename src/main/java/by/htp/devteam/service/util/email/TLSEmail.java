@@ -24,11 +24,13 @@ public final class TLSEmail {
 	   Use Authentication: Yes
 	   Port for TLS/STARTTLS: 587
 	   @param toEmail receiver
+	   @param subject Email's subject
 	   @param body message's body
 	 * @throws MessagingException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static void sendEmail(final String toEmail, final String subject, final String body) throws UnsupportedEncodingException, MessagingException {
+	public static void sendEmail(final String toEmail, final String subject, final String body) 
+			throws UnsupportedEncodingException, MessagingException {
 		final String fromEmail = ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_SMTP_EMAIL); //requires valid gmail id
 		final String password = ConfigProperty.INSTANCE.getStringValue(CONFIG_EMAIL_SMTP_PASSWORD); // correct password for gmail id
 		

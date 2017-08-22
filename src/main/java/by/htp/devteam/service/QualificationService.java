@@ -16,7 +16,7 @@ public interface QualificationService {
 	/**
 	 * Get all qualifications we can set on project (use service flag is false)
 	 * @return list of qualifications' objects
-	 * @throws ServiceException
+	 * @throws ServiceException After DAOException are catched
 	 */
 	List<Qualification> fetchAll() throws ServiceException;
 }

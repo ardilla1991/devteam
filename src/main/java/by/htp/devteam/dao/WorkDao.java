@@ -14,7 +14,7 @@ public interface WorkDao {
 	/**
 	 * Get all existing works
 	 * @return list of works' objects
-	 * @throws DaoException
+	 * @throws DaoException When SQLException are catched
 	 */
 	List<Work> fetchAll() throws DaoException;
 }

@@ -143,9 +143,6 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
-		} catch ( NullPointerException e ) {
-			logger.info(MSG_LOGGER_EMPLOYEE_VIEW_NOT_EXIST_ID, id);
-			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		} catch (ObjectNotFoundException e) {
 			logger.info(e.getMessage());
 			throw new ObjectNotFoundException(e.getMessage());

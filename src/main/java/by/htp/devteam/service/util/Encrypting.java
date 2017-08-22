@@ -15,7 +15,7 @@ public final class Encrypting {
 	
 	/**
 	 * Password encrypting
-	 * @param string
+	 * @param string String for coding
 	 * @return passwords hash
 	 */
 	public static String getCode(String string) {
@@ -27,7 +27,7 @@ public final class Encrypting {
 	 * Check if passwords from DB and from form are the same
 	 * @param password Password from form
 	 * @param storedPassword Password from DB
-	 * @return
+	 * @return if correct password or not
 	 */
 	public static boolean isCorrectPassword(String password, String storedPassword) {
 		return BCrypt.checkpw(password, storedPassword);

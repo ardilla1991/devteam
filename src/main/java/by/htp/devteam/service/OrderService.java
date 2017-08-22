@@ -24,7 +24,7 @@ public interface OrderService {
 	/**
 	 * Get list of all new orders.
 	 * New orders are orders without set price
-	 * Rocords are selected according to current page. 
+	 * Records are selected according to current page. 
 	 * Method checks if page has a correct value. If not - throw exception. 
 	 * Also set up parameters to select records ( LIMIT )
 	 * @param currPage Current selected page
@@ -35,9 +35,9 @@ public interface OrderService {
 	
 	/**
 	 * Get list of orders by customer
-	 * @param customer
+	 * @param customer Customer information
 	 * @return list of orders
-	 * @throws ServiceException
+	 * @throws ServiceException  after catching DAOException
 	 */
 	List<Order> geOrdersByCustomer(Customer customer) throws ServiceException;
 	
@@ -46,9 +46,9 @@ public interface OrderService {
 	 * Before save method validates fields. 
 	 * If not correct file name or some feilds - throw exception and stop data proccessing. 
 	 * After that method try to upload file in folder for uploads
-	 * @param customer
-	 * @param title
-	 * @param description
+	 * @param customer Customer information
+	 * @param title Order title
+	 * @param description Order description
 	 * @param specification Part() param for upload file
 	 * @param dateStart start date of project
 	 * @param dateFinish finish date of project
@@ -56,7 +56,7 @@ public interface OrderService {
 	 * @param qualifications Map of qualification as key and count needed qualification as a value
 	 * @return OrdeVo : order information, works' information and needed qualification 
 	 * @see by.htp.devteam.bean.vo.OrderVo#OrderVo()
-	 * @throws ServiceException
+	 * @throws ServiceException When error happen with validation, file upload or DAOException are catched
 	 */
 	OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, 
 			String dateFinish, String[] workIds, Map<String, String> qualifications) throws ServiceException;
@@ -67,16 +67,16 @@ public interface OrderService {
 	 * @param orderId id of order
 	 * @return OrderVo order information with checked works and qualifications
 	 * @see by.htp.devteam.bean.vo.OrderVo
-	 * @throws ServiceException
-	 * @throws ObjectNotFoundException
+	 * @throws ServiceException after catching DAOException
+	 * @throws ObjectNotFoundException If order is not exist
 	 */
 	OrderVo getById(String orderId) throws ServiceException, ObjectNotFoundException;
 	
 	/**
 	 * Set price and date processing for order. Update after creating project
-	 * @param connection
-	 * @param order With udated price and dateProcessing values
-	 * @throws ServiceException
+	 * @param connection DB Connection 
+	 * @param order With updated price and dateProcessing values
+	 * @throws ServiceException after catching DAOException
 	 */
 	void setPriceAndDateProcessing(Connection connection, Order order) throws ServiceException;
 }

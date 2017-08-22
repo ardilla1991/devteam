@@ -15,7 +15,7 @@ import by.htp.devteam.dao.DaoException;
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
 /**
- * Tomcat's Connection pool. Singleton pattern
+ * Tomcat's Connection pool
  * @author julia
  *
  */
@@ -43,8 +43,8 @@ public class ConnectionPool {
 	
 	/**
 	 * Get connection from pool
-	 * @return Connection
-	 * @throws DaoException
+	 * @return Connection DB connection
+	 * @throws DaoException After catching SQLException
 	 */
 	public static Connection getConnection() throws DaoException {
 		Connection connection = null;
@@ -59,8 +59,8 @@ public class ConnectionPool {
 	
 	/**
 	 * Return connection into pool
-	 * @param connection
-	 * @throws DaoException
+	 * @param connection DB connection
+	 * @throws DaoException After catching SQLException
 	 */
 	public static void returnConnection(Connection connection) throws DaoException{
 		try {

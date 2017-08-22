@@ -168,10 +168,10 @@ public final class ACL {
 
 	/**
 	 * Check if user has permissions for module and action.
-	 * @param role
-	 * @param module
-	 * @param action
-	 * @return boolean
+	 * @param role User's role
+	 * @param module Module for checking permissions 
+	 * @param action Action for checking permissions 
+	 * @return boolean If isset permission
 	 */
 	public boolean issetInACL(UserRole role, String module, String action) {
 		if ( module == null || action == null )

@@ -17,14 +17,9 @@ public final class EmployeeValidation extends BeanValidation {
 	
 	/**
 	 * Validation of main fields
-	 * @param title Check if field is empty or more than definite length 
-	 * @param description Check if field is empty or more than definite length 
-	 * @param specificationFileName Check if correct file extension and length of title
-	 * @param dateStart Check if date is real date and check if date after now
-	 * @param dateFinish Check if date is real date and check if date after dateStart
-	 * @param workIds Check if array length not more then 0 and all array's values have correct Long numbers
-	 * @param qualificationsIdsAndCount Check if qualification's ids are correct number 
-	 * and count value fields are correct too
+	 * @param name Check if field is empty or more than fixed length 
+	 * @param startWork Check if date is real date
+	 * @param qualification Check if field is long type
 	 */
 	public void validate(String name, String startWork, String qualification) {
 

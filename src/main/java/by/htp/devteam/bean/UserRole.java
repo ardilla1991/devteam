@@ -10,8 +10,8 @@ public enum UserRole {
 	
 	/**
 	 * Find role in enam
-	 * @param role
-	 * @return boolean
+	 * @param role String
+	 * @return boolean If exist role in system
 	 */
 	public static boolean lookup(String role) {
 		String enumRole = role.toUpperCase();

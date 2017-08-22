@@ -19,7 +19,7 @@ public final class PagingValidation {
 	
 	/**
 	 * Check if a page number has a correct value
-	 * @param pageNumber
+	 * @param pageNumber Input string
 	 * @return if page number is int value
 	 */
 	public boolean validatePage(String pageNumber) {

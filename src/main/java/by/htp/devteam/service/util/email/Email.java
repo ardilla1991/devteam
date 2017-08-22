@@ -24,13 +24,14 @@ final class Email {
 	 * Utility method to send simple HTML email
 	 * 
 	 * @param session
-	 * @param toEmail
-	 * @param subject
-	 * @param body
+	   @param toEmail receiver
+	   @param subject Email's subject
+	   @param body message's body
 	 * @throws MessagingException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static void sendEmail(Session session, String toEmail, String subject, String body) throws MessagingException, UnsupportedEncodingException{
+	public static void sendEmail(Session session, String toEmail, String subject, String body) 
+			throws MessagingException, UnsupportedEncodingException{
 
 		MimeMessage msg = new MimeMessage(session);
 		// set message headers

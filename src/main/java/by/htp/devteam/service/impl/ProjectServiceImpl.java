@@ -213,9 +213,6 @@ public final class ProjectServiceImpl implements ProjectService{
 		} catch (DaoException e) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
-		} catch (NullPointerException e) {
-			logger.info(MSG_LOGGER_PROJECT_VIEW_NOT_EXIST_ID, id);
-			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		} catch (ObjectNotFoundException e) {
 			logger.info(e.getMessage());
 			throw new ObjectNotFoundException(e.getMessage());

@@ -16,16 +16,16 @@ public interface EmployeeController extends Controller{
 	/**
 	 * Action for add employee. If add employee was success - redirect to message page.
 	 * If add employee wasn't success - forward to form page.
-	 * @param request
-	 * @param response
+	 * @param request HttpServletRequest object
+	 * @param response HttpServletResponse object
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response);
 	
 	/**
 	 * Action for employee show form.
-	 * @param request
-	 * @param response
+	 * @param request HttpServletRequest object
+	 * @param response HttpServletResponse object
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page addGET(HttpServletRequest request, HttpServletResponse response);

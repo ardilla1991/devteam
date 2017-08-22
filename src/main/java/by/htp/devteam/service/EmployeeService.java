@@ -26,7 +26,7 @@ public interface EmployeeService {
 	/**
 	 * Get employee record for user loggined in system
 	 * @param user User that loggined in system
-	 * @return Employee
+	 * @return Employee Employee information
 	 * @throws ServiceException  after catching DAOException
 	 */
 	Employee getByUser(User user) throws ServiceException;
@@ -46,7 +46,7 @@ public interface EmployeeService {
 	
 	/**
 	 * Get map of employee and their spending hours on project
-	 * @param project 
+	 * @param project  Project information
 	 * @return Map where employee as key and hours number spending on project as a value
 	 * @throws ServiceException  after catching DAOException
 	 */
@@ -56,7 +56,7 @@ public interface EmployeeService {
 	 * Get Map of qualifications' ids and qualifications' count by selected employees' list.
 	 * This method used on create project action when we ckeck 
 	 * if selected employees correspond to selected qualifications in order
-	 * @param employeesIds selected in created project
+	 * @param ids employees ids selected in created project
 	 * @return Map of qualifications' ids and qualifications' count by selected employees' list
 	 * @throws ServiceException  after catching DAOException
 	 */
@@ -65,56 +65,56 @@ public interface EmployeeService {
 	/**
 	 * Check if selected employees are not busy in the period (between date start and date finish).
 	 * Used on create project page.
-	 * @param connection
-	 * @param ids employees' ids
+	 * @param connection DB Connection 
+	 * @param employeesIds employees ids
 	 * @param dateStart date start of project in order
 	 * @param dateFinish date finish of project in order
 	 * @return if employee is not busy for definite period
-	 * @throws DaoException Exception is catched during transaction proccess
+	 * @throws DaoException Exception is catched during transaction process
 	 */
 	boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish) 
 			throws DaoException;
 	
 	/**
 	 * Add employee
-	 * @param name
+	 * @param name Employee name
 	 * @param startWork start date of employee's work
-	 * @param qualification
-	 * @return employee
-	 * @throws ServiceException
+	 * @param qualification Employee qualification
+	 * @return employee Employee information
+	 * @throws ServiceException When DaoException are catched
 	 */
 	Employee add(String name, String startWork, String qualification) throws ServiceException;
 	
 	/**
 	 * Get employee by id
 	 * @param id employee's id
-	 * @return employee
-	 * @throws ServiceException
-	 * @throws ObjectNotFoundException
+	 * @return employee Employee information
+	 * @throws ServiceException When DaoException are catched or it is validation error
+	 * @throws ObjectNotFoundException If employee is don't exist
 	 */
 	Employee getById(String id) throws ServiceException, ObjectNotFoundException;
 	
 	/**
 	 * Set user for employee
-	 * @param connection
-	 * @param employee
-	 * @param user
-	 * @throws ServiceException
+	 * @param connection DB Connection 
+	 * @param employee Employee information
+	 * @param user User information
+	 * @throws ServiceException When DaoException are catched
 	 */
 	void setUserForEmployee(Connection connection, Employee employee, User user) throws ServiceException;
 	
 	/**
 	 * Check if exist user for employee. If exist we couldn't set user for employee
-	 * @param connection
-	 * @param employee
-	 * @return boolean
-	 * @throws DaoException
+	 * @param connection DB Connection 
+	 * @param employee Employee information
+	 * @return boolean  exist user record or not 
+	 * @throws DaoException  When SQLException are catched
 	 */
 	boolean isExistUserForEmployee(Connection connection, Employee employee) throws DaoException;
 	
 	/**
 	 * Get list of all employees in system with their users .
-	 * Rocords are selected according to current page. 
+	 * Records are selected according to current page. 
 	 * Method checks if page has a correct value. If not - throw exception. 
 	 * Also set up parameters to select records ( LIMIT )
 	 * @param currPage Current selected page

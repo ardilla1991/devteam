@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 /**
  * Validator of common types.
  * @author julia
- * @todo validate int bound
  */
 public final class Validator {
 
@@ -28,8 +27,8 @@ public final class Validator {
 	
 	/**
 	 * Check if string is empty
-	 * @param string
-	 * @return boolean
+	 * @param string Input string
+	 * @return boolean If an input string is empty
 	 */
 	public static boolean isEmpty(String string) {
 		return string.isEmpty();
@@ -37,8 +36,8 @@ public final class Validator {
 	
 	/**
 	 * Check if string is has correct date format
-	 * @param string
-	 * @return boolean
+	 * @param string Input string
+	 * @return boolean If an input string is date
 	 */
 	public static boolean isDate(String string) {
         try {
@@ -50,8 +49,8 @@ public final class Validator {
 	
 	/**
 	 * Check if a string has a correct decimal format
-	 * @param string
-	 * @return boolean
+	 * @param string Input string
+	 * @return boolean If an input string is big decimal 
 	 */
 	public static boolean checkBigDecimal(String string) {
 		Matcher matcher = DECIMAL_PATTERN .matcher(string);
@@ -61,8 +60,8 @@ public final class Validator {
 	
 	/**
 	 * Check if a string has a correct Long format
-	 * @param string
-	 * @return boolean
+	 * @param string Input string
+	 * @return boolean If an input string is long
 	 */
 	public static boolean isLong(String string) {
 		try {
@@ -74,8 +73,8 @@ public final class Validator {
 	
 	/**
 	 * Check if a string has a correct int format
-	 * @param string
-	 * @return boolean
+	 * @param string Input string
+	 * @return boolean If an input string is int
 	 */
 	public static boolean isInt(String string) {
 		try {
@@ -87,11 +86,11 @@ public final class Validator {
 	
 	/**
 	 * Check if file has a correct extension
-	 * @param string
-	 * @return boolean
+	 * @param extension File extension
+	 * @return boolean If a file extension is correct
 	 */
-	public static boolean isCorrectFileExtension(String string) {
-		Matcher matcher = FILE_EXTENSION_PATTERN .matcher(string);
+	public static boolean isCorrectFileExtension(String extension) {
+		Matcher matcher = FILE_EXTENSION_PATTERN .matcher(extension);
 		
 		return matcher.find();
 	}

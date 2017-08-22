@@ -19,17 +19,17 @@ public interface Controller {
 
 	/**
 	 * Show message after add record. Only show page with message that all is ok.
-	 * @param request
-	 * @param response
-	 * @return
+	 * @param request HttpServletRequest object
+	 * @param response HttpServletResponse object
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page messageGET(HttpServletRequest request, HttpServletResponse response);
 	
 	/**
 	 * Action for getting all records. 
-	 * @param request
-	 * @param response
-	 * @return
+	 * @param request HttpServletRequest object
+	 * @param response HttpServletResponse object
+	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	public Page listGET(HttpServletRequest request, HttpServletResponse response);
 }

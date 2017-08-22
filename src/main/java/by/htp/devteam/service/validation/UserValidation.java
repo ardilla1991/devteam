@@ -28,9 +28,9 @@ public final class UserValidation extends BeanValidation {
 	}
 	
 	/**
-	 * Check if fields are empty
-	 * @param login Check if field is empty
-	 * @param password Check if field is empty
+	 * Check if fields are not empty and have correct form 
+	 * @param login Check if field is not empty and has correct form 
+	 * @param password Check if field is empty and has correct form 
 	 */
 	public void validate(String login, String password) {
 		if ( login != null ) {
@@ -54,9 +54,9 @@ public final class UserValidation extends BeanValidation {
 	
 	/**
 	 * check if fields are correct when we try to add new user for employee
-	 * @param login
-	 * @param password
-	 * @param role
+	 * @param login Login input field
+	 * @param password Password input field
+	 * @param role Role input field
 	 * @param employee For validate an employee we check if isset employee in DB and if user already exist for employee.
 	 */
 	public void validate(String login, String password, String role, Employee employee) {

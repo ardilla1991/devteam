@@ -44,6 +44,8 @@ public final class UploadFile {
 	
     /**
      * Utility method to get file name from HTTP header content-disposition
+     * @param part Part from request
+     * @return String File name
      */
 	public String getFileName(Part part) {
 		for ( String cd : part . getHeader("content-disposition") . split(";") ) {
@@ -60,8 +62,8 @@ public final class UploadFile {
 	 * Upload file
 	 * @param part Part() field value
 	 * @param fileName File name
-	 * @return File name
-	 * @throws FileUploadException
+	 * @return File name 
+	 * @throws FileUploadException If upload was finished with error
 	 */
 	public String upload(Part part, String fileName) throws FileUploadException {
 		//System.out.println("fileName="+getFileName(part));
@@ -86,7 +88,7 @@ public final class UploadFile {
 	/**
 	 * Delete file from folder
 	 * @param fileName file name
-	 * @throws FileUploadException
+	 * @throws FileUploadException If delete file was finished with error
 	 */
 	public void delete(String fileName) throws FileUploadException {		
 		File file = new File(FULL_UPLOAD_PATH + fileName);

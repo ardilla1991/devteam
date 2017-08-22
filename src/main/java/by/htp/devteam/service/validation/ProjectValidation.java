@@ -93,7 +93,7 @@ public final class ProjectValidation extends BeanValidation {
 	/**
 	 * Check if searched title has a correct length
 	 * @param title Check if field has a correct length
-	 * @return
+	 * @return boolean True - if is correct
 	 */
 	public static boolean validateFindedTitle(String title) {
 		if ( title == null )

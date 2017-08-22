@@ -50,32 +50,32 @@ public enum ControllerFactory {
 	/**
 	 * Get module controller in system according to selected module
 	 * Validate if module is null. Find module in enum and throw exceptiom if module not found
-	 * @param module from request
+	 * @param module string from request
 	 * @return CommandFactory object
-	 * @throws ControllerException
+	 * @throws ControllerException If module parameter is empty or don't exist  
 	 */
-	public static ControllerFactory getController(String name) throws ControllerException {
-		if ( name == null )
+	public static ControllerFactory getController(String module) throws ControllerException {
+		if ( module == null )
 			throw new ControllerException(MSG_COMMAND_EMPTY_MODULE);
 		
-		boolean found = lookup(name);
+		boolean found = lookup(module);
         if ( !found ) 
-        	throw new ControllerException(MSG_COMMAND_INVALID_MODULE + name);
+        	throw new ControllerException(MSG_COMMAND_INVALID_MODULE + module);
         
-        return ControllerFactory.valueOf(name.toUpperCase());
+        return ControllerFactory.valueOf(module.toUpperCase());
        }
 	
 	/**
 	 * Find action in enam
-	 * @param name
+	 * @param module String for module
 	 * @return boolean True - if name was found, or false - if name is null or don't isset
 	 */
-	public static boolean lookup(String name) {
+	public static boolean lookup(String module) {
 		boolean found = false;
-		if ( name == null )
+		if ( module == null )
 			return found;
 		
-		String enumAction = name.toUpperCase();
+		String enumAction = module.toUpperCase();
         for ( ControllerFactory enumElement: values() ){
            if ( enumElement.toString().equals(enumAction) ) 
         	   found = true;

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Url rewriter class. Class for create path from request url.
  * It create from /appName/ServletName/module/action/param1/value1 path 
- * to /appName/ServletName?module=module&action=action&param1=value1.
+ * to /appName/ServletName?module=module&amp;action=action&amp;param1=value1.
  * Singleton class.
  * @author julia
  *
@@ -36,10 +36,10 @@ public final class UrlRewriter {
 	}
 	
 	/**
-	 * Create path by url from request
-	 * @param uri
-	 * @param withAdditionalParams
-	 * @return
+	 * Create path by uri from request
+	 * @param uri from request
+	 * @param withAdditionalParams Set 1 if is needed rewrite url with additional parameters
+	 * @return String Result
 	 */
     public String urlRewrite(final String uri, boolean withAdditionalParams) {	
     	StringBuilder forwardPath = new StringBuilder();
@@ -151,7 +151,7 @@ public final class UrlRewriter {
     /**
      * Get main parameters from url parts
      * @param uri string
-     * @return
+     * @return Hashmap of module and action values
      */
     public Map<String, String> getMainParametersFromUri(String uri) {
     	String[] urlParts = getUriParts(uri);

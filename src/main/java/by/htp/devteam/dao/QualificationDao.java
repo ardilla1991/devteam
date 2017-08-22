@@ -13,8 +13,8 @@ public interface QualificationDao {
 	
 	/**
 	 * Get all qualifications we can set on project (use service flag is false)
-	 * @return list of qualifications' objects
-	 * @throws DaoException
+	 * @return list of qualifications objects
+	 * @throws DaoException When SQLException are catched
 	 */
 	List<Qualification> fetchAll() throws DaoException;
 }
