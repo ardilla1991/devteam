@@ -80,7 +80,7 @@
 									<td><fmt:message key="order.price" />*</td>
 									<td id="price">
 										<input type="text" name="price" value="${price}" maxlength="11" />
-										<div><fmt:message key = "order.price.requirements" /></div>
+										<div><fmt:message key = "order.price" /></div>
 									</td>
 								</tr>
 							</tbody>

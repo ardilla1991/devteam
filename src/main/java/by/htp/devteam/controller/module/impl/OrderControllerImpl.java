@@ -57,14 +57,14 @@ public final class OrderControllerImpl implements OrderController {
 		
 		try {
 			Part specification = request.getPart(REQUEST_PARAM_ORDER_SPECIFICATION);
-			
 			HttpSession session = request.getSession(false);
 			UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
 
 			try {
 				// gets absolute path of the web application
 		        //String applicationPath = request.getServletContext().getRealPath("");
-		        orderService.add(userVO.getCustomer(), title, description, specification, dateStart, dateFinish, workIds, qualifications);
+		        orderService.add(userVO.getCustomer(), title, description, specification, 
+		        		dateStart, dateFinish, workIds, qualifications);
 			} catch (ServiceException e) {
 				request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
 				request.setAttribute(REQUEST_PARAM_ERROR_FIELD, e.getFields());
