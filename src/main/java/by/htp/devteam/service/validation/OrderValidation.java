@@ -113,7 +113,7 @@ public final class OrderValidation extends BeanValidation{
 	 * Create Calendar object for date from form
 	 */
 	private Calendar getCalendarTypeFromString(String date) {
-		String[] dateSplit = date.split("-");
+		String[] dateSplit = date.split(Validator.DATE_DELIMITER);
 		Calendar dateCal = Calendar.getInstance();
 		dateCal.set(Calendar.YEAR, Integer.valueOf(dateSplit[0]));
 		dateCal.set(Calendar.MONTH, Integer.valueOf(dateSplit[1]));

@@ -3,7 +3,7 @@ package by.htp.devteam.service.impl;
 import static by.htp.devteam.service.util.ConstantValue.*;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,7 +112,7 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		
 		Employee employee = new Employee();
 		employee.setName(name);
-		employee.setStartWork(Date.valueOf(startWork));
+		employee.setStartWork(new Date(startWork));
 		
 		Qualification qualification = new Qualification();
 		qualification.setId(Long.valueOf(qualificationId));

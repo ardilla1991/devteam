@@ -15,8 +15,14 @@ public final class Validator {
 	/** Regular expression for decimal numbers */
 	private static final Pattern DECIMAL_PATTERN = Pattern.compile("^[0-9]{1,8}(\\.[0-9]{1,2})?$");
 	
+	/** Delimiter of month, day, year */
+	public static final String DATE_DELIMITER = "-";
+	
+	/** Date pattern */
+	public static final String DATE_PATTERN = "yyyy" + DATE_DELIMITER + "MM" + DATE_DELIMITER + "dd";
+	
 	/** Date format */
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(DATE_PATTERN);
 	
 	/** Regular expression for file extension */
 	private static final Pattern FILE_EXTENSION_PATTERN = Pattern.compile("([^\\s]+(\\.(?i)(rar|zip|doc|docx|odt|txt|pdf))$)");

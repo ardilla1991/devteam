@@ -5,7 +5,7 @@ import static by.htp.devteam.service.util.ConstantValue.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,16 +113,14 @@ public final class ProjectServiceImpl implements ProjectService{
 		Project project = new Project();
 		project.setTitle(title);
 		project.setDescription(description);
-		java.util.Date utilDate = new java.util.Date();
-	    Date sqlDate = new Date(utilDate.getTime());
-	    project.setDateCreated(sqlDate);
+	    project.setDateCreated(new Date());
 		project.setOrder(orderVo.getOrder());
 		
 		Connection connection = null;	
 		OrderService orderService = serviceFactory.getOrderService();
 		
 		orderVo.getOrder().setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
-		orderVo.getOrder().setDateProcessing(sqlDate);
+		orderVo.getOrder().setDateProcessing(new Date());
 		try {
 			connection = projectDao.startTransaction();
 			boolean neededEmployeeeAreFree = employeeService.isEmployeesNotBusyForPeriod(connection, employeesIds,

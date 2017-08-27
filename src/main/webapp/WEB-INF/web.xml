@@ -62,22 +62,22 @@
 	</filter-mapping>
 	<filter>
 		<description></description>
-		<display-name>SCRFValidationFilter</display-name>
-		<filter-name>SCRFValidationFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.SCRFValidationFilter</filter-class>
+		<display-name>CSRFValidationFilter</display-name>
+		<filter-name>CSRFValidationFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.CSRFValidationFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>SCRFValidationFilter</filter-name>
+		<filter-name>CSRFValidationFilter</filter-name>
 		<servlet-name>MainServlet</servlet-name>
 	</filter-mapping>
 	<filter>
 		<description></description>
-		<display-name>SCRFGenerateTokenFilter</display-name>
-		<filter-name>SCRFGenerateTokenFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.SCRFGenerateTokenFilter</filter-class>
+		<display-name>CSRFGenerateTokenFilter</display-name>
+		<filter-name>CSRFGenerateTokenFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.CSRFGenerateTokenFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>SCRFGenerateTokenFilter</filter-name>
+		<filter-name>CSRFGenerateTokenFilter</filter-name>
 		<servlet-name>MainServlet</servlet-name>
 	</filter-mapping>
 	<filter>

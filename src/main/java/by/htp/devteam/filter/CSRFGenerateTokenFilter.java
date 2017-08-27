@@ -19,12 +19,12 @@ import org.apache.commons.lang.RandomStringUtils;
  * Servlet Filter implementation class SCRFFilter
  * @author julia
  */
-public class SCRFGenerateTokenFilter implements Filter {
+public class CSRFGenerateTokenFilter implements Filter {
 
     /**
      * Default constructor. 
      */
-    public SCRFGenerateTokenFilter() {
+    public CSRFGenerateTokenFilter() {
         // TODO Auto-generated constructor stub
     }
 

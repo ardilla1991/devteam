@@ -1,7 +1,7 @@
 package by.htp.devteam.bean;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Order's object. Has properties <b>id</b>, <b>title</b>, 

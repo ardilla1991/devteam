@@ -1,7 +1,7 @@
 package by.htp.devteam.service;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

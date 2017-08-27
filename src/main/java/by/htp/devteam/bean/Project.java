@@ -1,6 +1,6 @@
 package by.htp.devteam.bean;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Project's object. Project is created after creating order (if isset not busy employees for development perion)

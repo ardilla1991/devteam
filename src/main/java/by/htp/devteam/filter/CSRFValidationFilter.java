@@ -21,15 +21,15 @@ import by.htp.devteam.controller.main.HTTPMethod;
 /**
  * Servlet Filter implementation class SCRFValidationFilter
  */
-public class SCRFValidationFilter implements Filter {
+public class CSRFValidationFilter implements Filter {
 	
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(SCRFValidationFilter.class);
+	private static final Logger logger = LogManager.getLogger(CSRFValidationFilter.class);
 
     /**
      * Default constructor. 
      */
-    public SCRFValidationFilter() {
+    public CSRFValidationFilter() {
         // TODO Auto-generated constructor stub
     }
 

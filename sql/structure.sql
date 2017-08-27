@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `employee`;
 CREATE TABLE `employee` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `start_work` timestamp NULL DEFAULT NULL,
+  `start_work` date NULL DEFAULT NULL,
   `qualification_id` int(11) unsigned DEFAULT NULL,
   `user_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -69,8 +69,8 @@ CREATE TABLE `order` (
   `specification` char(50) DEFAULT NULL,
   `customer_id` int(11) unsigned NOT NULL,
   `dateCreated` datetime DEFAULT NULL,
-  `dateStart` datetime DEFAULT NULL,
-  `dateFinish` datetime DEFAULT NULL,
+  `dateStart` date DEFAULT NULL,
+  `dateFinish` date DEFAULT NULL,
   `dateProcessing` datetime DEFAULT NULL,
   `price` decimal(10,2) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)

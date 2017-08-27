@@ -216,12 +216,13 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public OrderVo add(OrderVo orderVo) throws DaoException{	
+	public OrderVo add(OrderVo orderVo) throws DaoException{
 		Connection dbConnection = null;
 		try {
 			dbConnection = ConnectionPool.getConnection();
 			dbConnection.setAutoCommit(false);
-			orderVo.getOrder().setId(addOrder(dbConnection, orderVo.getOrder()));
+			Long id = addOrder(dbConnection, orderVo.getOrder());
+			orderVo.getOrder().setId(id);
 			addWorks(dbConnection, orderVo.getOrder(), orderVo.getWorks());
 			addQualifications(dbConnection, orderVo.getOrder(), orderVo.getQualifications());
 			dbConnection.commit();
@@ -297,7 +298,7 @@ public final class OrderDaoImpl implements OrderDao {
 	public void setPriceAndDateProcessing(Connection connection, Order order) throws DaoException {
 		try ( PreparedStatement ps = connection.prepareStatement(SQL_ORDER_SET_PRICE) ) {
 			ps.setBigDecimal(1, order.getPrice());
-			ps.setDate(2, order.getDateProcessing());
+			ps.setDate(2, (java.sql.Date)order.getDateProcessing());
 			ps.setLong(3, order.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -347,9 +348,9 @@ public final class OrderDaoImpl implements OrderDao {
 		ps.setString(DESCRIPTION, order.getDescription());
 		ps.setString(SPECIFICATION, order.getSpecification());
 		ps.setLong(CUSTOMER_ID, order.getCustomer().getId());
-		ps.setDate(DATE_CREATED, order.getDateCreated());
-		ps.setDate(DATE_START, order.getDateStart());
-		ps.setDate(DATE_FINISH, order.getDateFinish());
+		ps.setDate(DATE_CREATED, (java.sql.Date)order.getDateCreated());
+		ps.setDate(DATE_START, (java.sql.Date)order.getDateStart());
+		ps.setDate(DATE_FINISH, (java.sql.Date)order.getDateFinish());
 		ps.setBigDecimal(9, order.getPrice());
 	}
 

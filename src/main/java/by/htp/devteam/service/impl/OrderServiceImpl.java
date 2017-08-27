@@ -1,12 +1,15 @@
 package by.htp.devteam.service.impl;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.Part;
 
@@ -27,6 +30,7 @@ import by.htp.devteam.service.util.FileUploadException;
 import by.htp.devteam.service.util.UploadFile;
 import by.htp.devteam.service.validation.OrderValidation;
 import by.htp.devteam.service.validation.PagingValidation;
+import by.htp.devteam.service.validation.Validator;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
@@ -116,18 +120,15 @@ public final class OrderServiceImpl implements OrderService{
 		Order order = new Order();
 		order.setTitle(title);
 		order.setDescription(description);
-		java.util.Date utilDate = new java.util.Date();
-	    Date sqlDate = new Date(utilDate.getTime());
-		order.setDateCreated(sqlDate);
-		order.setDateStart(Date.valueOf(dateStart));
-		order.setDateFinish(Date.valueOf(dateFinish));
+		order.setDateCreated(new Date());
+		order.setDateStart(getDateFromString(dateStart));
+		order.setDateFinish(getDateFromString(dateFinish));
 		order.setCustomer(customer);
 		order.setSpecification(specificationFileName);
 		OrderVo orderVo = new OrderVo();
 		orderVo.setOrder(order);
 		orderVo.setWorks(prepareWorks(workIds));
 		orderVo.setQualifications(prepareQualifications(qualificationsIdsAndCount));
-		
 		try {
 			orderVo = orderDao.add(orderVo);
 		} catch ( DaoException e ) {
@@ -143,6 +144,18 @@ public final class OrderServiceImpl implements OrderService{
 		}	
 		
 		return orderVo;
+	}
+	
+	private Date getDateFromString(String date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(Validator.DATE_PATTERN);
+		Date convertedDate = null;
+	    try {
+			convertedDate = dateFormat.parse(date);
+		} catch (ParseException e) {
+			return null;
+		} 
+	    
+		return convertedDate;
 	}
 
 	@Override
@@ -186,9 +199,9 @@ public final class OrderServiceImpl implements OrderService{
 	private HashMap<Qualification, Integer> prepareQualifications(Map<String, String> qualifications) {
 		
 		HashMap<Qualification, Integer> qualificationsList = new HashMap<Qualification, Integer>();
-		Iterator it = qualifications.entrySet().iterator();
+		Iterator<Entry<String, String>> it = qualifications.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry)it.next();
+			Map.Entry<String, String> pair = (Map.Entry<String, String>)it.next();
 			Qualification qualification = new Qualification();
 			qualification.setId(Long.valueOf((String) pair.getKey()));
 			

@@ -1,7 +1,7 @@
 package by.htp.devteam.dao.impl;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,12 +81,12 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
 			
-			st.setDate(1, dateStart);
-			st.setDate(2, dateFinish);
-			st.setDate(3, dateStart);
-			st.setDate(4, dateFinish);
-			st.setDate(5, dateStart);
-			st.setDate(6, dateFinish);
+			st.setDate(1, (java.sql.Date)dateStart);
+			st.setDate(2, (java.sql.Date)dateFinish);
+			st.setDate(3, (java.sql.Date)dateStart);
+			st.setDate(4, (java.sql.Date)dateFinish);
+			st.setDate(5, (java.sql.Date)dateStart);
+			st.setDate(6, (java.sql.Date)dateFinish);
 			
 			employees = executeQueryAndGetEmployeeListFromResultSet(st);
 		} catch (SQLException e) {
@@ -142,12 +142,12 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 			for ( int i = 1; i <= countIds; i++ ) {
 				st.setLong(i, ids[i - 1]);
 			}
-			st.setDate(countIds + 1, dateStart);
-			st.setDate(countIds + 2, dateFinish);
-			st.setDate(countIds + 3, dateStart);
-			st.setDate(countIds + 4, dateFinish);
-			st.setDate(countIds + 5, dateStart);
-			st.setDate(countIds + 6, dateFinish);
+			st.setDate(countIds + 1, (java.sql.Date)dateStart);
+			st.setDate(countIds + 2, (java.sql.Date)dateFinish);
+			st.setDate(countIds + 3, (java.sql.Date)dateStart);
+			st.setDate(countIds + 4, (java.sql.Date)dateFinish);
+			st.setDate(countIds + 5, (java.sql.Date)dateStart);
+			st.setDate(countIds + 6, (java.sql.Date)dateFinish);
 
 			try ( ResultSet rs = st.executeQuery() ) {
 				if ( rs.next() )
@@ -261,7 +261,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	
 	private void prepareStatementForEmployee(PreparedStatement ps, Employee employee) throws SQLException {
 		ps.setString(1, employee.getName());
-		ps.setDate(2, employee.getStartWork());
+		ps.setDate(2, (java.sql.Date)employee.getStartWork());
 		ps.setLong(3, employee.getQualification().getId());
 	}
 

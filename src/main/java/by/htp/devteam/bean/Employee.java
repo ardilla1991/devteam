@@ -1,7 +1,7 @@
 package by.htp.devteam.bean;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Employee's object. Has properties <b>id</b>, <b>name</b>, 
