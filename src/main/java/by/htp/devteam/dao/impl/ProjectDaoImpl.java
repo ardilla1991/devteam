@@ -133,7 +133,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 		ps.setString(ID, null);
 		ps.setString(TITLE, project.getTitle());
 		ps.setString(DESCRIPTION, project.getDescription());
-		ps.setDate(DATE_CREATED, (java.sql.Date)project.getDateCreated());
+		ps.setDate(DATE_CREATED, new java.sql.Date(project.getDateCreated().getTime()));
 		ps.setLong(ORDER_ID, project.getOrder().getId());
 	}
 

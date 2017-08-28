@@ -348,9 +348,9 @@ public final class OrderDaoImpl implements OrderDao {
 		ps.setString(DESCRIPTION, order.getDescription());
 		ps.setString(SPECIFICATION, order.getSpecification());
 		ps.setLong(CUSTOMER_ID, order.getCustomer().getId());
-		ps.setDate(DATE_CREATED, (java.sql.Date)order.getDateCreated());
-		ps.setDate(DATE_START, (java.sql.Date)order.getDateStart());
-		ps.setDate(DATE_FINISH, (java.sql.Date)order.getDateFinish());
+		ps.setDate(DATE_CREATED, new java.sql.Date(order.getDateCreated().getTime()));
+		ps.setDate(DATE_START, new java.sql.Date(order.getDateStart().getTime()));
+		ps.setDate(DATE_FINISH, new java.sql.Date(order.getDateFinish().getTime()));
 		ps.setBigDecimal(9, order.getPrice());
 	}
 

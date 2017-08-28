@@ -146,6 +146,10 @@ public final class OrderServiceImpl implements OrderService{
 		return orderVo;
 	}
 	
+	/*
+	 * Converting string to date object
+	 * @param date Date string
+	 */
 	private Date getDateFromString(String date) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(Validator.DATE_PATTERN);
 		Date convertedDate = null;
@@ -173,9 +177,6 @@ public final class OrderServiceImpl implements OrderService{
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
-		} catch ( NullPointerException e ) {
-			logger.info(MSG_LOGGER_ORDER_VIEW_NOT_EXIST_ID, orderId);
-			throw new ServiceException(ErrorCode.VALIDATION_ID);
 		} catch (ObjectNotFoundException e) {
 			logger.info(e.getMessage());
 			throw new ObjectNotFoundException(e.getMessage());

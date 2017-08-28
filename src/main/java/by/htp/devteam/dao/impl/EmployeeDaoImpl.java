@@ -80,13 +80,14 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		String query = SQL_EMPLOYEE_GET_FREE_FOR_PERIOD.replace(SQL_IN_CONDITION_MASK, qualificationIdsStr);
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(query) ) {
-			
-			st.setDate(1, (java.sql.Date)dateStart);
-			st.setDate(2, (java.sql.Date)dateFinish);
-			st.setDate(3, (java.sql.Date)dateStart);
-			st.setDate(4, (java.sql.Date)dateFinish);
-			st.setDate(5, (java.sql.Date)dateStart);
-			st.setDate(6, (java.sql.Date)dateFinish);
+			java.sql.Date dStart = new java.sql.Date(dateStart.getTime());
+			java.sql.Date dFinish = new java.sql.Date(dateFinish.getTime());
+			st.setDate(1, dStart);
+			st.setDate(2, dFinish);
+			st.setDate(3, dStart);
+			st.setDate(4, dFinish);
+			st.setDate(5, dStart);
+			st.setDate(6, dFinish);
 			
 			employees = executeQueryAndGetEmployeeListFromResultSet(st);
 		} catch (SQLException e) {
@@ -142,12 +143,14 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 			for ( int i = 1; i <= countIds; i++ ) {
 				st.setLong(i, ids[i - 1]);
 			}
-			st.setDate(countIds + 1, (java.sql.Date)dateStart);
-			st.setDate(countIds + 2, (java.sql.Date)dateFinish);
-			st.setDate(countIds + 3, (java.sql.Date)dateStart);
-			st.setDate(countIds + 4, (java.sql.Date)dateFinish);
-			st.setDate(countIds + 5, (java.sql.Date)dateStart);
-			st.setDate(countIds + 6, (java.sql.Date)dateFinish);
+			java.sql.Date dStart = new java.sql.Date(dateStart.getTime());
+			java.sql.Date dFinish = new java.sql.Date(dateFinish.getTime());
+			st.setDate(countIds + 1, dStart);
+			st.setDate(countIds + 2, dFinish);
+			st.setDate(countIds + 3, dStart);
+			st.setDate(countIds + 4, dFinish);
+			st.setDate(countIds + 5, dStart);
+			st.setDate(countIds + 6, dFinish);
 
 			try ( ResultSet rs = st.executeQuery() ) {
 				if ( rs.next() )
@@ -261,7 +264,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	
 	private void prepareStatementForEmployee(PreparedStatement ps, Employee employee) throws SQLException {
 		ps.setString(1, employee.getName());
-		ps.setDate(2, (java.sql.Date)employee.getStartWork());
+		ps.setDate(2, new java.sql.Date(employee.getStartWork().getTime()));
 		ps.setLong(3, employee.getQualification().getId());
 	}
 

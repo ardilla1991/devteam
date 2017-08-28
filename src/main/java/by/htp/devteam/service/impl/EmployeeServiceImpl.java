@@ -3,6 +3,8 @@ package by.htp.devteam.service.impl;
 import static by.htp.devteam.service.util.ConstantValue.*;
 
 import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.validation.EmployeeValidation;
 import by.htp.devteam.service.validation.PagingValidation;
+import by.htp.devteam.service.validation.Validator;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
@@ -112,7 +115,7 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		
 		Employee employee = new Employee();
 		employee.setName(name);
-		employee.setStartWork(new Date(startWork));
+		employee.setStartWork(getDateFromString(startWork));
 		
 		Qualification qualification = new Qualification();
 		qualification.setId(Long.valueOf(qualificationId));
@@ -127,6 +130,22 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		}
 		
 		return employee;
+	}
+	
+	/*
+	 * Converting string to date object
+	 * @param date Date string
+	 */
+	private Date getDateFromString(String date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(Validator.DATE_PATTERN);
+		Date convertedDate = null;
+	    try {
+			convertedDate = dateFormat.parse(date);
+		} catch (ParseException e) {
+			return null;
+		} 
+	    
+		return convertedDate;
 	}
 
 	@Override
