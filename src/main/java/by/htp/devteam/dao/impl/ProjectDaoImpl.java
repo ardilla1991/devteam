@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import by.htp.devteam.bean.Customer;
@@ -101,6 +103,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 				project.setId(rs.getLong(ID));
 				project.setTitle(rs.getString(TITLE));
 				project.setDescription(rs.getString(DESCRIPTION));
+				project.setDateCreated(getDateFromTimestamp(rs.getTimestamp(DATE_CREATED)));
 				project.setDateCreated(rs.getDate(DATE_CREATED));
 				project.setOrder(order);
 				
@@ -109,6 +112,14 @@ public final class ProjectDaoImpl implements ProjectDao {
 		}
 
 		return projects;
+	}
+	
+	private Date getDateFromTimestamp(Timestamp timestamp) {
+		Date date = null;
+		if (timestamp != null)
+		    date = new Date(timestamp.getTime());
+
+		return date;
 	}
 	
 	@Override
@@ -133,7 +144,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 		ps.setString(ID, null);
 		ps.setString(TITLE, project.getTitle());
 		ps.setString(DESCRIPTION, project.getDescription());
-		ps.setDate(DATE_CREATED, new java.sql.Date(project.getDateCreated().getTime()));
+		ps.setTimestamp(DATE_CREATED, new java.sql.Timestamp(project.getDateCreated().getTime()));
 		ps.setLong(ORDER_ID, project.getOrder().getId());
 	}
 
@@ -179,7 +190,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 				project.setId(rs.getLong(1));
 				project.setTitle(rs.getString(2));
 				project.setDescription(rs.getString(3));
-				project.setDateCreated(rs.getDate(4));
+				project.setDateCreated(getDateFromTimestamp(rs.getTimestamp(4)));
 				
 				Order order = new Order();
 				order.setId(rs.getLong(5));

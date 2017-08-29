@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<td><fmt:message key="order.dateProcessing" /></td>
-				<td><c:out value="${order_vo.getOrder().getDateProcessing()}" /></td>
+				<td><fmt:formatDate value="${order_vo.getOrder().getDateProcessing()}" pattern="yyyy-MM-dd HH:mm" /></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="order.work" /></td>

@@ -33,10 +33,10 @@
 					<td><c:out value="${i.getTitle()}" /></td>
 					<td><c:out value="${i.getDescription()}" /></td>
 					<td><a href="${ appPath }${upload_path}${i.getSpecification()}" ><c:out value="${i.getSpecification()}" /></a></td>
-					<td><c:out value="${i.getDateCreated()}" /></td>
+					<td><fmt:formatDate value="${i.getDateCreated()}" pattern="yyyy-MM-dd HH:mm" /></td>
 					<td><c:out value="${i.getDateStart()}" /></td>
 					<td><c:out value="${i.getDateFinish()}" /></td>
-					<td><c:out value="${i.getDateProcessing()}" /></td>
+					<td><fmt:formatDate value="${i.getDateProcessing()}" pattern="yyyy-MM-dd HH:mm" /></td>
 					<td><c:out value="${i.getPrice()}" /></td>
 					<c:if test="${ withCustomer == true }">
 						<td><c:out value="${i.getCustomer().getName()}" />, <c:out

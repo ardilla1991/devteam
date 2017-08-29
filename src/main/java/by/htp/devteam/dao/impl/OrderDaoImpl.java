@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,14 +102,22 @@ public final class OrderDaoImpl implements OrderDao {
 		order.setTitle(rs.getString(TITLE));
 		order.setDescription(rs.getString(DESCRIPTION));
 		order.setSpecification(rs.getString(SPECIFICATION));
-		order.setDateCreated(rs.getDate(DATE_CREATED));
+		order.setDateCreated(getDateFromTimestamp(rs.getTimestamp(DATE_CREATED)));
 		order.setDateStart(rs.getDate(DATE_START));
 		order.setDateFinish(rs.getDate(DATE_FINISH));
-		order.setDateProcessing(rs.getDate(DATE_PROCESSING));
+		order.setDateProcessing(getDateFromTimestamp(rs.getTimestamp(DATE_PROCESSING)));
 		order.setPrice(rs.getBigDecimal(PRICE));
 		order.setCustomer(customer);
 
 		return order;
+	}
+	
+	private Date getDateFromTimestamp(Timestamp timestamp) {
+		Date date = null;
+		if (timestamp != null)
+		    date = new Date(timestamp.getTime());
+
+		return date;
 	}
 	
 	@Override
@@ -298,7 +309,7 @@ public final class OrderDaoImpl implements OrderDao {
 	public void setPriceAndDateProcessing(Connection connection, Order order) throws DaoException {
 		try ( PreparedStatement ps = connection.prepareStatement(SQL_ORDER_SET_PRICE) ) {
 			ps.setBigDecimal(1, order.getPrice());
-			ps.setDate(2, (java.sql.Date)order.getDateProcessing());
+			ps.setTimestamp(2,  new java.sql.Timestamp(order.getDateProcessing().getTime()));
 			ps.setLong(3, order.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -348,10 +359,13 @@ public final class OrderDaoImpl implements OrderDao {
 		ps.setString(DESCRIPTION, order.getDescription());
 		ps.setString(SPECIFICATION, order.getSpecification());
 		ps.setLong(CUSTOMER_ID, order.getCustomer().getId());
-		ps.setDate(DATE_CREATED, new java.sql.Date(order.getDateCreated().getTime()));
+		ps.setTimestamp(DATE_CREATED, new java.sql.Timestamp(order.getDateCreated().getTime()));
 		ps.setDate(DATE_START, new java.sql.Date(order.getDateStart().getTime()));
 		ps.setDate(DATE_FINISH, new java.sql.Date(order.getDateFinish().getTime()));
 		ps.setBigDecimal(9, order.getPrice());
+		System.out.println(new java.sql.Date(order.getDateStart().getTime()));
+		System.out.println(order.getDateStart().getTime());
+		System.out.println(ps);
 	}
 
 
