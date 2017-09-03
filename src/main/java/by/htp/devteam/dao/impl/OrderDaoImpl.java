@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -363,9 +362,6 @@ public final class OrderDaoImpl implements OrderDao {
 		ps.setDate(DATE_START, new java.sql.Date(order.getDateStart().getTime()));
 		ps.setDate(DATE_FINISH, new java.sql.Date(order.getDateFinish().getTime()));
 		ps.setBigDecimal(9, order.getPrice());
-		System.out.println(new java.sql.Date(order.getDateStart().getTime()));
-		System.out.println(order.getDateStart().getTime());
-		System.out.println(ps);
 	}
 
 
