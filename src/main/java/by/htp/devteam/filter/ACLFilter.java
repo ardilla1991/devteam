@@ -41,6 +41,7 @@ public final class ACLFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
+		System.out.println("77");
 		HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         /*
@@ -51,8 +52,8 @@ public final class ACLFilter implements Filter{
 
 		HttpSession session = req.getSession(false);
 		boolean isAuthorised = session != null && session.getAttribute(SESSION_PARAM_USER) != null;
-		String module = request.getParameter(REQUEST_PARAM_MODULE);
-		String action = request.getParameter(REQUEST_PARAM_ACTION);
+		String module = req.getParameter(REQUEST_PARAM_MODULE);
+		String action = req.getParameter(REQUEST_PARAM_ACTION);
 			
 		UserRole role = UserRole.GUEST;
 		if (isAuthorised) {
@@ -60,11 +61,12 @@ public final class ACLFilter implements Filter{
 			role = userVO.getUser().getRole();
 		}
 		boolean issetInACL = ACL.getInstance().issetInACL(role, module, action);
+
 		if ( !issetInACL ) {
 			String ipAddress = req.getRemoteAddr();
 			logger.info(MSG_LOGGER_REQUEST, " IP "+ ipAddress 
 	        		+ " - resourse: " + req.getRequestURL() 
-	        		+ " is requested by: " + request.getRemoteHost() + " " + MSG_LOGGER_PERMISSION_DENIED);
+	        		+ " is requested by: " + req.getRemoteHost() + " " + MSG_LOGGER_PERMISSION_DENIED);
 			if ( isAuthorised ) {
 				resp.sendError(403);
 			} else {

@@ -48,7 +48,7 @@ public final class UrlRewriter {
 		// if uri has module name, action name and possible has parameters too    	
     	Map<String, String> mainParams = getMainParametersFromUriParts(urlParts);
     	if ( !mainParams.isEmpty() ) {
-			String mainUri = buildMainUri(mainParams.get(MODULE), mainParams.get(ACTION));
+			String mainUri = buildMainUri(mainParams);
 			forwardPath.append(mainUri);
 			
 			if ( withAdditionalParams ) {
@@ -85,9 +85,10 @@ public final class UrlRewriter {
      * Create main uri string from params module and action.
      * Create uri like ?module=module&action=action
      */
-    private String buildMainUri(String module, String action) {
-    	return URI_START + MODULE + URI_EQUAL + getUrlPart(module) 
-		+ URI_PARAM_DELIMITER + ACTION + URI_EQUAL + getUrlPart(action);
+    private String buildMainUri(Map<String, String> mainParam) {
+    	return URI_START + LANGUAGE + URI_EQUAL + mainParam.get(LANGUAGE)
+    			+ URI_PARAM_DELIMITER + MODULE + URI_EQUAL + mainParam.get(MODULE) 
+    			+ URI_PARAM_DELIMITER + ACTION + URI_EQUAL + mainParam.get(ACTION);
     }
     
     /*
@@ -97,7 +98,7 @@ public final class UrlRewriter {
     private String buildAdditionalUri(String[] urlParts) {
     	int urlPartsLength = urlParts.length;
 		StringBuilder paramsUri = new StringBuilder();
-		for ( int i = 2; i < urlPartsLength - 1; i += 2 ) {
+		for ( int i = 3; i < urlPartsLength - 1; i += 2 ) {
 			if ( isUrlPartMatches(getUrlPart(urlParts[i]), PARAM_NAME_PATTERN) && urlParts.length >= i + 1 ) {
 				paramsUri.append(URI_PARAM_DELIMITER + getUrlPart(urlParts[i]) + URI_EQUAL + getUrlPart(urlParts[i + 1]));
 			}
@@ -139,10 +140,13 @@ public final class UrlRewriter {
     private Map<String, String> getMainParametersFromUriParts(String[] urlParts) {
     	Map<String, String> params = new HashMap<String, String>(2);
     	
-    	if ( urlParts.length >= 2 && isUrlPartMatches(getUrlPart(urlParts[0]), MODULE_NAME_PATTERN) 
-				&& isUrlPartMatches(getUrlPart(urlParts[1]), ACTION_NAME_PATTERN) ) {
-    		params.put(MODULE, urlParts[0]);
-    		params.put(ACTION, urlParts[1]);
+    	if ( urlParts.length == 1 )
+    		params.put(LANGUAGE, getUrlPart(urlParts[0]));
+    	else if ( urlParts.length >= 3 && isUrlPartMatches(getUrlPart(urlParts[1]), MODULE_NAME_PATTERN) 
+				&& isUrlPartMatches(getUrlPart(urlParts[2]), ACTION_NAME_PATTERN) ) {
+    		params.put(LANGUAGE, getUrlPart(urlParts[0]));
+    		params.put(MODULE, getUrlPart(urlParts[1]));
+    		params.put(ACTION, getUrlPart(urlParts[2]));
     	}
     	
     	return params;

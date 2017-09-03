@@ -6,6 +6,7 @@
 <%@ taglib uri="menutag" prefix="tmt"%>
 
 <c:set var="clientLanguage" value="${pageContext.request.locale.language}" scope="request"/>
+jjj=<c:out value="${pageContext.response.locale.language}"></c:out>
 <c:set var="clientCountry" value="${pageContext.request.locale.country}" scope="request"/>
 
 <c:set var = "curLocale" scope = "request" value = "${clientLanguage}_${clientCountry}"/>

@@ -100,6 +100,27 @@
 		<servlet-name>MainServlet</servlet-name>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
+	<filter>
+		<description>Redirect main page to locale language page</description>
+		<display-name>RedirectLocalizationFilter</display-name>
+		<filter-name>RedirectLocalizationFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.RedirectLocalizationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RedirectLocalizationFilter</filter-name>
+		<url-pattern>/index.jsp</url-pattern>
+	</filter-mapping>
+	<filter>
+		<description></description>
+		<display-name>LocaleFilter</display-name>
+		<filter-name>LocaleFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.LocaleFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LocaleFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
 	<error-page>
 		<!-- Uncaught exception -->
 		<error-code>500</error-code>

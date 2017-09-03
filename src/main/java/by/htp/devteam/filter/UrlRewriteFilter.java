@@ -42,10 +42,15 @@ public class UrlRewriteFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
 		
 		String forwardPath = UrlRewriter.getInstance().urlRewrite(req.getRequestURI(), true);
-		if ( forwardPath.length() > 0 )
+		System.out.println("forward=" + forwardPath);
+		if ( forwardPath.length() > 0 ) {
+			System.out.println("0");
 			req.getRequestDispatcher(SERVLET_NAME + forwardPath).forward(request, response);
-		else
+		}
+		else {
+			System.out.println("1");
 			chain.doFilter(request, response);
+		}
     }
     
     /**

@@ -13,6 +13,7 @@ public final class ConstantValue {
 	public static final String URL_DELIMITER = "/";
 	public static final String APP_NAME = "devteam";
 	public static final String SERVLET_NAME = "";
+	public static final String LANGUAGE = "language";
 	public static final String MODULE = "module";
 	public static final String ACTION = "action";
 	public static final String URI_START = "?";
@@ -102,6 +103,7 @@ public final class ConstantValue {
 	public static final String PAGE_DEFAULT_CUSTOMER = PAGE_ORDER_LIST_URI;
 	public static final String PAGE_DEFAULT_ADMIN = PAGE_USER_LIST_URI;
 	
+	public static final String REQUEST_PARAM_LANGUAGE = "language";
 	public static final String REQUEST_PARAM_MODULE = "module";
 	public static final String REQUEST_PARAM_ACTION = "action";
 	public static final String REQUEST_PARAM_APP_PATH = "appPath";
