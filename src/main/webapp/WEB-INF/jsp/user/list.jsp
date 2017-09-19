@@ -14,17 +14,17 @@
 				<fmt:message key="user.pageTitle.list" />
 			</h1>
 			<msg:error errorCode="${ error_code }"
-						language="${clientLanguage}" country="${clientCountry}" itemTag="span" containerTag="div"
+						language="${currLanguage}" itemTag="span" containerTag="div"
 						bean="user" containerClass="error_message"/>
 			<div class="table-responsive">
 			
 				<table:userList users="${ user_list }" tableClass="table table-striped tab-content tab-active"
-							language="${clientLanguage}" country="${clientCountry}" />
+							language="${clientLanguage}" />
 				
 			</div>
 
 			<ctg:paginator pagingVo="${ paging_vo }" itemTag="li" containerTag="ul" 
-				currActionClass="active" containerClass="pagination" />
+				currActionClass="active" containerClass="pagination" appNameAndLang="${appNameAndLang}"/>
 		</div>
 	</div>
 </div>

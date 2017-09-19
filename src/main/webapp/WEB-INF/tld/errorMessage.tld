@@ -40,11 +40,6 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>country</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<name>bean</name>
 			<required>true</required>
 			<rtexprvalue>false</rtexprvalue>

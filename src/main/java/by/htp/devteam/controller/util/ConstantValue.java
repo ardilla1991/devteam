@@ -73,36 +73,39 @@ public final class ConstantValue {
 	public static final String PAGE_PERMISSION_DENIED = JSP_FOLDER_PATH + "permissionDenied.jsp";
 	public static final String PAGE_OBJECT_NOT_FOUND = JSP_FOLDER_PATH + "objectNotFound.jsp";
 	
-	public static final String PAGE_PROJECT_LIST_URI = SYSTEM_PATH + "project/list";
-	public static final String PAGE_PROJECT_ADD_URI = SYSTEM_PATH + "project/add/order_id/";
-	public static final String PAGE_PROJECT_LIST_BY_EMPLOYEE_URI = SYSTEM_PATH + "project/list_by_employee";
-	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = SYSTEM_PATH + "project/update_hours/project_id/";
-	public static final String PAGE_PROJECT_VIEW_URI = SYSTEM_PATH + "project/view/project_id/";
-	public static final String PAGE_PROJECT_ADD_MESSAGE_URI = SYSTEM_PATH + "project/message";
+	public static final String PAGE_PROJECT_LIST_URI = "project/list";
+	public static final String PAGE_PROJECT_ADD_URI = "project/add/order_id/";
+	public static final String PAGE_PROJECT_LIST_BY_EMPLOYEE_URI = "project/list_by_employee";
+	public static final String PAGE_PROJECT_UPDATE_HOURS_URI = "project/update_hours/project_id/";
+	public static final String PAGE_PROJECT_VIEW_URI = "project/view/project_id/";
+	public static final String PAGE_PROJECT_ADD_MESSAGE_URI = "project/message";
+	public static final String PAGE_PROJECT_FOUND_URI = "project/found";	
 	
-	public static final String PAGE_ORDER_LIST_URI = SYSTEM_PATH + "order/list";
-	public static final String PAGE_ORDER_NEW_LIST_URI = SYSTEM_PATH + "order/new_list";
-	public static final String PAGE_ORDER_ADD_URI = SYSTEM_PATH + "order/add";
-	public static final String PAGE_ORDER_ADD_MESSAGE_URI = SYSTEM_PATH + "order/message";
-	public static final String PAGE_ORDER_VIEW_URI = SYSTEM_PATH + "order/view/order_id/";
+	public static final String PAGE_ORDER_LIST_URI = "order/list";
+	public static final String PAGE_ORDER_NEW_LIST_URI = "order/new_list";
+	public static final String PAGE_ORDER_ADD_URI = "order/add";
+	public static final String PAGE_ORDER_ADD_MESSAGE_URI = "order/message";
+	public static final String PAGE_ORDER_VIEW_URI = "order/view/order_id/";
 	
-	public static final String PAGE_USER_VIEW_URI = SYSTEM_PATH + "user/view";
-	public static final String PAGE_USER_LIST_URI = SYSTEM_PATH + "user/list";
-	public static final String PAGE_USER_ADD_MESSAGE_URI = SYSTEM_PATH + "user/message";
-	public static final String PAGE_USER_ADD_URI = SYSTEM_PATH + "user/add/employee_id/";
-	public static final String PAGE_LOGOUT = SYSTEM_PATH + "user/logout";
+	public static final String PAGE_USER_VIEW_URI = "user/view";
+	public static final String PAGE_USER_LIST_URI = "user/list";
+	public static final String PAGE_USER_ADD_MESSAGE_URI = "user/message";
+	public static final String PAGE_USER_ADD_URI = "user/add/employee_id/";
+	public static final String PAGE_LOGOUT = "user/logout";
 	
-	public static final String PAGE_EMPLOYEE_ADD_URI = SYSTEM_PATH + "employee/add";
-	public static final String PAGE_EMPLOYEE_ADD_MESSAGE_URI = SYSTEM_PATH + "employee/message";
-	public static final String PAGE_EMPLOYEE_LIST_URI = SYSTEM_PATH + "employee/list";
+	public static final String PAGE_EMPLOYEE_ADD_URI = "employee/add";
+	public static final String PAGE_EMPLOYEE_ADD_MESSAGE_URI = "employee/message";
+	public static final String PAGE_EMPLOYEE_LIST_URI = "employee/list";
 	
-	public static final String PAGE_USER_LOGIN_URI = SYSTEM_PATH + "user/login";
+	public static final String PAGE_USER_LOGIN_URI = "user/login";
 	
 	public static final String PAGE_DEFAULT_MANAGER = PAGE_ORDER_NEW_LIST_URI;
 	public static final String PAGE_DEFAULT_DEVELOPER = PAGE_PROJECT_LIST_BY_EMPLOYEE_URI;
 	public static final String PAGE_DEFAULT_CUSTOMER = PAGE_ORDER_LIST_URI;
 	public static final String PAGE_DEFAULT_ADMIN = PAGE_USER_LIST_URI;
 	
+	public static final String REQUEST_PARAM_CURRENT_LANGUAGE = "currLanguage";
+	public static final String REQUEST_PARAM_APP_NAME_AND_LANG = "appNameAndLang";
 	public static final String REQUEST_PARAM_LANGUAGE = "language";
 	public static final String REQUEST_PARAM_MODULE = "module";
 	public static final String REQUEST_PARAM_ACTION = "action";

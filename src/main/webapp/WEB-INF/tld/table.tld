@@ -26,11 +26,6 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>country</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<name>user</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -52,11 +47,6 @@
 		</attribute>
 		<attribute>
 			<name>language</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>country</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

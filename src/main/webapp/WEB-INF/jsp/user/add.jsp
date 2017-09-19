@@ -10,10 +10,10 @@
 				<fmt:message key="user.pageTitle.new" />
 			</h1>
 
-			<form name="user_form" action="${ ConstantValue.PAGE_USER_ADD_URI }${ employee_id }" method="post">
+			<form name="user_form" action="${appNameAndLang}/${ ConstantValue.PAGE_USER_ADD_URI }${ employee_id }" method="post">
 				<msg:error errorCode="${ error_code }"
-							msgList="${ empty_field }" language="${clientLanguage}"
-							country="${clientCountry}" bean="user" itemTag="span" 
+							msgList="${ empty_field }" language="${currLanguage}"
+							 bean="user" itemTag="span" 
 							containerTag="div" containerClass="error_message"/>
 				<script type="text/javascript">
 					var formElements = {};

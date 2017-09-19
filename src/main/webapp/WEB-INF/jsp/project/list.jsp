@@ -12,13 +12,13 @@
 				<fmt:message key="project.pageTitle.list" />
 			</h1>
 			<msg:error errorCode="${ error_code }"  itemTag="span" containerTag="div"
-						language="${clientLanguage}" country="${clientCountry}"
+						language="${currLanguage}"
 						bean="project" containerClass="error_message"/>
 
 			<%@include file="jspf/list.jsp"%>
 			
 			<ctg:paginator pagingVo="${ paging_vo }" itemTag="li" containerTag="ul" 
-				currActionClass="active" containerClass="pagination" />
+				currActionClass="active" containerClass="pagination" appNameAndLang="${appNameAndLang}" />
 		</div>
 	</div>
 </div>

@@ -17,7 +17,7 @@ public class PagingVo<T> {
 	/** Count records in full list*/
 	private int countAllRecords;
 	
-	/** Count pages for dysplay in paging*/
+	/** Count pages for display in paging*/
 	private int countPages;
 	
 	/** Current selected page*/
@@ -25,6 +25,9 @@ public class PagingVo<T> {
 	
 	/** Uri for navigation */
 	private String uri;
+	
+	/** Application name and language */
+	private String appNameAndLang;
 	
 	public PagingVo() {
 		super();
@@ -68,5 +71,13 @@ public class PagingVo<T> {
 
 	public void setUri(String uri) {
 		this.uri = uri;
+	}
+
+	public String getAppNameAndLang() {
+		return appNameAndLang;
+	}
+
+	public void setAppNameAndLang(String appNameAndLang) {
+		this.appNameAndLang = appNameAndLang;
 	}
 }

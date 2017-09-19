@@ -29,15 +29,6 @@ public final class TopMenuTag extends TagSupport {
 	/** Items to display */
 	private final static Map<String, String> items = new HashMap<String, String>(10);
 	
-	{
-		items.put(PAGE_ORDER_LIST_URI, "menu.top.orders");
-		items.put(PAGE_ORDER_NEW_LIST_URI, "menu.top.orders.new");
-		items.put(PAGE_EMPLOYEE_LIST_URI, "menu.top.employee.list");
-		items.put(PAGE_USER_LIST_URI, "menu.top.user.list");
-		items.put(PAGE_USER_VIEW_URI, "");
-		items.put(PAGE_LOGOUT, "menu.top.logout");
-	}
-	
 	/** User */
 	private User user;
 	
@@ -57,10 +48,7 @@ public final class TopMenuTag extends TagSupport {
 	private String currUrlClass;
 	
 	/** Current language */
-	private String language;
-	
-	/** Current country */
-	private String country;
+	private String currLanguage;
 	
 	public TopMenuTag() {
 		super();
@@ -90,12 +78,8 @@ public final class TopMenuTag extends TagSupport {
 		this.currUrlClass = currUrlClass;
 	}
 
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCurrLanguage(String currLanguage) {
+		this.currLanguage = currLanguage;
 	}
 	
 	/**
@@ -103,8 +87,9 @@ public final class TopMenuTag extends TagSupport {
 	 */
 	@Override
 	public int doStartTag() throws JspException {
+		menuList();
 		try {
-			Locale locale = new Locale(language, country);
+			Locale locale = new Locale(currLanguage);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 
 			UserRole userRole = user.getRole();
@@ -138,6 +123,15 @@ public final class TopMenuTag extends TagSupport {
 		}
 		
 		return "";
+	}
+	
+	private void menuList() {
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_ORDER_LIST_URI, "menu.top.orders");
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_ORDER_NEW_LIST_URI, "menu.top.orders.new");
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_EMPLOYEE_LIST_URI, "menu.top.employee.list");
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_USER_LIST_URI, "menu.top.user.list");
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_USER_VIEW_URI, "");
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_LOGOUT, "menu.top.logout");
 	}
 
 }

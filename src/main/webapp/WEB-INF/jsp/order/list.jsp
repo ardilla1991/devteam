@@ -9,7 +9,7 @@
 				<fmt:message key="order.pageTitle.list" />
 			</h1>
 			<msg:error errorCode="${ error_code }" itemTag="span" containerTag="div"
-						language="${clientLanguage}" country="${clientCountry}"
+						language="${currLanguage}" 
 						bean="order" containerClass="error_message"/>
 			<c:set var="withCustomer" value="false" scope="page" />
 			<%@include file="jspf/list.jsp"%>

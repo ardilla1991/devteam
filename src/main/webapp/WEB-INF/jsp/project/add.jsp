@@ -17,9 +17,9 @@
 					<fmt:message key="project.pageTitle.new" />
 				</h1>
 
-				<form id="order_add" name="order_form" action="${ ConstantValue.PAGE_PROJECT_ADD_URI }${order_id}" method="post">		
+				<form id="order_add" name="order_form" action="${appNameAndLang}/${ ConstantValue.PAGE_PROJECT_ADD_URI }${order_id}" method="post">		
 					<msg:error errorCode="${ error_code }" msgList="${ empty_field }" 
-							   language="${clientLanguage}" country="${clientCountry}" 
+							   language="${currLanguage}"
 							   bean="project"  itemTag="span" 
 							   containerTag="div" containerClass="error_message"/>
 					<script type="text/javascript">

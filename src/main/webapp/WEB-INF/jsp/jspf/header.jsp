@@ -5,12 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="menutag" prefix="menu"%>
 
-<c:set var="clientLanguage" value="${pageContext.request.locale.language}" scope="request"/>
-<c:set var="clientCountry" value="${pageContext.request.locale.country}" scope="request"/>
-
-<c:set var = "curLocale" scope = "request" value = "${clientLanguage}_${clientCountry}"/>
-
-<fmt:setLocale value="${curLocale}"/>
+<fmt:setLocale value="${currLanguage}"/>
 <fmt:setBundle basename="text"/>
 
 <html>
@@ -46,10 +41,10 @@
 			  <menu:top user="${ user.getUser() }"
 				currUrl="${requestScope['javax.servlet.forward.request_uri']}"  containerTag="ul" 
 				containerClass="nav navbar-nav navbar-right" itemTag="li" 
-				currUrlClass="active" language="${clientLanguage}" country="${clientCountry}"/>
+				currUrlClass="active" currLanguage="${currLanguage}"/>
 	          <%@ page import="by.htp.devteam.bean.UserRole" %>
 			  <c:if test="${ user.getUser().getRole()  == RoleEnum.DEVELOPER || user.getUser().getRole()  == RoleEnum.MANAGER }">
-		          <form class="navbar-form navbar-right" action="Main" method="GET">
+		          ssh<form class="navbar-form navbar-right" action="${appNameAndLang}/${ ConstantValue.PAGE_PROJECT_FOUND_URI }" method="GET">
 		          		<input type="hidden" name="action" value="project_find">
 		          		<input type="text" class="form-control" autocomplete="off" placeholder="<fmt:message key = "project.goTo" />" id="projectName" name="title" maxlength="250"/>
 		          	

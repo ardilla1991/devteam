@@ -7,9 +7,9 @@
 		<%@include file="../jspf/leftBar.jsp"%>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header"><fmt:message key = "employee.pageTitle.new" /></h1>
-				<form id="order_add" name="order_form" action="${ ConstantValue.PAGE_EMPLOYEE_ADD_URI }" method="POST">
+				<form id="order_add" name="order_form" action="${appNameAndLang}/${ ConstantValue.PAGE_EMPLOYEE_ADD_URI }" method="POST">
 					<msg:error errorCode="${ error_code }" msgList="${ empty_field }" 
-								language="${clientLanguage}" country="${clientCountry}" 
+								language="${currLanguage}"
 								bean="employee" itemTag="span" containerTag="div" containerClass="error_message"/>
 					<script type="text/javascript">
 						var formElements = {};

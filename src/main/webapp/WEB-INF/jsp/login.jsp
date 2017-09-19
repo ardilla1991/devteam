@@ -2,11 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="errormessagetag" prefix="msg"%>
-<c:set var="clientLanguage"
-	value="${pageContext.request.locale.language}" />
-<c:set var="clientCountry" value="${pageContext.request.locale.country}" />
 
-<fmt:setLocale value="${clientLanguage}_${clientCountry}" />
+<fmt:setLocale value="${currLanguage}" />
 <fmt:setBundle basename="text" />
 <!DOCTYPE html>
 <html>
@@ -19,7 +16,7 @@
 	<body class="login">
 		<%@ page import="by.htp.devteam.controller.util.ConstantValue" %>
 		<div class="container">
-			<form class="form-signin" role="form" action="${ ConstantValue.PAGE_USER_LOGIN_URI }" method="POST">
+			<form class="form-signin" role="form" action="${appNameAndLang}/${ ConstantValue.PAGE_USER_LOGIN_URI }" method="POST">
 				<h2 class="form-signin-heading">
 					<fmt:message key="login.formTitle" />
 				</h2>
@@ -37,7 +34,7 @@
 				<div class="error_message">
 					<c:if test="${ error_code > 0}">
 						<msg:error errorCode="${ error_code }" msgList="${ empty_field }"
-							language="${clientLanguage}" country="${clientCountry}" itemTag="span" containerTag="div"
+							language="${currLanguage}" itemTag="span" containerTag="div"
 							bean="user" />
 					</c:if>
 				</div>

@@ -25,7 +25,7 @@
 					<td>
 						<fmt:message key="order.action.view" var="linkTitle"/>
 						<acl:action user="${ user.getUser() }" 
-						href="${ ConstantValue.PAGE_ORDER_VIEW_URI }${i.getId()}" 
+						href="${appNameAndLang}/${ ConstantValue.PAGE_ORDER_VIEW_URI }${i.getId()}" 
 						title="${ linkTitle }" 
 						/>
 					</td>

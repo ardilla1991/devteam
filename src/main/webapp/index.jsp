@@ -5,13 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="menutag" prefix="tmt"%>
 
-<c:set var="clientLanguage" value="${pageContext.request.locale.language}" scope="request"/>
-jjj=<c:out value="${pageContext.response.locale.language}"></c:out>
-<c:set var="clientCountry" value="${pageContext.request.locale.country}" scope="request"/>
-
-<c:set var = "curLocale" scope = "request" value = "${clientLanguage}_${clientCountry}"/>
-
-<fmt:setLocale value="${curLocale}"/>
+<fmt:setLocale value="${curLanguage}"/>
 <fmt:setBundle basename="text"/>
 <html>
 	<head>
@@ -28,7 +22,7 @@ jjj=<c:out value="${pageContext.response.locale.language}"></c:out>
 		        <div class="container">
 		            <a class="site-title" href="#">DevTeam</a>
 		            <%@ page import="by.htp.devteam.controller.util.ConstantValue" %>
-		            <a class="site-menu" href="${ ConstantValue.PAGE_USER_LOGIN_URI }"><fmt:message key = "welcome.enter" /></a>
+		            <a class="site-menu" href="${appNameAndLang}/${ ConstantValue.PAGE_USER_LOGIN_URI }"><fmt:message key = "welcome.enter" /></a>
 		            <!-- /.navbar-collapse -->
 		        </div>
 		        <!-- /.container-fluid -->

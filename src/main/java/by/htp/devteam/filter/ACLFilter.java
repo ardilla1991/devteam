@@ -4,6 +4,11 @@ import static by.htp.devteam.controller.util.ConstantValue.*;
 import static by.htp.devteam.filter.util.ConstantValue.*;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -41,7 +46,6 @@ public final class ACLFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		System.out.println("77");
 		HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         /*
@@ -70,7 +74,7 @@ public final class ACLFilter implements Filter{
 			if ( isAuthorised ) {
 				resp.sendError(403);
 			} else {
-				resp.sendRedirect(PAGE_USER_LOGIN_URI);
+				resp.sendRedirect(SYSTEM_PATH + req.getParameter(LANGUAGE) + URL_DELIMITER + PAGE_USER_LOGIN_URI);
 			}
 			return;
 		}

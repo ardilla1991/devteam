@@ -23,19 +23,19 @@
 
 
 			<msg:error errorCode="${ error_code }"
-						language="${clientLanguage}" country="${clientCountry}" 
+						language="${currLanguage}"
 						itemTag="span" containerTag="div"
 						bean="employee" containerClass="error_message"/>
 
 			<div class="table-responsive">
 			
 				<table:employeeList employees="${employee_list}" tableClass="table table-striped tab-content tab-active"
-							language="${clientLanguage}" country="${clientCountry}" />
+							language="${currLanguage}"  />
 				
 			</div>
 
 			<ctg:paginator pagingVo="${ paging_vo }" itemTag="li" containerTag="ul" 
-				currActionClass="active" containerClass="pagination" />
+				currActionClass="active" containerClass="pagination" appNameAndLang="${appNameAndLang}"/>
 		</div>
 	</div>
 </div>

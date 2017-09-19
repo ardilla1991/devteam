@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
  */
 public final class UrlRewriter {
 	
+	/** Pattern for language name */
+    private static final Pattern LANGUAGE_NAME_PATTERN = Pattern.compile("^[a-z]{2}$");
+	
 	/** Pattern for module name */
     private static final Pattern MODULE_NAME_PATTERN = Pattern.compile("^[a-z]+$");
     
@@ -140,9 +143,11 @@ public final class UrlRewriter {
     private Map<String, String> getMainParametersFromUriParts(String[] urlParts) {
     	Map<String, String> params = new HashMap<String, String>(2);
     	
-    	if ( urlParts.length == 1 )
+    	if ( urlParts.length == 1 && isUrlPartMatches(getUrlPart(urlParts[0]), LANGUAGE_NAME_PATTERN))
     		params.put(LANGUAGE, getUrlPart(urlParts[0]));
-    	else if ( urlParts.length >= 3 && isUrlPartMatches(getUrlPart(urlParts[1]), MODULE_NAME_PATTERN) 
+    	else if ( urlParts.length >= 3 
+    			&& isUrlPartMatches(getUrlPart(urlParts[0]), LANGUAGE_NAME_PATTERN)
+    			&& isUrlPartMatches(getUrlPart(urlParts[1]), MODULE_NAME_PATTERN) 
 				&& isUrlPartMatches(getUrlPart(urlParts[2]), ACTION_NAME_PATTERN) ) {
     		params.put(LANGUAGE, getUrlPart(urlParts[0]));
     		params.put(MODULE, getUrlPart(urlParts[1]));

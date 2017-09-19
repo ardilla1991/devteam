@@ -27,9 +27,6 @@ public class EmployeeListTag extends TagSupport {
 	/** Current language */
 	private String language;
 	
-	/** Current country */
-	private String country;
-	
 	/** User */
 	private User user;
 	
@@ -48,10 +45,6 @@ public class EmployeeListTag extends TagSupport {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
 	
 	public void setUser(User user) {
 		this.user = user;
@@ -66,7 +59,7 @@ public class EmployeeListTag extends TagSupport {
 			return SKIP_BODY;
 		}
 		
-		Locale locale = new Locale(language, country);
+		Locale locale = new Locale(language);
 		ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 		try {
 			for ( Employee employee : employees ) {

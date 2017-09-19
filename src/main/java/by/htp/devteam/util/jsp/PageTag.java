@@ -6,6 +6,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import by.htp.devteam.bean.vo.PagingVo;
+import static by.htp.devteam.controller.util.ConstantValue.*;
 
 /**
  * Tag for display pages
@@ -31,6 +32,9 @@ public final class PageTag extends TagSupport {
 	/** Item tag class for selected points */
 	private String currActionClass;
 	
+	/** Application name and language */
+	private String appNameAndLang;
+	
 	public PageTag() {
 		super();
 	}
@@ -55,6 +59,10 @@ public final class PageTag extends TagSupport {
 		this.currActionClass = currActionClass;
 	}
 	
+	public void setAppNameAndLang(String appNameAndLang) {
+		this.appNameAndLang = appNameAndLang;
+	}
+	
 	/**
 	 * Display pages
 	 */
@@ -65,7 +73,7 @@ public final class PageTag extends TagSupport {
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");
 			for ( int i = 1; i <= pagingVo.getCountPages(); i++ ) {
 				active = (i == pagingVo.getCurrPage() ? "class=\"" + currActionClass + "\"" : "");
-				pageContext.getOut().write("<" + itemTag + " " + active + "><a href=\"" + pagingVo.getUri() + "?page=" + i + "\">" 
+				pageContext.getOut().write("<" + itemTag + " " + active + "><a href=\"" + appNameAndLang + URL_DELIMITER + pagingVo.getUri() + "/page/" + i + "\">" 
 											+ i + "</a></" + itemTag + ">");
 			}
 			pageContext.getOut().write("</" + containerTag + ">");

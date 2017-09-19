@@ -1,9 +1,14 @@
 package by.htp.devteam.filter;
 
+import static by.htp.devteam.controller.util.ConstantValue.SYSTEM_PATH;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -42,17 +47,37 @@ public class RedirectLocalizationFilter implements Filter {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-		
-		Locale locale = detectLocale(req);
-		System.out.println(locale);
-		System.out.println(locale.getCountry());
-		System.out.println(locale.getLanguage());
-		String lang = getLanguage(locale);
-		System.out.println(lang);
-		
-		resp.sendRedirect("/devteam/" + locale.getLanguage());
-		
+
+        String[] languageAndQueryStringFromURI = getLanguageAndQueryStringFromURI(req.getRequestURI());
+        if ( languageAndQueryStringFromURI[0].length() > 0 ) {
+        	chain.doFilter(request, response);
+        	return;
+        } else {
+        	Locale locale = detectLocale(req);
+    		String lang = getLanguage(locale);
+    		
+    		resp.sendRedirect(SYSTEM_PATH + locale.getLanguage() + "/" + languageAndQueryStringFromURI[1]);
+        }
 		//chain.doFilter(request, response);
+	}
+	
+	
+	private String[] getLanguageAndQueryStringFromURI(String uri) {
+		String language = "";
+		String queryString = "";
+		Pattern pattern = Pattern.compile("^" + SYSTEM_PATH + "(ru|en)/{0,1}.+{0,}");
+        Matcher matcher = pattern.matcher(uri);
+        if (matcher.find()) {
+        	language = matcher.group(1);      	
+        } else {
+        	queryString = uri.replaceAll("^" + SYSTEM_PATH, "");
+        }
+
+		String res[] = new String[2]; 
+        res[0] = language;
+        res[1] = queryString;
+        
+		return res;
 	}
 
 	/**
@@ -65,11 +90,11 @@ public class RedirectLocalizationFilter implements Filter {
         supportedLanguages.put("DEFAULT", Locale.US);
         // example mapping of "de" to "de_DE"
         //supportedLanguages.put("de-DEFAULT", Locale.GERMANY);
-        supportedLanguages.put("ru-DEFAULT", new Locale("ru", "RU"));
-        supportedLanguages.put("en-DEFAULT", new Locale("en", "US"));
+        supportedLanguages.put("ru-DEFAULT", new Locale("ru"));
+        supportedLanguages.put("en-DEFAULT", new Locale("en"));
         //supportedLanguages.put("de_AT", new Locale("de", "AT"));
         //supportedLanguages.put("de_CH", new Locale("de", "CH"));
-        supportedLanguages.put("ru_RU", new Locale("ru", "RU"));
+        supportedLanguages.put("ru_RU", new Locale("ru"));
         //supportedLanguages.put("ja_JP", Locale.JAPAN);
 	}
 	

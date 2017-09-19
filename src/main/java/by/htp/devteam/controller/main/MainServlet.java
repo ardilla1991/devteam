@@ -62,7 +62,7 @@ public class MainServlet extends HttpServlet{
 				| IllegalArgumentException | NoSuchMethodException | java.lang.SecurityException e) {
 			response.sendError(404);
 		}
-		
+
 		return page;
 	}
 	
@@ -86,20 +86,24 @@ public class MainServlet extends HttpServlet{
 			response.sendError(404);
 			return;
 		}
-		
+
 		if ( page.isRedirect() ) {
 			if (httpMethod == HTTPMethod.POST) {
 				response.setStatus(HttpServletResponse.SC_SEE_OTHER);
-				response.setHeader("Location", page.getPage());
+				response.setHeader("Location", getAppPathAndLanguage(request) + page.getPage());
 			} else {
 				//response.setHeader("cache-control", "private, max-age=0, no-cache, no-store");
-				response.sendRedirect(page.getPage());
+				response.sendRedirect(getAppPathAndLanguage(request) + page.getPage());
 			}
 		}
 		else {
 			RequestDispatcher disp = request.getRequestDispatcher(page.getPage());
 			disp.forward(request, response);
 		}
+	}
+	
+	private String getAppPathAndLanguage(HttpServletRequest request) {
+		return SYSTEM_PATH + request.getParameter(LANGUAGE) + URL_DELIMITER;
 	}
 
 }

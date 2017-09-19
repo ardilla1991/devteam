@@ -38,6 +38,16 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>/bootstrap/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<display-name>index.jsp</display-name>
+		<servlet-name>index.jsp</servlet-name>
+		<jsp-file>/index.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>index.jsp</servlet-name>
+		<url-pattern>/ru</url-pattern>
+		<url-pattern>/en</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<display-name>LogFilter</display-name>
 		<filter-name>LogFilter</filter-name>
@@ -59,6 +69,29 @@
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
 		<servlet-name>MainServlet</servlet-name>
+	</filter-mapping>
+	<filter>
+		<description>Redirect main page to locale language page</description>
+		<display-name>RedirectLocalizationFilter</display-name>
+		<filter-name>RedirectLocalizationFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.RedirectLocalizationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RedirectLocalizationFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
+	</filter-mapping>
+	<filter>
+		<description></description>
+		<display-name>LocaleFilter</display-name>
+		<filter-name>LocaleFilter</filter-name>
+		<filter-class>by.htp.devteam.filter.LocaleFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LocaleFilter</filter-name>
+		<servlet-name>MainServlet</servlet-name>
+		<url-pattern>/ru</url-pattern>
+		<url-pattern>/en</url-pattern>
+		<!-- dispatcher>FORWARD</dispatcher -->
 	</filter-mapping>
 	<filter>
 		<description></description>
@@ -97,27 +130,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>ACLFilter</filter-name>
-		<servlet-name>MainServlet</servlet-name>
-		<dispatcher>FORWARD</dispatcher>
-	</filter-mapping>
-	<filter>
-		<description>Redirect main page to locale language page</description>
-		<display-name>RedirectLocalizationFilter</display-name>
-		<filter-name>RedirectLocalizationFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.RedirectLocalizationFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>RedirectLocalizationFilter</filter-name>
-		<url-pattern>/index.jsp</url-pattern>
-	</filter-mapping>
-	<filter>
-		<description></description>
-		<display-name>LocaleFilter</display-name>
-		<filter-name>LocaleFilter</filter-name>
-		<filter-class>by.htp.devteam.filter.LocaleFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>LocaleFilter</filter-name>
 		<servlet-name>MainServlet</servlet-name>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>

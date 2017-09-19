@@ -32,9 +32,6 @@ public class UserListTag extends TagSupport {
 	/** Current language */
 	private String language;
 	
-	/** Current country */
-	private String country;
-	
 	public UserListTag() {
 		super();
 	}
@@ -50,10 +47,6 @@ public class UserListTag extends TagSupport {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
 	
 	/**
 	 * Create users tables for users list
@@ -64,7 +57,7 @@ public class UserListTag extends TagSupport {
 			return SKIP_BODY;
 		}
 		
-		Locale locale = new Locale(language, country);
+		Locale locale = new Locale(language);
 		ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 		try {
 			for ( UserVo userVo : users ) {

@@ -11,7 +11,7 @@
 <fmt:setBundle basename="text"/>
 
 <msg:error errorCode="${ error_code }" msgList="${ empty_field }"
-			language="${clientLanguage}" country="${clientCountry}"  itemTag="span" containerTag="div"
+			language="${currLanguage}" itemTag="span" containerTag="div"
 			bean="project" containerClass="error_message"/>
 
 <c:forEach items="${project_list}" var="i">

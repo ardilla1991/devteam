@@ -61,4 +61,9 @@ public class Page {
 	public void setInclude(boolean isInclude) {
 		this.isInclude = isInclude;
 	}
+
+	@Override
+	public String toString() {
+		return "Page [page=" + page + ", isRedirect=" + isRedirect + ", isInclude=" + isInclude + "]";
+	}
 }

@@ -16,7 +16,7 @@
 				<c:if test="${ order_vo.getOrder().getId() > 0}">
 					<fmt:message key="project.button.add" var="linkTitle"/>
 					<acl:action user="${ user.getUser() }" 
-							href="${ ConstantValue.PAGE_PROJECT_ADD_URI }${order_vo.getOrder().getId()}" 
+							href="${appNameAndLang}/${ ConstantValue.PAGE_PROJECT_ADD_URI }${order_vo.getOrder().getId()}" 
 							title="${ linkTitle }" 
 							className="btn btn-default" buttonRole="button" 
 							id="project_add" />

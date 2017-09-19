@@ -8,9 +8,9 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header"><fmt:message key = "order.pageTitle.new" /></h1>
 
-				<form id="order_add" name="order_form" action="${ ConstantValue.PAGE_ORDER_ADD_URI }" method="post" enctype="multipart/form-data">
+				<form id="order_add" name="order_form" action="${appNameAndLang}/${ ConstantValue.PAGE_ORDER_ADD_URI }" method="post" enctype="multipart/form-data">
 					<msg:error errorCode="${ error_code }" msgList="${ empty_field }" 
-							language="${clientLanguage}" country="${clientCountry}" bean="order"
+							language="${currLanguage}" bean="order"
 							itemTag="span" containerTag="div" containerClass="error_message"/>
 					<script type="text/javascript">
 						var formElements = {};

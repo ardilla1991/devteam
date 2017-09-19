@@ -1,7 +1,7 @@
 <%@ taglib uri="errormessagetag" prefix="msg"%>
-<msg:error errorCode="${ error_code }" language="${clientLanguage}"  
+<msg:error errorCode="${ error_code }" language="${currLanguage}"  
 			itemTag="span" containerTag="div"
-			country="${clientCountry}" bean="order" containerClass="error_message" />
+			 bean="order" containerClass="error_message" />
 
 <div class="table-responsive">
 	<table class="table table-striped tab-content tab-active">

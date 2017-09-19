@@ -17,14 +17,14 @@
 					<tr>
 						<td><fmt:message key="project.hours" /></td>
 						<td id="hours">
-							<form method="POST" action="${ ConstantValue.PAGE_PROJECT_UPDATE_HOURS_URI }${project_vo.getProject().getId() }">
+							<form method="POST" action="${appNameAndLang}/${ ConstantValue.PAGE_PROJECT_UPDATE_HOURS_URI }${project_vo.getProject().getId() }">
 								<script type="text/javascript">
 									var formElements = {};
 									formElements["hours"] = "number";
 								</script>
 								<msg:error errorCode="${ error_code }" itemTag="span"
 											containerTag="div" msgList="${ empty_field }"
-											language="${clientLanguage}" country="${clientCountry}"
+											language="${currLanguage}" 
 											bean="project" containerClass="error_message"/>
 
 								<input type="text" value="${ hours }" name="hours" />

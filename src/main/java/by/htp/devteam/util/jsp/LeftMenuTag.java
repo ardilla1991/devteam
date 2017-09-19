@@ -29,12 +29,6 @@ public final class LeftMenuTag extends TagSupport{
 	/** Items to display */
 	private final static Map<String, String> items = new HashMap<String, String>(10);
 	
-	{
-		items.put(PAGE_ORDER_ADD_URI, "order.addNew");
-		items.put(PAGE_PROJECT_LIST_URI, "menu.left.projects");
-		items.put(PAGE_PROJECT_LIST_BY_EMPLOYEE_URI, "menu.left.projects");
-	}
-	
 	/** User */
 	private User user;
 	
@@ -54,11 +48,8 @@ public final class LeftMenuTag extends TagSupport{
 	private String currUrlClass;
 	
 	/** Current language */
-	private String language;
-	
-	/** Current country */
-	private String country;
-	
+	private String currLanguage;
+
 	public LeftMenuTag() {
 		super();
 	}
@@ -87,12 +78,8 @@ public final class LeftMenuTag extends TagSupport{
 		this.currUrlClass = currUrlClass;
 	}
 	
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCurrLanguage(String currLanguage) {
+		this.currLanguage = currLanguage;
 	}
 
 	/**
@@ -100,8 +87,9 @@ public final class LeftMenuTag extends TagSupport{
 	 */
 	@Override
 	public int doStartTag() throws JspException {
+		menuList();
 		try {
-			Locale locale = new Locale(language, country);
+			Locale locale = new Locale(currLanguage);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 			
 			UserRole userRole = user.getRole();
@@ -134,5 +122,12 @@ public final class LeftMenuTag extends TagSupport{
 		}
 		
 		return "";
+	}
+	
+	private void menuList() {
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_ORDER_ADD_URI, "order.addNew");
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_PROJECT_LIST_URI, "menu.left.projects");
+		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_PROJECT_LIST_BY_EMPLOYEE_URI, "menu.left.projects");
+
 	}
 }

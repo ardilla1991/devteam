@@ -44,9 +44,6 @@ public class ErrorMessageTag extends TagSupport{
 	/** Current language */
 	private String language;
 	
-	/** Current country */
-	private String country;
-	
 	public ErrorMessageTag() {
 		super();
 	}
@@ -74,10 +71,6 @@ public class ErrorMessageTag extends TagSupport{
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
 	
 	public void setBean(String bean) {
 		this.bean = bean;
@@ -93,7 +86,7 @@ public class ErrorMessageTag extends TagSupport{
 		}
 		
 		try {
-			Locale locale = new Locale(language, country);
+			Locale locale = new Locale(language);
 			ResourceBundle rb = ResourceBundle.getBundle("text", locale);
 			
 			pageContext.getOut().write("<" + containerTag + " class=\"" + containerClass + "\">");

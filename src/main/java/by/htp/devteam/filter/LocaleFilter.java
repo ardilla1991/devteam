@@ -4,6 +4,8 @@ import static by.htp.devteam.controller.util.ConstantValue.*;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -41,10 +43,20 @@ public class LocaleFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         
-		String language = req.getParameter(REQUEST_PARAM_LANGUAGE);
-		resp.setLocale(new Locale(language));
+		String language = getLanguageFromURI(req.getRequestURI());
+		Locale.setDefault(new Locale(language));
+		req.setAttribute(REQUEST_PARAM_CURRENT_LANGUAGE, language);
+		req.setAttribute(REQUEST_PARAM_APP_NAME_AND_LANG, SYSTEM_PATH + language);
 		
 		chain.doFilter(request, response);
+	}
+	
+	private String getLanguageFromURI(String uri) {
+		Pattern pattern = Pattern.compile("^" + SYSTEM_PATH + "(ru|en)/{0,1}.+{0,}");
+        Matcher matcher = pattern.matcher(uri);
+        if ( matcher.find() ) {
+        	return matcher.group(1);
+        } else return "";
 	}
 
 	/**

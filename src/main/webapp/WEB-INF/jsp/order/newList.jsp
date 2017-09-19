@@ -9,14 +9,14 @@
 				<fmt:message key="order.pageTitle.listOfNew" />
 			</h1>
 			<msg:error errorCode="${ error_code }"   itemTag="span" containerTag="div"
-						language="${clientLanguage}" country="${clientCountry}"
+						language="${currLanguage}" 
 						bean="order" containerClass="error_message"/>
 			<c:set var="withCustomer" value="true" scope="page" />
 			<%@include file="jspf/list.jsp"%>
 
 			<ctg:paginator pagingVo="${ paging_vo }" itemTag="li" 
 				 containerTag="ul" containerClass="pagination"
-				currActionClass="active" />
+				currActionClass="active" appNameAndLang="${appNameAndLang}" />
 		</div>
 	</div>
 </div>
