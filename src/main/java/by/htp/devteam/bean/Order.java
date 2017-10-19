@@ -11,10 +11,7 @@ import java.util.Date;
  * @author julia
  *
  */
-public class Order {
-
-	/** Identifier for record */
-	private Long id;
+public class Order extends Bean {
 	
 	/** Order's title */
 	private String title;
@@ -45,14 +42,6 @@ public class Order {
 	
 	public Order() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getTitle() {

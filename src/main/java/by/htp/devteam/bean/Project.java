@@ -9,10 +9,7 @@ import java.util.Date;
  * @author julia
  *
  */
-public class Project {
-
-	/** Identifier for record */
-	private Long id;
+public class Project extends Bean {
 	
 	/** Project's title */
 	private String title;
@@ -28,14 +25,6 @@ public class Project {
 	
 	public Project() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getTitle() {

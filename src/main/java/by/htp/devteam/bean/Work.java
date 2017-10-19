@@ -6,10 +6,7 @@ package by.htp.devteam.bean;
  * @author julia
  *
  */
-public class Work {
-
-	/** Identifier for record */
-	private Long id;
+public class Work extends Bean {
 	
 	/** Work's title */
 	private String title;
@@ -19,14 +16,6 @@ public class Work {
 	
 	public Work() {
 		super();
-	}
-	
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 	public String getTitle() {

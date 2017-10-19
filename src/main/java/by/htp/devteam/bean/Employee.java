@@ -10,12 +10,9 @@ import java.util.Date;
  * @author julia
  *
  */
-public class Employee implements Serializable {
+public class Employee extends Bean implements Serializable {
 	
 	private static final long serialVersionUID = -2004920625723770723L;
-
-	/** Identifier for record */
-	private Long id;
 	
 	/** Employee's name */
 	private String name;
@@ -31,14 +28,6 @@ public class Employee implements Serializable {
 	
 	public Employee() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {

@@ -9,12 +9,9 @@ import java.io.Serializable;
  * @author julia
  *
  */
-public class Qualification implements Serializable {
+public class Qualification extends Bean implements Serializable {
 	
 	private static final long serialVersionUID = 3700326780172626583L;
-	
-	/** Identifier for record */
-	private Long id;
 	
 	/** Qualification's title */
 	private String title;
@@ -24,14 +21,6 @@ public class Qualification implements Serializable {
 	
 	public Qualification() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getTitle() {

@@ -2,7 +2,6 @@ package by.htp.devteam.acl;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public final class ACL {
 	private static final String ACTION_UPDATE_HOURS = "update_hours";
 
 	/** ACL for users */
-	private static final EnumMap<UserRole, Map<ControllerFactory, List<String>>> acl = new EnumMap<>(UserRole.class);
+	private static final EnumMap<UserRole, Map<ControllerFactory, List<String>>> aclList = new EnumMap<>(UserRole.class);
 	
 	/** 
 	 * ACL for guest. Contains controllers from Module Enum and actions
@@ -87,7 +86,7 @@ public final class ACL {
 		userActions.add(ACTION_MESSAGE);
 		guestACL.put(ControllerFactory.USER, userActions);
 
-		acl.put(UserRole.GUEST, guestACL);
+		aclList.put(UserRole.GUEST, guestACL);
 	}
 	
 	private void setManagersACL() {
@@ -116,7 +115,7 @@ public final class ACL {
 		projectActions.add(ACTION_VIEW);
 		managerACL.put(ControllerFactory.PROJECT, projectActions);
 		
-		acl.put(UserRole.MANAGER, managerACL);
+		aclList.put(UserRole.MANAGER, managerACL);
 	}
 	
 	private void setDevelopersACL() {
@@ -134,7 +133,7 @@ public final class ACL {
 		projectActions.add(ACTION_VIEW);
 		developerACL.put(ControllerFactory.PROJECT, projectActions);
 		
-		acl.put(UserRole.DEVELOPER, developerACL);
+		aclList.put(UserRole.DEVELOPER, developerACL);
 	}
 	
 	private void setCustomersACL() {
@@ -151,7 +150,7 @@ public final class ACL {
 		orderActions.add(ACTION_VIEW);
 		customerACL.put(ControllerFactory.ORDER, orderActions);
 		
-		acl.put(UserRole.CUSTOMER, customerACL);
+		aclList.put(UserRole.CUSTOMER, customerACL);
 	}
 	
 	private void setAdminACL() {
@@ -164,7 +163,7 @@ public final class ACL {
 		userActions.add(ACTION_MESSAGE);
 		adminACL.put(ControllerFactory.USER, userActions);
 		
-		acl.put(UserRole.ADMIN, adminACL);
+		aclList.put(UserRole.ADMIN, adminACL);
 	}
 
 	/**
@@ -181,8 +180,8 @@ public final class ACL {
 		boolean issetInACL = false;
 		try {
 			issetInACL = ControllerFactory.lookup(module) 
-					&& acl.get(role).containsKey(ControllerFactory.getController(module)) 
-					&& acl.get(role).get(ControllerFactory.getController(module)).contains(action);
+					&& aclList.get(role).containsKey(ControllerFactory.getController(module)) 
+					&& aclList.get(role).get(ControllerFactory.getController(module)).contains(action);
 		} catch (ControllerException e) {
 			issetInACL = false;
 		}
