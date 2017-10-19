@@ -6,4 +6,4 @@
 *.class
 bin/main/*
 bin/*
-doc/*
+doc/* 
