@@ -94,7 +94,7 @@ public final class OrderControllerImpl implements OrderController {
 	 * @return map of qualifications ids and count hours
 	 */
 	private Map<String, String> getQualificationsFromRequest(HttpServletRequest request) {
-		Map<String, String> assocArray = new HashMap<String, String>();
+		Map<String, String> assocArray = new HashMap<>();
 		
 		Set<Entry<String, String[]>> params = request.getParameterMap().entrySet();
 		Iterator<Entry<String, String[]>> it = params.iterator();

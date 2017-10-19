@@ -64,7 +64,7 @@ public final class UserDaoImpl implements UserDao {
 
 	@Override
 	public PagingVo<UserVo> fetchAll(int offset, int countPerPage) throws DaoException {
-		PagingVo<UserVo> pagingVo = new PagingVo<UserVo>();
+		PagingVo<UserVo> pagingVo = new PagingVo<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER); ) {
 
@@ -83,7 +83,7 @@ public final class UserDaoImpl implements UserDao {
 	 */
 	private PagingVo<UserVo> executeQueryAndCreatePagingVoObject(Connection dbConnection, PreparedStatement ps) 
 			throws SQLException{
-		PagingVo<UserVo> pagingVo = new PagingVo<UserVo>();
+		PagingVo<UserVo> pagingVo = new PagingVo<>();
 		pagingVo.setRecords(getUserListFromResultSet(ps));
 		try ( Statement st = dbConnection.createStatement();
 				ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
@@ -99,7 +99,7 @@ public final class UserDaoImpl implements UserDao {
 	 * Create UserVo object with types of role (employee or customer)
 	 */
 	private List<UserVo> getUserListFromResultSet(PreparedStatement ps) throws SQLException {
-		List<UserVo> users = new ArrayList<UserVo>();
+		List<UserVo> users = new ArrayList<>();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			while ( rs.next() ) {
 				UserVo userVo = new UserVo();

@@ -29,7 +29,7 @@ public final class WorkDaoImpl implements WorkDao {
 	 */
 	@Override
 	public List<Work> fetchAll() throws DaoException {
-		List<Work> works = new ArrayList<Work>();
+		List<Work> works = new ArrayList<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				Statement st = dbConnection.createStatement() ) {
 		
@@ -41,7 +41,7 @@ public final class WorkDaoImpl implements WorkDao {
 	}
 	
 	private List<Work> executeQueryAndGetWorkListFromResultSet(Statement st) throws SQLException {
-		List<Work> works = new ArrayList<Work>();
+		List<Work> works = new ArrayList<>();
 		try ( ResultSet rs = st.executeQuery(SQL_WORK_FETCH_ALL) ) {
 			while ( rs.next() ) {
 				Work work = new Work();

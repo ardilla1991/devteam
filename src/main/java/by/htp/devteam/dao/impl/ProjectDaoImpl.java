@@ -41,7 +41,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 		if ( employee == null )
 			return fetchAll(offset, countPerPage);
 		
-		PagingVo<Project> pagingVo = new PagingVo<Project>();
+		PagingVo<Project> pagingVo = new PagingVo<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_PROJECT_LIST_BY_EMPLOYEE); ) {
 
@@ -59,7 +59,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 	 * Get all list of projects 
 	 */
 	private PagingVo<Project> fetchAll(int offset, int countPerPage) throws DaoException {
-		PagingVo<Project> pagingVo = new PagingVo<Project>();
+		PagingVo<Project> pagingVo = new PagingVo<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_PROJECT_FETCH_ALL); ) {
 
@@ -74,7 +74,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 	
 	private PagingVo<Project> executeQueryAndCreatePagingVoObject(Connection dbConnection, PreparedStatement ps) 
 			throws SQLException {
-		PagingVo<Project> pagingVo = new PagingVo<Project>();
+		PagingVo<Project> pagingVo = new PagingVo<>();
 		pagingVo.setRecords(executeQueryAndGetProjectListFromResultSet(ps));
 		
 		try ( Statement st = dbConnection.createStatement();
@@ -88,7 +88,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	private List<Project> executeQueryAndGetProjectListFromResultSet(PreparedStatement ps) throws SQLException {
-		List<Project> projects = new ArrayList<Project>();
+		List<Project> projects = new ArrayList<>();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			while ( rs.next() ) {
 				Order order = new Order();
@@ -231,7 +231,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 
 	@Override
 	public List<Project> findByTitle(String title) throws DaoException {
-		List<Project> projects = new ArrayList<Project>();
+		List<Project> projects = new ArrayList<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_PROJECT_FIND_BY_TITLE) ) {
 

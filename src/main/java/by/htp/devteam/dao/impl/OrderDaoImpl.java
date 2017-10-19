@@ -54,7 +54,7 @@ public final class OrderDaoImpl implements OrderDao {
 	 */
 	@Override
 	public PagingVo<Order> getNewOrders(int offset, int countPerPage) throws DaoException {
-		PagingVo<Order> pagingVo = new PagingVo<Order>();
+		PagingVo<Order> pagingVo = new PagingVo<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 			  PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_NEW_RECORDS_LIST);
 			  Statement st = dbConnection.createStatement()) {
@@ -74,7 +74,7 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	private List<Order> executeQueryAndGetOrderListFromResultSet(PreparedStatement ps) throws SQLException {
-		List<Order> orders = new ArrayList<Order>();
+		List<Order> orders = new ArrayList<>();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			while ( rs.next() ) {
 				Customer customer = createCustomerFromResultSet(rs);
@@ -134,7 +134,7 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	private List<Work> getWorks(Connection dbConnection, Order order) throws SQLException{
-		List<Work> works = new ArrayList<Work>();
+		List<Work> works = new ArrayList<>();
 		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_WORKS_BY_ORDER_ID) ) {
 			
 			ps.setLong(ORDER_ID, order.getId());
@@ -145,7 +145,7 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	private Map<Qualification, Integer> getQualifications(Connection dbConnection, Order order) throws SQLException {
-		Map<Qualification, Integer> qualifications = new HashMap<Qualification, Integer>();	
+		Map<Qualification, Integer> qualifications = new HashMap<>();	
 		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_QUALIFICATIONS_BY_ORDER_ID) ) {
 
 			ps.setLong(ORDER_ID, order.getId());
@@ -156,7 +156,7 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	private List<Work> executeQueryAndGetWorkListFromResultSet(PreparedStatement ps) throws SQLException {
-		List<Work> works = new ArrayList<Work>();
+		List<Work> works = new ArrayList<>();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			while ( rs.next() ) {
 				Work work = createWorkFromResultSet(rs);
@@ -169,7 +169,7 @@ public final class OrderDaoImpl implements OrderDao {
 	
 	private Map<Qualification, Integer> executeQueryAndGetQualificationsFromResultset(PreparedStatement ps) 
 			throws SQLException {
-		Map<Qualification, Integer> qualifications = new HashMap<Qualification, Integer>();	
+		Map<Qualification, Integer> qualifications = new HashMap<>();	
 		try ( ResultSet rs = ps.executeQuery() ) {
 			while ( rs.next() ) {
 				Qualification qualification = createQualificationFromResultSet(rs);
@@ -199,7 +199,7 @@ public final class OrderDaoImpl implements OrderDao {
 	
 	@Override
 	public List<Order> getByCustomer(Customer customer) throws DaoException{
-		List<Order> orders = new ArrayList<Order>();
+		List<Order> orders = new ArrayList<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection(); 
 			  PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_LIST_BY_CUSTOMER_ID) ) {
 
@@ -214,7 +214,7 @@ public final class OrderDaoImpl implements OrderDao {
 	
 	private List<Order> executeQueryAndGetOrderListFromResultSet(PreparedStatement ps, Customer customer) 
 			throws SQLException {
-		List<Order> orders = new ArrayList<Order>();
+		List<Order> orders = new ArrayList<>();
 		try ( ResultSet rs = ps.executeQuery() ) { 
 			while ( rs.next() ) {
 				Order order = createOrderFromResultSet(rs, customer);

@@ -28,7 +28,7 @@ public final class QualificationDaoImpl implements QualificationDao {
 	 */
 	@Override
 	public List<Qualification> fetchAll() throws DaoException {
-		List<Qualification> qualifications = new ArrayList<Qualification>();
+		List<Qualification> qualifications = new ArrayList<>();
 		try (Connection dbConnection = ConnectionPool.getConnection();
 				Statement st = dbConnection.createStatement() ) {
 
@@ -42,7 +42,7 @@ public final class QualificationDaoImpl implements QualificationDao {
 	}
 	
 	private List<Qualification> executeQueryAndGetQualificationListFromResultSet(Statement st) throws SQLException {
-		List<Qualification> qualifications = new ArrayList<Qualification>();
+		List<Qualification> qualifications = new ArrayList<>();
 		try ( ResultSet rs = st.executeQuery(SQL_QUALIFICATION_FETCH_ALL) ) {
 			while (rs.next()) {
 				Qualification qualification = new Qualification();

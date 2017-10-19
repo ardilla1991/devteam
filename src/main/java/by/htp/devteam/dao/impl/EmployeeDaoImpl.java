@@ -67,7 +67,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	@Override
 	public List<Employee> getFreeEmployeesForPeriod(Date dateStart, Date dateFinish, Set<Qualification> qualifications) 
 			throws DaoException {
-		List<Employee> employees = new ArrayList<Employee>();
+		List<Employee> employees = new ArrayList<>();
 		
 		StringBuilder qualificationIdsStr = new StringBuilder();
 		String delimiter = "";
@@ -98,7 +98,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	}
 	
 	private List<Employee> executeQueryAndGetEmployeeListFromResultSet(PreparedStatement st) throws SQLException {
-		List<Employee> employees = new ArrayList<Employee>();
+		List<Employee> employees = new ArrayList<>();
 		try ( ResultSet rs = st.executeQuery() ) {
 			while ( rs.next() ) {
 				employees.add(createEmployeeFromResultSet(rs));
@@ -168,7 +168,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public Map<Long, Integer> getQualificationsIdsAndCountByEmployees(Long[] employeesIds) throws DaoException {
-		Map<Long, Integer> qualificationsCount = new HashMap<Long, Integer>();
+		Map<Long, Integer> qualificationsCount = new HashMap<>();
 		
 		StringBuilder employeeIdsStr = new StringBuilder();
 		String delimiter = "";
@@ -194,7 +194,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	}
 	
 	private Map<Long, Integer> getQualificationsCountFromResultSet(PreparedStatement st) throws SQLException {
-		Map<Long, Integer> qualificationsCount = new HashMap<Long, Integer>();
+		Map<Long, Integer> qualificationsCount = new HashMap<>();
 		try ( ResultSet rs = st.executeQuery() ) {
 			while ( rs.next() ) {
 				qualificationsCount.put(rs.getLong(1), rs.getInt(2));
@@ -210,7 +210,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	 */
 	@Override
 	public Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException {
-		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
+		Map<Employee, Integer> employees = new HashMap<>();
 		
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement st = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_PROJECT) ) {
@@ -226,7 +226,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	
 	private Map<Employee, Integer> executeQueryAndGetEmployeeListWithHoursOnProjectFromResultSet(PreparedStatement st) 
 			throws SQLException {
-		Map<Employee, Integer> employees = new HashMap<Employee, Integer>();
+		Map<Employee, Integer> employees = new HashMap<>();
 		try ( ResultSet rs = st.executeQuery() ) {
 			while ( rs.next() ) {
 				Employee employee = new Employee();
@@ -329,7 +329,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public PagingVo<Employee> fetchAll(int offset, int countPerPage) throws DaoException {
-		PagingVo<Employee> pagingVo = new PagingVo<Employee>();
+		PagingVo<Employee> pagingVo = new PagingVo<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_FETCH_ALL_WITH_USER) ) {
 
@@ -349,7 +349,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	 */
 	private PagingVo<Employee> executeQueryAndCreateEmployeeListVoObject(Connection dbConnection, PreparedStatement ps) 
 			throws SQLException{
-		PagingVo<Employee> pagingVo = new PagingVo<Employee>();
+		PagingVo<Employee> pagingVo = new PagingVo<>();
 		pagingVo.setRecords(getEmployeeListFromResultSet(ps, true));
 		try ( Statement st = dbConnection.createStatement();
 				ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
@@ -365,7 +365,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 	 * Create employee list with user and qualification information
 	 */
 	private List<Employee> getEmployeeListFromResultSet(PreparedStatement ps, boolean needUser) throws SQLException {
-		List<Employee> employees = new ArrayList<Employee>();
+		List<Employee> employees = new ArrayList<>();
 		try ( ResultSet rs = ps.executeQuery() ) {
 			while ( rs.next() ) {
 				Employee employee = new Employee();
@@ -394,7 +394,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public List<Employee> getListWithNotSetUser() throws DaoException {
-		List<Employee> employeeList = new ArrayList<Employee>();
+		List<Employee> employeeList = new ArrayList<>();
 		try ( Connection dbConnection = ConnectionPool.getConnection();
 				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_FETCH_NO_USER) ) {
 			employeeList = getEmployeeListFromResultSet(ps, false);

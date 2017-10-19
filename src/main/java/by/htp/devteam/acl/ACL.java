@@ -29,37 +29,37 @@ public final class ACL {
 	private final static String ACTION_UPDATE_HOURS = "update_hours";
 
 	/** ACL for users */
-	private final static Map<UserRole, Map<ControllerFactory, List<String>>> acl = new HashMap<UserRole, Map<ControllerFactory, List<String>>>();
+	private final static Map<UserRole, Map<ControllerFactory, List<String>>> acl = new HashMap<>();
 	
 	/** 
 	 * ACL for guest. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> guestACL = new HashMap<ControllerFactory, List<String>>();
+	private final static Map<ControllerFactory, List<String>> guestACL = new HashMap<>();
 	
 	/** 
 	 * ACL for manager. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> managerACL = new HashMap<ControllerFactory, List<String>>();
+	private final static Map<ControllerFactory, List<String>> managerACL = new HashMap<>();
 	
 	/** 
 	 * ACL for developer. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> developerACL = new HashMap<ControllerFactory, List<String>>();
+	private final static Map<ControllerFactory, List<String>> developerACL = new HashMap<>();
 	
 	/** 
 	 * ACL for customer. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> customerACL = new HashMap<ControllerFactory, List<String>>();
+	private final static Map<ControllerFactory, List<String>> customerACL = new HashMap<>();
 	
 	/** 
 	 * ACL for admin. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> adminACL = new HashMap<ControllerFactory, List<String>>();
+	private final static Map<ControllerFactory, List<String>> adminACL = new HashMap<>();
 	
 	private final static ACL instance = new ACL();
 	
@@ -81,7 +81,7 @@ public final class ACL {
 	}
 	
 	private void setGuestsACL() {
-		List<String> userActions = new ArrayList<String>(5);
+		List<String> userActions = new ArrayList<>(5);
 		userActions.add(ACTION_LOGIN);
 		userActions.add(ACTION_MESSAGE);
 		guestACL.put(ControllerFactory.USER, userActions);
@@ -90,24 +90,24 @@ public final class ACL {
 	}
 	
 	private void setManagersACL() {
-		List<String> userActions = new ArrayList<String>(5);
+		List<String> userActions = new ArrayList<>(5);
 		userActions.add(ACTION_LOGIN);
 		userActions.add(ACTION_LOGOUT);
 		userActions.add(ACTION_VIEW);
 		managerACL.put(ControllerFactory.USER, userActions);
 		
-		List<String> employeeActions = new ArrayList<String>(5);
+		List<String> employeeActions = new ArrayList<>(5);
 		employeeActions.add(ACTION_LIST);
 		employeeActions.add(ACTION_ADD);
 		employeeActions.add(ACTION_MESSAGE);
 		managerACL.put(ControllerFactory.EMPLOYEE, employeeActions);
 		
-		List<String> orderActions = new ArrayList<String>(5);
+		List<String> orderActions = new ArrayList<>(5);
 		orderActions.add(ACTION_NEW_LIST);
 		orderActions.add(ACTION_VIEW);
 		managerACL.put(ControllerFactory.ORDER, orderActions);
 		
-		List<String> projectActions = new ArrayList<String>(5);
+		List<String> projectActions = new ArrayList<>(5);
 		projectActions.add(ACTION_LIST);
 		projectActions.add(ACTION_ADD);
 		projectActions.add(ACTION_MESSAGE);
@@ -119,13 +119,13 @@ public final class ACL {
 	}
 	
 	private void setDevelopersACL() {
-		List<String> userActions = new ArrayList<String>(5);
+		List<String> userActions = new ArrayList<>(5);
 		userActions.add(ACTION_LOGIN);
 		userActions.add(ACTION_LOGOUT);
 		userActions.add(ACTION_VIEW);
 		developerACL.put(ControllerFactory.USER, userActions);
 
-		List<String> projectActions = new ArrayList<String>(5);
+		List<String> projectActions = new ArrayList<>(5);
 		projectActions.add(ACTION_LIST_BY_EMPLOYEE);
 		projectActions.add(ACTION_UPDATE_HOURS);
 		projectActions.add(ACTION_MESSAGE);
@@ -137,13 +137,13 @@ public final class ACL {
 	}
 	
 	private void setCustomersACL() {
-		List<String> userActions = new ArrayList<String>(5);
+		List<String> userActions = new ArrayList<>(5);
 		userActions.add(ACTION_LOGIN);
 		userActions.add(ACTION_LOGOUT);
 		userActions.add(ACTION_VIEW);
 		customerACL.put(ControllerFactory.USER, userActions);
 		
-		List<String> orderActions = new ArrayList<String>(5);
+		List<String> orderActions = new ArrayList<>(5);
 		orderActions.add(ACTION_LIST);
 		orderActions.add(ACTION_ADD);
 		orderActions.add(ACTION_MESSAGE);
@@ -154,7 +154,7 @@ public final class ACL {
 	}
 	
 	private void setAdminACL() {
-		List<String> userActions = new ArrayList<String>(5);
+		List<String> userActions = new ArrayList<>(5);
 		userActions.add(ACTION_LOGIN);
 		userActions.add(ACTION_LOGOUT);
 		userActions.add(ACTION_VIEW);
