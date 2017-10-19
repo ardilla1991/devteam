@@ -17,10 +17,10 @@ import org.apache.logging.log4j.LogManager;
 
 public final class CustomerDaoImpl implements CustomerDao {
 
-	private final static int ID = 1;
-	private final static int NAME = 2;
-	private final static int EMAIL = 3;
-	private final static int PHONE = 4;
+	private static final int ID = 1;
+	private static final int NAME = 2;
+	private static final int EMAIL = 3;
+	private static final int PHONE = 4;
 	
 	private static final Logger logger = LogManager.getLogger(CustomerDaoImpl.class.getName());
 	

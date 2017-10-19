@@ -7,7 +7,7 @@ package by.htp.devteam.service.validation;
  */
 public final class PagingValidation {
 	
-	private final static PagingValidation instance = new PagingValidation();
+	private static final PagingValidation instance = new PagingValidation();
 	
 	private PagingValidation() {
 		super();

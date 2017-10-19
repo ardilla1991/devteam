@@ -27,7 +27,7 @@ public final class LeftMenuTag extends TagSupport{
 	private static final long serialVersionUID = -8395756013256603658L;
 
 	/** Items to display */
-	private final static Map<String, String> items = new HashMap<String, String>(10);
+	private static final Map<String, String> items = new HashMap<String, String>(10);
 	
 	/** User */
 	private User user;

@@ -27,13 +27,13 @@ import static by.htp.devteam.dao.util.ConstantValue.*;
 
 public final class EmployeeDaoImpl implements EmployeeDao {
 	
-	private final static int ID = 1;
-	private final static int NAME = 2;
-	private final static int START_WORK = 3;
-	private final static int QUALIFICATION_ID = 6;
-	private final static int QUALIFICATION_TITLE = 7;
+	private static final int ID = 1;
+	private static final int NAME = 2;
+	private static final int START_WORK = 3;
+	private static final int QUALIFICATION_ID = 6;
+	private static final int QUALIFICATION_TITLE = 7;
 	
-	private final static String SQL_IN_CONDITION_MASK = "##";
+	private static final String SQL_IN_CONDITION_MASK = "##";
 	
 	public EmployeeDaoImpl() {
 		super();

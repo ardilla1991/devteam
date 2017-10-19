@@ -17,51 +17,51 @@ import by.htp.devteam.controller.ControllerFactory;
  */
 public final class ACL {
 	
-	private final static String ACTION_LOGIN = "login";
-	private final static String ACTION_LOGOUT = "logout";
-	private final static String ACTION_VIEW = "view";
-	private final static String ACTION_ADD = "add";
-	private final static String ACTION_LIST = "list";
-	private final static String ACTION_MESSAGE = "message";
-	private final static String ACTION_FIND = "find";
-	private final static String ACTION_NEW_LIST = "new_list";
-	private final static String ACTION_LIST_BY_EMPLOYEE = "list_by_employee";
-	private final static String ACTION_UPDATE_HOURS = "update_hours";
+	private static final String ACTION_LOGIN = "login";
+	private static final String ACTION_LOGOUT = "logout";
+	private static final String ACTION_VIEW = "view";
+	private static final String ACTION_ADD = "add";
+	private static final String ACTION_LIST = "list";
+	private static final String ACTION_MESSAGE = "message";
+	private static final String ACTION_FIND = "find";
+	private static final String ACTION_NEW_LIST = "new_list";
+	private static final String ACTION_LIST_BY_EMPLOYEE = "list_by_employee";
+	private static final String ACTION_UPDATE_HOURS = "update_hours";
 
 	/** ACL for users */
-	private final static Map<UserRole, Map<ControllerFactory, List<String>>> acl = new HashMap<>();
+	private static final Map<UserRole, Map<ControllerFactory, List<String>>> acl = new HashMap<>();
 	
 	/** 
 	 * ACL for guest. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> guestACL = new HashMap<>();
+	private static final Map<ControllerFactory, List<String>> guestACL = new HashMap<>();
 	
 	/** 
 	 * ACL for manager. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> managerACL = new HashMap<>();
+	private static final Map<ControllerFactory, List<String>> managerACL = new HashMap<>();
 	
 	/** 
 	 * ACL for developer. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> developerACL = new HashMap<>();
+	private static final Map<ControllerFactory, List<String>> developerACL = new HashMap<>();
 	
 	/** 
 	 * ACL for customer. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> customerACL = new HashMap<>();
+	private static final Map<ControllerFactory, List<String>> customerACL = new HashMap<>();
 	
 	/** 
 	 * ACL for admin. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private final static Map<ControllerFactory, List<String>> adminACL = new HashMap<>();
+	private static final Map<ControllerFactory, List<String>> adminACL = new HashMap<>();
 	
-	private final static ACL instance = new ACL();
+	private static final ACL instance = new ACL();
 	
 	private ACL() {
 		super();

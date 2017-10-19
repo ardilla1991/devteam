@@ -9,12 +9,12 @@ import java.util.Map;
  */
 public final class ProjectValidation extends BeanValidation {
 	
-	private final static String TITLE = "title";
-	private final static String DESCRIPTION = "description";
-	private final static String EMPLOYEE = "employee";
-	private final static String QUALIFICATION = "qualification";
-	private final static String HOURS = "hours";
-	private final static String PRICE = "price";
+	private static final String TITLE = "title";
+	private static final String DESCRIPTION = "description";
+	private static final String EMPLOYEE = "employee";
+	private static final String QUALIFICATION = "qualification";
+	private static final String HOURS = "hours";
+	private static final String PRICE = "price";
 	
 	public ProjectValidation() {
 		super();

@@ -12,13 +12,13 @@ import java.util.Map.Entry;
  */
 public final class OrderValidation extends BeanValidation{
 	
-	private final static String TITLE = "title";
-	private final static String DESCRIPTION = "description";
-	private final static String SPECIFICATION = "specification";
-	private final static String QUALIFICATION = "qualification";
-	private final static String WORK = "work";
-	private final static String DATE_START = "dateStart";
-	private final static String DATE_FINISH = "dateFinish";
+	private static final String TITLE = "title";
+	private static final String DESCRIPTION = "description";
+	private static final String SPECIFICATION = "specification";
+	private static final String QUALIFICATION = "qualification";
+	private static final String WORK = "work";
+	private static final String DATE_START = "dateStart";
+	private static final String DATE_FINISH = "dateFinish";
 	
 	public OrderValidation() {
 		super();

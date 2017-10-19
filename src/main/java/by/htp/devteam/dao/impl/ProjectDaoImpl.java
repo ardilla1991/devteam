@@ -24,13 +24,13 @@ import static by.htp.devteam.dao.util.ConstantValue.*;
 
 public final class ProjectDaoImpl implements ProjectDao {
 	
-	private final static int ID = 1;
-	private final static int TITLE = 2;
-	private final static int DESCRIPTION = 3;
-	private final static int DATE_CREATED = 4;
-	private final static int ORDER_ID = 5;
+	private static final int ID = 1;
+	private static final int TITLE = 2;
+	private static final int DESCRIPTION = 3;
+	private static final int DATE_CREATED = 4;
+	private static final int ORDER_ID = 5;
 	
-	private final static String SQL_LIKE_CONDITION_PERCENT = "%";
+	private static final String SQL_LIKE_CONDITION_PERCENT = "%";
 	
 	public ProjectDaoImpl() {
 		super();

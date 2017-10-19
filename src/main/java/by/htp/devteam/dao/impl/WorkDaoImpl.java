@@ -16,9 +16,9 @@ import static by.htp.devteam.dao.util.ConstantValue.*;
 
 public final class WorkDaoImpl implements WorkDao {
 
-	private final static int ID = 1;
-	private final static int TITLE = 2;
-	private final static int DESCRIPTION = 3;
+	private static final int ID = 1;
+	private static final int TITLE = 2;
+	private static final int DESCRIPTION = 3;
 	
 	public WorkDaoImpl() {
 		super();

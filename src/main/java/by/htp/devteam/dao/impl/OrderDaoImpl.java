@@ -27,22 +27,22 @@ import static by.htp.devteam.dao.util.ConstantValue.*;
 
 public final class OrderDaoImpl implements OrderDao {
 
-	private final static int ID = 1;
-	private final static int TITLE = 2;
-	private final static int DESCRIPTION = 3;
-	private final static int SPECIFICATION = 4;
-	private final static int CUSTOMER_ID = 5;
-	private final static int DATE_CREATED = 6;
-	private final static int DATE_START = 7;
-	private final static int DATE_FINISH = 8;
-	private final static int DATE_PROCESSING = 9;
-	private final static int PRICE = 10;
+	private static final int ID = 1;
+	private static final int TITLE = 2;
+	private static final int DESCRIPTION = 3;
+	private static final int SPECIFICATION = 4;
+	private static final int CUSTOMER_ID = 5;
+	private static final int DATE_CREATED = 6;
+	private static final int DATE_START = 7;
+	private static final int DATE_FINISH = 8;
+	private static final int DATE_PROCESSING = 9;
+	private static final int PRICE = 10;
 
-	private final static int ORDER_ID = 1;
-	private final static int WORK_ID = 2;
+	private static final int ORDER_ID = 1;
+	private static final int WORK_ID = 2;
 	
-	private final static int QUALIFICATION_ID = 2;
-	private final static int COUNT = 3;
+	private static final int QUALIFICATION_ID = 2;
+	private static final int COUNT = 3;
 	
 	public OrderDaoImpl() {
 		super();

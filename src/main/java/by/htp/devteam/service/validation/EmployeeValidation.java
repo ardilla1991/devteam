@@ -4,9 +4,9 @@ import java.util.regex.Pattern;
 
 public final class EmployeeValidation extends BeanValidation {
 	
-	private final static String NAME = "name";
-	private final static String START_WORK = "startWork";
-	private final static String QUALIFICATION = "qualification";
+	private static final String NAME = "name";
+	private static final String START_WORK = "startWork";
+	private static final String QUALIFICATION = "qualification";
 	
 	/** Regular expression for name */
 	private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z- ]{5,50}$");

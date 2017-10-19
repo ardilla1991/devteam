@@ -16,8 +16,8 @@ import static by.htp.devteam.dao.util.ConstantValue.*;
 
 public final class QualificationDaoImpl implements QualificationDao {
 	
-	private final static int ID = 1;
-	private final static int TITLE = 2;
+	private static final int ID = 1;
+	private static final int TITLE = 2;
 	
 	public QualificationDaoImpl() {
 		super();

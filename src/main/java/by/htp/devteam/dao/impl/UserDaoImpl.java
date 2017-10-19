@@ -23,10 +23,10 @@ import static by.htp.devteam.dao.util.ConstantValue.*;
 
 public final class UserDaoImpl implements UserDao {
 
-	private final static int ID = 1;
-	private final static int LOGIN = 2;
-	private final static int PASSWORD = 3;
-	private final static int ROLE = 4;
+	private static final int ID = 1;
+	private static final int LOGIN = 2;
+	private static final int PASSWORD = 3;
+	private static final int ROLE = 4;
 	
 	public UserDaoImpl() {
 		super();

@@ -12,10 +12,10 @@ import by.htp.devteam.bean.UserRole;
  */
 public final class UserValidation extends BeanValidation {
 	
-	private final static String LOGIN = "login";
-	private final static String PASSWORD = "password";
-	private final static String ROLE = "role";
-	private final static String EMPLOYEE = "employee";
+	private static final String LOGIN = "login";
+	private static final String PASSWORD = "password";
+	private static final String ROLE = "role";
+	private static final String EMPLOYEE = "employee";
 	
 	/** Regular expression for login */
 	private static final Pattern LOGIN_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{5,50}$");

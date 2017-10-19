@@ -19,13 +19,13 @@ public final class UploadFile {
 	private static final UploadFile INSTANCE = new UploadFile();
 	
 	/** Path to save file */
-	public final static String UPLOAD_PATH = ConfigProperty.INSTANCE.getStringValue(CONFIG_FILE_UPLOAD_DIR) + File.separator;
+	public static final String UPLOAD_PATH = ConfigProperty.INSTANCE.getStringValue(CONFIG_FILE_UPLOAD_DIR) + File.separator;
 	
 	/** Applications path */
-	private final static String APPLICATION_PATH = ConfigProperty.INSTANCE.getStringValue(CONFIG_APPLICATION_FULL_PATH);
+	private static final String APPLICATION_PATH = ConfigProperty.INSTANCE.getStringValue(CONFIG_APPLICATION_FULL_PATH);
 	
 	/** Full path to save file */
-	private final static String FULL_UPLOAD_PATH = APPLICATION_PATH + File.separator + UPLOAD_PATH;
+	private static final String FULL_UPLOAD_PATH = APPLICATION_PATH + File.separator + UPLOAD_PATH;
 
 	private UploadFile() {
 		super();

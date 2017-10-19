@@ -35,7 +35,7 @@ import org.apache.logging.log4j.LogManager;
 public final class ACLFilter implements Filter{
 
 	/** logger */
-	private final static Logger logger = LogManager.getLogger(ACLFilter.class.getName());
+	private static final Logger logger = LogManager.getLogger(ACLFilter.class.getName());
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

@@ -28,7 +28,7 @@ public final class UrlRewriter {
     /** Pattern for parameter name */
     private static final Pattern PARAM_NAME_PATTERN = Pattern.compile("^[a-z_]+$");
     
-	private final static UrlRewriter instance = new UrlRewriter();
+	private static final UrlRewriter instance = new UrlRewriter();
 	
 	private UrlRewriter() {
 		super();

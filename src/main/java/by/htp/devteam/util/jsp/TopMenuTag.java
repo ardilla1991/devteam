@@ -27,7 +27,7 @@ public final class TopMenuTag extends TagSupport {
 	private static final long serialVersionUID = -6330452373340715942L;
 
 	/** Items to display */
-	private final static Map<String, String> items = new HashMap<String, String>(10);
+	private static final Map<String, String> items = new HashMap<String, String>(10);
 	
 	/** User */
 	private User user;

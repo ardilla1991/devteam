@@ -15,7 +15,7 @@ import by.htp.devteam.util.UrlRewriter;
  */
 public final class PermissionUri {
 
-	private final static PermissionUri instance = new PermissionUri();
+	private static final PermissionUri instance = new PermissionUri();
 	
 	private PermissionUri() {
 		super();
