@@ -1,6 +1,7 @@
 package by.htp.devteam.acl;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,37 +30,37 @@ public final class ACL {
 	private static final String ACTION_UPDATE_HOURS = "update_hours";
 
 	/** ACL for users */
-	private static final Map<UserRole, Map<ControllerFactory, List<String>>> acl = new HashMap<>();
+	private static final EnumMap<UserRole, Map<ControllerFactory, List<String>>> acl = new EnumMap<>(UserRole.class);
 	
 	/** 
 	 * ACL for guest. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private static final Map<ControllerFactory, List<String>> guestACL = new HashMap<>();
+	private static final EnumMap<ControllerFactory, List<String>> guestACL = new EnumMap<>(ControllerFactory.class);
 	
 	/** 
 	 * ACL for manager. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private static final Map<ControllerFactory, List<String>> managerACL = new HashMap<>();
+	private static final EnumMap<ControllerFactory, List<String>> managerACL = new EnumMap<>(ControllerFactory.class);
 	
 	/** 
 	 * ACL for developer. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private static final Map<ControllerFactory, List<String>> developerACL = new HashMap<>();
+	private static final EnumMap<ControllerFactory, List<String>> developerACL = new EnumMap<>(ControllerFactory.class);
 	
 	/** 
 	 * ACL for customer. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private static final Map<ControllerFactory, List<String>> customerACL = new HashMap<>();
+	private static final EnumMap<ControllerFactory, List<String>> customerACL = new EnumMap<>(ControllerFactory.class);
 	
 	/** 
 	 * ACL for admin. Contains controllers from Module Enum and actions
 	 * @see by.htp.devteam.controller.ControllerFactory
 	 */
-	private static final Map<ControllerFactory, List<String>> adminACL = new HashMap<>();
+	private static final EnumMap<ControllerFactory, List<String>> adminACL = new EnumMap<>(ControllerFactory.class);
 	
 	private static final ACL instance = new ACL();
 	
