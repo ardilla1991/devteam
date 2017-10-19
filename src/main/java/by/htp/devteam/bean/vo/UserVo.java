@@ -51,11 +51,11 @@ public class UserVo {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int PRIME = 31;
 		int result = 1;
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((employee == null) ? 0 : employee.hashCode());
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = PRIME * result + ((customer == null) ? 0 : customer.hashCode());
+		result = PRIME * result + ((employee == null) ? 0 : employee.hashCode());
+		result = PRIME * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 

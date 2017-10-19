@@ -118,18 +118,18 @@ public class Order extends Bean {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int PRIME = 31;
 		int result = 1;
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
-		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
-		result = prime * result + ((dateFinish == null) ? 0 : dateFinish.hashCode());
-		result = prime * result + ((dateProcessing == null) ? 0 : dateProcessing.hashCode());
-		result = prime * result + ((dateStart == null) ? 0 : dateStart.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((specification == null) ? 0 : specification.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = PRIME * result + ((customer == null) ? 0 : customer.hashCode());
+		result = PRIME * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
+		result = PRIME * result + ((dateFinish == null) ? 0 : dateFinish.hashCode());
+		result = PRIME * result + ((dateProcessing == null) ? 0 : dateProcessing.hashCode());
+		result = PRIME * result + ((dateStart == null) ? 0 : dateStart.hashCode());
+		result = PRIME * result + ((description == null) ? 0 : description.hashCode());
+		result = PRIME * result + ((id == null) ? 0 : id.hashCode());
+		result = PRIME * result + ((price == null) ? 0 : price.hashCode());
+		result = PRIME * result + ((specification == null) ? 0 : specification.hashCode());
+		result = PRIME * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 

@@ -41,10 +41,10 @@ public class ProjectVo {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int PRIME = 31;
 		int result = 1;
-		result = prime * result + ((employees == null) ? 0 : employees.hashCode());
-		result = prime * result + ((project == null) ? 0 : project.hashCode());
+		result = PRIME * result + ((employees == null) ? 0 : employees.hashCode());
+		result = PRIME * result + ((project == null) ? 0 : project.hashCode());
 		return result;
 	}
 

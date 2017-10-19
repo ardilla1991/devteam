@@ -56,11 +56,11 @@ public class OrderVo {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int PRIME = 31;
 		int result = 1;
-		result = prime * result + ((order == null) ? 0 : order.hashCode());
-		result = prime * result + ((qualifications == null) ? 0 : qualifications.hashCode());
-		result = prime * result + ((works == null) ? 0 : works.hashCode());
+		result = PRIME * result + ((order == null) ? 0 : order.hashCode());
+		result = PRIME * result + ((qualifications == null) ? 0 : qualifications.hashCode());
+		result = PRIME * result + ((works == null) ? 0 : works.hashCode());
 		return result;
 	}
 
