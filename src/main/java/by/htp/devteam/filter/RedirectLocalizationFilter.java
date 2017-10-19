@@ -3,7 +3,6 @@ package by.htp.devteam.filter;
 import static by.htp.devteam.controller.util.ConstantValue.SYSTEM_PATH;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;

@@ -39,10 +39,9 @@ public final class Runner {
 		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		
 		Controller moduleController = ControllerFactory.getController(module).chooseController();
-		Page page = (Page) moduleController.getClass()
-		.getMethod(generateMethodName(action) + request.getMethod(), HttpServletRequest.class, HttpServletResponse.class)
-		.invoke(moduleController, request, response);
 		
-		return page;
+		return (Page) moduleController.getClass()
+				.getMethod(generateMethodName(action) + request.getMethod(), HttpServletRequest.class, HttpServletResponse.class)
+				.invoke(moduleController, request, response);
 	}
 }

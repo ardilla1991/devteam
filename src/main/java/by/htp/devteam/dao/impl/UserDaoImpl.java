@@ -148,7 +148,6 @@ public final class UserDaoImpl implements UserDao {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println(e);
 			throw new DaoException(MSG_ERROR_EMPLOYEE_ADD, e);
 		}
 		return createdUser;

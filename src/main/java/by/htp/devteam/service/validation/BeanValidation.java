@@ -19,7 +19,7 @@ public class BeanValidation {
 	public BeanValidation() {
 		super();
 		valid = true;
-		notValidField = new ArrayList<String>();
+		notValidField = new ArrayList<>();
 	}
 	
 	public boolean isValid() {

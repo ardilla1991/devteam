@@ -39,9 +39,9 @@ public final class UserControllerImpl implements UserController {
 		String login = request.getParameter(REQUEST_PARAM_USER_LOGIN);
 		String password = request.getParameter(REQUEST_PARAM_USER_PASSWORD);
 		String role = request.getParameter(REQUEST_PARAM_USER_ROLE);
-		String employee_id = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
+		String employeeId = request.getParameter(REQUEST_PARAM_EMPLOYEE_ID);
 		try {
-			Employee employee = employeeService.getById(employee_id);
+			Employee employee = employeeService.getById(employeeId);
 			userService.add(login, password, role, employee);
 		} catch (ServiceException e) {
 			request.setAttribute(REQUEST_PARAM_ERROR_CODE, e.getErrorCode().getValue());
@@ -49,7 +49,7 @@ public final class UserControllerImpl implements UserController {
 			request.setAttribute(REQUEST_PARAM_USER_LOGIN, login);
 			request.setAttribute(REQUEST_PARAM_USER_PASSWORD, password);
 			request.setAttribute(REQUEST_PARAM_USER_ROLE, role);
-			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employee_id);
+			request.setAttribute(REQUEST_PARAM_EMPLOYEE_ID, employeeId);
 
 			return addGET(request, response);
 		}

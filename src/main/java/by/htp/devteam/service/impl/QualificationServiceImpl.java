@@ -29,7 +29,7 @@ public final class QualificationServiceImpl implements QualificationService{
 	}
 	
 	public List<Qualification> fetchAll() throws ServiceException{
-		List<Qualification> qualifications = new ArrayList<Qualification>();
+		List<Qualification> qualifications = new ArrayList<>();
 		try {
 			qualifications = qualificationDao.fetchAll();
 		} catch ( DaoException e ) {

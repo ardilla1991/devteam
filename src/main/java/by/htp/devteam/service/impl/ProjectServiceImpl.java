@@ -149,7 +149,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	 * Form Map with id qualification as Key and count qualifications as value
 	 */
 	private Map<Long, Integer> getNeededQualificationsAsIdAndCount(Map<Qualification, Integer> qualifications) {
-		Map<Long, Integer> neededQualifications = new HashMap<Long, Integer>(qualifications.size());
+		Map<Long, Integer> neededQualifications = new HashMap<>(qualifications.size());
 		for ( Entry<Qualification, Integer> qualification : qualifications.entrySet() ) {
 		    Map.Entry<Qualification, Integer> entry = (Map.Entry<Qualification, Integer>) qualification;
 		    neededQualifications.put(entry.getKey().getId(), entry.getValue());

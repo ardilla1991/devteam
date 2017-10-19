@@ -30,7 +30,7 @@ public final class WorkServiceImpl implements WorkService{
 
 	@Override
 	public List<Work> fetchAll() throws ServiceException {
-		List<Work> works = new ArrayList<Work>();
+		List<Work> works = new ArrayList<>();
 		try {
 			works = workDao.fetchAll();
 		} catch ( DaoException e ) {

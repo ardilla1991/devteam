@@ -34,7 +34,6 @@ public final class QualificationDaoImpl implements QualificationDao {
 
 			qualifications = executeQueryAndGetQualificationListFromResultSet(st);
 		} catch (SQLException e) {
-			System.out.println(e);
 			throw new DaoException(MSG_ERROR_QUALIFICATION_FETCH_ALL, e);
 		}
 		

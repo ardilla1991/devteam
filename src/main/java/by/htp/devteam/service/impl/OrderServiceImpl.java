@@ -68,7 +68,7 @@ public final class OrderServiceImpl implements OrderService{
 		int currPageValue = Integer.valueOf(currPage);
 		int offset = (currPageValue - 1 ) * countPerPage;
 			
-		PagingVo<Order> pagingVo = new PagingVo<Order>();
+		PagingVo<Order> pagingVo = new PagingVo<>();
 		try {
 			pagingVo = orderDao.getNewOrders(offset, countPerPage);
 			int countPages = (int) Math.ceil(pagingVo.getCountAllRecords() * 1.0 / countPerPage);
@@ -84,7 +84,7 @@ public final class OrderServiceImpl implements OrderService{
 	
 	@Override
 	public List<Order> geOrdersByCustomer(Customer customer) throws ServiceException{
-		List<Order> orders = new ArrayList<Order>();
+		List<Order> orders = new ArrayList<>();
 		try {
 			orders = orderDao.getByCustomer(customer);
 		} catch ( DaoException e) {
@@ -186,7 +186,7 @@ public final class OrderServiceImpl implements OrderService{
 	}
 	
 	private List<Work> prepareWorks(String[] worksIds) {
-		List<Work> works = new ArrayList<Work>();
+		List<Work> works = new ArrayList<>();
 		for ( int i = 0; i < worksIds.length; i++ ) {
 			Work work = new Work();
 			work.setId(Long.valueOf(worksIds[i]));
@@ -199,7 +199,7 @@ public final class OrderServiceImpl implements OrderService{
 	
 	private HashMap<Qualification, Integer> prepareQualifications(Map<String, String> qualifications) {
 		
-		HashMap<Qualification, Integer> qualificationsList = new HashMap<Qualification, Integer>();
+		HashMap<Qualification, Integer> qualificationsList = new HashMap<>();
 		Iterator<Entry<String, String>> it = qualifications.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, String> pair = (Map.Entry<String, String>)it.next();
