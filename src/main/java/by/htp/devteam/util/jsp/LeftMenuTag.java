@@ -125,6 +125,7 @@ public final class LeftMenuTag extends TagSupport{
 	}
 	
 	private void menuList() {
+		items.clear();
 		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_ORDER_ADD_URI, "order.addNew");
 		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_PROJECT_LIST_URI, "menu.left.projects");
 		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_PROJECT_LIST_BY_EMPLOYEE_URI, "menu.left.projects");

@@ -22,7 +22,7 @@
 		        <div class="container">
 		            <a class="site-title" href="#">DevTeam</a>
 		            <%@ page import="by.htp.devteam.controller.util.ConstantValue" %>
-		            <a class="site-menu" href="${appNameAndLang}/${ ConstantValue.PAGE_USER_LOGIN_URI }"><fmt:message key = "welcome.enter" /></a>
+		            <a class="site-menu" href="/devteam/ru/${ ConstantValue.PAGE_USER_LOGIN_URI }"><fmt:message key = "welcome.enter" /></a>
 		            <!-- /.navbar-collapse -->
 		        </div>
 		        <!-- /.container-fluid -->

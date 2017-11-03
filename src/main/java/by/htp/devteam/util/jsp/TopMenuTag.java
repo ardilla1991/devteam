@@ -126,6 +126,7 @@ public final class TopMenuTag extends TagSupport {
 	}
 	
 	private void menuList() {
+		items.clear();
 		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_ORDER_LIST_URI, "menu.top.orders");
 		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_ORDER_NEW_LIST_URI, "menu.top.orders.new");
 		items.put(SYSTEM_PATH + currLanguage + URL_DELIMITER + PAGE_EMPLOYEE_LIST_URI, "menu.top.employee.list");

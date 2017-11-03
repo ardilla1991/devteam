@@ -44,7 +44,7 @@
 				currUrlClass="active" currLanguage="${currLanguage}"/>
 	          <%@ page import="by.htp.devteam.bean.UserRole" %>
 			  <c:if test="${ user.getUser().getRole()  == RoleEnum.DEVELOPER || user.getUser().getRole()  == RoleEnum.MANAGER }">
-		          ssh<form class="navbar-form navbar-right" action="${appNameAndLang}/${ ConstantValue.PAGE_PROJECT_FOUND_URI }" method="GET">
+		          <form class="navbar-form navbar-right" action="${appNameAndLang}/${ ConstantValue.PAGE_PROJECT_FOUND_URI }" method="GET">
 		          		<input type="hidden" name="action" value="project_find">
 		          		<input type="text" class="form-control" autocomplete="off" placeholder="<fmt:message key = "project.goTo" />" id="projectName" name="title" maxlength="250"/>
 		          	
