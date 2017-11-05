@@ -2,6 +2,8 @@ package by.htp.devteam.bean;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Order's object. Has properties <b>id</b>, <b>title</b>, 
@@ -12,7 +14,9 @@ import java.util.Date;
  *
  */
 public class Order extends Bean {
-	
+
+	private static final long serialVersionUID = -4115490096881886792L;
+
 	/** Order's title */
 	private String title;
 	
@@ -40,6 +44,10 @@ public class Order extends Bean {
 	/** Order's price */
 	private BigDecimal price;
 	
+	private Set<OrderQualification> qualifications = new HashSet<>();
+	
+	private Set<OrderWork> works = new HashSet<>();
+
 	public Order() {
 		super();
 	}
@@ -115,7 +123,23 @@ public class Order extends Bean {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+	
+	public Set<OrderQualification> getQualifications() {
+		return qualifications;
+	}
 
+	public void setQualifications(Set<OrderQualification> qualifications) {
+		this.qualifications = qualifications;
+	}
+
+	public Set<OrderWork> getWorks() {
+		return works;
+	}
+
+	public void setWorks(Set<OrderWork> works) {
+		this.works = works;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -194,5 +218,15 @@ public class Order extends Bean {
 			return false;
 		return true;
 	}
+
+	/*@Override
+	public String toString() {
+		return "Order [title=" + title + ", description=" + description + ", specification=" + specification
+				+ ", customer=" + customer + ", dateCreated=" + dateCreated + ", dateStart=" + dateStart
+				+ ", dateFinish=" + dateFinish + ", dateProcessing=" + dateProcessing + ", price=" + price
+				+ ", qualifications=" + qualifications + ", works=" + works + "]";
+	}*/
+
+
 	
 }

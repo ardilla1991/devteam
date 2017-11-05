@@ -1,6 +1,7 @@
 package by.htp.devteam.bean;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Project's object. Project is created after creating order (if isset not busy employees for development perion)
@@ -23,6 +24,8 @@ public class Project extends Bean {
 	/** Project's order */
 	private Order order;
 	
+	private Set<ProjectEmployee> employees;
+
 	public Project() {
 		super();
 	}
@@ -57,6 +60,14 @@ public class Project extends Bean {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+	
+	public Set<ProjectEmployee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Set<ProjectEmployee> employees) {
+		this.employees = employees;
 	}
 
 	@Override
@@ -106,6 +117,12 @@ public class Project extends Bean {
 		} else if (!title.equals(other.title))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Project [title=" + title + ", description=" + description + ", dateCreated=" + dateCreated + ", order="
+				+ order + ", employees=" + employees + "]";
 	}
 	
 }

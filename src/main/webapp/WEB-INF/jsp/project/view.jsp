@@ -15,7 +15,7 @@
 				<c:if test="${ project_vo.getProject().getId() > 0}">
 					<fmt:message key="project.button.addHours" var="linkTitle"/>
 					<acl:action user="${ user.getUser() }" 
-							href="${ ConstantValue.PAGE_PROJECT_UPDATE_HOURS_URI }${project_vo.getProject().getId() }" 
+							href="${appNameAndLang}/${ ConstantValue.PAGE_PROJECT_UPDATE_HOURS_URI }${project_vo.getProject().getId() }" 
 							title="${ linkTitle }" 
 							className="btn btn-default" buttonRole="button" 
 							id="project_add" />

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-5.0.dtd">
+<hibernate-mapping>
+	<class name="by.htp.devteam.bean.Qualification" table="qualification">
+		<id name="id" column="q_id" type="java.lang.Long">
+			<generator class="native"></generator>
+		</id>
+		<property name="title" column="title" type="string"/>
+		<property name="service" column="service" type="boolean"/>
+	</class>
+</hibernate-mapping>

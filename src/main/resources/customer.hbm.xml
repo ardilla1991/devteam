@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-5.0.dtd">
+<hibernate-mapping>
+	<class name="by.htp.devteam.bean.Customer" table="customer">
+		<id name="id" column="c_id" type="java.lang.Long">
+			<generator class="native"></generator>
+		</id>
+		<property name="name" column="name" type="string"/>
+		<property name="email" column="email" type="string"/>
+		<property name="phone" column="phone" type="string"/>
+        <many-to-one name = "user" column = "user_id" unique="true" 
+         								class="by.htp.devteam.bean.User" not-null="true"/>
+
+	</class>
+</hibernate-mapping>

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -64,19 +63,6 @@ public final class EmployeeServiceImpl implements EmployeeService{
 		try {
 			employees = employeeDao.getFreeEmployeesForPeriod(dateStart, dateFinish, qualifications);
 		} catch ( DaoException  e ) {
-			logger.error(e.getMessage(), e);
-			throw new ServiceException(ErrorCode.APPLICATION);
-		}
-		
-		return employees;
-	}
-
-	@Override
-	public Map<Employee, Integer> getByProject(Project project) throws ServiceException{
-		Map<Employee, Integer>  employees = null;
-		try {
-			employees = employeeDao.getEmployeesAndSpendingHoursByProject(project);
-		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
