@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
@@ -18,6 +22,7 @@ import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.UserDao;
 import by.htp.devteam.dao.util.ConnectionPool;
+import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
@@ -34,32 +39,27 @@ public final class UserDaoImpl implements UserDao {
 			
 	@Override
 	public User fetchByCredentials(String login) throws DaoException {
-		User user = null;
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement ps = dbConnection.prepareStatement(SQL_USER_FETCH_BY_CREDENTIALS) ) {
-
-			ps.setString(1, login);
-			
-			user = executeQueryAndGetUserFromResultSet(ps);
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_USER_FETCH_BY_CREDENTIALS, e);
-		}
-		return user;
-	}
-	
-	private User executeQueryAndGetUserFromResultSet(PreparedStatement ps) throws SQLException {
-		User user = null;
-		try ( ResultSet rs = ps.executeQuery() ) {
-			if (rs.next()) {
-				user = new User();
-				user.setId(rs.getLong(ID));
-				user.setLogin(rs.getString(LOGIN));
-				user.setPassword(rs.getString(PASSWORD));
-				user.setRole(UserRole.valueOf(rs.getString(ROLE)));
-			}
-		}
-		
-		return user;
+		User user = null;	
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction tx = null;
+	    try {
+	    	tx = session.getTransaction();
+	    	tx.begin();
+	    	Query query = session.createQuery(SQL_USER_FETCH_BY_CREDENTIALS);
+	    	query.setParameter("login", login);
+	    	query.setMaxResults(1);
+	    	user = (User) query.uniqueResult();
+	    	tx.commit();
+	    } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw new DaoException(MSG_ERROR_USER_FETCH_BY_CREDENTIALS, e);
+        } finally {
+            session.close();
+        }
+	    
+		return user;	
 	}
 
 	@Override

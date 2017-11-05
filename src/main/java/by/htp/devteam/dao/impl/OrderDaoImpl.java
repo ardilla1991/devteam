@@ -4,16 +4,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.OrderQualification;
+import by.htp.devteam.bean.OrderWork;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.vo.OrderVo;
@@ -22,6 +29,7 @@ import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.dao.util.ConnectionPool;
+import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
@@ -52,63 +60,39 @@ public final class OrderDaoImpl implements OrderDao {
 	 * Order by dateStart DESC
 	 * @see by.htp.devteam.dao.OrderDao#getNewOrders(int, int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public PagingVo<Order> getNewOrders(int offset, int countPerPage) throws DaoException {
 		PagingVo<Order> pagingVo = new PagingVo<>();
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-			  PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_NEW_RECORDS_LIST);
-			  Statement st = dbConnection.createStatement()) {
-			
-			ps.setInt(1, offset);
-			ps.setInt(2, countPerPage);
-			pagingVo.setRecords(executeQueryAndGetOrderListFromResultSet(ps));
-			try ( ResultSet rsNumebr  = st.executeQuery(SQL_FOUND_ROWS) ) {
-				if ( rsNumebr.next() )
-					pagingVo.setCountAllRecords(rsNumebr.getInt(1));
-			}
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_ORDER_NEW_RECORDS_LIST, e);
-		}
+	
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction tx = null;
+	    List<Order> orders = null;
+	    try {
+	    	tx = session.getTransaction();
+	    	tx.begin();
+	    	Query  query = session.createQuery(SQL_ORDER_NEW_RECORDS_LIST);
+	    	query.setFirstResult(offset);
+	    	query.setMaxResults(countPerPage);
+	    	orders = (List<Order>) query.list();
+
+	    	pagingVo.setRecords(orders);
+	    	
+	    	Query  query1 = session.createQuery(SQL_ORDER_COUNT);
+	    	query1.setMaxResults(1);
+	    	pagingVo.setCountAllRecords( ((Long)query1.uniqueResult() ).intValue());
+	    	
+	    	tx.commit();
+	    } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw new DaoException(MSG_ERROR_ORDER_NEW_RECORDS_LIST, e);
+        } finally {
+            session.close();
+        }
 
 		return pagingVo;
-	}
-	
-	private List<Order> executeQueryAndGetOrderListFromResultSet(PreparedStatement ps) throws SQLException {
-		List<Order> orders = new ArrayList<>();
-		try ( ResultSet rs = ps.executeQuery() ) {
-			while ( rs.next() ) {
-				Customer customer = createCustomerFromResultSet(rs);
-				Order order = createOrderFromResultSet(rs, customer);
-				orders.add(order);
-			}
-		}
-		
-		return orders;
-	}
-	
-	private Customer createCustomerFromResultSet(ResultSet rs) throws SQLException {
-		Customer customer = new Customer();
-		customer.setId(rs.getLong(CUSTOMER_ID));
-		customer.setName(rs.getString(12));
-		customer.setEmail(rs.getString(13));
-		customer.setPhone(rs.getString(14));
-		return customer;
-	}
-	
-	private Order createOrderFromResultSet(ResultSet rs, Customer customer) throws SQLException {
-		Order order = new Order();
-		order.setId(rs.getLong(ID));
-		order.setTitle(rs.getString(TITLE));
-		order.setDescription(rs.getString(DESCRIPTION));
-		order.setSpecification(rs.getString(SPECIFICATION));
-		order.setDateCreated(getDateFromTimestamp(rs.getTimestamp(DATE_CREATED)));
-		order.setDateStart(rs.getDate(DATE_START));
-		order.setDateFinish(rs.getDate(DATE_FINISH));
-		order.setDateProcessing(getDateFromTimestamp(rs.getTimestamp(DATE_PROCESSING)));
-		order.setPrice(rs.getBigDecimal(PRICE));
-		order.setCustomer(customer);
-
-		return order;
 	}
 	
 	private Date getDateFromTimestamp(Timestamp timestamp) {
@@ -122,105 +106,71 @@ public final class OrderDaoImpl implements OrderDao {
 	@Override
 	public OrderVo getById(long id) throws DaoException, ObjectNotFoundException {
 		OrderVo orderVo = new OrderVo();
-		try ( Connection dbConnection = ConnectionPool.getConnection()) {
-			Order order = getOrder(dbConnection, id);
-			orderVo.setOrder(order);
-			orderVo.setWorks(getWorks(dbConnection, order));
-			orderVo.setQualifications(getQualifications(dbConnection, order));
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_ORDER_GET_BY_ID, e);
-		}
+		Order order = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction tx = null;
+	    try {
+	    	tx = session.getTransaction();
+	    	tx.begin();
+	    	Query query = session.createQuery(SQL_ORDER_GET_BY_ID);
+	    	query.setParameter("id", id);
+	    	query.setMaxResults(1);
+	    	order = (Order)query.uniqueResult();
+	    	tx.commit();
+	    	
+	    	orderVo.setOrder(order);
+		    orderVo.setQualifications(getQualifications(order.getQualifications()));
+	    	orderVo.setWorks(getWorks(order.getWorks()));
+	    } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw new DaoException(MSG_ERROR_ORDER_GET_BY_ID, e);
+        } finally {
+            session.close();
+        }
+	    
 		return orderVo;
 	}
 	
-	private List<Work> getWorks(Connection dbConnection, Order order) throws SQLException{
+	private List<Work> getWorks(Set<OrderWork> worksProxy) {
 		List<Work> works = new ArrayList<>();
-		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_WORKS_BY_ORDER_ID) ) {
-			
-			ps.setLong(ORDER_ID, order.getId());
-			works = executeQueryAndGetWorkListFromResultSet(ps);
-		}
-		
+		for (OrderWork qual : worksProxy) {
+    		works.add(qual.getWork());
+    	}
 		return works;
 	}
 	
-	private Map<Qualification, Integer> getQualifications(Connection dbConnection, Order order) throws SQLException {
-		Map<Qualification, Integer> qualifications = new HashMap<>();	
-		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_QUALIFICATIONS_BY_ORDER_ID) ) {
+	private Map<Qualification, Integer> getQualifications(Set<OrderQualification> qualificationsProxy) {
+    	Map<Qualification, Integer> qualifications = new HashMap<>();
+    	for (OrderQualification qual : qualificationsProxy) {
+    		qualifications.put(qual.getQualification(), qual.getCount());
+    	}
+		return qualifications;
+	}
 
-			ps.setLong(ORDER_ID, order.getId());
-			qualifications = executeQueryAndGetQualificationsFromResultset(ps);
-		}
-		
-		return qualifications;
-	}
-	
-	private List<Work> executeQueryAndGetWorkListFromResultSet(PreparedStatement ps) throws SQLException {
-		List<Work> works = new ArrayList<>();
-		try ( ResultSet rs = ps.executeQuery() ) {
-			while ( rs.next() ) {
-				Work work = createWorkFromResultSet(rs);
-				works.add(work);
-			}
-		}
-		
-		return works;
-	}
-	
-	private Map<Qualification, Integer> executeQueryAndGetQualificationsFromResultset(PreparedStatement ps) 
-			throws SQLException {
-		Map<Qualification, Integer> qualifications = new HashMap<>();	
-		try ( ResultSet rs = ps.executeQuery() ) {
-			while ( rs.next() ) {
-				Qualification qualification = createQualificationFromResultSet(rs);
-				qualifications.put(qualification, rs.getInt(3));
-			}
-		}
-		
-		return qualifications;
-	}
-	
-	private Work createWorkFromResultSet(ResultSet rs) throws SQLException {
-		Work work = new Work();
-		work.setId(rs.getLong(WORK_ID));
-		work.setTitle(rs.getString(3));
-		work.setDescription(rs.getString(4));
-		
-		return work;
-	}
-	
-	private Qualification createQualificationFromResultSet(ResultSet rs) throws SQLException {
-		Qualification qualification = new Qualification();
-		qualification.setId(rs.getLong(1));
-		qualification.setTitle(rs.getString(2));
-		
-		return qualification;
-	}
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Order> getByCustomer(Customer customer) throws DaoException{
 		List<Order> orders = new ArrayList<>();
-		try ( Connection dbConnection = ConnectionPool.getConnection(); 
-			  PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_LIST_BY_CUSTOMER_ID) ) {
-
-			ps.setLong(ID, customer.getId());
-			orders = executeQueryAndGetOrderListFromResultSet(ps, customer);
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_ORDER_GET_LIST_BY_CUSTOMER_ID, e);
-		}
-
-		return orders;
-	}
-	
-	private List<Order> executeQueryAndGetOrderListFromResultSet(PreparedStatement ps, Customer customer) 
-			throws SQLException {
-		List<Order> orders = new ArrayList<>();
-		try ( ResultSet rs = ps.executeQuery() ) { 
-			while ( rs.next() ) {
-				Order order = createOrderFromResultSet(rs, customer);
-				orders.add(order);
-			}
-		}
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction tx = null;
+	    try {
+	    	tx = session.getTransaction();
+	    	tx.begin();
+	    	Query query = session.createQuery(SQL_ORDER_GET_LIST_BY_CUSTOMER_ID);
+	    	query.setParameter("customer_id", customer.getId());
+	    	orders = (List<Order>) query.list();
+	    	tx.commit();
+	    } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw new DaoException(MSG_ERROR_ORDER_GET_LIST_BY_CUSTOMER_ID, e);
+        } finally {
+            session.close();
+        }
 		
 		return orders;
 	}
@@ -316,17 +266,6 @@ public final class OrderDaoImpl implements OrderDao {
 		}	
 	}
 	
-	private Order getOrder(Connection dbConnection, Long id) throws SQLException, ObjectNotFoundException {
-		Order order = new Order();
-		try ( PreparedStatement ps = dbConnection.prepareStatement(SQL_ORDER_GET_BY_ID) ) {
-
-			ps.setLong(ID, id);
-			order = executeQueryAndGetOrderFromResultSet(ps);
-		}
-		
-		return order;
-	}
-	
 	/*
 	 * rollback query
 	 */
@@ -336,20 +275,6 @@ public final class OrderDaoImpl implements OrderDao {
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_ROLLBACK);
 		}
-	}
-	
-	private Order executeQueryAndGetOrderFromResultSet(PreparedStatement ps) throws SQLException, ObjectNotFoundException {
-		Order order = new Order();
-		try ( ResultSet rs = ps.executeQuery() ) {
-			if ( rs.next() ) {
-				Customer customer = createCustomerFromResultSet(rs);
-				order = createOrderFromResultSet(rs, customer);
-			} else {
-				throw new ObjectNotFoundException(MSG_ORDER_NOT_FOUND);
-			}
-		}
-		
-		return order;
 	}
 	
 	private void prepareStatementForOrder(PreparedStatement ps, Order order) throws SQLException {

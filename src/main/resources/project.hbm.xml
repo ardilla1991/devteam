@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-5.0.dtd">
+<hibernate-mapping>
+	<class name="by.htp.devteam.bean.Project" table="project">
+		<id name="id" column="p_id" type="java.lang.Long">
+			<generator class="native"></generator>
+		</id>
+		<property name="title" column="title" type="string"/>
+		<property name="description" column="description" type="string"/>
+		<property name="dateCreated" column="dateCreated" type="date"/>
+        <many-to-one name = "order" column = "order_id" unique="true" 
+         								class="by.htp.devteam.bean.Order"/>
+        <set name="employees" table="project_employee">
+           <key column="project_id"/>
+           <composite-element class="by.htp.devteam.bean.ProjectEmployee">
+              <many-to-one name="employee" column="employee_id" class="by.htp.devteam.bean.Employee" lazy="false" />
+              <property name="hours" type="integer" column="hours" />
+           </composite-element>  
+        </set>
+
+	</class>
+</hibernate-mapping>

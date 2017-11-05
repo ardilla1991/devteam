@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-5.0.dtd">
+<hibernate-mapping>
+	<class name="by.htp.devteam.bean.Employee" table="employee">
+		<id name="id" column="e_id" type="java.lang.Long">
+			<generator class="native"></generator>
+		</id>
+		<property name="name" column="name" type="string"/>
+		<property name="startWork" column="start_work" type="date"/>
+		<many-to-one name = "qualification" column = "qualification_id" 
+         								class="by.htp.devteam.bean.Qualification" not-null="true"/>
+        <many-to-one name = "user" column = "user_id" unique="true" 
+         								class="by.htp.devteam.bean.User"/>
+        <set name="projects" table="project_employee">
+           <key column="employee_id"/>
+           <composite-element class="by.htp.devteam.bean.ProjectEmployee">
+              <many-to-one name="project" column="project_id" class="by.htp.devteam.bean.Project" lazy="false" />
+              <property name="hours" type="integer" column="hours" />
+           </composite-element>  
+        </set>
+
+	</class>
+</hibernate-mapping>

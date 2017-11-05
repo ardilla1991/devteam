@@ -2,6 +2,7 @@ package by.htp.devteam.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Employee's object. Has properties <b>id</b>, <b>name</b>, 
@@ -26,6 +27,8 @@ public class Employee extends Bean implements Serializable {
 	/** Customer's user to enter into system*/
 	private User user;
 	
+	private Set<ProjectEmployee> projects;
+
 	public Employee() {
 		super();
 	}
@@ -60,6 +63,14 @@ public class Employee extends Bean implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Set<ProjectEmployee> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(Set<ProjectEmployee> projects) {
+		this.projects = projects;
 	}
 
 	@Override

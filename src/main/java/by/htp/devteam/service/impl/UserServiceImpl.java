@@ -51,6 +51,8 @@ public final class UserServiceImpl implements UserService{
 			throw new ServiceException(ErrorCode.VALIDATION, userValidation.getNotValidField());
 		}
 		
+		logger.info(MSG_LOGGER_USER_NOT_FOUND, Encrypting.getCode(password));
+		
 		try {
 			user = userDao.fetchByCredentials(login);
 			if ( user == null ) {

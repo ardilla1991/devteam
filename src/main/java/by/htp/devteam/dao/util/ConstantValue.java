@@ -50,18 +50,16 @@ public final class ConstantValue {
 			+ "JOIN employee as e ON pe.employee_id=e.id "
 			+ "JOIN qualification as q ON e.qualification_id=q.id ORDER BY q.title DESC";
 	
-	public static final String SQL_ORDER_NEW_RECORDS_LIST = "SELECT SQL_CALC_FOUND_ROWS o.*, c.* "
-			+ "FROM `order` as o "
-			+ "JOIN customer as c "
-			+ "ON o.customer_id=c.id "
-			+ "WHERE o.price IS NULL ORDER BY o.dateCreated DESC, o.dateStart DESC LIMIT ?,?";
+	public static final String SQL_ORDER_NEW_RECORDS_LIST = "FROM Order as o "
+			+ "WHERE o.price IS NULL ORDER BY o.dateCreated DESC, o.dateStart DESC";
 	
-	public static final String SQL_ORDER_GET_BY_ID = "SELECT o.*, c.* FROM `order` as o "
-			+ " JOIN customer as c ON o.customer_id=c.id "
-			+ " WHERE o.id=?";
+	public static final String SQL_ORDER_COUNT = "SELECT count(*) "
+			+ "FROM Order "
+			+ "WHERE price IS NULL";
 	
-	public static final String SQL_ORDER_GET_LIST_BY_CUSTOMER_ID = "SELECT * FROM `order` "
-			+ "WHERE customer_id=? ORDER BY dateCreated DESC";
+	public static final String SQL_ORDER_GET_BY_ID = "FROM Order WHERE id=:id";
+	
+	public static final String SQL_ORDER_GET_LIST_BY_CUSTOMER_ID = "FROM Order WHERE customer_id=:customer_id ORDER BY dateCreated DESC";
 	
 	public static final String SQL_ORDER_ADD = "INSERT INTO `order` (id, title, description, specification, customer_id, dateCreated, dateStart, dateFinish, price) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -81,19 +79,29 @@ public final class ConstantValue {
 	
 	public static final String SQL_ORDER_SET_PRICE = "UPDATE `order` SET price=?,dateProcessing=? WHERE id=?";
 	
-	public static final String SQL_PROJECT_FETCH_ALL = "SELECT SQL_CALC_FOUND_ROWS p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id LIMIT ?,?";
+	public static final String SQL_PROJECT_FETCH_ALL = "FROM Project";
 	
-	public static final String SQL_PROJECT_LIST_BY_EMPLOYEE = "SELECT SQL_CALC_FOUND_ROWS p.*, o.* FROM project as p JOIN `order` as o ON p.order_id=o.id "
-			+ "JOIN  (SELECT project_id FROM project_employee WHERE employee_id=?) as pew ON p.id=pew.project_id "
-			+ "ORDER BY o.dateStart DESC "
-			+ "LIMIT ?,?";
+	public static final String SQL_PROJECT_COUNT = "SELECT count(*) FROM Project ";
+	
+	public static final String SQL_PROJECT_LIST_BY_EMPLOYEE = "SELECT p FROM Project as p "
+			+ "INNER JOIN p.employees as pe INNER JOIN pe.employee as pee WHERE pee.id=:employee_id";
+	
+	/*public static final String SQL_PROJECT_LIST_BY_EMPLOYEE = "FROM Project as p  "
+			+ "JOIN  (SELECT project_id FROM ProjectEmployee WHERE employee=:employee_id) as pew ON p.id=pew.project_id "
+			+ "ORDER BY o.dateStart DESC ";*/
+	
+	public static final String SQL_PROJECT_COUNT_BY_EMPLOYEE = "select count (*) FROM Project as p "
+			+ "INNER JOIN p.employees as pe INNER JOIN pe.employee as pee WHERE pee.id=:employee_id";
+	
+	/*public static final String SQL_PROJECT_COUNT_BY_EMPLOYEE = "SELECT count(*)  FROM Project as p JOIN Order as o ON p.order_id=o.id "
+			+ "JOIN  (SELECT project_id FROM project_employee WHERE employee_id=:employee_id) as pew ON p.id=pew.project_id "
+			+ "ORDER BY o.dateStart DESC ";*/
 	
 	public static final String SQL_PROJECT_ADD = "INSERT INTO `project` (id, title, description, dateCreated, order_id) VALUES (?, ?, ?, ?, ?)";
 	
 	public static final String SQL_PROJECT_ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id) VALUES(?, ?)";
 	
-	public static final String SQL_PROJECT_GET_BY_ID = "SELECT p.*, o.specification, o.dateStart, o.dateFinish, c.name, c.email, c.phone "
-			+ "FROM project as p JOIN `order` as o ON p.order_id=o.id JOIN customer as c ON o.customer_id=c.id WHERE p.id=?";
+	public static final String SQL_PROJECT_GET_BY_ID = "FROM Project WHERE id=:id";
 
 	public static final String SQL_PROJECT_UPDATE_HOURS = "UPDATE project_employee SET hours=hours+? WHERE project_id=? AND employee_id=?";
 	
@@ -101,8 +109,7 @@ public final class ConstantValue {
 	
 	public static final String SQL_QUALIFICATION_FETCH_ALL = "SELECT q.id, q.title FROM qualification as q WHERE q.service=0 ORDER BY title DESC";
 	
-	public static final String SQL_USER_FETCH_BY_CREDENTIALS = "SELECT e.* FROM user as e "
-			+ "WHERE e.login=?";
+	public static final String SQL_USER_FETCH_BY_CREDENTIALS = "FROM User WHERE login=:login";
 	
 	public static final String SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER = "SELECT u.*, ec.* FROM user as u "
 			+ " JOIN ( (SELECT e.id, e.name, e.start_work, '' as email, '' as phone, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "

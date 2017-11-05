@@ -11,11 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.OrderQualification;
 import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.ProjectEmployee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -204,10 +207,7 @@ public final class ProjectServiceImpl implements ProjectService{
 		try {
 			project = projectDao.getById(Long.valueOf(id));
 			projectDto.setProject(project);
-			ServiceFactory serviceFactory = ServiceFactory.getInstance();
-			EmployeeService employeeService = serviceFactory.getEmployeeService();
-			Map<Employee, Integer> employees = employeeService.getByProject(project);
-			projectDto.setEmployee(employees);
+			projectDto.setEmployee(getEmployee(project.getEmployees()));
 		} catch (DaoException e) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
@@ -217,6 +217,14 @@ public final class ProjectServiceImpl implements ProjectService{
 		}
 		
 		return projectDto;
+	}
+	
+	private Map<Employee, Integer> getEmployee(Set<ProjectEmployee> employeesProxy) {
+		Map<Employee, Integer> employees = new HashMap<>();
+    	for (ProjectEmployee employee : employeesProxy) {
+    		employees.put(employee.getEmployee(), employee.getHours());
+    	}
+		return employees;
 	}
 
 	@Override

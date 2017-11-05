@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-5.0.dtd">
+<hibernate-mapping>
+	<class name="by.htp.devteam.bean.Order" table="[order]">
+		<id name="id" column="o_id" type="java.lang.Long">
+			<generator class="native"></generator>
+		</id>
+		<property name="title" column="title" type="string"/>
+		<property name="description" column="description" type="string"/>
+		<property name="specification" column="specification" type="string"/>
+		<many-to-one name="customer" column = "customer_id" lazy="false"
+         							class="by.htp.devteam.bean.Customer" not-null="true"/>
+		<property name="dateCreated" column="dateCreated" type="date"/>
+		<property name="dateStart" column="dateStart" type="date"/>
+		<property name="dateFinish" column="dateFinish" type="date"/>
+		<property name="dateProcessing" column="dateProcessing" type="date"/>
+		<property name="price" column="price" type="big_decimal"/>
+
+        <set name="qualifications" table="order_qualification">
+           <key column="order_id"/>
+           <composite-element class="by.htp.devteam.bean.OrderQualification">
+              <many-to-one name="qualification" column="qualification_id" class="by.htp.devteam.bean.Qualification" />
+              <property name="count" type="integer" column="count" />
+           </composite-element>  
+        </set>
+        <set name="works" table="order_work">
+           <key column="order_id"/>
+           <composite-element class="by.htp.devteam.bean.OrderWork">
+              <many-to-one name="work" column="work_id" class="by.htp.devteam.bean.Work" />
+              <property name="description" type="string" column="description" />
+           </composite-element>  
+        </set>
+	</class>
+</hibernate-mapping>
