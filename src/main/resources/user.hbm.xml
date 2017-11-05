@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-5.0.dtd">
+<hibernate-mapping>
+	<class name="by.htp.devteam.bean.User" table="user">
+		<id name="id" column="u_id" type="java.lang.Long">
+			<generator class="native"></generator>
+		</id>
+		<property name="login" column="login" type="string"/>
+		<property name="password" column="password" type="string"/>
+		
+		<property name="role" column="role">
+    		<type name="org.hibernate.type.EnumType">
+      			<param name="enumClass">by.htp.devteam.bean.UserRole</param>
+      			<param name="type">12</param>
+       			<param name="useNamed">true</param>
+    		</type>       
+  		</property>
+
+	</class>
+</hibernate-mapping>

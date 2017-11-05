@@ -33,6 +33,12 @@ public class PagingVo<T> {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "PagingVo [records=" + records + ", countAllRecords=" + countAllRecords + ", countPages=" + countPages
+				+ ", currPage=" + currPage + ", uri=" + uri + ", appNameAndLang=" + appNameAndLang + "]";
+	}
+
 	public List<T> getRecords() {
 		return records;
 	}

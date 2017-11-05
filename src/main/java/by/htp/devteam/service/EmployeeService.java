@@ -45,14 +45,6 @@ public interface EmployeeService {
 			throws ServiceException;
 	
 	/**
-	 * Get map of employee and their spending hours on project
-	 * @param project  Project information
-	 * @return Map where employee as key and hours number spending on project as a value
-	 * @throws ServiceException  after catching DAOException
-	 */
-	Map<Employee, Integer> getByProject(Project project) throws ServiceException;
-	
-	/**
 	 * Get Map of qualifications' ids and qualifications' count by selected employees' list.
 	 * This method used on create project action when we ckeck 
 	 * if selected employees correspond to selected qualifications in order

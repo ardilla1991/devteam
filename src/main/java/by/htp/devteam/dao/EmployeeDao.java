@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -62,15 +61,6 @@ public interface EmployeeDao {
 	 * @throws DaoException When SQLException are catched
 	 */
 	Map<Long, Integer> getQualificationsIdsAndCountByEmployees(Long[] employeesIds) throws DaoException;
-	
-	
-	/**
-	 * Get map of employees and their spending time to work on project. Used on project's page
-	 * @param project Project information
-	 * @return map of employee as key and spending hours on project as value
-	 * @throws DaoException When SQLException are catched
-	 */
-	Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException;
 	
 	/**
 	 * Storage employee in DB

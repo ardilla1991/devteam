@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
@@ -203,46 +202,7 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		
 		return qualificationsCount;
 	}
-
-	/*
-	 * Order by quelification title DESC
-	 * @see by.htp.devteam.dao.EmployeeDao#getEmployeesAndSpendingHoursByProject(by.htp.devteam.bean.Project)
-	 */
-	@Override
-	public Map<Employee, Integer> getEmployeesAndSpendingHoursByProject(Project project) throws DaoException {
-		Map<Employee, Integer> employees = new HashMap<>();
-		
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement st = dbConnection.prepareStatement(SQL_EMPLOYEE_GET_BY_PROJECT) ) {
-			
-			st.setLong(1, project.getId());
-			employees = executeQueryAndGetEmployeeListWithHoursOnProjectFromResultSet(st);
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_EMPLOYEE_GET_BY_PROJECT, e);
-		}
-
-		return employees;
-	}
 	
-	private Map<Employee, Integer> executeQueryAndGetEmployeeListWithHoursOnProjectFromResultSet(PreparedStatement st) 
-			throws SQLException {
-		Map<Employee, Integer> employees = new HashMap<>();
-		try ( ResultSet rs = st.executeQuery() ) {
-			while ( rs.next() ) {
-				Employee employee = new Employee();
-				employee.setId(rs.getLong(ID));
-				employee.setName(rs.getString(NAME));
-				Qualification qualification = new Qualification();
-				qualification.setTitle(rs.getString(3));
-				
-				employee.setQualification(qualification);
-				employees.put(employee, rs.getInt(4));
-			}
-		}
-		
-		return employees;
-	}
-
 	@Override
 	public Employee add(Employee employee) throws DaoException {
 		Employee createdEmployee = employee;
