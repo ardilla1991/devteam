@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
@@ -21,6 +26,7 @@ import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.dao.util.ConnectionPool;
+import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
@@ -352,17 +358,30 @@ public final class EmployeeDaoImpl implements EmployeeDao {
 		return employees;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Employee> getListWithNotSetUser() throws DaoException {
-		List<Employee> employeeList = new ArrayList<>();
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement ps = dbConnection.prepareStatement(SQL_EMPLOYEE_FETCH_NO_USER) ) {
-			employeeList = getEmployeeListFromResultSet(ps, false);
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_EMPLOYEE_LIST_NOT_USER, e);
-		}
+		List<Employee> employees = new ArrayList<>();
 		
-		return employeeList;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction tx = null;
+	    try {
+	    	tx = session.getTransaction();
+	    	tx.begin();
+	    	Query query = session.createQuery(SQL_EMPLOYEE_FETCH_NO_USER);
+	    	employees = (List<Employee>) query.list();
+
+	    	tx.commit();
+	    } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw new DaoException(MSG_ERROR_EMPLOYEE_LIST_NOT_USER, e);
+        } finally {
+            session.close();
+        }
+		
+		return employees;
 	}
 
 }

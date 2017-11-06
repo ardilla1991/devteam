@@ -8,8 +8,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
@@ -177,7 +179,7 @@ public final class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public OrderVo add(OrderVo orderVo) throws DaoException{
-		Connection dbConnection = null;
+		/*Connection dbConnection = null;
 		try {
 			dbConnection = ConnectionPool.getConnection();
 			dbConnection.setAutoCommit(false);
@@ -190,8 +192,61 @@ public final class OrderDaoImpl implements OrderDao {
 			rollback(dbConnection);
 			ConnectionPool.returnConnection(dbConnection);
 			throw new DaoException(MSG_ERROR_ORDER_ADD, e);
-		}
+		}*/
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    try {
+	    	session.getTransaction().begin();
+	    	Order order = createOrder(orderVo);
+	    	session.save(order);
+	    	orderVo.getOrder().setId(order.getId());
+	    	session.getTransaction().commit();
+	    } catch (HibernateException e) {
+            throw new DaoException(MSG_ERROR_ORDER_ADD, e);
+        } finally {
+            session.close();
+        }
+		
 		return orderVo;
+	}
+	
+	private Order createOrder(OrderVo orderVo) {
+		
+		Order order = orderVo.getOrder();
+		Set<OrderQualification> qualifications = createOrderQualifications(order, orderVo.getQualifications());
+		Set<OrderWork> works = createOrderWorks(order, orderVo.getWorks());
+		order.setQualifications(qualifications);
+		order.setWorks(works);
+		
+		return order;
+	}
+	
+	private Set<OrderQualification> createOrderQualifications(Order order, Map<Qualification, Integer> qualificationsMap) {
+		Set<OrderQualification> qualifications = new HashSet<>();
+		for (Map.Entry<Qualification, Integer> qualification : qualificationsMap.entrySet()) {
+			OrderQualification orderQualification = new OrderQualification();
+			orderQualification.setOrder(order);
+			orderQualification.setQualification(qualification.getKey());
+			orderQualification.setCount(qualification.getValue());
+			
+			qualifications.add(orderQualification);
+		}
+		
+		return qualifications;
+	}
+	
+	private Set<OrderWork> createOrderWorks(Order order, List<Work> worksList) {
+		Set<OrderWork> works = new HashSet<>();
+		for (Work work : worksList) {
+			OrderWork orderWork = new OrderWork();
+			orderWork.setOrder(order);
+			orderWork.setWork(work);
+			orderWork.setDescription(null);
+			
+			works.add(orderWork);
+		}
+		
+		return works;
 	}
 	
 	private Long addOrder(Connection dbConnection, Order order) throws SQLException {
