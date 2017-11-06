@@ -85,7 +85,7 @@ public final class ConstantValue {
 	
 	public static final String SQL_PROJECT_LIST_BY_EMPLOYEE = "SELECT p FROM Project as p "
 			+ "INNER JOIN p.employees as pe INNER JOIN pe.employee as pee WHERE pee.id=:employee_id";
-	
+
 	/*public static final String SQL_PROJECT_LIST_BY_EMPLOYEE = "FROM Project as p  "
 			+ "JOIN  (SELECT project_id FROM ProjectEmployee WHERE employee=:employee_id) as pew ON p.id=pew.project_id "
 			+ "ORDER BY o.dateStart DESC ";*/
