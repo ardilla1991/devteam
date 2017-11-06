@@ -131,9 +131,7 @@ public final class ConstantValue {
 			+ "JOIN qualification as q ON e.qualification_id=q.id "
 			+ "LEFT JOIN user as u ON e.user_id=u.id ORDER BY e.name LIMIT ?,?";
 	
-	public static final String SQL_EMPLOYEE_FETCH_NO_USER = "SELECT e.*, q.title "
-			+ "FROM employee as e "
-			+ "JOIN qualification as q ON e.qualification_id=q.id WHERE e.user_id IS NULL";
+	public static final String SQL_EMPLOYEE_FETCH_NO_USER = "SELECT e FROM Employee as e INNER JOIN FETCH e.qualification WHERE e.user IS NULL";
 	
 	public static final String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
 	

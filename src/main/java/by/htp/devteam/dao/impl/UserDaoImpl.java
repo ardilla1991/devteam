@@ -8,12 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -75,6 +77,7 @@ public final class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			throw new DaoException(MSG_ERROR_USER_LIST, e);
 		}
+		
 		return pagingVo;
 	}
 	
