@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.devteam.bean.Employee;
+import by.htp.devteam.bean.ProjectEmployee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -27,6 +28,8 @@ import by.htp.devteam.service.validation.Validator;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.apache.logging.log4j.LogManager;
 
 public final class EmployeeServiceImpl implements EmployeeService{
@@ -83,10 +86,10 @@ public final class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	@Override
-	public boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish)
+	public boolean isEmployeesNotBusyForPeriod(Session session, Set<ProjectEmployee> employees, Date dateStart, Date dateFinish)
 			throws DaoException {
 	
-		return employeeDao.isEmployeesNotBusyForPeriod(connection, employeesIds, dateStart, dateFinish);
+		return employeeDao.isEmployeesNotBusyForPeriod(session, employees, dateStart, dateFinish);
 	}
 
 	@Override

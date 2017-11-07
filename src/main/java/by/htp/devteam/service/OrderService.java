@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.Part;
 
+import org.hibernate.Session;
+
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -54,11 +56,11 @@ public interface OrderService {
 	 * @param dateFinish finish date of project
 	 * @param workIds list of works 
 	 * @param qualifications Map of qualification as key and count needed qualification as a value
-	 * @return OrdeVo : order information, works' information and needed qualification 
-	 * @see by.htp.devteam.bean.vo.OrderVo#OrderVo()
+	 * @return Order : full order information with works information and needed qualifications 
+	 * @see by.htp.devteam.bean.Order#Order()
 	 * @throws ServiceException When error happen with validation, file upload or DAOException are catched
 	 */
-	OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, 
+	Order add(Customer customer, String title, String description, Part specification, String dateStart, 
 			String dateFinish, String[] workIds, Map<String, String> qualifications) throws ServiceException;
 
 	/**
@@ -74,9 +76,9 @@ public interface OrderService {
 	
 	/**
 	 * Set price and date processing for order. Update after creating project
-	 * @param connection DB Connection 
+	 * @param session Hibernate session 
 	 * @param order With updated price and dateProcessing values
 	 * @throws ServiceException after catching DAOException
 	 */
-	void setPriceAndDateProcessing(Connection connection, Order order) throws ServiceException;
+	void setPriceAndDateProcessing(Session session, Order order) throws ServiceException;
 }

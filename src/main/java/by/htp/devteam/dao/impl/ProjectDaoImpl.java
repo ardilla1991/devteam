@@ -123,31 +123,17 @@ public final class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
-	public Project add(Connection connection, Project project) throws DaoException {
-		Project createdProject = project;
-		try ( PreparedStatement ps = connection.prepareStatement(SQL_PROJECT_ADD, PreparedStatement.RETURN_GENERATED_KEYS) ) {
-
-			prepareStatementForProject(ps, project);
-			ps.executeUpdate();
-			try ( ResultSet rs = ps.getGeneratedKeys() ) {
-				if (rs.next()) {
-					createdProject.setId(rs.getLong(ID));
-				}
-			}
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_PROJECT_ADD, e);
-		}
-		return createdProject;
+	public Project add(Session session, Project project) throws DaoException {
+	    try {
+	    	session.save(project);
+	    	project.setId(project.getId());
+	    } catch (HibernateException e) {
+            throw new DaoException(MSG_ERROR_ORDER_ADD, e);
+        }
+		
+		return project;
 	}
 	
-	private void prepareStatementForProject(PreparedStatement ps, Project project) throws SQLException {
-		ps.setString(ID, null);
-		ps.setString(TITLE, project.getTitle());
-		ps.setString(DESCRIPTION, project.getDescription());
-		ps.setTimestamp(DATE_CREATED, new java.sql.Timestamp(project.getDateCreated().getTime()));
-		ps.setLong(ORDER_ID, project.getOrder().getId());
-	}
-
 	@Override
 	public void setEmployees(Connection connection, Project project, Long[] employeeIds) throws DaoException {
 		try ( PreparedStatement ps = connection.prepareStatement(SQL_PROJECT_ADD_EMPLOYEE) ) {
@@ -181,9 +167,7 @@ public final class ProjectDaoImpl implements ProjectDao {
 	    	query.setParameter("id", id);
 	    	query.setMaxResults(1);
 	    	project = (Project)query.uniqueResult();
-	    	
-	    	//System.out.println("project==");
-	    	//System.out.println(project);
+
 	    	tx.commit();
 	    	Hibernate.initialize(project.getOrder().getCustomer());
 	    	Hibernate.initialize(project.getEmployees());
@@ -241,33 +225,35 @@ public final class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
-	public Connection startTransaction() throws DaoException {
-		Connection dbConnection = null;
+	public Session startTransaction() throws DaoException {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = null;
 		try {
-			dbConnection = ConnectionPool.getConnection();
-			dbConnection.setAutoCommit(false);
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_CONNECTION, e);
-		}
-		return dbConnection;
+			tx = session.getTransaction();
+			tx.begin();
+		} catch (HibernateException e) {
+	        throw new DaoException(MSG_ERROR_ORDER_ADD, e);
+	    } 
+		
+		return session;
 	}
 	
 	@Override
-	public void rollbackTransaction(Connection connection) throws DaoException {
+	public void rollbackTransaction(Session session) throws DaoException {
 		try {
-			connection.rollback();
-			ConnectionPool.returnConnection(connection);
-		} catch (SQLException e) {
+			session.getTransaction().rollback();
+			session.close();
+		} catch (HibernateException e) {
 			throw new DaoException(MSG_ERROR_ROLLBACK, e);
 		}
 	}
 	
 	@Override
-	public void commitTransaction(Connection connection) throws DaoException {
+	public void commitTransaction(Session session) throws DaoException {
 		try {
-			connection.commit();
-			ConnectionPool.returnConnection(connection);
-		} catch (SQLException e) {
+			session.getTransaction().commit();
+			session.close();
+		} catch (HibernateException e) {
 			throw new DaoException(MSG_ERROR_COMMIT, e);
 		}
 	}

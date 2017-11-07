@@ -179,7 +179,7 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public OrderVo add(OrderVo orderVo) throws DaoException{
+	public Order add(Order order) throws DaoException{
 		/*Connection dbConnection = null;
 		try {
 			dbConnection = ConnectionPool.getConnection();
@@ -198,9 +198,8 @@ public final class OrderDaoImpl implements OrderDao {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 	    try {
 	    	session.getTransaction().begin();
-	    	Order order = createOrder(orderVo);
 	    	session.save(order);
-	    	orderVo.getOrder().setId(order.getId());
+	    	order.setId(order.getId());
 	    	session.getTransaction().commit();
 	    } catch (HibernateException e) {
             throw new DaoException(MSG_ERROR_ORDER_ADD, e);
@@ -208,46 +207,7 @@ public final class OrderDaoImpl implements OrderDao {
             session.close();
         }
 		
-		return orderVo;
-	}
-	
-	private Order createOrder(OrderVo orderVo) {
-		
-		Order order = orderVo.getOrder();
-		Set<OrderQualification> qualifications = createOrderQualifications(order, orderVo.getQualifications());
-		Set<OrderWork> works = createOrderWorks(order, orderVo.getWorks());
-		order.setQualifications(qualifications);
-		order.setWorks(works);
-		
 		return order;
-	}
-	
-	private Set<OrderQualification> createOrderQualifications(Order order, Map<Qualification, Integer> qualificationsMap) {
-		Set<OrderQualification> qualifications = new HashSet<>();
-		for (Map.Entry<Qualification, Integer> qualification : qualificationsMap.entrySet()) {
-			OrderQualification orderQualification = new OrderQualification();
-			orderQualification.setOrder(order);
-			orderQualification.setQualification(qualification.getKey());
-			orderQualification.setCount(qualification.getValue());
-			
-			qualifications.add(orderQualification);
-		}
-		
-		return qualifications;
-	}
-	
-	private Set<OrderWork> createOrderWorks(Order order, List<Work> worksList) {
-		Set<OrderWork> works = new HashSet<>();
-		for (Work work : worksList) {
-			OrderWork orderWork = new OrderWork();
-			orderWork.setOrder(order);
-			orderWork.setWork(work);
-			orderWork.setDescription(null);
-			
-			works.add(orderWork);
-		}
-		
-		return works;
 	}
 	
 	private Long addOrder(Connection dbConnection, Order order) throws SQLException {
@@ -311,13 +271,10 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	@Override
-	public void setPriceAndDateProcessing(Connection connection, Order order) throws DaoException {
-		try ( PreparedStatement ps = connection.prepareStatement(SQL_ORDER_SET_PRICE) ) {
-			ps.setBigDecimal(1, order.getPrice());
-			ps.setTimestamp(2,  new java.sql.Timestamp(order.getDateProcessing().getTime()));
-			ps.setLong(3, order.getId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
+	public void setPriceAndDateProcessing(Session session, Order order) throws DaoException {
+		try {
+	    	session.saveOrUpdate(order);
+		} catch (HibernateException e) {
 			throw new DaoException(MSG_ERROR_ORDER_SET_PRICE, e);
 		}	
 	}

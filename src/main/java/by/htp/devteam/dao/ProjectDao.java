@@ -3,6 +3,9 @@ package by.htp.devteam.dao;
 import java.sql.Connection;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -30,12 +33,12 @@ public interface ProjectDao {
 	
 	/**
 	 * Add project.
-	 * @param connection Connection created in service layer because of transaction
+	 * @param session Session created in service layer because of transaction
 	 * @param project Project information
 	 * @return created project
 	 * @throws DaoException When SQLException are catched
 	 */
-	Project add(Connection connection, Project project) throws DaoException;
+	Project add(Session session, Project project) throws DaoException;
 	
 	/**
 	 * Set employees for project
@@ -73,23 +76,23 @@ public interface ProjectDao {
 	List<Project> findByTitle(String title) throws DaoException;
 	
 	/**
-	 * Get connection from pool and start transaction
-	 * @return Connection DB Connection
+	 * Get Session for Hibernate
+	 * @return Transaction for DB session
 	 * @throws DaoException When SQLException are catched
 	 */
-	Connection startTransaction() throws DaoException;
+	Session startTransaction() throws DaoException;
 	
 	/**
-	 * Rollback tarnsaction and return connection in pool
-	 * @param connection DB Connection
+	 * Rollback transaction and return connection in pool
+	 * @param session Hibernate session
 	 * @throws DaoException When SQLException are catched
 	 */
-	void rollbackTransaction(Connection connection) throws DaoException;
+	void rollbackTransaction(Session session) throws DaoException;
 	
 	/**
-	 * Commit ttansaction and return connection in pool
-	 * @param connection DB Connection
+	 * Commit transaction and return connection in pool
+	 * @param session Hibernate session
 	 * @throws DaoException When SQLException are catched
 	 */
-	void commitTransaction(Connection connection) throws DaoException;
+	void commitTransaction(Session session) throws DaoException;
 }

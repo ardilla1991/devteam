@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
+import by.htp.devteam.bean.ProjectEmployee;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -57,14 +61,14 @@ public interface EmployeeService {
 	/**
 	 * Check if selected employees are not busy in the period (between date start and date finish).
 	 * Used on create project page.
-	 * @param connection DB Connection 
-	 * @param employeesIds employees ids
+	 * @param session for Hibernate
+	 * @param employees project employees
 	 * @param dateStart date start of project in order
 	 * @param dateFinish date finish of project in order
 	 * @return if employee is not busy for definite period
 	 * @throws DaoException Exception is catched during transaction process
 	 */
-	boolean isEmployeesNotBusyForPeriod(Connection connection, Long[] employeesIds, Date dateStart, Date dateFinish) 
+	boolean isEmployeesNotBusyForPeriod(Session session, Set<ProjectEmployee> employees, Date dateStart, Date dateFinish) 
 			throws DaoException;
 	
 	/**
