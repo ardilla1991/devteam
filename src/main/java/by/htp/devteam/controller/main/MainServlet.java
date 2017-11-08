@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Service;
+
 import by.htp.devteam.controller.ControllerException;
 
 /**
@@ -28,6 +31,7 @@ import by.htp.devteam.controller.ControllerException;
 	    maxFileSize=1024*1024*5,        // 5 MB 
 	    maxRequestSize=1024*1024*5*5    // 25 MB
 	)
+@Configurable
 public class MainServlet extends HttpServlet{
 
 	private static final long serialVersionUID = -6529178696057273184L;
