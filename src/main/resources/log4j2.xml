@@ -22,6 +22,9 @@
         <Logger name="by.htp.devteam" level="debug" additivity="true">
             <appender-ref ref="fileLogger" level="debug" />
         </Logger>
+        <logger name="org.hibernate" level="debug">
+		    <appender-ref ref="fileLogger"/>
+		</logger>
         <Root level="debug" additivity="false">
             <appender-ref ref="console" />
         </Root>

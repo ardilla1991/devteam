@@ -1,18 +1,17 @@
 package by.htp.devteam.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.CustomerDao;
 import by.htp.devteam.dao.DaoException;
-import by.htp.devteam.dao.util.ConnectionPool;
+import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.apache.logging.log4j.LogManager;
 
 public final class CustomerDaoImpl implements CustomerDao {
@@ -31,30 +30,26 @@ public final class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public Customer getCustomerByUser(User user) throws DaoException {
 		Customer customer = null;
-		try ( Connection dbConnection = ConnectionPool.getConnection();
-				PreparedStatement ps = dbConnection.prepareStatement(SQL_CUSTOMER_GET_BY_USER) ) {
-			
-			ps.setLong(1, user.getId());
-			customer = executeQueryAndGetCustomerFromResultSet(ps, user);
-		} catch (SQLException e) {
-			throw new DaoException(MSG_ERROR_CUSTOMER_GET_BY_USER, e);
-		}
-		return customer;
-	}
-	
-	private Customer executeQueryAndGetCustomerFromResultSet(PreparedStatement ps, User user) throws SQLException {
-		Customer customer = new Customer();
-		try ( ResultSet rs = ps.executeQuery() ) {
-			if ( rs.next() ) {
-				customer = new Customer();
-				customer.setId(rs.getLong(ID));
-				customer.setName(rs.getString(NAME));
-				customer.setEmail(rs.getString(EMAIL));
-				customer.setPhone(rs.getString(PHONE));
-			} else {
-				logger.info(MSG_CUSTOMER_NOT_FOUND, user.getId());
-			}
-		}
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction tx = null;
+	    try {
+	    	tx = session.getTransaction();
+	    	tx.begin();
+	    	Query query = session.createQuery(SQL_CUSTOMER_GET_BY_USER);
+	    	query.setParameter("user", user.getId());
+	    	query.setMaxResults(1);
+	    	customer = (Customer)query.uniqueResult();
+
+	    	tx.commit();
+	    } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw new DaoException(MSG_ERROR_CUSTOMER_GET_BY_USER, e);
+        } finally {
+            session.close();
+        }
 		
 		return customer;
 	}

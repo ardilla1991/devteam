@@ -16,7 +16,7 @@
 			<br/>
 			<fmt:message key="employee.button.add" var="linkTitle"/>
 			<acl:action user="${ user.getUser() }" 
-						href="${ ConstantValue.PAGE_EMPLOYEE_ADD_URI }" 
+						href="${appNameAndLang}/${ ConstantValue.PAGE_EMPLOYEE_ADD_URI }" 
 						title="${ linkTitle }" 
 						className="btn btn-default" buttonRole="button" 
 						id="employee_add_btn" />

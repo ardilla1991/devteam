@@ -13,37 +13,36 @@ public final class ConstantValue {
 	
 	public static final String SQL_FOUND_ROWS = "SELECT FOUND_ROWS()";
 	
-	public static final String SQL_CUSTOMER_GET_BY_USER = "SELECT e.* FROM customer as e WHERE e.user_id=?";
+	public static final String SQL_CUSTOMER_GET_BY_USER = "FROM Customer WHERE user.id=:user";
 	
-	public static final String SQL_EMPLOYEE_GET_BY_USER = "SELECT e.*, q.id, q.title "
-			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
-			+ "WHERE e.user_id=?";
-	/**
-	 * must be 2 queries!
-	 */
-	public static final String SQL_EMPLOYEE_GET_FREE_FOR_PERIOD = "SELECT e.*, q.id, q.title "
-			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
-			+ "WHERE q.service=0 AND q.id IN (##) AND e.id NOT IN "
-				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
-				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
-				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
-				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
-				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
+	public static final String SQL_EMPLOYEE_GET_BY_USER = "FROM Employee as e JOIN FETCH e.qualification "
+			+ "WHERE e.user.id=:user";
+	
+	public static final String SQL_EMPLOYEE_GET_FREE_FOR_PERIOD = "SELECT e "
+			+ "FROM Employee as e JOIN FETCH e.qualification as q "
+			+ "WHERE q.service=0 AND q.id IN (:in) AND e.id NOT IN "
+				+ "(SELECT distinct pee.id FROM Project as p "
+				+ "INNER JOIN p.employees as pe INNER JOIN pe.employee as pee "
+				+ "INNER JOIN p.order as o "
+				+ "WHERE ( o.dateStart BETWEEN :start AND :finish ) "
+				+ "OR ( o.dateFinish BETWEEN :start AND :finish ) "
+				+ "OR ( o.dateStart<:start AND o.dateFinish>:finish ) )";
 	
 	/**
 	 * must be 2 queries!
 	 */
-	public static final String SQL_EMPLOYEE_GET_COUNT_FREE_FROM_LIST = "SELECT COUNT(*) "
-			+ "FROM employee as e JOIN qualification as q ON e.qualification_id=q.id "
-			+ "WHERE q.service=0 AND e.id IN (##) AND e.id NOT IN "
-				+ "(SELECT distinct ep.employee_id FROM project_employee as ep JOIN project as p "
-				+ "ON ep.project_id=p.id JOIN `order` as o ON p.order_id=o.id "
-				+ "WHERE ( o.dateStart BETWEEN ? AND ? ) "
-				+ "OR ( o.dateFinish BETWEEN ? AND ? ) "
-				+ "OR ( o.dateStart<? AND o.dateFinish>? ) )";
+	public static final String SQL_EMPLOYEE_GET_COUNT_FREE_FROM_LIST = "SELECT count(e) "
+			+ "FROM Employee as e JOIN e.qualification as q "
+			+ "WHERE q.service=0 AND e.id IN (:in) AND e.id NOT IN "
+				+ "(SELECT distinct pee.id FROM Project as p "
+				+ "INNER JOIN p.employees as pe INNER JOIN pe.employee as pee "
+				+ "INNER JOIN p.order as o "
+				+ "WHERE ( o.dateStart BETWEEN :start AND :finish ) "
+				+ "OR ( o.dateFinish BETWEEN :start AND :finish ) "
+				+ "OR ( o.dateStart<:start AND o.dateFinish>:finish ) )";
 	
-	public static final String SQL_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "SELECT qualification_id, COUNT(id) "
-			+ "FROM employee WHERE id IN(##) GROUP BY qualification_id";
+	public static final String SQL_EMPLOYEE_GET_QUALIFICATIONS_IDS_WITH_COUNTS_BY_EMPLOYEE_IDS = "SELECT qualification.id, COUNT(id) "
+			+ "FROM Employee WHERE id IN(:ids) GROUP BY qualification.id";
 	
 	public static final String SQL_EMPLOYEE_GET_BY_PROJECT = "SELECT e.id, e.name, q.title, pe.hours "
 			+ "FROM (SELECT * FROM project_employee WHERE project_id=?) as pe "
@@ -93,10 +92,6 @@ public final class ConstantValue {
 	public static final String SQL_PROJECT_COUNT_BY_EMPLOYEE = "select count (*) FROM Project as p "
 			+ "INNER JOIN p.employees as pe INNER JOIN pe.employee as pee WHERE pee.id=:employee_id";
 	
-	/*public static final String SQL_PROJECT_COUNT_BY_EMPLOYEE = "SELECT count(*)  FROM Project as p JOIN Order as o ON p.order_id=o.id "
-			+ "JOIN  (SELECT project_id FROM project_employee WHERE employee_id=:employee_id) as pew ON p.id=pew.project_id "
-			+ "ORDER BY o.dateStart DESC ";*/
-	
 	public static final String SQL_PROJECT_ADD = "INSERT INTO `project` (id, title, description, dateCreated, order_id) VALUES (?, ?, ?, ?, ?)";
 	
 	public static final String SQL_PROJECT_ADD_EMPLOYEE = "INSERT INTO project_employee (project_id, employee_id) VALUES(?, ?)";
@@ -107,13 +102,26 @@ public final class ConstantValue {
 	
 	public static final String SQL_PROJECT_FIND_BY_TITLE = "SELECT p.* FROM project as p WHERE title LIKE ? ";
 	
-	public static final String SQL_QUALIFICATION_FETCH_ALL = "SELECT q.id, q.title FROM qualification as q WHERE q.service=0 ORDER BY title DESC";
+	public static final String SQL_QUALIFICATION_FETCH_ALL = "FROM Qualification WHERE service=0 ORDER BY title DESC";
 	
 	public static final String SQL_USER_FETCH_BY_CREDENTIALS = "FROM User WHERE login=:login";
 	
 	public static final String SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER = "SELECT u.*, ec.* FROM user as u "
 			+ " JOIN ( (SELECT e.id, e.name, e.start_work, '' as email, '' as phone, e.user_id, q.title FROM employee as e JOIN qualification as q ON e.qualification_id=q.id) "
-			+ "			UNION (SELECT c.id, c.name, '' as start_work, c.email, c.phone, c.user_id, '' as qualification FROM customer as c )   )  as ec ON ec.user_id=u.id ORDER BY u.id DESC LIMIT ?,?  ";
+			+ "			UNION (SELECT c.id, c.name, '' as start_work, c.email, c.phone, c.user_id, '' as qualification FROM customer as c )   )  as ec ON ec.user_id=u.id ORDER BY u.id DESC LIMIT ?,?";
+	
+	/*public static final String SQL_USER_FETCH_ALL_WITH_EMPLOYEE_AND_CUSTOMER = "FROM User as u "
+			+ "JOIN FETCH ( (SELECT e FROM Employee as e JOIN e.qualification) "
+			+ "				UNION (SELECT c, '' as qualification FROM customer as c )   "
+			+ ")  as ec ON ec.user.id=u.id ORDER BY u.id DESC ";*/
+	
+	public static final String SQL_USER_FETCH_ALL_WITH_EMPLOYEE = "FROM Employee as e "
+			+ "JOIN FETCH e.user as u "
+			+ "ORDER BY u.id DESC ";
+	
+	public static final String SQL_USER_FETCH_ALL_WITH_CUSTOMER = "FROM Customer as c "
+			+ "JOIN FETCH c.user as u "
+			+ "ORDER BY u.id DESC ";	
 	
 	public static final String SQL_USER_ADD = "INSERT INTO `user` (login, password, role) VALUES (?, ?, ?)";
 	
@@ -126,14 +134,17 @@ public final class ConstantValue {
 	
 	public static final String SQL_EMPLOYEE_SET_USER = "UPDATE `employee` SET user_id=? WHERE id=?";
 	
-	public static final String SQL_EMPLOYEE_FETCH_ALL_WITH_USER = "SELECT SQL_CALC_FOUND_ROWS e.*, q.title, u.login, u.role "
-			+ "FROM employee as e "
-			+ "JOIN qualification as q ON e.qualification_id=q.id "
-			+ "LEFT JOIN user as u ON e.user_id=u.id ORDER BY e.name LIMIT ?,?";
+	public static final String SQL_EMPLOYEE_FETCH_ALL_WITH_USER = "FROM Employee as e "
+			+ "JOIN FETCH e.qualification as q "
+			+ "LEFT JOIN FETCH e.user as u ORDER BY e.name";
+	
+	public static final String SQL_EMPLOYEE_FETCH_COUNT_ALL_WITH_USER = "SELECT COUNT(e) FROM Employee as e "
+			+ "JOIN e.qualification as q "
+			+ "LEFT JOIN e.user as u ORDER BY e.name";
 	
 	public static final String SQL_EMPLOYEE_FETCH_NO_USER = "SELECT e FROM Employee as e INNER JOIN FETCH e.qualification WHERE e.user IS NULL";
 	
-	public static final String SQL_WORK_FETCH_ALL = "SELECT * FROM work ORDER BY title DESC";
+	public static final String SQL_WORK_FETCH_ALL = "FROM Work ORDER BY title DESC";
 	
 	
 	public static final String MSG_ERROR_GET_CONNECTION_TO_DB = "sql: error: cannot get connection to DB";

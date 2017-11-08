@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,9 +18,11 @@ import javax.mail.MessagingException;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.OrderQualification;
+import by.htp.devteam.bean.OrderWork;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.ProjectEmployee;
 import by.htp.devteam.bean.Qualification;
+import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.ProjectVo;
@@ -39,6 +42,8 @@ import by.htp.devteam.service.validation.ProjectValidation;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.apache.logging.log4j.LogManager;
 
 public final class ProjectServiceImpl implements ProjectService{
@@ -118,29 +123,30 @@ public final class ProjectServiceImpl implements ProjectService{
 		project.setDescription(description);
 	    project.setDateCreated(new Date());
 		project.setOrder(orderVo.getOrder());
+		project.setEmployees(createProjectEmployees(employees));
 		
-		Connection connection = null;	
+		Session session = null;	
 		OrderService orderService = serviceFactory.getOrderService();
 		
 		orderVo.getOrder().setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
 		orderVo.getOrder().setDateProcessing(new Date());
 		try {
-			connection = projectDao.startTransaction();
-			boolean neededEmployeeeAreFree = employeeService.isEmployeesNotBusyForPeriod(connection, employeesIds,
+			session = projectDao.startTransaction();
+			boolean neededEmployeeeAreFree = employeeService.isEmployeesNotBusyForPeriod(session, project.getEmployees(),
 					orderVo.getOrder().getDateStart(), orderVo.getOrder().getDateFinish());
 			if (neededEmployeeeAreFree) {
-				project = projectDao.add(connection, project);
-				projectDao.setEmployees(connection, project, employeesIds);
-				orderService.setPriceAndDateProcessing(connection, orderVo.getOrder());
-				commitTransaction(connection);
+				project = projectDao.add(session, project);
+				//projectDao.setEmployees(connection, project, employeesIds);
+				orderService.setPriceAndDateProcessing(session, orderVo.getOrder());
+				commitTransaction(session);
 				createAndSendBill(project, orderVo);
 			} else {
-				rollbackTransaction(connection);
+				rollbackTransaction(session);
 				logger.info(MSG_LOGGER_PROJECT_ADD_NO_ISSET_FREE_EMPLOYEE);
 				throw new ServiceException(ErrorCode.NOT_ISSET_FREE_EMPLOYEE);
 			}
 		} catch ( DaoException | ServiceException e) {
-			rollbackTransaction(connection);
+			rollbackTransaction(session);
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}
@@ -161,6 +167,20 @@ public final class ProjectServiceImpl implements ProjectService{
 		return neededQualifications;
 	}
 	
+	private Set<ProjectEmployee> createProjectEmployees(String[] employeesIds) {
+		Set<ProjectEmployee> employees = new HashSet<>();
+		for (int i = 0; i < employeesIds.length; i++ ) {
+			ProjectEmployee projectEmployee = new ProjectEmployee();
+			Employee employee = new Employee();
+			employee.setId(Long.valueOf(employeesIds[i]));
+			projectEmployee.setEmployee(employee);
+			
+			employees.add(projectEmployee);
+		}
+		
+		return employees;
+	}
+	
 	/*
 	 * Convert string value to long for array of values
 	 */
@@ -177,9 +197,9 @@ public final class ProjectServiceImpl implements ProjectService{
 	/*
 	 * rollback transaction
 	 */
-	private void rollbackTransaction(Connection connection) throws ServiceException {
+	private void rollbackTransaction(Session session) throws ServiceException {
 		try {
-			projectDao.rollbackTransaction(connection);
+			projectDao.rollbackTransaction(session);
 		} catch (DaoException e) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
@@ -189,8 +209,8 @@ public final class ProjectServiceImpl implements ProjectService{
 	/*
 	 * Commit transaction
 	 */
-	private void commitTransaction(Connection connection) throws DaoException {
-		projectDao.commitTransaction(connection);
+	private void commitTransaction(Session session) throws DaoException {
+		projectDao.commitTransaction(session);
 	}
 
 	@Override

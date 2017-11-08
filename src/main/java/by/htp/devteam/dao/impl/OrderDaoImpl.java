@@ -179,7 +179,8 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public OrderVo add(OrderVo orderVo) throws DaoException{
+	public Order add(Order order) throws DaoException{
+
 		/*Connection dbConnection = null;
 		try {
 			dbConnection = ConnectionPool.getConnection();
@@ -198,9 +199,8 @@ public final class OrderDaoImpl implements OrderDao {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 	    try {
 	    	session.getTransaction().begin();
-	    	Order order = createOrder(orderVo);
 	    	session.save(order);
-	    	orderVo.getOrder().setId(order.getId());
+	    	order.setId(order.getId());
 	    	session.getTransaction().commit();
 	    } catch (HibernateException e) {
             throw new DaoException(MSG_ERROR_ORDER_ADD, e);
@@ -208,7 +208,7 @@ public final class OrderDaoImpl implements OrderDao {
             session.close();
         }
 		
-		return orderVo;
+		return order;
 	}
 	
 	private Order createOrder(OrderVo orderVo) {
@@ -311,13 +311,10 @@ public final class OrderDaoImpl implements OrderDao {
 	}
 	
 	@Override
-	public void setPriceAndDateProcessing(Connection connection, Order order) throws DaoException {
-		try ( PreparedStatement ps = connection.prepareStatement(SQL_ORDER_SET_PRICE) ) {
-			ps.setBigDecimal(1, order.getPrice());
-			ps.setTimestamp(2,  new java.sql.Timestamp(order.getDateProcessing().getTime()));
-			ps.setLong(3, order.getId());
-			ps.executeUpdate();
-		} catch (SQLException e) {
+	public void setPriceAndDateProcessing(Session session, Order order) throws DaoException {
+		try {
+	    	session.saveOrUpdate(order);
+		} catch (HibernateException e) {
 			throw new DaoException(MSG_ERROR_ORDER_SET_PRICE, e);
 		}	
 	}

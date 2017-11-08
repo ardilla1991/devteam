@@ -3,6 +3,8 @@ package by.htp.devteam.dao;
 import java.sql.Connection;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.OrderVo;
@@ -48,18 +50,18 @@ public interface OrderDao {
 	
 	/**
 	 * Add order: order information, selected work information and needed qualifications and count
-	 * @param orderVo {@link by.htp.devteam.bean.vo.OrderVo#OrderVo()} Order information
-	 * @return OrdeVo : order information, works' information and needed qualification 
+	 * @param order {@link by.htp.devteam.bean.Order#Order()} Order information
+	 * @return Order : order information, works information and needed qualifications
 	 * @throws DaoException When SQLException are catched
 	 */
-	OrderVo add(OrderVo orderVo) throws DaoException;
+	Order add(Order order) throws DaoException;
 	
 	/**
 	 * Set price and date processing for order. Update after creating project
-	 * @param connection DB Connection 
+	 * @param session Hibernate session 
 	 * @param order Order information
 	 * @throws DaoException When SQLException are catched
 	 */
-	void setPriceAndDateProcessing(Connection connection, Order order) throws DaoException;
+	void setPriceAndDateProcessing(Session session, Order order) throws DaoException;
 	
 }

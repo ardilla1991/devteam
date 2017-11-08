@@ -6,15 +6,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.servlet.http.Part;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
+import by.htp.devteam.bean.OrderQualification;
+import by.htp.devteam.bean.OrderWork;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.bean.vo.OrderVo;
@@ -34,6 +38,7 @@ import by.htp.devteam.service.validation.Validator;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
@@ -96,7 +101,7 @@ public final class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public OrderVo add(Customer customer, String title, String description, Part specification, String dateStart, String dateFinish,
+	public Order add(Customer customer, String title, String description, Part specification, String dateStart, String dateFinish,
 			String[] workIds, Map<String, String> qualificationsIdsAndCount) throws ServiceException {
 		
 		UploadFile uploadFile = UploadFile.getInstance();
@@ -125,12 +130,10 @@ public final class OrderServiceImpl implements OrderService{
 		order.setDateFinish(getDateFromString(dateFinish));
 		order.setCustomer(customer);
 		order.setSpecification(specificationFileName);
-		OrderVo orderVo = new OrderVo();
-		orderVo.setOrder(order);
-		orderVo.setWorks(prepareWorks(workIds));
-		orderVo.setQualifications(prepareQualifications(qualificationsIdsAndCount));
+		order.setWorks(createOrderWorks(order, workIds));
+		order.setQualifications(createOrderQualifications(order, qualificationsIdsAndCount));
 		try {
-			orderVo = orderDao.add(orderVo);
+			order = orderDao.add(order);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			try {
@@ -143,7 +146,7 @@ public final class OrderServiceImpl implements OrderService{
 			throw new ServiceException(ErrorCode.APPLICATION);
 		}	
 		
-		return orderVo;
+		return order;
 	}
 	
 	/*
@@ -160,6 +163,40 @@ public final class OrderServiceImpl implements OrderService{
 		} 
 	    
 		return convertedDate;
+	}
+	
+	private Set<OrderWork> createOrderWorks(Order order, String[] worksIds) {
+		Set<OrderWork> works = new HashSet<>();
+		for (int i = 0; i < worksIds.length; i++ ) {
+			OrderWork orderWork = new OrderWork();
+			orderWork.setOrder(order);
+			Work work = new Work();
+			work.setId(Long.valueOf(worksIds[i]));
+			orderWork.setWork(work);
+			orderWork.setDescription(null);
+			
+			works.add(orderWork);
+		}
+		
+		return works;
+	}
+	
+	private Set<OrderQualification> createOrderQualifications(Order order, Map<String, String> qualificationsAndCount) {
+		Set<OrderQualification> qualifications = new HashSet<>();
+		Iterator<Entry<String, String>> it = qualificationsAndCount.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, String> pair = (Map.Entry<String, String>)it.next();
+			OrderQualification orderQualification = new OrderQualification();
+			orderQualification.setOrder(order);
+			Qualification qualification = new Qualification();
+			qualification.setId(Long.valueOf((String) pair.getKey()));
+			orderQualification.setQualification(qualification);
+			orderQualification.setCount(Integer.valueOf((String) pair.getValue()));
+			
+			qualifications.add(orderQualification);
+		}
+		
+		return qualifications;
 	}
 
 	@Override
@@ -184,38 +221,12 @@ public final class OrderServiceImpl implements OrderService{
 		
 		return orderVo;
 	}
-	
-	private List<Work> prepareWorks(String[] worksIds) {
-		List<Work> works = new ArrayList<>();
-		for ( int i = 0; i < worksIds.length; i++ ) {
-			Work work = new Work();
-			work.setId(Long.valueOf(worksIds[i]));
-			
-			works.add(work);
-		}
-		
-		return works;
-	}
-	
-	private HashMap<Qualification, Integer> prepareQualifications(Map<String, String> qualifications) {
-		
-		HashMap<Qualification, Integer> qualificationsList = new HashMap<>();
-		Iterator<Entry<String, String>> it = qualifications.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, String> pair = (Map.Entry<String, String>)it.next();
-			Qualification qualification = new Qualification();
-			qualification.setId(Long.valueOf((String) pair.getKey()));
-			
-			qualificationsList.put(qualification, Integer.valueOf((String) pair.getValue()));
-		}
-		return qualificationsList;
-	}
 
 	@Override
-	public void setPriceAndDateProcessing(Connection connection, Order order) 
+	public void setPriceAndDateProcessing(Session session, Order order) 
 			throws ServiceException {
 		try {
-			orderDao.setPriceAndDateProcessing(connection, order);
+			orderDao.setPriceAndDateProcessing(session, order);
 		} catch ( DaoException e ) {
 			logger.error(e.getMessage(), e);
 			throw new ServiceException(ErrorCode.APPLICATION);
