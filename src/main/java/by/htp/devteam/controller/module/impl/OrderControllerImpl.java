@@ -17,6 +17,8 @@ import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.OrderVo;
@@ -28,26 +30,55 @@ import by.htp.devteam.controller.module.OrderController;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.WorkService;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.UploadFile;
 
+@Controller("orderController")
 public final class OrderControllerImpl implements OrderController {
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderControllerImpl.class);
 	
+	@Autowired(required = true)
+	private OrderService orderService;
+	
+	@Autowired(required = true)
+	private WorkService workService;
+	
+	private QualificationService qualificationService;
+
 	public OrderControllerImpl() {
 		super();
+	}
+
+	public OrderService getOrderService() {
+		return orderService;
+	}
+
+	public void setOrderService(OrderService orderService) {
+		this.orderService = orderService;
+	}
+	
+	public WorkService getWorkService() {
+		return workService;
+	}
+
+	public void setWorkService(WorkService workService) {
+		this.workService = workService;
+	}
+	
+	public QualificationService getQualificationService() {
+		return qualificationService;
+	}
+
+	public void setQualificationService(QualificationService qualificationService) {
+		this.qualificationService = qualificationService;
 	}
 	
 	@Override
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) {
-		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderService orderService = serviceFactory.getOrderService();
-		
+
 		String title = request.getParameter(REQUEST_PARAM_ORDER_TITLE);
 		String description = request.getParameter(REQUEST_PARAM_ORDER_DESCRIPTION);
 		String dateStart = request.getParameter(REQUEST_PARAM_ORDER_DATE_START);
@@ -86,7 +117,7 @@ public final class OrderControllerImpl implements OrderController {
 
 		return new Page(PAGE_ORDER_ADD_MESSAGE_URI, true);
 	}
-	
+
 	/*
 	 * Get map of qualifications ids and count hours from request.
 	 * In request we have map such Map (  qualification[id] => count, ... )
@@ -115,9 +146,6 @@ public final class OrderControllerImpl implements OrderController {
 	@Override
 	public Page addGET(HttpServletRequest request, HttpServletResponse response) {
 
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		WorkService workService = serviceFactory.getWorkService();
-		QualificationService qualificationService = serviceFactory.getQualificationService();
 		try {
 			request.setAttribute(REQUEST_PARAM_WORK_LIST, workService.fetchAll());
 			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
@@ -136,8 +164,6 @@ public final class OrderControllerImpl implements OrderController {
 	
 	@Override
 	public Page listGET(HttpServletRequest request, HttpServletResponse response) {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderService orderService = serviceFactory.getOrderService();
 		
 		HttpSession session = request.getSession(false);
 		UserVo userVO = (UserVo) session.getAttribute(SESSION_PARAM_USER);
@@ -154,9 +180,6 @@ public final class OrderControllerImpl implements OrderController {
 	
 	@Override
 	public Page newListGET(HttpServletRequest request, HttpServletResponse response) {
-		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderService orderService = serviceFactory.getOrderService();
 
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 
@@ -176,9 +199,7 @@ public final class OrderControllerImpl implements OrderController {
 	
 	@Override
 	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderService orderService = serviceFactory.getOrderService();
-		
+
 		String id = request.getParameter(REQUEST_PARAM_ORDER_ID);
 		
 		try {

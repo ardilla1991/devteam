@@ -17,7 +17,6 @@ import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
-import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.EmployeeDao;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
@@ -30,20 +29,25 @@ import by.htp.devteam.util.ConfigProperty;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
+@Service("employeeService")
 public final class EmployeeServiceImpl implements EmployeeService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class.getName());
 	
-	/** DAO object */
+	@Autowired(required = true)
 	private EmployeeDao employeeDao;
 	
 	public EmployeeServiceImpl() {
 		super();
-		DaoFactory daoFactory = DaoFactory.getInstance();
-		employeeDao = daoFactory.getEmployeeDao();
+	}
+	
+	public void setEmployeeDao(EmployeeDao employeeDao) {
+		this.employeeDao = employeeDao;
 	}
 	
 	@Override

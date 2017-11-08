@@ -1,11 +1,9 @@
 package by.htp.devteam.service.impl;
 
-import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +23,6 @@ import by.htp.devteam.bean.vo.OrderVo;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
-import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.OrderDao;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ServiceException;
@@ -39,22 +36,27 @@ import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
+@Service("orderService")
 public final class OrderServiceImpl implements OrderService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class.getName());
 	
-	/** DAO object */
+	@Autowired(required = true)
 	private OrderDao orderDao;
 	
 	public OrderServiceImpl() {
 		super();
-		DaoFactory daoFactory = DaoFactory.getInstance();
-		orderDao = daoFactory.getOrderDao();
+	}
+	
+	public void setOrderDao(OrderDao orderDao) {
+		this.orderDao = orderDao;
 	}
 	
 	@Override

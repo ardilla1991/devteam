@@ -13,6 +13,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
@@ -29,7 +30,8 @@ import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public final class UserDaoImpl implements UserDao {
+@Repository("userDao")
+public final class UserDaoImpl extends HibernateDao implements UserDao {
 
 	private static final int ID = 1;
 	private static final int LOGIN = 2;
@@ -53,7 +55,7 @@ public final class UserDaoImpl implements UserDao {
 	    	query.setMaxResults(1);
 	    	user = (User) query.uniqueResult();
 	    	tx.commit();
-	    } catch (Exception e) {
+	    } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }

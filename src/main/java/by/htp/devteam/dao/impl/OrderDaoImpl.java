@@ -12,13 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
@@ -31,12 +31,12 @@ import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.OrderDao;
-import by.htp.devteam.dao.util.ConnectionPool;
 import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public final class OrderDaoImpl implements OrderDao {
+@Repository("orderDao")
+public final class OrderDaoImpl extends HibernateDao implements OrderDao {
 
 	private static final int ID = 1;
 	private static final int TITLE = 2;
@@ -86,7 +86,7 @@ public final class OrderDaoImpl implements OrderDao {
 	    	pagingVo.setCountAllRecords( ((Long)query1.uniqueResult() ).intValue());
 	    	
 	    	tx.commit();
-	    } catch (Exception e) {
+	    } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }

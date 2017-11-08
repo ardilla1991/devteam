@@ -16,6 +16,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.ProjectEmployee;
@@ -30,7 +31,8 @@ import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-public final class EmployeeDaoImpl implements EmployeeDao {
+@Repository("employeeDao")
+public final class EmployeeDaoImpl extends HibernateDao implements EmployeeDao {
 	
 	private static final int ID = 1;
 	private static final int NAME = 2;

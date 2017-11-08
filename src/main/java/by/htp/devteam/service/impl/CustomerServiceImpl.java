@@ -4,26 +4,30 @@ import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.dao.CustomerDao;
 import by.htp.devteam.dao.DaoException;
-import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.service.CustomerService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.ErrorCode;
 
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
+@Service("customerService")
 public final class CustomerServiceImpl implements CustomerService {
 	
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(CustomerServiceImpl.class.getName());
 	
-	/** DAO object */
+	@Autowired(required = true)
 	private CustomerDao customerDao;
 	
 	public CustomerServiceImpl() {
 		super();
-		DaoFactory daoFactory = DaoFactory.getInstance();
-		customerDao = daoFactory.getCustomerDao();
+	}
+	
+	public void setCustomerDao(CustomerDao customerDao) {
+		this.customerDao = customerDao;
 	}
 
 	@Override

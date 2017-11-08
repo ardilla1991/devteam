@@ -5,6 +5,9 @@ import static by.htp.devteam.controller.util.ConstantValue.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.controller.main.Page;
@@ -12,20 +15,38 @@ import by.htp.devteam.controller.module.EmployeeController;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
 
+@Controller("employeeController")
 public final class EmployeeControllerImpl implements EmployeeController {
+	
+	@Autowired(required = true)
+	private EmployeeService employeeService;
+	
+	@Autowired(required = true)
+	private QualificationService qualificationService;
 	
 	public EmployeeControllerImpl() {
 		super();
 	}
 	
-	@Override
-	public Page addPOST(HttpServletRequest request, HttpServletResponse response) {
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+	
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+	
+	public QualificationService getQualificationService() {
+		return qualificationService;
+	}
 
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		EmployeeService employeeService = serviceFactory.getEmployeeService();
-		
+	public void setQualificationService(QualificationService qualificationService) {
+		this.qualificationService = qualificationService;
+	}
+
+	@Override
+	public Page addPOST(HttpServletRequest request, HttpServletResponse response) {		
 		String page = PAGE_EMPLOYEE_ADD_MESSAGE_URI;
 		String name = request.getParameter(REQUEST_PARAM_EMPLOYEE_NAME);
 		String startWork = request.getParameter(REQUEST_PARAM_EMPLOYEE_START_WORK);
@@ -49,8 +70,6 @@ public final class EmployeeControllerImpl implements EmployeeController {
 	@Override
 	public Page addGET(HttpServletRequest request, HttpServletResponse response) {
 		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		QualificationService qualificationService = serviceFactory.getQualificationService();
 		try {
 			request.setAttribute(REQUEST_PARAM_QUALIFICATION_LIST, qualificationService.fetchAll());
 		} catch (ServiceException e) {
@@ -68,8 +87,6 @@ public final class EmployeeControllerImpl implements EmployeeController {
 	
 	@Override
 	public Page listGET(HttpServletRequest request, HttpServletResponse response) {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		EmployeeService employeeService = serviceFactory.getEmployeeService();
 		
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 		try {

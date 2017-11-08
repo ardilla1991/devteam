@@ -48,6 +48,11 @@
 		<url-pattern>/ru</url-pattern>
 		<url-pattern>/en</url-pattern>
 	</servlet-mapping>
+	
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+	
 	<filter>
 		<display-name>LogFilter</display-name>
 		<filter-name>LogFilter</filter-name>

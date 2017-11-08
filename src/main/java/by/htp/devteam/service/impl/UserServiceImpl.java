@@ -6,11 +6,9 @@ import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.UserVo;
 import by.htp.devteam.dao.DaoException;
-import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.UserDao;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.UserService;
 import by.htp.devteam.service.util.Encrypting;
 import by.htp.devteam.service.util.ErrorCode;
@@ -19,24 +17,40 @@ import by.htp.devteam.service.validation.UserValidation;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
 import java.sql.Connection;
 
+@Service("userService")
 public final class UserServiceImpl implements UserService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
 	
-	/** DAO object */
+	@Autowired(required = true)
 	private UserDao userDao;
 	
+	@Autowired(required = true)
+	private EmployeeService employeeService;
+
 	public UserServiceImpl() {
 		super();
-		DaoFactory daoFactory = DaoFactory.getInstance();
-		userDao = daoFactory.getUserDao();
+	}
+	
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+	
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
 	}
 	
 	@Override
@@ -114,9 +128,6 @@ public final class UserServiceImpl implements UserService{
 		user.setLogin(login);
 		user.setPassword(Encrypting.getCode(password));
 		user.setRole(UserRole.valueOf(role));
-		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		EmployeeService employeeService = serviceFactory.getEmployeeService();
 		
 		Connection connection = null;
 		try {

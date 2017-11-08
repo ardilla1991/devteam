@@ -28,13 +28,11 @@ import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.bean.vo.ProjectVo;
 import by.htp.devteam.controller.ObjectNotFoundException;
 import by.htp.devteam.dao.DaoException;
-import by.htp.devteam.dao.DaoFactory;
 import by.htp.devteam.dao.ProjectDao;
 import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.email.TLSEmail;
 import by.htp.devteam.service.validation.PagingValidation;
@@ -44,20 +42,47 @@ import by.htp.devteam.util.ConfigProperty;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
+@Service("projectService")
 public final class ProjectServiceImpl implements ProjectService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectServiceImpl.class.getName());
 	
-	/** DAO object */
+	@Autowired(required = true)
 	private ProjectDao projectDao;
 	
+	@Autowired(required = true)
+	private EmployeeService employeeService;
+	
+	@Autowired(required = true)
+	private OrderService orderService;
+
 	public ProjectServiceImpl() {
 		super();
-		DaoFactory daoFactory = DaoFactory.getInstance();
-		projectDao = daoFactory.getProjectDao();
+	}
+	
+	public void setProjectDao(ProjectDao projectDao) {
+		this.projectDao = projectDao;
+	}
+	
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+	
+	public OrderService getOrderService() {
+		return orderService;
+	}
+
+	public void setOrderService(OrderService orderService) {
+		this.orderService = orderService;
 	}
 
 	@Override
@@ -104,8 +129,6 @@ public final class ProjectServiceImpl implements ProjectService{
 		
 		Long[] employeesIds = comvertFromStringToLongArray(employees);
 		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		EmployeeService employeeService = serviceFactory.getEmployeeService();
 		// get map of selected employees qualifications and their count 
 		Map<Long, Integer> qualificationCountByEmployees = employeeService.getQualificationsIdsAndCountByEmployees(employeesIds);
 		// create a map for compare with selected values of qualifications
@@ -126,7 +149,6 @@ public final class ProjectServiceImpl implements ProjectService{
 		project.setEmployees(createProjectEmployees(employees));
 		
 		Session session = null;	
-		OrderService orderService = serviceFactory.getOrderService();
 		
 		orderVo.getOrder().setPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_CEILING));
 		orderVo.getOrder().setDateProcessing(new Date());

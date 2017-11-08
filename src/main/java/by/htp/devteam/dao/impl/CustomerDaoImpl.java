@@ -12,9 +12,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 import org.apache.logging.log4j.LogManager;
 
-public final class CustomerDaoImpl implements CustomerDao {
+@Repository("customerDao")
+public final class CustomerDaoImpl extends HibernateDao implements CustomerDao {
 
 	private static final int ID = 1;
 	private static final int NAME = 2;

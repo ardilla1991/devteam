@@ -9,6 +9,7 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.ProjectEmployee;
 import by.htp.devteam.bean.Qualification;

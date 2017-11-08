@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.vo.OrderVo;
@@ -21,20 +24,50 @@ import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.OrderService;
 import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
-import by.htp.devteam.service.ServiceFactory;
 import by.htp.devteam.service.util.UploadFile;
 
+@Controller("projectController")
 public final class ProjectControllerImpl implements ProjectController {
 	
+	@Autowired(required = true)
+	private OrderService orderService;
+	
+	@Autowired(required = true)
+	private ProjectService projectService;
+	
+	@Autowired(required = true)
+	private EmployeeService employeeService;
+
 	public ProjectControllerImpl() {
 		super();
 	}
 	
+	public OrderService getOrderService() {
+		return orderService;
+	}
+
+	public void setOrderService(OrderService orderService) {
+		this.orderService = orderService;
+	}
+	
+	public ProjectService getProjectService() {
+		return projectService;
+	}
+
+	public void setProjectService(ProjectService projectService) {
+		this.projectService = projectService;
+	}
+	
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+	
 	@Override
 	public Page addPOST(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderService orderService = serviceFactory.getOrderService();
-		ProjectService projectService = serviceFactory.getProjectService();
 		
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
@@ -61,8 +94,6 @@ public final class ProjectControllerImpl implements ProjectController {
 	
 	@Override
 	public Page addGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {	
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		OrderService orderService = serviceFactory.getOrderService();
 		
 		String orderId = request.getParameter(REQUEST_PARAM_ORDER_ID);
 
@@ -70,7 +101,6 @@ public final class ProjectControllerImpl implements ProjectController {
 			OrderVo orderVo = orderService.getById(orderId);
 			request.setAttribute(REQUEST_PARAM_ORDER_VO, orderVo);
 			
-			EmployeeService employeeService = serviceFactory.getEmployeeService();
 			List<Employee> employees = employeeService.getNotBusyEmployeesForPeriodByQualifications(orderVo.getOrder().getDateStart(), 
 					orderVo.getOrder().getDateFinish(), orderVo.getQualifications().keySet());
 			request.setAttribute(REQUEST_PARAM_EMPLOYEE_LIST, employees);
@@ -113,9 +143,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	 * @return Page {@link by.htp.devteam.controller.main.Page}
 	 */
 	private Page list(HttpServletRequest request, HttpServletResponse response, String pageUri, Employee employee) {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		ProjectService projectService = serviceFactory.getProjectService();
-		
+
 		String currPage = request.getParameter(REQUEST_PARAM_PAGE);
 		
 		try {
@@ -133,9 +161,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	
 	@Override
 	public Page updateHoursGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		ProjectService projectService = serviceFactory.getProjectService();
-		
+
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
 		try {
 			ProjectVo projectVo = projectService.getById(id);
@@ -150,8 +176,6 @@ public final class ProjectControllerImpl implements ProjectController {
 	@Override
 	public Page updateHoursPOST(HttpServletRequest request, HttpServletResponse response) 
 			throws ObjectNotFoundException {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		ProjectService projectService = serviceFactory.getProjectService();
 
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
 		String hours = request.getParameter(REQUEST_PARAM_PROJECT_HOURS);
@@ -175,9 +199,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	
 	@Override
 	public Page viewGET(HttpServletRequest request, HttpServletResponse response) throws ObjectNotFoundException {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		ProjectService projectService = serviceFactory.getProjectService();
-		
+
 		String page = PAGE_PROJECT_VIEW;
 		String id = request.getParameter(REQUEST_PARAM_PROJECT_ID);
 
@@ -194,9 +216,7 @@ public final class ProjectControllerImpl implements ProjectController {
 	
 	@Override
 	public Page findGET(HttpServletRequest request, HttpServletResponse response) {
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		ProjectService projectService = serviceFactory.getProjectService();
-		
+
 		String page = PAGE_PROJECT_FIND_AJAX;
 		String title = request.getParameter(REQUEST_PARAM_PROJECT_TITLE);
 
