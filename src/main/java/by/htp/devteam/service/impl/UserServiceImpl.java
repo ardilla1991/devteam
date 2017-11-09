@@ -17,34 +17,33 @@ import by.htp.devteam.service.validation.UserValidation;
 import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
 import java.sql.Connection;
 
-@Service("userService")
 public final class UserServiceImpl implements UserService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
 	
-	@Autowired(required = true)
 	private UserDao userDao;
-	
-	@Autowired(required = true)
+
 	private EmployeeService employeeService;
 
 	public UserServiceImpl() {
 		super();
 	}
 	
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	
+
 	public EmployeeService getEmployeeService() {
 		return employeeService;
 	}
@@ -52,7 +51,7 @@ public final class UserServiceImpl implements UserService{
 	public void setEmployeeService(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
-	
+
 	@Override
 	public User authorise(String login, String password) throws ServiceException {
 		User user = null;

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+		default-lazy-init="true"
+		>
+	
+	<!-- context:component-scan base-package="by.htp.devteam.dao.impl" />
+	<context:component-scan base-package="by.htp.devteam.service.impl" />
+	<context:component-scan base-package="by.htp.devteam.controller.impl" / -->
+	
+	<!-- context:annotation-config/-->
+	
+	
+	<!-- Dao -->
+	<bean id="customerDao" class="by.htp.devteam.dao.impl.CustomerDaoImpl" />
+	<bean id="employeeDao" class="by.htp.devteam.dao.impl.EmployeeDaoImpl" />
+	<bean id="orderDao" class="by.htp.devteam.dao.impl.OrderDaoImpl" />
+	<bean id="projectDao" class="by.htp.devteam.dao.impl.ProjectDaoImpl" />
+	<bean id="qualificationDao" class="by.htp.devteam.dao.impl.QualificationDaoImpl" />
+	<bean id="userDao" class="by.htp.devteam.dao.impl.UserDaoImpl" />
+	<bean id="workDao" class="by.htp.devteam.dao.impl.WorkDaoImpl" />
+	
+	
+	<!-- Service -->
+	<bean id="customerService" class="by.htp.devteam.service.impl.CustomerServiceImpl">
+		<property name="customerDao" ref="customerDao"/>
+	</bean>
+	<bean id="employeeService" class="by.htp.devteam.service.impl.EmployeeServiceImpl">
+		<property name="employeeDao" ref="employeeDao"/>
+	</bean>
+	<bean id="orderService" class="by.htp.devteam.service.impl.OrderServiceImpl">
+		<property name="orderDao" ref="orderDao"/>
+	</bean>
+	<bean id="projectService" class="by.htp.devteam.service.impl.ProjectServiceImpl">
+		<property name="projectDao" ref="orderDao"/>
+		<property name="orderService" ref="orderService"/>
+		<property name="employeeService" ref="employeeService"/>
+	</bean>
+	<bean id="qualificationService" class="by.htp.devteam.service.impl.QualificationServiceImpl">
+		<property name="qualificationDao" ref="qualificationDao"/>
+	</bean>
+	<bean id="userService" class="by.htp.devteam.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao"/>
+		<property name="employeeService" ref="employeeService"/>
+	</bean>
+	<bean id="workService" class="by.htp.devteam.service.impl.WorkServiceImpl">
+		<property name="workDao" ref="workDao"/>
+	</bean>
+	
+	<!-- Controller -->
+	<bean id="employeeController" class="by.htp.devteam.controller.module.impl.EmployeeControllerImpl">
+		<property name="qualificationService" ref="qualificationService"/>
+		<property name="employeeService" ref="employeeService"/>
+	</bean>
+	<bean id="orderController" class="by.htp.devteam.controller.module.impl.OrderControllerImpl">
+		<property name="orderService" ref="orderService"/>
+		<property name="workService" ref="workService"/>
+		<property name="qualificationService" ref="qualificationService"/>
+	</bean>
+	<bean id="userController" class="by.htp.devteam.controller.module.impl.UserControllerImpl">
+		<property name="userService" ref="userService"/>
+		<property name="employeeService" ref="employeeService"/>
+		<property name="customerService" ref="customerService"/>
+	</bean>
+	<bean id="projectController" class="by.htp.devteam.controller.module.impl.ProjectControllerImpl">
+		<property name="orderService" ref="orderService"/>
+		<property name="employeeService" ref="employeeService"/>
+		<property name="projectService" ref="projectService"/>
+	</bean>
+	
+	<!-- context:spring-configured/ -->
+	
+	<!-- bean id="MainServlet" class="by.htp.devteam.controller.main.MainServlet" / -->
+	
+</beans>

@@ -17,8 +17,6 @@ import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import by.htp.devteam.bean.Order;
 import by.htp.devteam.bean.vo.OrderVo;
@@ -34,16 +32,13 @@ import by.htp.devteam.service.WorkService;
 import by.htp.devteam.service.util.ErrorCode;
 import by.htp.devteam.service.util.UploadFile;
 
-@Controller("orderController")
 public final class OrderControllerImpl implements OrderController {
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderControllerImpl.class);
 	
-	@Autowired(required = true)
 	private OrderService orderService;
 	
-	@Autowired(required = true)
 	private WorkService workService;
 	
 	private QualificationService qualificationService;

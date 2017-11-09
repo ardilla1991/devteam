@@ -2,6 +2,8 @@ package by.htp.devteam.controller;
 
 import static by.htp.devteam.controller.util.ConstantValue.*;
 
+import org.springframework.context.ApplicationContext;
+
 import by.htp.devteam.controller.module.impl.EmployeeControllerImpl;
 import by.htp.devteam.controller.module.impl.OrderControllerImpl;
 import by.htp.devteam.controller.module.impl.ProjectControllerImpl;
@@ -17,26 +19,30 @@ public enum ControllerFactory {
 	
 	USER {
 		@Override
-		public Controller chooseController() {
-			return new UserControllerImpl();
+		public Controller chooseController(ApplicationContext context) {
+			//return new UserControllerImpl();
+			return (UserControllerImpl) context.getBean("userController");
 		}
 	},
 	EMPLOYEE {
 		@Override
-		public Controller chooseController() {
-			return new EmployeeControllerImpl();
+		public Controller chooseController(ApplicationContext context) {
+			//return new EmployeeControllerImpl();
+			return (EmployeeControllerImpl) context.getBean("employeeController");
 		}
 	},
 	ORDER {
 		@Override
-		public Controller chooseController() {
-			return new OrderControllerImpl();
+		public Controller chooseController(ApplicationContext context) {
+			//return new OrderControllerImpl();
+			return (OrderControllerImpl) context.getBean("orderController");
 		}
 	},
 	PROJECT {
 		@Override
-		public Controller chooseController() {
-			return new ProjectControllerImpl();
+		public Controller chooseController(ApplicationContext context) {
+			//return new ProjectControllerImpl();
+			return (ProjectControllerImpl) context.getBean("projectController");
 		}
 	};
 
@@ -44,7 +50,7 @@ public enum ControllerFactory {
 	 * Select module for command
 	 * @return Object with CommandAction type
 	 */
-	public abstract Controller chooseController();
+	public abstract Controller chooseController(ApplicationContext context);
 	
 	
 	/**

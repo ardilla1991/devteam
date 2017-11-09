@@ -9,6 +9,9 @@ import java.lang.reflect.InvocationTargetException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import by.htp.devteam.controller.Controller;
 import by.htp.devteam.controller.ControllerException;
 import by.htp.devteam.controller.ControllerFactory;
@@ -38,7 +41,9 @@ public final class Runner {
 		String module = request.getParameter(REQUEST_PARAM_MODULE);
 		String action = request.getParameter(REQUEST_PARAM_ACTION);
 		
-		Controller moduleController = ControllerFactory.getController(module).chooseController();
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+		
+		Controller moduleController = ControllerFactory.getController(module).chooseController(context);
 		
 		return (Page) moduleController.getClass()
 				.getMethod(generateMethodName(action) + request.getMethod(), HttpServletRequest.class, HttpServletResponse.class)

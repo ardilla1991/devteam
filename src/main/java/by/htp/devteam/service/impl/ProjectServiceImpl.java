@@ -42,33 +42,31 @@ import by.htp.devteam.util.ConfigProperty;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
-@Service("projectService")
 public final class ProjectServiceImpl implements ProjectService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(ProjectServiceImpl.class.getName());
 	
-	@Autowired(required = true)
 	private ProjectDao projectDao;
-	
-	@Autowired(required = true)
+
 	private EmployeeService employeeService;
 	
-	@Autowired(required = true)
 	private OrderService orderService;
 
 	public ProjectServiceImpl() {
 		super();
 	}
 	
+	public ProjectDao getProjectDao() {
+		return projectDao;
+	}
+
 	public void setProjectDao(ProjectDao projectDao) {
 		this.projectDao = projectDao;
 	}
-	
+
 	public EmployeeService getEmployeeService() {
 		return employeeService;
 	}
@@ -76,7 +74,7 @@ public final class ProjectServiceImpl implements ProjectService{
 	public void setEmployeeService(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
-	
+
 	public OrderService getOrderService() {
 		return orderService;
 	}

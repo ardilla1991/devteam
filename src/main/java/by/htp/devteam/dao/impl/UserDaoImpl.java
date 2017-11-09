@@ -13,11 +13,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Employee;
-import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.bean.UserRole;
 import by.htp.devteam.bean.vo.PagingVo;
@@ -30,7 +28,6 @@ import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-@Repository("userDao")
 public final class UserDaoImpl extends HibernateDao implements UserDao {
 
 	private static final int ID = 1;

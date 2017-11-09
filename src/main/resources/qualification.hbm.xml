@@ -8,6 +8,6 @@
 			<generator class="native"></generator>
 		</id>
 		<property name="title" column="title" type="string"/>
-		<property name="service" column="service" type="boolean"/>
+		<property name="service" column="service" type="byte"/>
 	</class>
 </hibernate-mapping>

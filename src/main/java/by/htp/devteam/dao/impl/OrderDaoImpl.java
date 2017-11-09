@@ -18,7 +18,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
 
 import by.htp.devteam.bean.Customer;
 import by.htp.devteam.bean.Order;
@@ -35,7 +34,6 @@ import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-@Repository("orderDao")
 public final class OrderDaoImpl extends HibernateDao implements OrderDao {
 
 	private static final int ID = 1;

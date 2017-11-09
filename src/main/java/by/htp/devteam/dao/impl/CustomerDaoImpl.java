@@ -15,7 +15,6 @@ import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.apache.logging.log4j.LogManager;
 
-@Repository("customerDao")
 public final class CustomerDaoImpl extends HibernateDao implements CustomerDao {
 
 	private static final int ID = 1;

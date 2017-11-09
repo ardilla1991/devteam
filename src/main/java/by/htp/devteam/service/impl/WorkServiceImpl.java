@@ -11,23 +11,23 @@ import by.htp.devteam.service.WorkService;
 import by.htp.devteam.service.util.ErrorCode;
 
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
-@Service("workService")
 public final class WorkServiceImpl implements WorkService{
 	
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(WorkServiceImpl.class.getName());
 	
-	@Autowired(required = true)
 	private WorkDao workDao;
 	
 	public WorkServiceImpl() {
 		super();
 	}
 	
+	public WorkDao getWorkDao() {
+		return workDao;
+	}
+
 	public void setWorkDao(WorkDao workDao) {
 		this.workDao = workDao;
 	}

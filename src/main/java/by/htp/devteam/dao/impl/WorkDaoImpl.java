@@ -8,8 +8,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import org.springframework.stereotype.Repository;
-
 import by.htp.devteam.bean.Work;
 import by.htp.devteam.dao.DaoException;
 import by.htp.devteam.dao.WorkDao;
@@ -17,7 +15,6 @@ import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-@Repository("workDao")
 public final class WorkDaoImpl extends HibernateDao implements WorkDao {
 	
 	public WorkDaoImpl() {

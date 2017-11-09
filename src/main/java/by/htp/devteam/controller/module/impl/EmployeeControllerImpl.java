@@ -5,9 +5,6 @@ import static by.htp.devteam.controller.util.ConstantValue.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.vo.PagingVo;
 import by.htp.devteam.controller.main.Page;
@@ -16,13 +13,10 @@ import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.QualificationService;
 import by.htp.devteam.service.ServiceException;
 
-@Controller("employeeController")
 public final class EmployeeControllerImpl implements EmployeeController {
 	
-	@Autowired(required = true)
 	private EmployeeService employeeService;
 	
-	@Autowired(required = true)
 	private QualificationService qualificationService;
 	
 	public EmployeeControllerImpl() {

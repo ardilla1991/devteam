@@ -30,26 +30,27 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
-@Service("employeeService")
 public final class EmployeeServiceImpl implements EmployeeService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class.getName());
 	
-	@Autowired(required = true)
 	private EmployeeDao employeeDao;
-	
+
 	public EmployeeServiceImpl() {
 		super();
+	}
+	
+	public EmployeeDao getEmployeeDao() {
+		return employeeDao;
 	}
 	
 	public void setEmployeeDao(EmployeeDao employeeDao) {
 		this.employeeDao = employeeDao;
 	}
-	
+
 	@Override
 	public Employee getByUser(User user) throws ServiceException{
 		Employee employee = null;

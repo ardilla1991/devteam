@@ -17,7 +17,7 @@ public class Qualification extends Bean implements Serializable {
 	private String title;
 	
 	/** Property to separate qualifications for projects and only for system administration */
-	private boolean service;
+	private byte service;
 	
 	public Qualification() {
 		super();
@@ -31,21 +31,20 @@ public class Qualification extends Bean implements Serializable {
 		this.title = title;
 	}
 
-	public boolean isService() {
+	public byte isService() {
 		return service;
 	}
 
-	public void setService(boolean service) {
+	public void setService(byte service) {
 		this.service = service;
 	}
 
 	@Override
 	public int hashCode() {
-		final int PRIME = 31;
+		final int prime = 31;
 		int result = 1;
-		result = PRIME * result + ((id == null) ? 0 : id.hashCode());
-		result = PRIME * result + (service ? 1231 : 1237);
-		result = PRIME * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + service;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
@@ -58,11 +57,6 @@ public class Qualification extends Bean implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Qualification other = (Qualification) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (service != other.service)
 			return false;
 		if (title == null) {
@@ -72,5 +66,8 @@ public class Qualification extends Bean implements Serializable {
 			return false;
 		return true;
 	}
+
+
+
 
 }

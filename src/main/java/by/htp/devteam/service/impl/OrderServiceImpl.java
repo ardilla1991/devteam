@@ -36,25 +36,25 @@ import by.htp.devteam.util.ConfigProperty;
 
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 
 import static by.htp.devteam.service.util.ConstantValue.*;
 
-@Service("orderService")
 public final class OrderServiceImpl implements OrderService{
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class.getName());
 	
-	@Autowired(required = true)
 	private OrderDao orderDao;
 	
 	public OrderServiceImpl() {
 		super();
 	}
 	
+	public OrderDao getOrderDao() {
+		return orderDao;
+	}
+
 	public void setOrderDao(OrderDao orderDao) {
 		this.orderDao = orderDao;
 	}

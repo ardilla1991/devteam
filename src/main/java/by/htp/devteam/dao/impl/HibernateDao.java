@@ -2,7 +2,6 @@ package by.htp.devteam.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class HibernateDao {
 	
@@ -12,7 +11,6 @@ public class HibernateDao {
         super();
     }
 
-    @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

@@ -7,7 +7,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
 
 import by.htp.devteam.bean.Qualification;
 import by.htp.devteam.dao.DaoException;
@@ -16,7 +15,6 @@ import by.htp.devteam.util.HibernateUtil;
 
 import static by.htp.devteam.dao.util.ConstantValue.*;
 
-@Repository("qualificationDao")
 public final class QualificationDaoImpl extends HibernateDao implements QualificationDao {
 	
 	private static final int ID = 1;
