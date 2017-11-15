@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.User;
 import by.htp.devteam.bean.UserRole;
@@ -24,16 +21,12 @@ import by.htp.devteam.service.EmployeeService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.UserService;
 
-@Controller("userController")
 public final class UserControllerImpl implements UserController {
 
-	@Autowired(required = true)
 	private UserService userService;
 	
-	@Autowired(required = true)
 	private EmployeeService employeeService;
 	
-	@Autowired(required = true)
 	private CustomerService customerService;
 
 	public UserControllerImpl() {

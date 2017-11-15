@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import by.htp.devteam.bean.Employee;
 import by.htp.devteam.bean.Project;
 import by.htp.devteam.bean.vo.OrderVo;
@@ -26,16 +23,12 @@ import by.htp.devteam.service.ProjectService;
 import by.htp.devteam.service.ServiceException;
 import by.htp.devteam.service.util.UploadFile;
 
-@Controller("projectController")
 public final class ProjectControllerImpl implements ProjectController {
 	
-	@Autowired(required = true)
 	private OrderService orderService;
 	
-	@Autowired(required = true)
 	private ProjectService projectService;
 	
-	@Autowired(required = true)
 	private EmployeeService employeeService;
 
 	public ProjectControllerImpl() {
